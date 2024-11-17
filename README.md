@@ -233,3 +233,25 @@ project-root/
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
+
+
+# Create and activate virtual environment
+```
+python -m venv rna_seq_env
+source rna_seq_env/bin/activate 
+```
+
+# Install backend dependencies
+```
+pip install flask pandas numpy matplotlib plotly pytest fastapi uvicorn
+pip install scikit-learn scipy statsmodels
+pip freeze > requirements.txt
+```
+
+# Run the server
+The frontend will be available at http://localhost:3000
+The backend API will be available at http://localhost:8000
+You'll need to add your actual data files to the data/raw directory
+Create Jupyter notebooks in the notebooks directory for your analysis
+Add your tests in the tests directory
+Configure your deployment settings based on your chosen platforms (Vercel, AWS, etc.)
