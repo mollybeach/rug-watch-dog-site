@@ -97,11 +97,116 @@ This repository contains an in-depth analysis of RNA-seq data comparing the effe
 
 ---
 
+---
+## Tech Stack
+
+### Frontend:
+- **Next.js**: For dynamic, server-rendered pages and a robust React framework.
+- **Tailwind CSS**: Utility-first styling framework.
+- **shadcn/ui**: Prebuilt UI components.
+
+### Backend:
+- **Python**: For data analysis and processing.
+- **Flask/FastAPI**: For serving data analysis APIs.
+- **Pandas/NumPy**: For data manipulation.
+- **Matplotlib/Plotly**: For generating visualizations programmatically.
+
+### Data Storage:
+- **Raw/Processed Data**:
+  - Store raw data under `data/raw/` and processed versions in `data/processed/`.
+  - Include metadata about datasets in `data/README.md`.
+
+### Testing:
+- **Pytest**: For backend and data processing tests.
+- **Jest**: For testing frontend React components.
+
+### Deployment:
+- **Vercel**: For the frontend deployment.
+- **AWS/Heroku/Render**: For the backend deployment.
+
+---
+
+## Key Features
+
+### Data Analysis and Visualization:
+- Use `notebooks/` for exploratory analysis and visualizations in Python.
+- Dynamic charts rendered via `chart.tsx` in the frontend.
+
+### API Integration:
+- Serve processed data via Python APIs, like `pathway_enrichment.py`.
+
+### Interactive Frontend:
+- Tailored components for user interaction with dynamic pathway data.
+
+### Data-Driven Testing:
+- Include Python tests for APIs and data processing.
+
+### Documentation:
+- Clear guidelines in the `README.md` for developers and contributors.
+
+---
+
 ## Repository Structure
-- **data/**: Raw RNA-seq data and processed results.
-- **scripts/**: Python and R scripts for analysis.
-- **results/**: DEGs, pathway impacts, and visualizations.
-- **docs/**: Methodology and reports.
+```
+project-root/
+├── .git/                          # Git repository metadata
+├── .next/                         # Next.js build output
+├── .wrangler/                     # Cloudflare Wrangler configuration (if applicable)
+│   └── state/
+│       └── v3/
+│           └── workflows/
+├── app/                           # Application pages and layouts
+│   ├── about/
+│   │   └── page.tsx               # About page
+│   ├── api/                       # API routes for backend logic
+│   │   └── data/
+│   │       └── route.ts           # API route for data fetching
+│   ├── context/                   # Global state and context
+│   │   └── AppContext.tsx         # React Context for state management
+│   ├── fonts/                     # Custom fonts
+│   │   ├── GeistMonoVF.woff
+│   │   └── GeistVF.woff
+│   ├── favicon.ico                # Favicon for the app
+│   ├── globals.css                # Global styles (Tailwind CSS)
+│   ├── layout.tsx                 # App layout
+│   ├── page.tsx                   # Landing page
+│   └── providers.tsx              # React providers for context and theme
+├── components/                    # Reusable UI components
+│   ├── ui/                        # shadcn/ui components
+│   │   ├── chart.tsx              # Component for rendering charts
+│   │   ├── table.tsx              # Component for tabular data
+│   │   └── tooltip.tsx
+│   ├── Footer.tsx                 # Footer component
+│   ├── Header.tsx                 # Header component
+│   ├── MainContent.tsx            # Main content component
+│   └── SidePanel.tsx              # Side panel for navigation or additional content
+├── data/                          # Data files
+│   ├── raw/                       # Raw datasets (e.g., CSV, JSON, Excel)
+│   ├── processed/                 # Processed/cleaned datasets
+│   ├── pathways.json              # Example pathway enrichment data
+│   └── README.md                  # Documentation about the data
+├── notebooks/                     # Jupyter notebooks for data exploration
+│   ├── data_analysis.ipynb        # Notebook for initial data exploration
+│   └── visualization.ipynb        # Notebook for generating visualizations
+├── public/                        # Public folder for assets like images, icons, etc.
+│   ├── graphs/                    # Static versions of graphs (e.g., PNG, SVG)
+│   └── index.html                 # Base HTML file for React app
+├── src/                           # Backend and utility scripts
+│   ├── api/                       # APIs for data processing
+│   │   └── pathway_enrichment.py  # API to process KEGG pathway enrichment
+│   └── utils/                     # Utility functions for data handling
+│       ├── data_loader.js         # Script to load and process data
+│       └── chart_helpers.js       # Helper functions for rendering charts
+├── tests/                         # Unit and integration tests
+│   ├── test_data_analysis.py      # Python tests for data processing
+│   ├── test_api_routes.py         # Tests for API routes
+│   └── README.md                  # Testing guidelines
+├── README.md                      # Documentation for the project
+├── requirements.txt               # Python dependencies for backend
+├── server.py                      # Flask/Django/FastAPI backend server
+├── tailwind.config.ts             # Tailwind CSS configuration
+└── tsconfig.json                  # TypeScript configuration
+```
 
 ---
 
