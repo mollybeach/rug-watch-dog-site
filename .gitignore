@@ -35,3 +35,22 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# cache and temporary files
+/cache/
+.cache/
+*.tmp
+*.temp
+
+# logs
+logs/
+*.log
+
+# IDE specific files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS generated files
+Thumbs.db
+
