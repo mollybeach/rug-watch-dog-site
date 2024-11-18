@@ -17,6 +17,7 @@ export type RNASeqData = {
   VOC: GeneData[];
 };
 
+// DEG Diagram Mock Data
 export const rnaSeqData: RNASeqData = {
   CsA: [
     // Significant DEGs from CsA vs Control comparison (Cell Cycle pathway)
