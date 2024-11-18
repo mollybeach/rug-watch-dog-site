@@ -9,13 +9,11 @@ export interface PathwayNode {
   label: string;
   group: string;
 }
-
 export interface PathwayLink {
   source: string;
   target: string;
   value: number;
 }
-
 export interface PathwayData {
   nodes: PathwayNode[];
   links: PathwayLink[];
