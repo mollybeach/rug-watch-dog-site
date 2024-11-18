@@ -1,20 +1,17 @@
+
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { VolcanoPlot } from "@/components/visualizations/VolcanoPlot";
-import { PathwayDiagram } from "@/components/visualizations/PathwayDiagram";
-import { DegRankings } from "@/components/visualizations/DegRankings";
-import { LineChart, Network, BarChart, PieChart } from "lucide-react";
-import { LucideIcon } from "lucide-react";
+import { default as dynamicImport } from 'next/dynamic'
+import { LucideIcon, LineChart, PieChart, Network, BarChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ChordDiagram } from "@/components/visualizations/ChordDiagram";
 
 // Define the type for visualization items
 type Visualization = {
   id: string;
   label: string;
-  component: React.ComponentType<Record<string, unknown>>;
+  component: React.ComponentType<any>;
   icon: LucideIcon;
   description: string;
 };
@@ -23,43 +20,47 @@ const visualizations: Visualization[] = [
   { 
     id: "volcano", 
     label: "Volcano Plots", 
-    component: VolcanoPlot,
+    component: dynamicImport(() => import('@/components/visualizations/VolcanoPlot').then(mod => mod.VolcanoPlot), { 
+      ssr: false,
+      loading: () => <div>Loading...</div>
+    }),
     icon: LineChart,
     description: "Interactive volcano plots showing differential expression",
   },
   { 
     id: "chord", 
     label: "Chord Diagram", 
-    component: () => <ChordDiagram data={{
-      nodes: [
-        { id: "A", group: "group1", color: "#ff0000" },
-        { id: "B", group: "group1", color: "#00ff00" },
-        { id: "C", group: "group2", color: "#0000ff" },
-      ],
-      links: [
-        { source: "A", target: "B", value: 5 },
-        { source: "B", target: "C", value: 8 },
-        { source: "C", target: "A", value: 3 },
-      ]
-    }} />,
+    component: dynamicImport(() => import('@/components/visualizations/ChordDiagram').then(mod => mod.ChordDiagram), { 
+      ssr: false,
+      loading: () => <div>Loading...</div>
+    }),
     icon: PieChart,
     description: "Visualize relationships between data points using chord diagrams",
   },
   { 
     id: "pathway", 
     label: "Pathway Diagrams", 
-    component: PathwayDiagram,
+    component: dynamicImport(() => import('@/components/visualizations/PathwayDiagram').then(mod => mod.default), { 
+      ssr: false,
+      loading: () => <div>Loading...</div>
+    }),
     icon: Network,
     description: "Pathway analysis visualization and interactions",
   },
   { 
     id: "deg", 
     label: "DEG Rankings", 
-    component: DegRankings,
+    component: dynamicImport(() => import('@/components/visualizations/DegRankings').then(mod => mod.default), { 
+      ssr: false,
+      loading: () => <div>Loading...</div>
+    }),
     icon: BarChart,
     description: "Differential expression gene ranking analysis",
   },
 ];
+
+export const dynamicPage = "force-dynamic";
+export const runtime = "edge";
 
 export default function VisualizationsPage() {
   const searchParams = useSearchParams();
@@ -145,3 +146,4 @@ export default function VisualizationsPage() {
     </div>
   );
 }
+
