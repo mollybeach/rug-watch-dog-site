@@ -8,9 +8,6 @@
     "url": "https://github.com/rnalytics/rnalytics.git"
   },
   "private": true,
-  "engines": {
-    "node": "^18.18.0 || ^20.9.0"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
