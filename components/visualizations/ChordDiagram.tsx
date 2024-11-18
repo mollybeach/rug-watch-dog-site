@@ -20,7 +20,7 @@ interface ChordDiagramProps {
 }
 
 export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 900, height = 1000 }) => {
-  const [localData, setLocalData] = useState<any>(null);
+  const [localData, setLocalData] = useState<ChordDiagramProps['data'] | null>(null);
   const [loading, setLoading] = useState(true);
   const [pathwaysCount, setPathwaysCount] = useState(18);
   const [genesPerPathway, setGenesPerPathway] = useState(10);
