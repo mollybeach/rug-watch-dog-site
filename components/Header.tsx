@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Poppins } from 'next/font/google';
+import { ModeToggle } from "./ModeToggle";
 
 const poppins = Poppins({ 
   subsets: ['latin'],
@@ -89,17 +90,20 @@ export function Header() {
             </ul>
           </nav>
 
-          <Link
-            href="https://github.com/aryehky/CsA-VOC-RNASeq-Anaylsis"
-            className="flex items-center gap-2 text-sm text-muted-foreground
-                       px-4 py-2 rounded-lg transition-all duration-300
-                       hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-purple-500/10
-                       hover:text-foreground hover:shadow-md hover:shadow-purple-500/5
-                       transform hover:scale-105"
-          >
-            <GitHubLogoIcon className="h-5 w-5" />
-            <span className="font-medium">GitHub</span>
-          </Link>
+          <div className="flex items-center gap-4">
+            <ModeToggle />
+            <Link
+              href="https://github.com/aryehky/CsA-VOC-RNASeq-Anaylsis"
+              className="flex items-center gap-2 text-sm text-muted-foreground
+                         px-4 py-2 rounded-lg transition-all duration-300
+                         hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-purple-500/10
+                         hover:text-foreground hover:shadow-md hover:shadow-purple-500/5
+                         transform hover:scale-105"
+            >
+              <GitHubLogoIcon className="h-5 w-5" />
+              <span className="font-medium">GitHub</span>
+            </Link>
+          </div>
         </div>
       </div>
     </header>
