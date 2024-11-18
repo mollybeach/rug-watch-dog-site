@@ -11,6 +11,8 @@ import { default as dynamicImport } from 'next/dynamic'
 import { LucideIcon, LineChart, PieChart, Network, BarChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+export const dynamic = "force-dynamic";
+export const runtime = "edge";
 
 // Define the type for visualization items
 type Visualization = {
@@ -63,9 +65,6 @@ const visualizations: Visualization[] = [
     description: "Differential expression gene ranking analysis",
   },
 ];
-
-export const dynamic = "force-dynamic";
-export const runtime = "edge";
 
 const VisualizationsPage: React.FC = () => {
   const searchParams = useSearchParams();
