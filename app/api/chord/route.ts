@@ -6,8 +6,11 @@
 
 import { NextResponse } from 'next/server';
 import { geneExpressionChordData } from '@/lib/data/chord_data';
+export const runtime = 'edge';
 
 // Chord diagram data API
+
+
 export async function GET() {
   try {
     return NextResponse.json(geneExpressionChordData, { status: 200 });
