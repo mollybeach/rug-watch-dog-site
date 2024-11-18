@@ -1,5 +1,5 @@
 
-# CsA-VOC-RNASeq-Analysis
+# RNAlytics
 
 ## Project Overview
 This repository contains an in-depth analysis of RNA-seq data comparing the effects of **Cyclosporin A (CsA)** and **Voclosporin (VOC)** treatments against control groups. The study utilizes iPathwayGuide to highlight differentially expressed genes (DEGs), pathway impacts, and biological processes affected by these treatments.
@@ -213,7 +213,7 @@ project-root/
 ## Usage Instructions
 1. Clone the repository:
    ```bash
-   git clone https://github.com/aryehky/CsA-VOC-RNASeq-Analysis.git
+   git clone https://github.com/aryehky/RNAlytics.git
    ```
 2. Install dependencies:
    ```bash

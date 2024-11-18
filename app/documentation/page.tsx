@@ -97,7 +97,7 @@ export default function DocumentationPage() {
                 <h3>Installation</h3>
                 <pre className="bg-slate-100 dark:bg-slate-800 p-4 rounded-lg">
                   <code>{`# Clone the repository
-git clone https://github.com/aryehky/CsA-VOC-RNASeq-Analysis.git
+git clone https://github.com/aryehky/RNAlytics.git
 
 # Install Python dependencies
 python -m venv venv
