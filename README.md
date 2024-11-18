@@ -148,64 +148,134 @@ This repository contains an in-depth analysis of RNA-seq data comparing the effe
 
 ## Repository Structure
 ```
-project-root/
-├── .git/                          # Git repository metadata
-├── .next/                         # Next.js build output
-├── .wrangler/                     # Cloudflare Wrangler configuration (if applicable)
+RNAlytics/
+├── .git/
+├── .github/
+├── .wrangler/
 │   └── state/
-│       └── v3/
-│           └── workflows/
-├── app/                           # Application pages and layouts
-│   ├── about/
-│   │   └── page.tsx               # About page
-│   ├── api/                       # API routes for backend logic
-│   │   └── data/
-│   │       └── route.ts           # API route for data fetching
-│   ├── context/                   # Global state and context
-│   │   └── AppContext.tsx         # React Context for state management
-│   ├── fonts/                     # Custom fonts
+│   │   └── v3/
+│   │   │   └── workflows/
+├── app/
+│   ├── analysis/
+│   │   └── page.tsx
+│   ├── api/
+│   │   ├── chord/
+│   │   │   └── route.ts
+│   │   ├── deg-rankings/
+│   │   │   └── route.ts
+│   │   ├── differential-expression/
+│   │   │   └── route.ts
+│   │   └── pathway/
+│   │   │   └── route.ts
+│   ├── data/
+│   │   └── page.tsx
+│   ├── documentation/
+│   │   └── page.tsx
+│   ├── fonts/
 │   │   ├── GeistMonoVF.woff
 │   │   └── GeistVF.woff
-│   ├── favicon.ico                # Favicon for the app
-│   ├── globals.css                # Global styles (Tailwind CSS)
-│   ├── layout.tsx                 # App layout
-│   ├── page.tsx                   # Landing page
-│   └── providers.tsx              # React providers for context and theme
-├── components/                    # Reusable UI components
-│   ├── ui/                        # shadcn/ui components
-│   │   ├── chart.tsx              # Component for rendering charts
-│   │   ├── table.tsx              # Component for tabular data
-│   │   └── tooltip.tsx
-│   ├── Footer.tsx                 # Footer component
-│   ├── Header.tsx                 # Header component
-│   ├── MainContent.tsx            # Main content component
-│   └── SidePanel.tsx              # Side panel for navigation or additional content
-├── data/                          # Data files
-│   ├── raw/                       # Raw datasets (e.g., CSV, JSON, Excel)
-│   ├── processed/                 # Processed/cleaned datasets
-│   ├── pathways.json              # Example pathway enrichment data
-│   └── README.md                  # Documentation about the data
-├── notebooks/                     # Jupyter notebooks for data exploration
-│   ├── data_analysis.ipynb        # Notebook for initial data exploration
-│   └── visualization.ipynb        # Notebook for generating visualizations
-├── public/                        # Public folder for assets like images, icons, etc.
-│   ├── graphs/                    # Static versions of graphs (e.g., PNG, SVG)
-│   └── index.html                 # Base HTML file for React app
-├── src/                           # Backend and utility scripts
-│   ├── api/                       # APIs for data processing
-│   │   └── pathway_enrichment.py  # API to process KEGG pathway enrichment
-│   └── utils/                     # Utility functions for data handling
-│       ├── data_loader.js         # Script to load and process data
-│       └── chart_helpers.js       # Helper functions for rendering charts
-├── tests/                         # Unit and integration tests
-│   ├── test_data_analysis.py      # Python tests for data processing
-│   ├── test_api_routes.py         # Tests for API routes
-│   └── README.md                  # Testing guidelines
-├── README.md                      # Documentation for the project
-├── requirements.txt               # Python dependencies for backend
-├── server.py                      # Flask/Django/FastAPI backend server
-├── tailwind.config.ts             # Tailwind CSS configuration
-└── tsconfig.json                  # TypeScript configuration
+│   ├── utils/
+│   │   ├── chart_helpers.js
+│   │   └── data_loader.js
+│   ├── visualizations/
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── providers.tsx
+├── components/
+│   ├── ui/
+│   │   ├── accordion.tsx
+│   │   ├── alert-dialog.tsx
+│   │   ├── alert.tsx
+│   │   ├── aspect-ratio.tsx
+│   │   ├── avatar.tsx
+│   │   ├── badge.tsx
+│   │   ├── button.tsx
+│   │   ├── calendar.tsx
+│   │   ├── card.tsx
+│   │   ├── chart.tsx
+│   │   ├── checkbox.tsx
+│   │   ├── collapsible.tsx
+│   │   ├── command.tsx
+│   │   ├── context-menu.tsx
+│   │   ├── dialog.tsx
+│   │   ├── dropdown-menu.tsx
+│   │   ├── hover-card.tsx
+│   │   ├── input.tsx
+│   │   ├── label.tsx
+│   │   ├── menubar.tsx
+│   │   ├── navigation-menu.tsx
+│   │   ├── popover.tsx
+│   │   ├── progress.tsx
+│   │   ├── radio-group.tsx
+│   │   ├── scroll-area.tsx
+│   │   ├── select.tsx
+│   │   ├── separator.tsx
+│   │   ├── sheet.tsx
+│   │   ├── skeleton.tsx
+│   │   ├── slider.tsx
+│   │   ├── switch.tsx
+│   │   ├── table.tsx
+│   │   ├── tabs.tsx
+│   │   ├── textarea.tsx
+│   │   ├── toast.tsx
+│   │   ├── toaster.tsx
+│   │   ├── toggle-group.tsx
+│   │   ├── toggle.tsx
+│   │   ├── tooltip.tsx
+│   │   └── use-toast.ts
+│   ├── visualizations/
+│   │   ├── ChordDiagram.tsx
+│   │   ├── DegRankings.tsx
+│   │   ├── PathwayDiagram.tsx
+│   │   ├── PlotControls.tsx
+│   │   └── VolcanoPlot.tsx
+│   ├── Card.tsx
+│   ├── Footer.tsx
+│   ├── Header.tsx
+│   ├── Hero.tsx
+│   ├── MainContent.tsx
+│   ├── ModeToggle.tsx
+│   └── SidePanel.tsx
+├── hooks/
+│   ├── use-mobile.tsx
+│   └── use-toast.tsx
+├── lib/
+├── node_modules/
+├── public/
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── logo.png
+│   ├── logo2.png
+│   ├── logo3.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── tests/
+│   ├── README.md
+│   ├── test_api_routes.py
+│   └── test_data_analysis.py
+├── .DS_Store
+├── .env
+├── .env.example
+├── .eslintrc.json
+├── .gitignore
+├── .npmrc
+├── components.json
+├── next-env.d.ts
+├── next.config.mjs
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── README.md
+├── requirements.txt
+├── server.py
+├── tailwind.config.ts
+├── tsconfig.json
+└── wrangler.toml           
 ```
 
 ---
