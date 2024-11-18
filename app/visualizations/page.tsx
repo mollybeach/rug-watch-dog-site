@@ -64,7 +64,7 @@ const visualizations: Visualization[] = [
   },
 ];
 
-export const dynamicPage = "force-dynamic";
+export const dynamic = "force-dynamic";
 export const runtime = "edge";
 
 export default function VisualizationsPage() {
@@ -151,4 +151,3 @@ export default function VisualizationsPage() {
     </div>
   );
 }
-
