@@ -38,7 +38,7 @@ export const PathwayDiagram: React.FC = () => {
 
   const fetchPathwayData = async (pathway: string) => {
     try {
-      const response = await fetch(`/api/routes/pathway?pathway=${pathway}`);
+      const response = await fetch(`/api/pathway?pathway=${pathway}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

@@ -1,7 +1,7 @@
 /**
  * @title Differential Expression Data API
  * @fileoverview Differential expression data API
- * @path /app/api/routes/differential-expression/route.ts
+ * @path /differential-expression/route.ts
  */
 export const runtime = 'edge';
 import { NextResponse } from 'next/server';
