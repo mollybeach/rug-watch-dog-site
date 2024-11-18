@@ -1,3 +1,9 @@
+/**
+ * @title Data Page
+ * @fileoverview Data page component
+ * @path /app/data/page.tsx
+ */
+
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 

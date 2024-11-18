@@ -1,3 +1,9 @@
+/**
+ * @title DEG Rankings Data API
+ * @fileoverview DEG rankings data API
+ * @path /app/api/data/deg-rankings/route.ts
+ */
+
 import { NextResponse } from 'next/server';
 import { rnaSeqData } from '@/app/data/rna_seq_data';
 

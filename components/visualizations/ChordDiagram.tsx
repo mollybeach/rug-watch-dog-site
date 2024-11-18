@@ -1,4 +1,9 @@
-// components/ChordDiagram.tsx
+/**
+ * @title Chord Diagram
+ * @fileoverview Chord diagram component
+ * @path /components/visualizations/ChordDiagram.tsx
+ */
+
 import React, { useState, useEffect } from 'react';
 import { PlotControls } from "@/components/visualizations/PlotControls";
 
@@ -16,11 +21,11 @@ interface ChordDiagramProps {
       target: string;
       value: number;
     }>;
-  };
+  } | null;
 }
 
-export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 900, height = 1000 }) => {
-  const [localData, setLocalData] = useState<ChordDiagramProps['data'] | null>(null);
+export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 700, height = 600 }) => {
+  const [localData, setLocalData] = useState<ChordDiagramProps['data'] | null>(data);
   const [loading, setLoading] = useState(true);
   const [pathwaysCount, setPathwaysCount] = useState(18);
   const [genesPerPathway, setGenesPerPathway] = useState(10);
@@ -40,8 +45,13 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 900, h
       }
     };
 
-    fetchData();
-  }, []);
+    if (!data) {
+      fetchData();
+    } else {
+      setLocalData(data);
+      setLoading(false);
+    }
+  }, [data]);
 
   if (loading) {
     return <div>Loading chord diagram...</div>;
@@ -51,10 +61,11 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 900, h
     return <div>No data available</div>;
   }
 
-  const viewBoxHeight = 450;
-  const centerX = width / 2;
-  const centerY = height * 0.67;
-  const radius = 330;
+  const viewBoxHeight = height;
+  const halfOfWidth = width / 2;
+  const centerX = halfOfWidth*0.55;
+  const centerY = height * 0.25;
+  const radius = Math.min(width, height) * 0.4;
 
   // Calculate paths and angles based on data
   const calculateChordPath = (startAngle: number, endAngle: number, radius: number) => {
@@ -74,6 +85,21 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 900, h
       x: centerX + (radius * Math.cos(angleInRadians)),
       y: centerY + (radius * Math.sin(angleInRadians))
     };
+  };
+
+  // Define a color mapping for each group
+  const groupColorMapping: { [key: string]: string } = {
+    "upregulated": "#e30b5d", // Raspberry
+    "downregulated": "#6495ed", // Cornflower Blue
+    "unchanged": "#778899", // Light Slate Gray
+    "tumor suppressor": "#ff7f50", // Coral
+    "oncogene": "#ffa343", // Neon Carrot
+    "regulator": "#4682b4", // Steel Blue
+    "signaling molecule": "#32cd32", // Lime Green
+    "metabolic enzyme": "#ffd700", // Gold
+    "transcription factor": "#9370db", // Medium Purple
+    "cell cycle regulator": "#6a5acd", // Slate Blue
+    "apoptosis regulator": "#ebb0d7", // Thristle
   };
 
   return (
@@ -101,18 +127,18 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 900, h
         <g transform={`translate(${centerX},${centerY})`}>
           {/* Render chord paths */}
           <g className="chord-chart-chords">
-            {data.links.map((link, index) => {
-              const sourceIndex = data.nodes.findIndex(n => n.id === link.source);
-              const targetIndex = data.nodes.findIndex(n => n.id === link.target);
-              const startAngle = (sourceIndex * 360) / data.nodes.length;
-              const endAngle = (targetIndex * 360) / data.nodes.length;
+            {localData.links.map((link, index) => {
+              const sourceIndex = localData.nodes.findIndex(n => n.id === link.source);
+              const targetIndex = localData.nodes.findIndex(n => n.id === link.target);
+              const startAngle = (sourceIndex * 360) / localData.nodes.length;
+              const endAngle = (targetIndex * 360) / localData.nodes.length;
               
               return (
                 <path
                   key={`chord-${index}`}
                   d={calculateChordPath(startAngle, endAngle, radius)}
                   style={{
-                    fill: data.nodes.find(n => n.id === link.source)?.color || '#ccc',
+                    fill: localData.nodes.find(n => n.id === link.source)?.color || '#ccc',
                     stroke: 'black',
                     strokeWidth: 0.3
                   }}
@@ -122,22 +148,22 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 900, h
           </g>
 
           {/* Render labels */}
-          {data.nodes.map((node, index) => {
-            const angle = (index * 360) / data.nodes.length;
+          {localData.nodes.map((node, index) => {
+            const angle = (index * 360) / localData.nodes.length;
+            const labelRadius = radius + 20; // Adjust label radius as needed
+            const labelPosition = polarToCartesian(centerX, centerY, labelRadius, angle); // Calculate label position
+
             return (
-              <g
-                key={`label-${index}`}
-                transform={`rotate(${angle}) translate(${radius + 20},0)`}
-              >
+              <g key={`label-${index}`} transform={`translate(${labelPosition.x}, ${labelPosition.y})`}>
                 <text
                   className="gene-symbol-label"
-                  x="8"
+                  x="0"
                   dy=".35em"
                   style={{
                     fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
                     letterSpacing: '1.25px',
                     fontWeight: 400,
-                    fontSize: '12px',
+                    fontSize: `${fontSize}px`, // Use dynamic font size
                     cursor: 'pointer',
                     textAnchor: angle > 180 ? 'end' : 'start'
                   }}
@@ -152,7 +178,14 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 900, h
 
         {/* Legend */}
         <g className="legend" transform="translate(20, 955)">
-          {/* Add legend items here */}
+          {Object.entries(groupColorMapping).map(([group, color], index) => (
+            <g key={group} transform={`translate(0, ${index * 25})`}>
+              <rect width="20" height="20" fill={color} />
+              <text x="30" y="15" style={{ fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif', fontSize: '12px' }}>
+                {group}
+              </text>
+            </g>
+          ))}
         </g>
       </svg>
     </div>
