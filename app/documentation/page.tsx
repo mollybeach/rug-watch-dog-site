@@ -13,7 +13,7 @@ import {
   Users,
 } from "lucide-react";
 
-export default function DocumentationPage() {
+const DocumentationPage: React.FC = () => {
   return (
     <div className="container mx-auto p-8">
       <div className="mb-12">
@@ -411,3 +411,5 @@ npm install`}</code>
     </div>
   );
 }
+
+export default DocumentationPage;
