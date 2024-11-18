@@ -88,7 +88,7 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 900, h
         onPathwaysCountChange={setPathwaysCount}
         onGenesPerPathwayChange={setGenesPerPathway}
         onFontSizeChange={setFontSize}
-        onShrinkFactorChange={(value) => {}}
+        onShrinkFactorChange={() => {}}
         onColorSchemeChange={setColorScheme}
       />
       <svg 

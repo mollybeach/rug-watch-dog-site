@@ -1,17 +1,14 @@
-import { NextConfig } from 'next'
+import { setupDevPlatform } from "@cloudflare/next-on-pages/next-dev";
 
-const nextConfig: NextConfig = {
-  output: 'standalone',
-  experimental: {
-    forceSwcTransforms: false
-  },
-  webpack: (config) => {
-    config.experiments = {
-      ...config.experiments,
-      topLevelAwait: true
-    }
-    return config
+/** @type {import('next').NextConfig} */
+const nextConfig = {};
+
+if (process.env.NODE_ENV === "development") {
+  try {
+    setupDevPlatform();
+  } catch (e) {
+    console.warn("Failed to setup dev platform:", e);
   }
 }
 
-module.exports = nextConfig
+export default nextConfig;

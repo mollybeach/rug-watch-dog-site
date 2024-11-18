@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "# RNAlytics Project Overview this repository contains an in-depth analysis of RNA-seq data comparing the effects of **Cyclosporin A (CsA)** and **Voclosporin (VOC)** treatments against control groups. The study utilizes iPathwayGuide to highlight differentially expressed genes (DEGs), pathway impacts, and biological processes affected by these treatments.",
   "homepage": "https://rnalytics.pages.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rnalytics/rnalytics.git"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",
