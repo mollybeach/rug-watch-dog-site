@@ -4,16 +4,17 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { VolcanoPlot } from "@/components/visualizations/VolcanoPlot";
 import { PathwayDiagram } from "@/components/visualizations/PathwayDiagram";
 import { DegRankings } from "@/components/visualizations/DegRankings";
-import { LineChart, Network, BarChart } from "lucide-react";
+import { LineChart, Network, BarChart, PieChart } from "lucide-react";
 import { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { ChordDiagram } from "@/components/visualizations/ChordDiagram";
 
 // Define the type for visualization items
 type Visualization = {
   id: string;
   label: string;
-  component: () => JSX.Element;
+  component: React.ComponentType<any>;
   icon: LucideIcon;
   description: string;
 };
@@ -25,6 +26,24 @@ const visualizations: Visualization[] = [
     component: VolcanoPlot,
     icon: LineChart,
     description: "Interactive volcano plots showing differential expression",
+  },
+  { 
+    id: "chord", 
+    label: "Chord Diagram", 
+    component: () => <ChordDiagram data={{
+      nodes: [
+        { id: "A", group: "group1", color: "#ff0000" },
+        { id: "B", group: "group1", color: "#00ff00" },
+        { id: "C", group: "group2", color: "#0000ff" },
+      ],
+      links: [
+        { source: "A", target: "B", value: 5 },
+        { source: "B", target: "C", value: 8 },
+        { source: "C", target: "A", value: 3 },
+      ]
+    }} />,
+    icon: PieChart,
+    description: "Visualize relationships between data points using chord diagrams",
   },
   { 
     id: "pathway", 

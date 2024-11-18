@@ -1,79 +1,121 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from "@/components/ui/select";
-import { Download, ZoomIn, ZoomOut, RotateCcw, Network } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { Network } from "lucide-react";
+import { PathwayData } from "@/app/data/pathway_data";
+import { ForceGraph2D } from 'react-force-graph';
+import { PlotControls } from "@/components/visualizations/PlotControls";
 
 export const PathwayDiagram: React.FC = () => {
+  const [selectedPathway, setSelectedPathway] = useState('protein-processing');
+  const [pathwayData, setPathwayData] = useState<PathwayData | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [isDragEnabled, setIsDragEnabled] = useState(false);
+
+  useEffect(() => {
+    fetchPathwayData(selectedPathway);
+  }, [selectedPathway]);
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        const { width, height } = containerRef.current.getBoundingClientRect();
+        setDimensions({ width, height });
+      }
+    };
+
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
+
+  const fetchPathwayData = async (pathway: string) => {
+    try {
+      const response = await fetch(`/api/data/pathway?pathway=${pathway}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log('Received data:', data);
+      
+      if (!data.nodes || !data.links) {
+        console.error('Invalid data structure:', data);
+        return;
+      }
+      
+      const graphData = {
+        nodes: data.nodes.map((node: { id: string; label?: string; [key: string]: unknown }) => ({
+          ...node,
+          id: node.id
+        })),
+        links: data.links.map((link: { source: string; target: string; [key: string]: unknown }) => ({
+          ...link,
+          source: link.source,
+          target: link.target
+        })),
+        metadata: data.metadata || {}
+      };
+      
+      console.log('Formatted graph data:', graphData);
+      setPathwayData(graphData);
+    } catch (error) {
+      console.error('Error fetching pathway data:', error);
+    }
+  };
+
   return (
-    <div className="p-6 border-t-4 border-t-purple-500">
-      <div className="flex items-center gap-2 mb-6">
-        <Network className="h-5 w-5 text-purple-500" />
-        <h2 className="text-xl font-semibold">Pathway Impact Analysis</h2>
+    <div className="p-4 border-t-4 border-t-purple-500">
+      <div className="flex items-center gap-2 mb-4">
+        <Network className="h-4 w-4 text-purple-500" />
+        <h2 className="text-lg font-semibold">Pathway Impact Analysis</h2>
       </div>
 
-      <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-4 h-[calc(100vh-24rem)]">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-3">
-            {/* Pathway Selection */}
-            <div className="flex items-center space-x-2">
-              <Select defaultValue="cell-cycle">
-                <SelectTrigger className="w-48 h-7 bg-white dark:bg-slate-900">
-                  <SelectValue className="font-semibold">
-                    <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
-                      Select Pathway
-                    </span>
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="cell-cycle">
-                    <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text font-semibold">
-                      Cell Cycle
-                    </span>
-                  </SelectItem>
-                  <SelectItem value="protein-processing">
-                    <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text font-semibold">
-                      Protein Processing in ER
-                    </span>
-                  </SelectItem>
-                  <SelectItem value="metabolism">
-                    <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text font-semibold">
-                      Metabolic Pathways
-                    </span>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-
-              {/* Visualization Controls */}
-              <div className="bg-white dark:bg-slate-900 p-0.5 rounded-md flex items-center space-x-0.5">
-                <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
-                  <ZoomIn className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
-                  <ZoomOut className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
-                  <RotateCcw className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
-                  <Download className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3">
+        <PlotControls
+          type="pathway"
+          selectedPathway={selectedPathway}
+          onPathwayChange={setSelectedPathway}
+          isDragEnabled={isDragEnabled}
+          onDragToggle={() => setIsDragEnabled(!isDragEnabled)}
+        />
         
-        <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg h-[calc(100%-4rem)] flex items-center justify-center border border-slate-200 dark:border-slate-700">
-          <div className="text-center">
-            <p className="text-muted-foreground">Pathway Visualization</p>
-            <p className="text-sm text-muted-foreground mt-2">Showing gene interactions and pathway impacts</p>
-          </div>
+        <div ref={containerRef} className="relative w-full h-[400px] overflow-hidden">
+          {pathwayData && 
+           Array.isArray(pathwayData.nodes) && 
+           Array.isArray(pathwayData.links) && 
+           pathwayData.nodes.length > 0 && 
+           dimensions.width > 0 ? (
+            <ForceGraph2D
+              graphData={pathwayData}
+              width={dimensions.width}
+              height={400}
+              nodeColor={() => "#9333ea"}
+              nodeRelSize={6}
+              linkColor={() => "#cbd5e1"}
+              linkWidth={1}
+              nodeLabel="id"
+              backgroundColor="#ffffff"
+              enableNodeDrag={isDragEnabled}
+              onNodeDragEnd={node => {
+                if (isDragEnabled) {
+                  node.fx = node.x;
+                  node.fy = node.y;
+                }
+              }}
+              onNodeClick={node => {
+                if (isDragEnabled) {
+                  node.fx = node.x;
+                  node.fy = node.y;
+                }
+              }}
+              cooldownTicks={100}
+            />
+          ) : (
+            <div className="text-center">
+              <p className="text-muted-foreground">Loading pathway data...</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
