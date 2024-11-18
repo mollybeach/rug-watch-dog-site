@@ -1,3 +1,9 @@
+/**
+ * @title DEG Rankings
+ * @fileoverview DEG rankings component
+ * @path /components/visualizations/DegRankings.tsx
+ */
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -26,7 +32,7 @@ export const DegRankings: React.FC = () => {
 
   const fetchRankingsData = async () => {
     try {
-      const response = await fetch('/api/data/deg-rankings');
+      const response = await fetch('/api/routes/deg-rankings');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

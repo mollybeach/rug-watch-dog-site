@@ -1,8 +1,14 @@
+/**
+ * @title Pathway Diagram
+ * @fileoverview Pathway diagram component
+ * @path /components/visualizations/PathwayDiagram.tsx
+ */
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import { Network } from "lucide-react";
-import { PathwayData } from "@/app/data/pathway_data";
+import { PathwayData } from "@/lib/data/pathway_data";
 import { ForceGraph2D } from 'react-force-graph';
 import { PlotControls } from "@/components/visualizations/PlotControls";
 
@@ -32,7 +38,7 @@ export const PathwayDiagram: React.FC = () => {
 
   const fetchPathwayData = async (pathway: string) => {
     try {
-      const response = await fetch(`/api/data/pathway?pathway=${pathway}`);
+      const response = await fetch(`/api/routes/pathway?pathway=${pathway}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -45,7 +51,7 @@ export const PathwayDiagram: React.FC = () => {
       }
       
       const graphData = {
-        nodes: data.nodes.map((node: { id: string; label?: string; [key: string]: unknown }) => ({
+        nodes: data.nodes.map((node: { id: string; label?: string; group: string; [key: string]: unknown }) => ({
           ...node,
           id: node.id
         })),
@@ -90,7 +96,10 @@ export const PathwayDiagram: React.FC = () => {
               graphData={pathwayData}
               width={dimensions.width}
               height={400}
-              nodeColor={() => "#9333ea"}
+              nodeColor={node => {
+                // Get the color based on the node's group from metadata
+                return pathwayData.metadata.groups[node.group]?.color || "#9333ea"; // Default to purple if group not found
+              }}
               nodeRelSize={6}
               linkColor={() => "#cbd5e1"}
               linkWidth={1}
