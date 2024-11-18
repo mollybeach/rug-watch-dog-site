@@ -3,7 +3,7 @@
  * @fileoverview Pathway data API
  * @path /app/api/routes/pathway/route.ts
  */
-
+export const runtime = 'edge';
 import { NextResponse } from 'next/server';
 import { proteinProcessingData, cellCycleData, membraneTraffickingData } from '@/lib/data/pathway_data';
 
