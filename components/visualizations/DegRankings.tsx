@@ -32,7 +32,7 @@ export const DegRankings: React.FC = () => {
 
   const fetchRankingsData = async () => {
     try {
-      const response = await fetch('/api/routes/deg-rankings');
+      const response = await fetch('/api/deg-rankings');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
