@@ -67,7 +67,7 @@ const visualizations: Visualization[] = [
 export const dynamic = "force-dynamic";
 export const runtime = "edge";
 
-export default function VisualizationsPage() {
+const VisualizationsPage: React.FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const activeViz = searchParams.get("view") || "volcano";
@@ -151,3 +151,5 @@ export default function VisualizationsPage() {
     </div>
   );
 }
+
+export default VisualizationsPage;

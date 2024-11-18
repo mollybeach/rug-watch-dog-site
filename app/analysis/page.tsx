@@ -8,7 +8,7 @@ import {
   FlaskConical,
 } from "lucide-react";
 
-export default function AnalysisPage() {
+const AnalysisPage: React.FC = () => {
   return (
     <div className="container mx-auto p-8">
       <div className="mb-12 relative">
@@ -143,3 +143,5 @@ export default function AnalysisPage() {
     </div>
   );
 }
+
+export default AnalysisPage;

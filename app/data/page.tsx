@@ -15,7 +15,7 @@ import {
   GitGraph,
 } from "lucide-react";
 
-export default function DataPage() {
+const DataPage: React.FC = () => {
   return (
     <div className="container mx-auto p-8">
       <div className="mb-12 relative">
@@ -151,3 +151,5 @@ export default function DataPage() {
     </div>
   );
 }
+
+export default DataPage;
