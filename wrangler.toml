@@ -2,3 +2,5 @@ name = "rnalytics"
 compatibility_date = "2024-11-17"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".vercel/output/static"
+[build]
+command = "npm install && npm run pages:build"
