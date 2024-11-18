@@ -1,3 +1,9 @@
+/**
+ * @title Home Page
+ * @fileoverview Home page component
+ * @path /app/page.tsx
+ */
+
 "use client"; 
 import React from "react";
 import { MainContent } from "@/components/MainContent";

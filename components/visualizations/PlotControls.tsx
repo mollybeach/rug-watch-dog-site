@@ -1,3 +1,9 @@
+/**
+ * @title Plot Controls
+ * @fileoverview Plot controls component
+ * @path /components/visualizations/PlotControls.tsx
+ */
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { 
