@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { proteinProcessingData, cellCycleData, membraneTraffickingData } from '@/app/data/pathway_data';
 
+export const runtime = 'edge';
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const pathway = searchParams.get('pathway');

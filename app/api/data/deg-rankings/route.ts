@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { rnaSeqData } from '@/app/data/rna_seq_data';
 
+export const runtime = 'edge';
+
 export async function GET() {
   // Combine CsA and VOC data and add treatment info and unique ID
   const allGenes = [
