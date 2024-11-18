@@ -1,9 +1,10 @@
 name = "rnalytics"
-compatibility_date = "2024-01-01"
+compatibility_date = "2023-12-01"
 
 [build]
-command = "npm run build"
-output_directory = ".next"
+command = "npm run pages:build"
+[build.upload]
+format = "service-worker"
 
 [site]
 bucket = ".next"
