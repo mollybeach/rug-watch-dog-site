@@ -14,7 +14,7 @@ import { ChordDiagram } from "@/components/visualizations/ChordDiagram";
 type Visualization = {
   id: string;
   label: string;
-  component: React.ComponentType<any>;
+  component: React.ComponentType<Record<string, unknown>>;
   icon: LucideIcon;
   description: string;
 };
