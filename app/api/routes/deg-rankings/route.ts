@@ -1,11 +1,11 @@
 /**
  * @title DEG Rankings Data API
  * @fileoverview DEG rankings data API
- * @path /app/api/data/deg-rankings/route.ts
+ * @path /app/api/routes/deg-rankings/route.ts
  */
 
 import { NextResponse } from 'next/server';
-import { rnaSeqData } from '@/app/data/rna_seq_data';
+import { rnaSeqData } from '@/lib/data/rna_seq_data';
 
 export async function GET() {
   // Combine CsA and VOC data and add treatment info and unique ID

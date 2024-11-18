@@ -1,7 +1,7 @@
 /**
  * @title Differential Expression Data
  * @fileoverview Differential expression data
- * @path /app/data/differential_expression_data.ts
+ * @path /lib/data/differential_expression_data.ts
  */
 
 export interface DifferentialExpressionData {

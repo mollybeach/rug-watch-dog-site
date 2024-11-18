@@ -1,7 +1,7 @@
 /**
  * @title Data Page
  * @fileoverview Data page component
- * @path /app/data/page.tsx
+ * @path /lib/data/page.tsx
  */
 
 import { Card } from "@/components/ui/card";

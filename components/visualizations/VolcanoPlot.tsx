@@ -26,7 +26,7 @@ export const VolcanoPlot: React.FC = () => {
     // Fetch your data here
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/data/differential-expression');
+        const response = await fetch('/api/routes/differential-expression');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

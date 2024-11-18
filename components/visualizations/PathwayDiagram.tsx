@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Network } from "lucide-react";
-import { PathwayData } from "@/app/data/pathway_data";
+import { PathwayData } from "@/lib/data/pathway_data";
 import { ForceGraph2D } from 'react-force-graph';
 import { PlotControls } from "@/components/visualizations/PlotControls";
 
@@ -38,7 +38,7 @@ export const PathwayDiagram: React.FC = () => {
 
   const fetchPathwayData = async (pathway: string) => {
     try {
-      const response = await fetch(`/api/data/pathway?pathway=${pathway}`);
+      const response = await fetch(`/api/routes/pathway?pathway=${pathway}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

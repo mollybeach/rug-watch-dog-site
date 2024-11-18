@@ -1,7 +1,7 @@
 /**
  * @title Pathway Data
  * @fileoverview Pathway data
- * @path /app/data/pathway_data.ts
+ * @path /lib/data/pathway_data.ts
  */
 // Pathway Diagram Mock Data
 export interface PathwayNode {

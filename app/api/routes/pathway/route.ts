@@ -1,11 +1,11 @@
 /**
  * @title Pathway Data API
  * @fileoverview Pathway data API
- * @path /app/api/data/pathway/route.ts
+ * @path /app/api/routes/pathway/route.ts
  */
 
 import { NextResponse } from 'next/server';
-import { proteinProcessingData, cellCycleData, membraneTraffickingData } from '@/app/data/pathway_data';
+import { proteinProcessingData, cellCycleData, membraneTraffickingData } from '@/lib/data/pathway_data';
 
 // Pathway data API
 export async function GET(request: Request) {

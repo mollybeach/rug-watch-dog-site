@@ -35,7 +35,7 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 700, h
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/data/chord');
+        const response = await fetch('/api/routes/chord');
         const jsonData = await response.json();
         setLocalData(jsonData);
       } catch (error) {

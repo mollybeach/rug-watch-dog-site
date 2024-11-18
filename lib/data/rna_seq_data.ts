@@ -1,7 +1,7 @@
 /**
  * @title RNA-Seq Data
  * @fileoverview RNA-seq data for CsA and VOC treatments
- * @path /app/data/rna_seq_data.ts
+ * @path /lib/data/rna_seq_data.ts
  */
 
 export type GeneData = {

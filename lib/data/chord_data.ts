@@ -1,7 +1,7 @@
 /**
  * @title Chord Diagram Data
  * @fileoverview Chord diagram data
- * @path /app/data/chord_data.ts
+ * @path /lib/data/chord_data.ts
  */
 
 export interface ChordNode {
