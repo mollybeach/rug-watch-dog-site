@@ -1,3 +1,9 @@
+/**
+ * @title Pathway Data API
+ * @fileoverview Pathway data API
+ * @path /app/api/data/pathway/route.ts
+ */
+
 import { NextResponse } from 'next/server';
 import { proteinProcessingData, cellCycleData, membraneTraffickingData } from '@/app/data/pathway_data';
 

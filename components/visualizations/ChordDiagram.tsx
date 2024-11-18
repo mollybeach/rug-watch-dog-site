@@ -1,4 +1,9 @@
-// components/ChordDiagram.tsx
+/**
+ * @title Chord Diagram
+ * @fileoverview Chord diagram component
+ * @path /components/visualizations/ChordDiagram.tsx
+ */
+
 import React, { useState, useEffect } from 'react';
 import { PlotControls } from "@/components/visualizations/PlotControls";
 
@@ -16,11 +21,11 @@ interface ChordDiagramProps {
       target: string;
       value: number;
     }>;
-  };
+  } | null;
 }
 
 export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 900, height = 1000 }) => {
-  const [localData, setLocalData] = useState<ChordDiagramProps['data'] | null>(null);
+  const [localData, setLocalData] = useState<ChordDiagramProps['data'] | null>(data);
   const [loading, setLoading] = useState(true);
   const [pathwaysCount, setPathwaysCount] = useState(18);
   const [genesPerPathway, setGenesPerPathway] = useState(10);
@@ -40,8 +45,13 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 900, h
       }
     };
 
-    fetchData();
-  }, []);
+    if (!data) {
+      fetchData();
+    } else {
+      setLocalData(data);
+      setLoading(false);
+    }
+  }, [data]);
 
   if (loading) {
     return <div>Loading chord diagram...</div>;
@@ -101,18 +111,18 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 900, h
         <g transform={`translate(${centerX},${centerY})`}>
           {/* Render chord paths */}
           <g className="chord-chart-chords">
-            {data.links.map((link, index) => {
-              const sourceIndex = data.nodes.findIndex(n => n.id === link.source);
-              const targetIndex = data.nodes.findIndex(n => n.id === link.target);
-              const startAngle = (sourceIndex * 360) / data.nodes.length;
-              const endAngle = (targetIndex * 360) / data.nodes.length;
+            {localData.links.map((link, index) => {
+              const sourceIndex = localData.nodes.findIndex(n => n.id === link.source);
+              const targetIndex = localData.nodes.findIndex(n => n.id === link.target);
+              const startAngle = (sourceIndex * 360) / localData.nodes.length;
+              const endAngle = (targetIndex * 360) / localData.nodes.length;
               
               return (
                 <path
                   key={`chord-${index}`}
                   d={calculateChordPath(startAngle, endAngle, radius)}
                   style={{
-                    fill: data.nodes.find(n => n.id === link.source)?.color || '#ccc',
+                    fill: localData.nodes.find(n => n.id === link.source)?.color || '#ccc',
                     stroke: 'black',
                     strokeWidth: 0.3
                   }}
@@ -122,8 +132,8 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 900, h
           </g>
 
           {/* Render labels */}
-          {data.nodes.map((node, index) => {
-            const angle = (index * 360) / data.nodes.length;
+          {localData.nodes.map((node, index) => {
+            const angle = (index * 360) / localData.nodes.length;
             return (
               <g
                 key={`label-${index}`}

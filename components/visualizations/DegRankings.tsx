@@ -1,3 +1,9 @@
+/**
+ * @title DEG Rankings
+ * @fileoverview DEG rankings component
+ * @path /components/visualizations/DegRankings.tsx
+ */
+
 "use client";
 
 import React, { useState, useEffect } from "react";

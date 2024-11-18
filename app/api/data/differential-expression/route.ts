@@ -1,3 +1,9 @@
+/**
+ * @title Differential Expression Data API
+ * @fileoverview Differential expression data API
+ * @path /app/api/data/differential-expression/route.ts
+ */
+
 import { NextResponse } from 'next/server';
 
 export async function GET() {

@@ -1,3 +1,9 @@
+/**
+ * @title Layout
+ * @fileoverview Layout component
+ * @path /app/layout.tsx
+ */
+
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Header } from "@/components/Header";
