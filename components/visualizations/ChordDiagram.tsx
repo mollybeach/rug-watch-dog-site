@@ -6,6 +6,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { PlotControls } from "@/components/visualizations/PlotControls";
+import { validateJson } from "@/lib/jsonValidator";
+import { chordDiagramSchema } from "@/lib/schemas";
+import { JSONSchemaType } from "ajv";
 
 interface ChordDiagramProps {
   width?: number;
@@ -35,8 +38,15 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ data, width = 700, h
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/routes/chord');
+        const response = await fetch('/api/chord');
         const jsonData = await response.json();
+
+        const validationErrors = validateJson(jsonData, chordDiagramSchema as JSONSchemaType<any>);
+        if (validationErrors) {
+          console.error('Validation errors:', validationErrors);
+          return;
+        }
+
         setLocalData(jsonData);
       } catch (error) {
         console.error('Error fetching chord data:', error);

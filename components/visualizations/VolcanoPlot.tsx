@@ -10,6 +10,9 @@ import React, { useState, useEffect } from "react";
 import Plot from 'react-plotly.js';
 import { PlotControls } from "./PlotControls";
 import { BarChart } from "lucide-react";
+import { validateJson } from "@/lib/jsonValidator";
+import { volcanoPlotSchema } from "@/lib/schemas";
+import { JSONSchemaType } from "ajv";
 
 interface DataPoint {
   gene: string;
@@ -26,11 +29,18 @@ export const VolcanoPlot: React.FC = () => {
     // Fetch your data here
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/routes/differential-expression');
+        const response = await fetch('/api/differential-expression');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
+
+        const validationErrors = validateJson(data, volcanoPlotSchema as JSONSchemaType<any>);
+        if (validationErrors) {
+          console.error('Validation errors:', validationErrors);
+          return;
+        }
+
         setPlotData(data);
       } catch (error) {
         if (error instanceof Error) {

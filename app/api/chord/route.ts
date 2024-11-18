@@ -1,7 +1,7 @@
 /**
  * @title Chord Diagram Data API
  * @fileoverview Chord diagram data API
- * @path /app/api/routes/chord/route.ts
+ * @path /chord/route.ts
  */
 
 import { NextResponse } from 'next/server';

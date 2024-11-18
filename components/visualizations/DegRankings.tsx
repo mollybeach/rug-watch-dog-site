@@ -9,6 +9,9 @@
 import React, { useState, useEffect } from "react";
 import { BarChart2, ArrowUp, ArrowDown } from "lucide-react";
 import { PlotControls } from "./PlotControls";
+import { validateJson } from "@/lib/jsonValidator";
+import { degRankingsSchema } from "@/lib/schemas";
+import { JSONSchemaType } from "ajv";
 
 interface RankingData {
   id: string;
@@ -32,11 +35,18 @@ export const DegRankings: React.FC = () => {
 
   const fetchRankingsData = async () => {
     try {
-      const response = await fetch('/api/routes/deg-rankings');
+      const response = await fetch('/api/deg-rankings');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
+
+      const validationErrors = validateJson(data, degRankingsSchema as JSONSchemaType<any>);
+      if (validationErrors) {
+        console.error('Validation errors:', validationErrors);
+        return;
+      }
+
       setRankingsData(data);
     } catch (error) {
       if (error instanceof Error) {

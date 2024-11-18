@@ -8,12 +8,15 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Network } from "lucide-react";
-import { PathwayData } from "@/lib/data/pathway_data";
-import { ForceGraph2D } from 'react-force-graph';
+import { PathwayData } from "@/lib/data/pathway_data"; // Ensure this is the correct import
+import { ForceGraph2D } from "react-force-graph";
 import { PlotControls } from "@/components/visualizations/PlotControls";
+import { validateJson } from "@/lib/jsonValidator"; // Import the validateJson function
+import { pathwaySchema } from "@/lib/schemas"; // Import the schema
+import { JSONSchemaType } from "ajv"; // Import JSONSchemaType for schema definition
 
 export const PathwayDiagram: React.FC = () => {
-  const [selectedPathway, setSelectedPathway] = useState('protein-processing');
+  const [selectedPathway, setSelectedPathway] = useState("protein-processing");
   const [pathwayData, setPathwayData] = useState<PathwayData | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -32,41 +35,29 @@ export const PathwayDiagram: React.FC = () => {
     };
 
     updateDimensions();
-    window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
   const fetchPathwayData = async (pathway: string) => {
     try {
-      const response = await fetch(`/api/routes/pathway?pathway=${pathway}`);
+      const response = await fetch(`/api/pathway?pathway=${pathway}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log('Received data:', data);
-      
-      if (!data.nodes || !data.links) {
-        console.error('Invalid data structure:', data);
-        return;
+      console.log("Received data:", data);
+
+      // Validate the fetched data using the imported schema
+      const validationErrors = validateJson(data, pathwaySchema as JSONSchemaType<any>); // Validate against the schema
+      if (validationErrors) {
+        console.error('Validation errors:', validationErrors);
+        return; // Handle validation errors as needed
       }
-      
-      const graphData = {
-        nodes: data.nodes.map((node: { id: string; label?: string; group: string; [key: string]: unknown }) => ({
-          ...node,
-          id: node.id
-        })),
-        links: data.links.map((link: { source: string; target: string; [key: string]: unknown }) => ({
-          ...link,
-          source: link.source,
-          target: link.target
-        })),
-        metadata: data.metadata || {}
-      };
-      
-      console.log('Formatted graph data:', graphData);
-      setPathwayData(graphData);
+
+      setPathwayData(data);
     } catch (error) {
-      console.error('Error fetching pathway data:', error);
+      console.error("Error fetching pathway data:", error);
     }
   };
 

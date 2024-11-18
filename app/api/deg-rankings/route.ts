@@ -1,7 +1,7 @@
 /**
  * @title DEG Rankings Data API
  * @fileoverview DEG rankings data API
- * @path /app/api/routes/deg-rankings/route.ts
+ * @path /deg-rankings/route.ts
  */
 
 import { NextResponse } from 'next/server';
