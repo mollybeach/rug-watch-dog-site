@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Download, ZoomIn, ZoomOut, RotateCcw, Network } from "lucide-react";
+import { Network } from "lucide-react";
 import { PathwayData } from "@/app/data/pathway_data";
 import { ForceGraph2D } from 'react-force-graph';
+import { PlotControls } from "@/components/visualizations/PlotControls";
 
 export const PathwayDiagram: React.FC = () => {
   const [selectedPathway, setSelectedPathway] = useState('protein-processing');
@@ -73,58 +72,13 @@ export const PathwayDiagram: React.FC = () => {
       </div>
 
       <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center space-x-2">
-            <Select 
-              value={selectedPathway}
-              onValueChange={setSelectedPathway}
-            >
-              <SelectTrigger className="w-48 h-6 bg-white dark:bg-slate-900 text-xs">
-                <SelectValue placeholder="Select Pathway" />
-              </SelectTrigger>
-              <SelectContent className="bg-white dark:bg-slate-900 z-50">
-                <SelectItem value="protein-processing">
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text font-semibold">
-                    Protein Processing in ER
-                  </span>
-                </SelectItem>
-                <SelectItem value="cell-cycle">
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text font-semibold">
-                    CsA vs Control
-                  </span>
-                </SelectItem>
-                <SelectItem value="membrane-trafficking">
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text font-semibold">
-                    Membrane Trafficking
-                  </span>
-                </SelectItem>
-              </SelectContent>
-            </Select>
-
-            <div className="bg-white dark:bg-slate-900 p-0.5 rounded-md flex items-center space-x-0.5">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className={`h-7 w-7 p-0 ${isDragEnabled ? 'bg-purple-100 text-purple-600' : ''}`}
-                onClick={() => setIsDragEnabled(!isDragEnabled)}
-              >
-                <Network className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
-                <ZoomIn className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
-                <ZoomOut className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
-                <RotateCcw className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
-                <Download className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
+        <PlotControls
+          type="pathway"
+          selectedPathway={selectedPathway}
+          onPathwayChange={setSelectedPathway}
+          isDragEnabled={isDragEnabled}
+          onDragToggle={() => setIsDragEnabled(!isDragEnabled)}
+        />
         
         <div ref={containerRef} className="relative w-full h-[400px] overflow-hidden">
           {pathwayData && 

@@ -1,16 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from "@/components/ui/select";
-import { Download, ZoomIn, ZoomOut, RotateCcw, BarChart2, ArrowUp, ArrowDown } from "lucide-react";
+import { BarChart2, ArrowUp, ArrowDown } from "lucide-react";
+import { PlotControls } from "./PlotControls";
 
 interface RankingData {
   id: string;
@@ -25,6 +17,8 @@ interface RankingData {
 
 export const DegRankings: React.FC = () => {
   const [rankingsData, setRankingsData] = useState<RankingData[]>([]);
+  const [logFcThreshold, setLogFcThreshold] = useState<number>(1.5);
+  const [selectedTreatment, setSelectedTreatment] = useState<'csa' | 'voc'>('csa');
 
   useEffect(() => {
     fetchRankingsData();
@@ -55,55 +49,13 @@ export const DegRankings: React.FC = () => {
       </div>
 
       <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center space-x-1 bg-white dark:bg-slate-900 p-1 rounded-md shadow-sm">
-              <span className="text-[9px] font-bold bg-gradient-to-r from-blue-500 to-cyan-500 text-transparent bg-clip-text">
-                LOG2FC:
-              </span>
-              <Input
-                type="number"
-                placeholder="1.5"
-                className="w-14 h-6 text-[9px]"
-                step="0.1"
-                min="0"
-              />
-            </div>
-
-            <Select defaultValue="csa">
-              <SelectTrigger className="w-48 h-6 bg-white dark:bg-slate-900 text-xs">
-                <SelectValue placeholder="Treatment" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="csa">
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text font-semibold">
-                    CsA vs Control
-                  </span>
-                </SelectItem>
-                <SelectItem value="voc">
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text font-semibold">
-                    VOC vs Control
-                  </span>
-                </SelectItem>
-              </SelectContent>
-            </Select>
-
-            <div className="bg-white dark:bg-slate-900 p-0.5 rounded-md flex items-center space-x-0.5">
-              <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
-                <ZoomIn className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
-                <ZoomOut className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
-                <RotateCcw className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
-                <Download className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
+        <PlotControls
+          type="degrankings"
+          logFcThreshold={logFcThreshold}
+          onLogFcChange={setLogFcThreshold}
+          selectedTreatment={selectedTreatment}
+          onTreatmentChange={(value: string) => setSelectedTreatment(value as 'csa' | 'voc')}
+        />
         
         <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg h-[calc(100%-3rem)] overflow-y-auto">
           {rankingsData.length > 0 ? (
