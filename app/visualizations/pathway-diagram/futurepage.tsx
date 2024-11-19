@@ -3,7 +3,7 @@
  * @fileoverview Pathway diagram page
  * @path /app/visualizations/pathway-diagram/page.tsx
  */
-/*
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -123,4 +123,3 @@ const PathwayDiagramPage: React.FC = () => {
 };
 
 export default PathwayDiagramPage;
-*/
