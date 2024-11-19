@@ -12,7 +12,7 @@ import { validateJson } from "@/lib/jsonValidator";
 import { JSONSchemaType } from "ajv";
 import { volcanoPlotSchema } from "@/lib/schemas";
 import dynamic from "next/dynamic";
-import { VolcanoDataPoint } from "@/types/types";
+import { VolcanoDataPointType } from "@/types/types";
 import { colorData } from "@/lib/data/color_data";
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
@@ -20,7 +20,7 @@ const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 const VolcanoPlotPage: React.FC = () => {
     const [pValueThreshold, setPValueThreshold] = useState<number>(0.05);
     const [fcThreshold, setFcThreshold] = useState<number>(1.5);
-    const [plotData, setPlotData] = useState<VolcanoDataPoint[]>([]);
+    const [plotData, setPlotData] = useState<VolcanoDataPointType[]>([]);
 
     const fetchData = async () => {
         try {

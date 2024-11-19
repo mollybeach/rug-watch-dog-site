@@ -54,7 +54,7 @@ export type RankingDataType = {
     rank: number;
 };
 
-export type VolcanoDataPoint = {
+export type VolcanoDataPointType = {
     gene: string;    // Name of the gene
     logFC: number;   // Log2 Fold Change
     pValue: number;  // P-value
