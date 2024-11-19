@@ -3,10 +3,10 @@
  * @fileoverview Differential expression data API
  * @path /differential-expression/route.ts
  */
-export const runtime = 'edge';
+
 import { NextResponse } from 'next/server';
 import { differentialExpressionMockData } from '@/lib/data/differential_expression_data';
-
+export const runtime = 'edge';
 export const dynamic = "force-dynamic";
 export const revalidate = 60; // Revalidate every 60 seconds
 export async function GET() {

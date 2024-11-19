@@ -4,29 +4,12 @@
  * @path /lib/data/pathway_data.ts
  */
 // Pathway Diagram Mock Data
-export interface PathwayNode {
-  id: string;
-  label: string;
-  group: string;
-}
-export interface PathwayLink {
-  source: string;
-  target: string;
-  value: number;
-}
-export interface PathwayData {
-  nodes: PathwayNode[];
-  links: PathwayLink[];
-  metadata: {
-    title: string;
-    description: string;
-    groups: {
-      [key: string]: { color: string };
-    };
-  };
-}
 
-export const proteinProcessingData: PathwayData = {
+import { PathwayDataType } from "@/types/types";
+
+export const PathwayData: PathwayDataType[] = [];
+
+export const proteinProcessingData: PathwayDataType = {
   nodes: [
     { id: "HSPA5", label: "BiP/GRP78", group: "chaperone" },
     { id: "PERK", label: "EIF2AK3", group: "sensor" },
@@ -90,7 +73,7 @@ export const proteinProcessingData: PathwayData = {
   }
 };
 
-export const membraneTransportData: PathwayData = {
+export const membraneTransportData: PathwayDataType = {
   nodes: [
     { id: "ATP1A1", label: "Na+/K+-ATPase", group: "pump" },
     { id: "SLC12A2", label: "NKCC1", group: "cotransporter" },
@@ -140,7 +123,7 @@ export const membraneTransportData: PathwayData = {
   }
 };
 
-export const cellCycleData: PathwayData = {
+export const cellCycleData: PathwayDataType = {
   nodes: [
     { id: "CCND1", label: "Cyclin D1", group: "cyclin" },
     { id: "CDK4", label: "CDK4", group: "kinase" },
@@ -184,7 +167,7 @@ export const cellCycleData: PathwayData = {
   }
 };
 
-export const membraneTraffickingData: PathwayData = {
+export const membraneTraffickingData: PathwayDataType = {
   nodes: [
     { id: "COPII", label: "COPII Complex", group: "complex" },
     { id: "COPI", label: "COPI Complex", group: "complex" },

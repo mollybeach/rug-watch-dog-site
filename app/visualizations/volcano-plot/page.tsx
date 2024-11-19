@@ -6,25 +6,21 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { PlotControls } from "@/components//PlotControls";
+import { PlotControls } from "@/components/PlotControls";
 import { BarChart } from "lucide-react";
 import { validateJson } from "@/lib/jsonValidator";
 import { JSONSchemaType } from "ajv";
 import { volcanoPlotSchema } from "@/lib/schemas";
 import dynamic from "next/dynamic";
+import { VolcanoDataPoint } from "@/types/types";
+import { colorData } from "@/lib/data/color_data";
+
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
-
-interface DataPoint {
-    gene: string;
-    logFC: number;
-    pValue: number;
-}
-
 
 const VolcanoPlotPage: React.FC = () => {
     const [pValueThreshold, setPValueThreshold] = useState<number>(0.05);
     const [fcThreshold, setFcThreshold] = useState<number>(1.5);
-    const [plotData, setPlotData] = useState<DataPoint[]>([]);
+    const [plotData, setPlotData] = useState<VolcanoDataPoint[]>([]);
 
     const fetchData = async () => {
         try {
@@ -76,7 +72,7 @@ const VolcanoPlotPage: React.FC = () => {
                 type: 'scatter',
                 name: 'Significant',
                 marker: {
-                    color: '#ff1493',
+                    color: colorData["significant"],
                     size: 8
                 },
                 text: significant.map(d => d.gene),
@@ -89,7 +85,7 @@ const VolcanoPlotPage: React.FC = () => {
                 type: 'scatter',
                 name: 'Non-significant',
                 marker: {
-                    color: '#808080',
+                    color: colorData["non-significant"],
                     size: 6
                 },
                 text: nonsignificant.map(d => d.gene),
@@ -139,9 +135,3 @@ const VolcanoPlotPage: React.FC = () => {
 };
 
 export default VolcanoPlotPage; 
-
-
-//    "react-plotly.js": "^2.6.0",
-/*  "plotly.js": "^2.35.2",
-    "plotly.js-dist": "^2.35.2",
-    "plotly.js-dist-min": "^2.35.2",*/

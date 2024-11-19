@@ -10,26 +10,10 @@ import { PlotControls } from "@/components/PlotControls";
 import { validateJson } from "@/lib/jsonValidator";
 import { chordDiagramSchema } from "@/lib/schemas";
 import { JSONSchemaType } from "ajv";
-
-interface ChordNode {
-    id: string;
-    group: string;
-    color: string;
-}
-
-interface ChordLink {
-    source: string;
-    target: string;
-    value: number;
-}
-
-interface ChordDiagramData {
-    nodes: ChordNode[];
-    links: ChordLink[];
-}
+import { ChordDataType } from "@/types/types";
 
 const ChordDiagramPage: React.FC = () => {
-    const [localData, setLocalData] = useState<ChordDiagramData | null>(null);
+    const [localData, setLocalData] = useState<ChordDataType | null>(null);
     const [loading, setLoading] = useState(true);
     const [pathwaysCount, setPathwaysCount] = useState(18);
     const [genesPerPathway, setGenesPerPathway] = useState(10);
@@ -43,7 +27,7 @@ const ChordDiagramPage: React.FC = () => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const jsonData: ChordDiagramData = await response.json();
+                const jsonData: ChordDataType = await response.json();
 
                 const validationErrors = validateJson(jsonData, chordDiagramSchema as JSONSchemaType<any>);
                 if (validationErrors) {
@@ -210,3 +194,4 @@ const ChordDiagramPage: React.FC = () => {
 };
 
 export default ChordDiagramPage;
+

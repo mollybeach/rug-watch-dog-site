@@ -6,23 +6,25 @@
 
 import { LucideIcon } from "lucide-react";
 
-export type Node = {
+export type ChordNodeType = {
     id: string;                // Unique identifier for the node
     group: string;             // Group/category of the node
+    color: string;             // Color associated with the node (optional)
     // Add any additional properties relevant to your nodes
 };
 
-export type Link = {
+export type ChordLinkType = {
     source: string;           // ID of the source node
     target: string;           // ID of the target node
+    value: number;            // Value associated with the link (optional)
     // Add any additional properties relevant to your links
 };
 
-export type PathwayData = {
-    nodes: Node[];            // Array of nodes in the pathway
-    links: Link[];            // Array of links connecting the nodes
+export type ChordDataType = {
+    nodes: ChordNodeType[];            // Array of nodes in the pathway
+    links: ChordLinkType[];            // Array of links connecting the nodes
     metadata: {
-        groups: { [key: string]: { color: string } }; // Metadata for node groups
+        description: string;
     };
 };
 
@@ -32,7 +34,6 @@ export type VisualizationType = {
     icon: LucideIcon;
     path: string;
     description: string;
-    isActive?: boolean;
   };
   
 
@@ -41,3 +42,46 @@ export type HeaderNavItemsType = {
     icon: LucideIcon;
     label: string;
 };
+
+export type RankingDataType = {
+    id: string;
+    geneName: string;
+    logFC: number;
+    pValue: number;
+    fdr: number;
+    significant: boolean;
+    treatment: 'CsA' | 'VOC';
+    rank: number;
+};
+
+export type VolcanoDataPoint = {
+    gene: string;    // Name of the gene
+    logFC: number;   // Log2 Fold Change
+    pValue: number;  // P-value
+};
+
+export type ColorType = {
+    [key: string]: string; // Maps gene types to their corresponding colors
+};
+
+export type PathwayNodeType = {
+    id: string;
+    label: string;
+    group: string;
+  }
+  export type PathwayLinkType = {
+    source: string;
+    target: string;
+    value: number;
+  }
+  export type PathwayDataType  = {
+    nodes: PathwayNodeType[];
+    links: PathwayLinkType[];
+    metadata: {
+      title: string;
+      description: string;
+      groups: {
+        [key: string]: { color: string };
+      };
+    };
+  }

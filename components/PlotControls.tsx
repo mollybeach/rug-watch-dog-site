@@ -91,6 +91,27 @@ export const PlotControls: React.FC<PlotControlsProps> = (props) => {
               onChange={(e) => props.onFcChange(Number(e.target.value))}
             />
           </div>
+          <Select defaultValue="standard">
+            <SelectTrigger className="w-28 h-7 bg-white dark:bg-slate-900">
+              <SelectValue className="font-semibold">
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
+                  Standard
+                </span>
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent className="bg-white dark:bg-slate-900">
+              <SelectItem value="standard">
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text font-semibold">
+                  Standard
+                </span>
+              </SelectItem>
+              <SelectItem value="interactive">
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text font-semibold">
+                  Interactive
+                </span>
+              </SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       );
     } else if (props.type === 'pathway') {

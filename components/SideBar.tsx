@@ -7,11 +7,10 @@ import { useRouter } from "next/navigation";
 
 interface SideBarProps {
   visualizations: VisualizationType[];
-  activeViz: string; // This should be the full path of the active visualization
-  onNavigate: (vizId: string) => void; // Function to handle navigation
+  currentViz: string;
 }
 
-const SideBar: React.FC<SideBarProps> = ({ visualizations, activeViz, onNavigate }) => {
+const SideBar: React.FC<SideBarProps> = ({ visualizations, currentViz}) => {
   const router = useRouter();
 
   return (
@@ -28,13 +27,11 @@ const SideBar: React.FC<SideBarProps> = ({ visualizations, activeViz, onNavigate
 
         <nav className="space-y-2">
           {visualizations.map((viz) => {
-            // Check if the current tab matches the active visualization type
-            const isActive = activeViz === viz.path; // Use activeViz here
+            const isActive = viz.id === currentViz;
             return (
               <Button
                 key={viz.id}
                 onClick={() => {
-                  onNavigate(viz.id);
                   router.push(`/visualizations/${viz.path}`);
                 }}
                 variant="ghost"

@@ -8,17 +8,18 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Network } from "lucide-react";
-import { PathwayData } from "@/lib/data/pathway_data"; // Ensure this is the correct import
+import { PathwayDataType } from "@/types/types";
 import { PlotControls } from "@/components//PlotControls";
 import { validateJson } from "@/lib/jsonValidator"; // Import the validateJson function
 import { pathwaySchema } from "@/lib/schemas"; // Import the schema
 import { JSONSchemaType } from "ajv"; // Import JSONSchemaType for schema definition
 import dynamic from "next/dynamic";
 const ForceGraph2D = dynamic(() => import('react-force-graph').then(mod => mod.ForceGraph2D), { ssr: false });
+import { colorData } from "@/lib/data/color_data";
 
 const PathwayDiagramPage: React.FC = () => {
     const [selectedPathway, setSelectedPathway] = useState("protein-processing");
-    const [pathwayData, setPathwayData] = useState<PathwayData | null>(null);
+    const [pathwayData, setPathwayData] = useState<PathwayDataType | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const [isDragEnabled, setIsDragEnabled] = useState(false);
@@ -90,7 +91,7 @@ const PathwayDiagramPage: React.FC = () => {
                 height={400}
                 nodeColor={node => {
                   // Get the color based on the node's group from metadata
-                  return pathwayData.metadata.groups[node.group]?.color || "#9333ea"; // Default to purple if group not found
+                  return pathwayData.metadata.groups[node.group]?.color || colorData["default"]
                 }}
                 nodeRelSize={6}
                 linkColor={() => "#cbd5e1"}
