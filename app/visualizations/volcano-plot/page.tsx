@@ -6,14 +6,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
 import { PlotControls } from "@/components//PlotControls";
 import { BarChart } from "lucide-react";
 import { validateJson } from "@/lib/jsonValidator";
 import { JSONSchemaType } from "ajv";
 import { volcanoPlotSchema } from "@/lib/schemas";
+import dynamic from "next/dynamic";
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
-//import Plot from 'react-plotly.js';
 
 interface DataPoint {
     gene: string;

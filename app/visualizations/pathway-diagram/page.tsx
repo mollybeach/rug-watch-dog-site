@@ -9,11 +9,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Network } from "lucide-react";
 import { PathwayData } from "@/lib/data/pathway_data"; // Ensure this is the correct import
-import { ForceGraph2D } from "react-force-graph";
 import { PlotControls } from "@/components//PlotControls";
 import { validateJson } from "@/lib/jsonValidator"; // Import the validateJson function
 import { pathwaySchema } from "@/lib/schemas"; // Import the schema
 import { JSONSchemaType } from "ajv"; // Import JSONSchemaType for schema definition
+import dynamic from "next/dynamic";
+const ForceGraph2D = dynamic(() => import('react-force-graph').then(mod => mod.ForceGraph2D), { ssr: false });
 
 const PathwayDiagramPage: React.FC = () => {
     const [selectedPathway, setSelectedPathway] = useState("protein-processing");
