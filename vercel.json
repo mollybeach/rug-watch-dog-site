@@ -1,18 +1,16 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "package.json",
-        "use": "@vercel/next"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "/api/$1"
-      }
-    ],
+  "buildCommand": "pnpm run build",
+  "framework": "nextjs",
+  "installCommand": "pnpm install",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "build": {
     "env": {
-      "MY_ENV_VARIABLE": "value"
+      "NODE_VERSION": "20"
     }
   }
+}
