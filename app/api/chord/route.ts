@@ -7,10 +7,10 @@
 import { NextResponse } from 'next/server';
 import { geneExpressionChordData } from '@/lib/data/chord_data';
 export const runtime = 'edge';
+export const dynamic = "force-dynamic";
+export const revalidate = 60; // Revalidate every 60 seconds
 
 // Chord diagram data API
-
-
 export async function GET() {
   try {
     return NextResponse.json(geneExpressionChordData, { status: 200 });

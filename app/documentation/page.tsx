@@ -30,7 +30,7 @@ const DocumentationPage: React.FC = () => {
         <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
           Comprehensive guide to the{" "}
           <span className="font-semibold text-blue-600 dark:text-blue-400">
-            CsA-VOC RNA-Seq Analysis
+            RNAlytics
           </span>{" "}
           project, providing detailed insights into our bioinformatics pipeline and analysis workflows.
         </p>

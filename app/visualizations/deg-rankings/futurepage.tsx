@@ -1,31 +1,31 @@
 /**
  * @title DEG Rankings
- * @fileoverview DEG rankings component
- * @path /components/visualizations/DegRankings.tsx
+ * @fileoverview DEG rankings page
+ * @path /app/visualizations/deg-rankings/page.tsx
  */
 
+/*
 "use client";
-
 import React, { useState, useEffect } from "react";
 import { BarChart2, ArrowUp, ArrowDown } from "lucide-react";
-import { PlotControls } from "./PlotControls";
+import { PlotControls } from "@/components/visualizations/PlotControls";
 import { validateJson } from "@/lib/jsonValidator";
 import { degRankingsSchema } from "@/lib/schemas";
 import { JSONSchemaType } from "ajv";
 
 interface RankingData {
-  id: string;
-  geneName: string;
-  logFC: number;
-  pValue: number;
-  fdr: number;
-  significant: boolean;
-  treatment: 'CsA' | 'VOC';
-  rank: number;
-}
+    id: string;
+    geneName: string;
+    logFC: number;
+    pValue: number;
+    fdr: number;
+    significant: boolean;
+    treatment: 'CsA' | 'VOC';
+    rank: number;
+  }
 
-export const DegRankings: React.FC = () => {
-  const [rankingsData, setRankingsData] = useState<RankingData[]>([]);
+const DEGRankingsPage: React.FC = () => {
+    const [rankingsData, setRankingsData] = useState<RankingData[]>([]);
   const [logFcThreshold, setLogFcThreshold] = useState<number>(1.5);
   const [selectedTreatment, setSelectedTreatment] = useState<'csa' | 'voc'>('csa');
 
@@ -129,6 +129,7 @@ export const DegRankings: React.FC = () => {
       </div>
     </div>
   );
-}
+};
 
-export default DegRankings;
+export default DEGRankingsPage;
+*/

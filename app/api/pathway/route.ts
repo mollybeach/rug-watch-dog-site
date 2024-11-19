@@ -3,10 +3,12 @@
  * @fileoverview Pathway data API
  * @path /pathway/route.ts
  */
-export const runtime = 'edge';
+
 import { NextResponse } from 'next/server';
 import { proteinProcessingData, cellCycleData, membraneTraffickingData } from '@/lib/data/pathway_data';
-
+export const runtime = 'edge';
+export const dynamic = "force-dynamic";
+export const revalidate = 60; // Revalidate every 60 seconds
 // Pathway data API
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

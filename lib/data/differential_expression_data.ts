@@ -11,6 +11,7 @@ export interface DifferentialExpressionData {
 }
 
 // Differential Expression Mock Data for Volcano Plot
+
 export const differentialExpressionMockData: DifferentialExpressionData[] = [
   { gene: "TP53", logFC: 2.5, pValue: 0.001 },
   { gene: "BRCA1", logFC: -1.8, pValue: 0.02 },
@@ -176,3 +177,4 @@ export const differentialExpressionMockData: DifferentialExpressionData[] = [
   { gene: "CYP4F98", logFC: 1.9, pValue: 0.006 },
   { gene: "CYP4F99", logFC: -1.2, pValue: 0.02 },
 ];
+

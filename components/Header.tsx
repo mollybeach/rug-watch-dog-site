@@ -1,12 +1,13 @@
 "use client";
 
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import { BarChart, Home, FileText, BookOpen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Poppins } from 'next/font/google';
 import { ModeToggle } from "./ModeToggle";
+import { HeaderNavItemsType } from "@/types/types";
+import { HeaderNavItems } from "@/lib/data/metadata";
 
 const poppins = Poppins({ 
   subsets: ['latin'],
@@ -16,17 +17,12 @@ const poppins = Poppins({
 export function Header() {
   const pathname = usePathname();
 
-  const navItems = [
-    { value: "analysis", icon: BarChart, label: "Analysis" },
-    { value: "visualizations", icon: Home, label: "Visualizations" },
-    { value: "data", icon: FileText, label: "Data" },
-    { value: "documentation", icon: BookOpen, label: "Documentation" },
-  ];
-
   const getCurrentTab = () => {
     const path = pathname.split("/")[1];
     return path || "analysis";
   };
+
+  const navItems: HeaderNavItemsType[] = HeaderNavItems;
 
   return (
     <header className="border-b bg-white dark:bg-slate-950">

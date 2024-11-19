@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+/*import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   BarChart,
@@ -144,4 +144,4 @@ const AnalysisPage: React.FC = () => {
   );
 }
 
-export default AnalysisPage;
+export default AnalysisPage;*/

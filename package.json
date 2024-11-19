@@ -12,11 +12,13 @@
     "node": "^18.18.0 || ^20.9.0"
   },
   "scripts": {
+    "clean": "rm -rf .next cache",
     "dev": "next dev",
-    "build": "next build && rm -rf cache",
-    "pages:build": "npx @cloudflare/next-on-pages && rm -rf cache ",
+    "build": "npm run clean && next build",
+    "pages:build": "npm run clean && npx @cloudflare/next-on-pages",
     "preview": "npm run pages:build && wrangler pages dev .next",
-    "deploy": "npm run pages:build && wrangler pages deploy .next"
+    "deploy": "npm run pages:build && wrangler pages deploy .next",
+    "deploy:clean": "npm run clean && vercel --prod"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.2",
@@ -32,15 +34,11 @@
     "cmdk": "^1.0.4",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.460.0",
-    "plotly.js": "^2.35.2",
-    "plotly.js-dist": "^2.35.2",
-    "plotly.js-dist-min": "^2.35.2",
     "next": "15.0.3",
     "next-themes": "^0.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-force-graph": "^1.44.7",
-    "react-plotly.js": "^2.6.0",
     "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {

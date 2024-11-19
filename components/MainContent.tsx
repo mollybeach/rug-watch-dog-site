@@ -109,14 +109,17 @@ export function MainContent() {
             {card.type === "visualizations" && card.content.buttons && (
               <div className="grid gap-3">
                 {card.content.buttons.map((button) => {
-                  const vizType = button.toLowerCase().split(' ')[0];
+                  // Map button names to specific paths
+                  const vizPathMap: { [key: string]: string } = {
+                    "Volcano Plots": "/visualizations/volcano-plot",
+                    "Pathway Diagrams": "/visualizations/pathway-diagram",
+                    "DEG Rankings": "/visualizations/deg-rankings",
+                  };
+                  const vizPath = vizPathMap[button]; // Get the corresponding path
                   return (
                     <Link
                       key={button}
-                      href={{
-                        pathname: "/visualizations",
-                        query: { view: vizType },
-                      }}
+                      href={vizPath} // Use the specific path here
                       className="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 p-3 rounded-lg 
                                  hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                     >

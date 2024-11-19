@@ -7,6 +7,8 @@ export const runtime = 'edge';
 import { NextResponse } from 'next/server';
 import { differentialExpressionMockData } from '@/lib/data/differential_expression_data';
 
+export const dynamic = "force-dynamic";
+export const revalidate = 60; // Revalidate every 60 seconds
 export async function GET() {
   // Return the mock data for differential expression
   return NextResponse.json(differentialExpressionMockData);
