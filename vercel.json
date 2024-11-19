@@ -10,7 +10,7 @@
   ],
   "build": {
     "env": {
-      "NODE_VERSION": "20.5.1"
+      "NODE_VERSION": "20"
     }
   }
 }
