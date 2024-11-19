@@ -6,7 +6,7 @@
 
 "use client";
 import React, { useState, useEffect } from 'react';
-import { PlotControls } from "@/components/PlotControls";
+import { PlotControls } from "@/components//PlotControls";
 import { validateJson } from "@/lib/jsonValidator";
 import { chordDiagramSchema } from "@/lib/schemas";
 import { JSONSchemaType } from "ajv";
@@ -208,7 +208,7 @@ const ChordDiagramPage: React.FC = () => {
                     })}
                 </g>
 
-                {/* Legend */}
+                 {/* Legend */}
                 <g className="legend" transform="translate(20, 955)">
                     {Object.entries(groupColorMapping).map(([group, color], index) => (
                         <g key={group} transform={`translate(0, ${index * 25})`}>
@@ -225,4 +225,3 @@ const ChordDiagramPage: React.FC = () => {
 };
 
 export default ChordDiagramPage;
-
