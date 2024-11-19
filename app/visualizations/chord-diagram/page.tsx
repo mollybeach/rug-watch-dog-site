@@ -6,47 +6,44 @@
 
 "use client";
 import React, { useState, useEffect } from 'react';
-import { PlotControls } from "@/components//PlotControls";
+import { PlotControls } from "@/components/PlotControls";
 import { validateJson } from "@/lib/jsonValidator";
 import { chordDiagramSchema } from "@/lib/schemas";
 import { JSONSchemaType } from "ajv";
-import { geneExpressionChordData } from "@/lib/data/chord_data";
+
+interface ChordNode {
+    id: string;
+    group: string;
+    color: string;
+}
+
+interface ChordLink {
+    source: string;
+    target: string;
+    value: number;
+}
 
 interface ChordDiagramData {
-    width?: number;
-    height?: number;
-    data: {
-      nodes: Array<{
-        id: string;
-        group: string;
-        color: string;
-      }>;
-      links: Array<{
-        source: string;
-        target: string;
-        value: number;
-      }>;
-    } | null;
-}//ata = geneExpressionChordData, width = 700, height = 600
+    nodes: ChordNode[];
+    links: ChordLink[];
+}
 
 const ChordDiagramPage: React.FC = () => {
-    const [data, setData] = useState<ChordDiagramData | null>(null);
-    const [width] = useState(700);
-    const [height] = useState(600);
+    const [localData, setLocalData] = useState<ChordDiagramData | null>(null);
+    const [loading, setLoading] = useState(true);
     const [pathwaysCount, setPathwaysCount] = useState(18);
     const [genesPerPathway, setGenesPerPathway] = useState(10);
     const [fontSize, setFontSize] = useState(12);
     const [colorScheme, setColorScheme] = useState('tableau10');
-    const [localData, setLocalData] = useState<ChordDiagramData | null>(null);
-    const [loading, setLoading] = useState(true);
-
-    
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch('/api/chord');
-                const jsonData = await response.json();
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const jsonData: ChordDiagramData = await response.json();
 
                 const validationErrors = validateJson(jsonData, chordDiagramSchema as JSONSchemaType<any>);
                 if (validationErrors) {
@@ -56,38 +53,29 @@ const ChordDiagramPage: React.FC = () => {
 
                 setLocalData(jsonData);
             } catch (error) {
-                console.error('Error fetching chord data:', error);
+                if (error instanceof Error) {
+                    console.error('Error fetching chord data:', error.message);
+                } else {
+                    console.error('Unknown error:', error);
+                }
             } finally {
                 setLoading(false);
             }
         };
 
-        if (!data) {
-            fetchData();
-        } else {
-            setLocalData(data);
-            setLoading(false);
-        }
-    }, [data]);
-
-    useEffect(() => {
-        // Ensure geneExpressionChordData has the required structure
-        const formattedData: ChordDiagramData = {
-            data: geneExpressionChordData, // Assuming geneExpressionChordData is structured correctly
-            width: 700,
-            height: 600
-        };
-        setData(formattedData);
+        fetchData();
     }, []);
 
     if (loading) {
         return <div>Loading chord diagram...</div>;
     }
 
-    if (!localData?.data || !localData.data.links || !localData.data.nodes) {
+    if (!localData || !localData.links || !localData.nodes) {
         return <div>No data available</div>;
     }
 
+    const width = 700;
+    const height = 600;
     const viewBoxHeight = height;
     const halfOfWidth = width / 2;
     const centerX = halfOfWidth * 0.55;
@@ -154,23 +142,19 @@ const ChordDiagramPage: React.FC = () => {
                 <g transform={`translate(${centerX},${centerY})`}>
                     {/* Render chord paths */}
                     <g className="chord-chart-chords">
-                        {localData.data && localData.data.links && localData.data.links.map((link, index) => {
-                            if (!localData.data) return null; // Check if localData.data is null
+                        {localData?.links?.map((link, index) => {
+                            if (!localData) return null;
+                            const sourceIndex = localData.nodes.findIndex(n => n.id === link.source);
+                            const targetIndex = localData.nodes.findIndex(n => n.id === link.target);
+                            const startAngle = (sourceIndex * 360) / localData.nodes.length;
+                            const endAngle = (targetIndex * 360) / localData.nodes.length;
 
-                            const sourceIndex = localData.data.nodes?.findIndex(n => n.id === link.source) ?? -1;
-                            const targetIndex = localData.data.nodes?.findIndex(n => n.id === link.target) ?? -1;
-                            
-                            if (sourceIndex === -1 || targetIndex === -1) return null; // Skip if indices are invalid
-
-                            const startAngle = (sourceIndex * 360) / localData.data.nodes.length;
-                            const endAngle = (targetIndex * 360) / localData.data.nodes.length;
-                            
                             return (
                                 <path
                                     key={`chord-${index}`}
                                     d={calculateChordPath(startAngle, endAngle, radius)}
                                     style={{
-                                        fill: localData.data.nodes.find(n => n.id === link.source)?.color || '#ccc',
+                                        fill: localData.nodes.find(n => n.id === link.source)?.color || '#ccc',
                                         stroke: 'black',
                                         strokeWidth: 0.3
                                     }}
@@ -180,8 +164,9 @@ const ChordDiagramPage: React.FC = () => {
                     </g>
 
                     {/* Render labels */}
-                    {localData.data?.nodes.map((node: { id: string; group: string; color: string }, index: number) => {
-                        const angle = (index * 360) / (localData.data?.nodes.length || 1); // Fallback to 1 to avoid division by zero
+                    {localData && localData.nodes?.map((node, index) => {
+                        if (!localData) return null;
+                        const angle = (index * 360) / localData.nodes.length;
                         const labelRadius = radius + 20; // Adjust label radius as needed
                         const labelPosition = polarToCartesian(centerX, centerY, labelRadius, angle); // Calculate label position
 
@@ -208,7 +193,7 @@ const ChordDiagramPage: React.FC = () => {
                     })}
                 </g>
 
-                 {/* Legend */}
+                {/* Legend */}
                 <g className="legend" transform="translate(20, 955)">
                     {Object.entries(groupColorMapping).map(([group, color], index) => (
                         <g key={group} transform={`translate(0, ${index * 25})`}>
