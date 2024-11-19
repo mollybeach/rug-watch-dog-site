@@ -1,9 +1,9 @@
-/**
+/*
  * @title Visualizations Page
  * @fileoverview Visualizations page component
  * @path /app/visualizations/page.tsx
  */
-/*
+
 import React from "react";
 
 const VisualizationsPage: React.FC = () => {
@@ -13,4 +13,4 @@ const VisualizationsPage: React.FC = () => {
 };
 
 
-export default VisualizationsPage;*/
+export default VisualizationsPage;
