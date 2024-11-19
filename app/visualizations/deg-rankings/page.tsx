@@ -4,11 +4,10 @@
  * @path /app/visualizations/deg-rankings/page.tsx
  */
 
-
 "use client";
 import React, { useState, useEffect } from "react";
 import { BarChart2, ArrowUp, ArrowDown } from "lucide-react";
-import { PlotControls } from "@/components/PlotControls";
+import { PlotControls } from "@/components//PlotControls";
 import { validateJson } from "@/lib/jsonValidator";
 import { degRankingsSchema } from "@/lib/schemas";
 import { JSONSchemaType } from "ajv";
