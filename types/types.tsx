@@ -85,3 +85,11 @@ export type PathwayNodeType = {
       };
     };
   }
+
+export type GeneType = {
+    group: string;
+    pathway: string;
+    gene: string;
+    logfc: number;
+    adjpv: number;
+}
