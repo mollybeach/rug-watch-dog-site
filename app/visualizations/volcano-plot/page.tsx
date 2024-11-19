@@ -4,16 +4,16 @@
  * @path /app/visualizations/volcano-plot/page.tsx
  */
 "use client";
-/*
+
 import React, { useState, useEffect } from "react";
-//import dynamic from "next/dynamic";
+import dynamic from "next/dynamic";
 import { PlotControls } from "@/components//PlotControls";
 import { BarChart } from "lucide-react";
 import { validateJson } from "@/lib/jsonValidator";
 import { JSONSchemaType } from "ajv";
 import { volcanoPlotSchema } from "@/lib/schemas";
-//const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
-import Plot from 'react-plotly.js';
+const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
+//import Plot from 'react-plotly.js';
 
 interface DataPoint {
     gene: string;
@@ -140,7 +140,7 @@ const VolcanoPlotPage: React.FC = () => {
 };
 
 export default VolcanoPlotPage; 
-*/
+
 
 //    "react-plotly.js": "^2.6.0",
 /*  "plotly.js": "^2.35.2",
