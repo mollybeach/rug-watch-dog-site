@@ -14,7 +14,6 @@ export const visualizations: VisualizationType[] = [
       icon: LineChart,
       description: "Interactive volcano plots showing differential expression",
       path: "volcano-plot",
-      isActive: false,
     },
     {
       id: "chord-diagram", 
@@ -22,7 +21,6 @@ export const visualizations: VisualizationType[] = [
       icon: PieChart,
       description: "Chord diagrams showing gene-gene interactions",
       path: "chord-diagram",
-      isActive: false
     },
     {
       id: "deg-rankings",
@@ -30,7 +28,6 @@ export const visualizations: VisualizationType[] = [
       icon: LineChart,
       description: "Interactive volcano plots showing differential expression",
       path: "deg-rankings",
-      isActive: false
     },
     {
       id: "pathway-diagram",
@@ -38,7 +35,6 @@ export const visualizations: VisualizationType[] = [
       icon: Network,
       description: "Pathway diagrams showing gene-gene interactions",
       path: "pathway-diagram",
-      isActive: false
     },
     
   ]
