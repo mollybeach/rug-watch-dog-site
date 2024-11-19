@@ -6,6 +6,7 @@
 // Pathway Diagram Mock Data
 
 import { PathwayDataType } from "@/types/types";
+import { colorData } from "./color_data";
 
 export const PathwayData: PathwayDataType[] = [];
 
@@ -60,15 +61,15 @@ export const proteinProcessingData: PathwayDataType = {
     title: "Protein Processing in ER",
     description: "Key components and interactions in the protein processing and unfolded protein response pathway",
     groups: {
-      chaperone: { color: "#4299E1" },
-      sensor: { color: "#F6AD55" },
-      transcription: { color: "#68D391" },
-      translation: { color: "#FC8181" },
-      cochaperone: { color: "#63B3ED" },
-      ERAD: { color: "#B794F4" },
-      translocon: { color: "#F687B3" },
-      receptor: { color: "#ED64A6" },
-      signaling: { color: "#F6E05E" },
+      chaperone: { color: colorData.chaperone },
+      sensor: { color: colorData.sensor },
+      transcription: { color: colorData.transcription },
+      translation: { color: colorData.translation },
+      cochaperone: { color: colorData.cochaperone },
+      ERAD: { color: colorData.ERAD },
+      translocon: { color: colorData.translocon },
+      receptor: { color: colorData.receptor },
+      signaling: { color: colorData.signaling },
     }
   }
 };
@@ -113,12 +114,12 @@ export const membraneTransportData: PathwayDataType = {
     title: "Membrane Transport",
     description: "Key membrane transport proteins and their interactions",
     groups: {
-      pump: { color: "#F56565" },
-      channel: { color: "#4299E1" },
-      transporter: { color: "#48BB78" },
-      cotransporter: { color: "#ED8936" },
-      exchanger: { color: "#9F7AEA" },
-      signaling: { color: "#F6E05E" },
+      pump: { color: colorData.pump },
+      channel: { color: colorData.channel },
+      transporter: { color: colorData.transporter },
+      cotransporter: { color: colorData.cotransporter },
+      exchanger: { color: colorData.exchanger },
+      signaling: { color: colorData.signaling },
     }
   }
 };
@@ -157,12 +158,12 @@ export const cellCycleData: PathwayDataType = {
     title: "Cell Cycle Control",
     description: "Key regulators in the G1/S transition of the cell cycle",
     groups: {
-      cyclin: { color: "#F56565" },
-      kinase: { color: "#4299E1" },
-      inhibitor: { color: "#48BB78" },
-      checkpoint: { color: "#ED8936" },
-      transcription: { color: "#9F7AEA" },
-      signaling: { color: "#F6E05E" },
+      cyclin: { color: colorData.cyclin },
+      kinase: { color: colorData.kinase },
+      inhibitor: { color: colorData.inhibitor },
+      checkpoint: { color: colorData.checkpoint },
+      transcription: { color: colorData.transcription },
+      signaling: { color: colorData.signaling },
     }
   }
 };
@@ -208,14 +209,14 @@ export const membraneTraffickingData: PathwayDataType = {
     title: "Membrane Trafficking",
     description: "Vesicular transport between cellular compartments",
     groups: {
-      complex: { color: "#805AD5" },
-      transport: { color: "#3182CE" },
-      gtpase: { color: "#DD6B20" },
-      compartment: { color: "#38A169" },
-      coat: { color: "#E53E3E" },
-      adaptor: { color: "#D69E2E" },
-      vesicle: { color: "#F6E05E" },
-      signaling: { color: "#F6AD55" },
+      complex: { color: colorData.complex },
+      transport: { color: colorData.transport },
+      gtpase: { color: colorData.gtpase },
+      compartment: { color: colorData.compartment },
+      coat: { color: colorData.coat },
+      adaptor: { color: colorData.adaptor },
+      vesicle: { color: colorData.vesicle },
+      signaling: { color: colorData.signaling },
     }
   }
 }; 

@@ -438,3 +438,27 @@ export const geneData: GeneType[] = [
     { group: "CsA", pathway: "Small cell lung cancer", gene: "CDK2", logfc: -0.2449704138, adjpv: 0.04324378931 },
     { group: "CsA", pathway: "Small cell lung cancer", gene: "LAMB2", logfc: 0.2385035409, adjpv: 0.004090540657 }
 ];
+
+// make a list of all the different pathways in the data above
+const pathways = [
+    "Protein processing in endoplasmic reticulum",
+    "Cell Cycle",
+    "DNA replication",
+    "Progesterone-mediated oocyte maturation",
+    "Base excision repair",
+    "Thyroid hormone synthesis",
+    "Antigen processing and presentation",
+    "ATP-dependent chromatin remodeling",
+    "Protein export",
+    "Oocyte meiosis",
+    "Nucleocytoplasmic transport",
+    "Ferroptosis",
+    "Mismatch repair",
+    "Gap junction",
+    "Small cell lung cancer"
+]
+
+const groups = {
+    "CsA": "Cyclosporin A",
+    "VOC": "Vancomycin", 
+}
