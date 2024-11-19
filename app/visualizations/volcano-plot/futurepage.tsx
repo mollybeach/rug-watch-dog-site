@@ -7,7 +7,7 @@
 /*
 import React, { useState, useEffect } from "react";
 //import dynamic from "next/dynamic";
-import { PlotControls } from "@/components/visualizations/PlotControls";
+import { PlotControls } from "@/components//PlotControls";
 import { BarChart } from "lucide-react";
 import { validateJson } from "@/lib/jsonValidator";
 import { JSONSchemaType } from "ajv";

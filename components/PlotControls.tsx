@@ -1,7 +1,7 @@
 /**
  * @title Plot Controls
  * @fileoverview Plot controls component
- * @path /components/visualizations/PlotControls.tsx
+ * @path /components//PlotControls.tsx
  */
 
 import { Button } from "@/components/ui/button";

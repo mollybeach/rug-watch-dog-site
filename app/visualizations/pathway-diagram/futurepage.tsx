@@ -10,7 +10,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Network } from "lucide-react";
 import { PathwayData } from "@/lib/data/pathway_data"; // Ensure this is the correct import
 import { ForceGraph2D } from "react-force-graph";
-import { PlotControls } from "@/components/visualizations/PlotControls";
+import { PlotControls } from "@/components//PlotControls";
 import { validateJson } from "@/lib/jsonValidator"; // Import the validateJson function
 import { pathwaySchema } from "@/lib/schemas"; // Import the schema
 import { JSONSchemaType } from "ajv"; // Import JSONSchemaType for schema definition

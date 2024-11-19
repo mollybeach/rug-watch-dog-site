@@ -6,7 +6,7 @@
 /*
 "use client";
 import React, { useState, useEffect } from 'react';
-import { PlotControls } from "@/components/visualizations/PlotControls";
+import { PlotControls } from "@/components//PlotControls";
 import { validateJson } from "@/lib/jsonValidator";
 import { chordDiagramSchema } from "@/lib/schemas";
 import { JSONSchemaType } from "ajv";
