@@ -13,8 +13,8 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "pages:build": "npx @cloudflare/next-on-pages",
+    "build": "next build && rm -rf cache",
+    "pages:build": "npx @cloudflare/next-on-pages && rm -rf cache ",
     "preview": "npm run pages:build && wrangler pages dev .next",
     "deploy": "npm run pages:build && wrangler pages deploy .next"
   },
