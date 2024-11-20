@@ -87,9 +87,14 @@ export type PathwayNodeType = {
   }
 
 export type GeneType = {
-    group: string;
+    id: string;
+    drug: string;
     pathway: string;
-    gene: string;
     logfc: number;
     adjpv: number;
+    interactingGenes: {
+      id: string;
+      interactionValue: number;
+    }[];
+    cellularProcess: string | null;
 }

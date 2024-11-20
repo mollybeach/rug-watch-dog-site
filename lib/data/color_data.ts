@@ -52,4 +52,28 @@ export const colorData : ColorType = {
     "receptor": "#ED64A6", // Pink,
     "complex": "#805AD5", // Purple,
     "transport": "#3182CE", // Blue,
+    "related": "#4299E1", // Blue,
+    "chaperone_interaction": "#9F7AEA", // Purple,
+    "glycosylation": "#48BB78", // Green,
+    "oxidoreductase": "#9F7AEA", // Purple,
+    "quality_control": "#DD6B20", // Orange,
+    "stress_response": "#F6AD55", // Yellow,
+    'protein_folding': "#F56565", // Red
+   // 'glycosylation':"#4299E1", // Blue
+    'chaperone_activity':"#48BB78", // Green
+    'vesicle_transport':"#ED8936", // Orange
+    'oxidoreductase_activity':"#9F7AEA", // Purple
+   // 'quality_control':"#DD6B20", // Orange
+    'stress response':"#F6AD55", // Yellow
+   // 'transport':"#3182CE", // Blue
+    'chaperone complex':"#805AD5", // Purple,
+    'protein_degradation':"#E53E3E", // Red,
+    //'ERAD':"#B794F4", // Purple,
+    'cell_cycle_regulation':"#63B3ED", // Blue,
+    'DNA replication':"#9F7AEA", // Purple,
+    'sample-interacting-gene':"#F6E05E", // Yellow,
+    'sample_cellular_process':"#000000", // black
+    "tumor_suppression":"#ED64A6", // Pink,
+    "nuclear_receptor_signaling":"#F687B3", // Pink,
+    "extracellular_matrix_interaction" : "#48BB78", // Green,
 };

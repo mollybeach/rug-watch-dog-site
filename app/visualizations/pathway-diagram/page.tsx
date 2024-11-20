@@ -9,7 +9,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Network } from "lucide-react";
 import { PathwayDataType } from "@/types/types";
-import { PlotControls } from "@/components//PlotControls";
+import { PlotControls } from "@/components/PlotControls";
 import { validateJson } from "@/lib/jsonValidator"; // Import the validateJson function
 import { pathwaySchema } from "@/lib/schemas"; // Import the schema
 import { JSONSchemaType } from "ajv"; // Import JSONSchemaType for schema definition
@@ -62,7 +62,25 @@ const PathwayDiagramPage: React.FC = () => {
         console.error("Error fetching pathway data:", error);
       }
     };
-  
+
+    // Custom function to adjust node positions based on interaction values
+    const adjustNodePositions = (nodes: { id: string; x: number; y: number }[], links: { source: string; target: string; value?: number }[]) => {
+      const distanceFactor = 100; // Adjust this factor to increase/decrease distance based on interaction value
+      links.forEach(link => {
+        const sourceNode = nodes.find(node => node.id === link.source);
+        const targetNode = nodes.find(node => node.id === link.target);
+        if (sourceNode && targetNode) {
+          const interactionValue = link.value || 1; // Default to 1 if no value
+          const distance = (1 / interactionValue) * distanceFactor; // Invert the distance based on interaction value
+
+          // Adjust positions (this is a simple example; you may want to implement a more complex logic)
+          const angle = Math.atan2(targetNode.y - sourceNode.y, targetNode.x - sourceNode.x);
+          targetNode.x = sourceNode.x + Math.cos(angle) * distance;
+          targetNode.y = sourceNode.y + Math.sin(angle) * distance;
+        }
+      });
+    };
+
     return (
       <div className="p-4 ">
         <div className="flex items-center gap-2 mb-4">
@@ -90,12 +108,11 @@ const PathwayDiagramPage: React.FC = () => {
                 width={dimensions.width}
                 height={400}
                 nodeColor={node => {
-                  // Get the color based on the node's group from metadata
-                  return pathwayData.metadata.groups[node.group]?.color || colorData["default"]
+                  return pathwayData.metadata.groups[node.group]?.color || colorData["default"];
                 }}
                 nodeRelSize={6}
                 linkColor={() => "#cbd5e1"}
-                linkWidth={1}
+                linkWidth={0.4} // Keep link width constant
                 nodeLabel="id"
                 backgroundColor="#ffffff"
                 enableNodeDrag={isDragEnabled}
@@ -112,6 +129,19 @@ const PathwayDiagramPage: React.FC = () => {
                   }
                 }}
                 cooldownTicks={100}
+                d3AlphaDecay={0.01} // Slower decay for the simulation
+                d3VelocityDecay={0.2} // Adjust the velocity decay
+                onEngineTick={() => {
+                  if (pathwayData) {
+                    // Map nodes to the required format
+                    const formattedNodes = pathwayData.nodes.map(node => ({
+                      id: node.id,
+                      x: (node as { x?: number }).x || 0, // Type assertion to access x
+                      y: (node as { y?: number }).y || 0  // Type assertion to access y
+                    }));
+                    adjustNodePositions(formattedNodes, pathwayData.links);
+                  }
+                }}
               />
             ) : (
               <div className="text-center">

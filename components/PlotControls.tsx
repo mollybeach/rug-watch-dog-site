@@ -59,6 +59,24 @@ interface ChordControlsProps extends BaseControlsProps {
 
 type PlotControlsProps = VolcanoControlsProps | PathwayControlsProps | DegRankingsControlsProps | ChordControlsProps;
 
+const pathways = [
+  'protein-processing', // Updated to match API
+  'Cell cycle',
+  'DNA replication',
+  'progesterone-mediated-oocyte-maturation',
+  'base-excision-repair',
+  'thyroid-hormone-synthesis',
+  'Antigen processing and presentation',
+  'atp-dependent-chromatin-remodeling',
+  'protein-export',
+  'oocyte-meiosis',
+  'nucleocytoplasmic-transport',
+  'ferroptosis',
+  'mismatch-repair',
+  'gap-junction',
+  'Small cell lung cancer'
+];
+
 export const PlotControls: React.FC<PlotControlsProps> = (props) => {
   const renderControls = () => {
     if (props.type === 'volcano') {
@@ -120,24 +138,17 @@ export const PlotControls: React.FC<PlotControlsProps> = (props) => {
           <Select value={props.selectedPathway} onValueChange={props.onPathwayChange}>
             <SelectTrigger className="w-48 h-6 bg-white dark:bg-slate-900 text-xs">
               <SelectValue placeholder="Select Pathway" />
-            </SelectTrigger>
+       
             <SelectContent className="bg-white dark:bg-slate-900">
-              <SelectItem value="protein-processing">
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text font-semibold">
-                  Protein Processing in ER
-                </span>
-              </SelectItem>
-              <SelectItem value="cell-cycle">
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text font-semibold">
-                  CsA vs Control
-                </span>
-              </SelectItem>
-              <SelectItem value="membrane-trafficking">
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text font-semibold">
-                  Membrane Trafficking
-                </span>
-              </SelectItem>
+                {pathways.map((pathway) => ( // Corrected arrow function syntax
+                    <SelectItem value={pathway} key={pathway}> {/* Added key prop for unique identification */}
+                        <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text font-semibold">
+                            {pathway}
+                        </span>
+                    </SelectItem>
+                ))} 
             </SelectContent>
+            </SelectTrigger>
           </Select>
         </div>
       );
