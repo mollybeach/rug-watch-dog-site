@@ -12,16 +12,14 @@
         "node": "20"
     },
     "scripts": {
-        "clean": "rm -rf .next cache",
         "dev": "next dev",
-        "build": "npm run clean && next build",
-        "pages:build": "npm run clean && npx @cloudflare/next-on-pages",
-        "preview": "npm run pages:build && wrangler pages dev .next",
-        "deploy:pages": "npm run pages:build && wrangler pages deploy .next",
-        "deploy:contract": "npx hardhat run scripts/deploy.js --network localhost",
-        "deploy:clean": "npm run clean && vercel --prod",
-        "compile": "npx hardhat compile",
-        "test": "npx hardhat test"
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "go": "next build && next dev",
+        "predeploy": "npm run build",
+        "deploy": "vercel deploy --prod",
+        "export": "next export"
     },
     "dependencies": {
         "@metamask/providers": "^13.0.0",
