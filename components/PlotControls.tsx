@@ -19,27 +19,25 @@ interface BaseControlsProps {
   type: 'market' | 'network' | 'price';
 }
 
-interface MarketControlsProps extends BaseControlsProps {
+type MarketControlsProps = {
   type: 'market';
   riskThreshold: number;
   volumeThreshold: number;
   onRiskChange: (value: number) => void;
   onVolumeChange: (value: number) => void;
-}
+};
 
-interface NetworkControlsProps extends BaseControlsProps {
+type NetworkControlsProps = {
   type: 'network';
   selectedCollection: string;
   onCollectionChange: (value: string) => void;
-  isDragEnabled: boolean;
-  onDragToggle: () => void;
-}
+};
 
-interface PriceControlsProps extends BaseControlsProps {
+type PriceControlsProps = {
   type: 'price';
   timeRange: string;
   onTimeRangeChange: (value: string) => void;
-}
+};
 
 type PlotControlsProps = MarketControlsProps | NetworkControlsProps | PriceControlsProps;
 
@@ -68,7 +66,7 @@ export const PlotControls: React.FC<PlotControlsProps> = (props) => {
               min="0"
               max="100"
               value={props.riskThreshold}
-              onChange={(e) => props.onRiskChange(Number(e.target.value))}
+              onChange={handleRiskChange}
             />
           </div>
           <div className="flex items-center space-x-2 bg-white dark:bg-slate-900 p-1.5 rounded-md shadow-sm">
@@ -80,7 +78,7 @@ export const PlotControls: React.FC<PlotControlsProps> = (props) => {
               step="10"
               min="0"
               value={props.volumeThreshold}
-              onChange={(e) => props.onVolumeChange(Number(e.target.value))}
+              onChange={handleVolumeChange}
             />
           </div>
         </div>
@@ -123,6 +121,18 @@ export const PlotControls: React.FC<PlotControlsProps> = (props) => {
     }
 
     return null;
+  };
+
+  const handleRiskChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (props.type === 'market') {
+      props.onRiskChange(Number(e.target.value));
+    }
+  };
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (props.type === 'market') {
+      props.onVolumeChange(Number(e.target.value));
+    }
   };
 
   return (

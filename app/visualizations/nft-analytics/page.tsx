@@ -15,7 +15,7 @@ const Plot = dynamic(
   }
 );
 
-export default function NFTAnalytics() {
+function NFTAnalytics() {
   const volumeData = {
     x: ['BAYC', 'Azuki', 'Doodles', 'CloneX', 'Moonbirds'],
     y: [1200, 800, 500, 450, 350],
@@ -162,4 +162,7 @@ export default function NFTAnalytics() {
       </div>
     </div>
   );
-} 
+}
+
+const NFTAnalyticsPage = NFTAnalytics;
+export default NFTAnalyticsPage; 

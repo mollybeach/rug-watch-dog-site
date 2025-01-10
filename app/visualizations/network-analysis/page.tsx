@@ -4,7 +4,6 @@ import { Network } from "lucide-react";
 import dynamic from "next/dynamic";
 import { Card } from "@/components/ui/card";
 import { useState, useEffect } from "react";
-import type { PlotData, Layout } from 'plotly.js-dist-min';
 
 const Plot = dynamic(
   () => import("react-plotly.js"),

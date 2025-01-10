@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { LineChart } from "lucide-react";
 import dynamic from "next/dynamic";
-import type { PlotData, Layout } from 'plotly.js-dist-min';
 
 const Plot = dynamic(() => import('react-plotly.js'), {
     ssr: false,
@@ -106,4 +105,5 @@ const PriceHistory: React.FC = () => {
     );
 };
 
-export default PriceHistory; 
+const PriceHistoryPage = PriceHistory;
+export default PriceHistoryPage; 

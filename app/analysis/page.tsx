@@ -1,8 +1,9 @@
 import { Shield } from "lucide-react";
-import dynamic from "next/dynamic";
+//import dynamic from "next/dynamic";
 
+{/*
 const NFTMarketAnalytics = dynamic(
-  () => import("@/components/NFTMarketAnalytics").then(mod => mod.NFTMarketAnalytics),
+  () => import("@/components/NFTMarketAnalytics"),
   {
     ssr: false,
     loading: () => (
@@ -12,7 +13,7 @@ const NFTMarketAnalytics = dynamic(
     )
   }
 );
-
+*/}
 export default function AnalysisPage() {
   return (
     <div className="container mx-auto p-8">
@@ -32,8 +33,6 @@ export default function AnalysisPage() {
           </div>
         </div>
       </div>
-
-      <NFTMarketAnalytics />
     </div>
   );
 }
