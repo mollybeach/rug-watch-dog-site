@@ -81,7 +81,7 @@ export default function NetworkAnalysisPage() {
     }
   } as any;
 
-  const layout: Partial<Layout> = {
+  const layout = {
     paper_bgcolor: 'transparent',
     plot_bgcolor: 'transparent',
     margin: { t: 0, b: 0, l: 0, r: 0 },
@@ -89,7 +89,7 @@ export default function NetworkAnalysisPage() {
     autosize: true,
     showlegend: false,
     hovermode: 'closest'
-  };
+  } as const;
 
   if (!mounted) return null;
 

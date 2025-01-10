@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { LineChart } from "lucide-react";
 import dynamic from "next/dynamic";
-import { colorData } from "@/lib/data/color_data";
+import type { PlotData, Layout } from 'plotly.js-dist-min';
 
 const Plot = dynamic(() => import('react-plotly.js'), {
     ssr: false,
@@ -11,6 +11,12 @@ const Plot = dynamic(() => import('react-plotly.js'), {
         <div className="animate-pulse text-muted-foreground">Loading price data...</div>
     </div>
 });
+
+const COLORS = {
+    primary: 'rgba(147, 51, 234, 0.7)',
+    secondary: 'rgba(236, 72, 153, 0.7)',
+    tertiary: 'rgba(59, 130, 246, 0.7)'
+};
 
 const PriceHistory: React.FC = () => {
     const [data, setData] = useState<any[]>([]);
@@ -36,6 +42,49 @@ const PriceHistory: React.FC = () => {
         setData([generatePriceHistory()]);
     }, []);
 
+    const plotData = [
+        {
+            x: data[0]?.dates || [],
+            y: data[0]?.bayc || [],
+            type: 'scatter',
+            mode: 'lines',
+            name: 'BAYC',
+            line: { color: COLORS.primary }
+        },
+        {
+            x: data[0]?.dates || [],
+            y: data[0]?.azuki || [],
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Azuki',
+            line: { color: COLORS.secondary }
+        },
+        {
+            x: data[0]?.dates || [],
+            y: data[0]?.punk || [],
+            type: 'scatter',
+            mode: 'lines',
+            name: 'CryptoPunks',
+            line: { color: COLORS.tertiary }
+        }
+    ] as const;
+
+    const layout = {
+        title: '30-Day Price History (ETH)',
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        xaxis: {
+            title: 'Date',
+            gridcolor: '#f0f0f0'
+        },
+        yaxis: {
+            title: 'Floor Price (ETH)',
+            gridcolor: '#f0f0f0'
+        },
+        showlegend: true,
+        height: 500
+    } as const;
+
     return (
         <div className="p-6">
             <div className="flex items-center gap-2 mb-6">
@@ -46,51 +95,8 @@ const PriceHistory: React.FC = () => {
             <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-4">
                 {data.length > 0 && (
                     <Plot
-                        data={[
-                            {
-                                x: data[0].dates,
-                                y: data[0].bayc,
-                                type: 'scatter',
-                                mode: 'lines',
-                                name: 'BAYC',
-                                line: { color: colorData.significant }
-                            },
-                            {
-                                x: data[0].dates,
-                                y: data[0].azuki,
-                                type: 'scatter',
-                                mode: 'lines',
-                                name: 'Azuki',
-                                line: { color: colorData.default }
-                            },
-                            {
-                                x: data[0].dates,
-                                y: data[0].punk,
-                                type: 'scatter',
-                                mode: 'lines',
-                                name: 'CryptoPunks',
-                                line: { color: colorData['non-significant'] }
-                            }
-                        ]}
-                        layout={{
-                            title: '30-Day Price History (ETH)',
-                            paper_bgcolor: 'transparent',
-                            plot_bgcolor: 'transparent',
-                            xaxis: {
-                                title: 'Date',
-                                gridcolor: '#f0f0f0'
-                            },
-                            yaxis: {
-                                title: 'Floor Price (ETH)',
-                                gridcolor: '#f0f0f0'
-                            },
-                            legend: {
-                                x: 0,
-                                y: 1,
-                                bgcolor: 'rgba(255,255,255,0.8)'
-                            },
-                            height: 500
-                        }}
+                        data={plotData}
+                        layout={layout}
                         useResizeHandler={true}
                         style={{ width: '100%', height: '100%' }}
                     />
