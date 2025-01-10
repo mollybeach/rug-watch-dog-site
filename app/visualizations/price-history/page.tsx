@@ -67,7 +67,7 @@ const PriceHistory: React.FC = () => {
             name: 'CryptoPunks',
             line: { color: COLORS.tertiary }
         }
-    ] as const;
+    ] as any[];
 
     const layout = {
         title: '30-Day Price History (ETH)',
@@ -83,7 +83,7 @@ const PriceHistory: React.FC = () => {
         },
         showlegend: true,
         height: 500
-    } as const;
+    } as any;
 
     return (
         <div className="p-6">

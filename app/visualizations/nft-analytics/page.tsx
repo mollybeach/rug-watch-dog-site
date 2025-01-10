@@ -65,7 +65,7 @@ export default function NFTAnalytics() {
     hovertemplate: '%{label}: %{value}%<extra></extra>'
   } as any;
 
-  const commonLayout: Partial<Layout> = {
+  const commonLayout = {
     paper_bgcolor: 'transparent',
     plot_bgcolor: 'transparent',
     font: {
@@ -75,14 +75,8 @@ export default function NFTAnalytics() {
     margin: { t: 30, b: 40, l: 40, r: 20 },
     height: 400,
     autosize: true,
-    showlegend: false,
-    xaxis: {
-      gridcolor: 'rgba(147, 51, 234, 0.1)'
-    },
-    yaxis: {
-      gridcolor: 'rgba(147, 51, 234, 0.1)'
-    }
-  };
+    showlegend: false
+  } as any;
 
   return (
     <div className="container py-6">
@@ -113,14 +107,12 @@ export default function NFTAnalytics() {
                 ...commonLayout,
                 yaxis: {
                   title: 'Volume (ETH)',
-                  gridcolor: 'rgba(147, 51, 234, 0.1)',
-                  zerolinecolor: 'rgba(147, 51, 234, 0.2)'
+                  gridcolor: 'rgba(147, 51, 234, 0.1)'
                 },
                 xaxis: {
-                  gridcolor: 'rgba(147, 51, 234, 0.1)',
-                  zerolinecolor: 'rgba(147, 51, 234, 0.2)'
+                  gridcolor: 'rgba(147, 51, 234, 0.1)'
                 }
-              }}
+              } as any}
               config={{ responsive: true }}
               style={{ width: '100%', height: '100%' }}
               useResizeHandler={true}
