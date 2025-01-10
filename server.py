@@ -14,7 +14,7 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {"message": "RNA-Seq Analysis API"}
+    return {"message": "RugWatchDog Analysis API"}
 
 if __name__ == "__main__":
     import uvicorn

@@ -15,6 +15,7 @@ const geistSans = localFont({
   variable: "--font-geist-sans",
   weight: "100 900",
 });
+
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
@@ -22,8 +23,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "RNA Sequencing Analysis",
-  description: "Analysis of RNA-seq data comparing CsA and VOC treatments",
+  title: "RugWatchDog",
+  description: "AI-driven platform for analyzing cryptocurrency tokens and detecting potential rug pulls",
 };
 
 export default function RootLayout({
@@ -32,8 +33,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en" className="dark">
+      <body 
+        className={`
+          ${geistSans.variable} 
+          ${geistMono.variable} 
+          antialiased 
+          bg-background 
+          text-foreground 
+          dark:bg-background 
+          dark:text-foreground
+          min-h-screen
+        `}
+      >
         <div className="grid grid-rows-[auto_1fr_auto] min-h-screen">
           <Header />
           <main className="p-8">

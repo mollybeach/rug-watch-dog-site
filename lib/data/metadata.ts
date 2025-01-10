@@ -5,43 +5,42 @@
  */
 
 import { VisualizationType, HeaderNavItemsType } from "@/types/types";
-import { LineChart, PieChart, Network, BarChart, Home, FileText, BookOpen } from "lucide-react";
+import { LineChart, BarChart2, NetworkIcon, TrendingUp, Home, FileText, BookOpen } from "lucide-react";
 
 export const visualizations: VisualizationType[] = [
     {
-      id: "volcano-plot",
-      label: "Volcano Plot",
+      id: "market-risk-radar",
+      label: "Market Risk Radar",
+      icon: TrendingUp,
+      description: "Real-time analysis of market risks",
+      path: "market-risk-radar",
+    },
+    {
+      id: "nft-analytics",
+      label: "NFT Analytics",
+      icon: BarChart2,
+      description: "Track and analyze NFT market trends",
+      path: "nft-analytics",
+    },
+    {
+      id: "network-analysis",
+      label: "Network Analysis",
+      icon: NetworkIcon,
+      description: "Explore token ownership networks",
+      path: "network-analysis",
+    },
+    {
+      id: "price-history",
+      label: "Price History",
       icon: LineChart,
-      description: "Interactive volcano plots showing differential expression",
-      path: "volcano-plot",
-    },
-    {
-      id: "chord-diagram", 
-      label: "Chord Diagram", 
-      icon: PieChart,
-      description: "Chord diagrams showing gene-gene interactions",
-      path: "chord-diagram",
-    },
-    {
-      id: "deg-rankings",
-      label: "DEG Rankings",
-      icon: LineChart,
-      description: "Interactive volcano plots showing differential expression",
-      path: "deg-rankings",
-    },
-    {
-      id: "pathway-diagram",
-      label: "Pathway Diagram",
-      icon: Network,
-      description: "Pathway diagrams showing gene-gene interactions",
-      path: "pathway-diagram",
-    },
-    
-  ]
+      description: "View historical price data",
+      path: "price-history",
+    }
+];
 
 export const HeaderNavItems: HeaderNavItemsType[] = [
-    { value: "analysis", icon: BarChart, label: "Analysis" },
-    { value: "visualizations/volcano-plot", icon: Home, label: "Visualizations" },
+    { value: "analysis", icon: TrendingUp, label: "Analysis" },
+    { value: "visualizations/market-risk-radar", icon: Home, label: "Visualizations" },
     { value: "data", icon: FileText, label: "Data" },
     { value: "documentation", icon: BookOpen, label: "Documentation" },
 ];

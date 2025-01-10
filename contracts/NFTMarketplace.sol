@@ -1,0 +1,85 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+
+contract NFTMarketplace is ERC721, ReentrancyGuard {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
+    
+    struct Listing {
+        uint256 price;
+        address seller;
+        bool active;
+    }
+    
+    mapping(uint256 => Listing) public listings;
+    mapping(uint256 => string) private _tokenURIs;
+    
+    event NFTListed(uint256 indexed tokenId, address indexed seller, uint256 price);
+    event NFTSold(uint256 indexed tokenId, address indexed seller, address indexed buyer, uint256 price);
+    event ListingCanceled(uint256 indexed tokenId, address indexed seller);
+    
+    constructor() ERC721("RWD NFT Marketplace", "RWD") {
+        _tokenIds.increment();
+    }
+    
+    function mint(string memory uri) public returns (uint256) {
+        uint256 newTokenId = _tokenIds.current();
+        
+        _mint(msg.sender, newTokenId);
+        _setTokenURI(newTokenId, uri);
+        
+        _tokenIds.increment();
+        return newTokenId;
+    }
+    
+    function _setTokenURI(uint256 tokenId, string memory uri) internal virtual {
+        require(_exists(tokenId), "URI set for nonexistent token");
+        _tokenURIs[tokenId] = uri;
+    }
+    
+    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+        require(_exists(tokenId), "URI query for nonexistent token");
+        return _tokenURIs[tokenId];
+    }
+    
+    function listNFT(uint256 tokenId, uint256 listingPrice) external {
+        require(ownerOf(tokenId) == msg.sender, "Not the token owner");
+        require(listingPrice > 0, "Price must be greater than zero");
+        
+        listings[tokenId] = Listing({
+            price: listingPrice,
+            seller: msg.sender,
+            active: true
+        });
+        
+        emit NFTListed(tokenId, msg.sender, listingPrice);
+    }
+    
+    function buyNFT(uint256 tokenId) external payable nonReentrant {
+        Listing memory nftListing = listings[tokenId];
+        require(nftListing.active, "NFT not listed for sale");
+        require(msg.value == nftListing.price, "Incorrect price");
+        require(msg.sender != nftListing.seller, "Cannot buy your own NFT");
+        
+        address nftSeller = nftListing.seller;
+        delete listings[tokenId];
+        
+        _transfer(nftSeller, msg.sender, tokenId);
+        payable(nftSeller).transfer(msg.value);
+        
+        emit NFTSold(tokenId, nftSeller, msg.sender, msg.value);
+    }
+    
+    function cancelListing(uint256 tokenId) external {
+        Listing memory listing = listings[tokenId];
+        require(listing.active, "Listing not active");
+        require(listing.seller == msg.sender, "Not the seller");
+        
+        delete listings[tokenId];
+        emit ListingCanceled(tokenId, msg.sender);
+    }
+} 

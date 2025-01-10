@@ -1,64 +1,112 @@
 "use client";
 
+import { useState } from 'react';
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { Wallet, ShoppingBag, Code, BarChart3, FileText, BookOpen, LineChart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Poppins } from 'next/font/google';
 import { ModeToggle } from "./ModeToggle";
+import { Button } from "./ui/button";
 import { HeaderNavItemsType } from "@/types/types";
-import { HeaderNavItems } from "@/lib/data/metadata";
 
 const poppins = Poppins({ 
   subsets: ['latin'],
-  weight: ['600', '700']  // You can adjust weights as needed
+  weight: ['600', '700']
 });
+
+// Regular nav items
+const mainNavItems: HeaderNavItemsType[] = [
+  {
+    label: "Analytics",
+    value: "analysis",
+    icon: BarChart3
+  },
+  {
+    label: "Visualizations",
+    value: "visualizations/market-risk-radar",
+    icon: LineChart
+  },
+  {
+    label: "Data",
+    value: "data",
+    icon: FileText
+  },
+  {
+    label: "Documentation",
+    value: "documentation",
+    icon: BookOpen
+  }
+];
+
+// External links with emojis
+const externalLinks = [
+  {
+    label: "🛍️",
+    title: "OpenSea",
+    href: "https://opensea.io"
+  },
+  {
+    label: "📜",
+    title: "Smart Contract",
+    href: "https://etherscan.io"
+  }
+];
 
 export function Header() {
   const pathname = usePathname();
+  const [isWalletConnected, setIsWalletConnected] = useState(false);
 
-  const getCurrentTab = () => {
-    const path = pathname.split("/")[1];
-    return path || "analysis";
+  const handleConnectWallet = async () => {
+    if (typeof window !== 'undefined' && window.ethereum) {
+      try {
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        setIsWalletConnected(true);
+      } catch (error) {
+        console.error('User rejected connection');
+      }
+    } else {
+      window.open('https://metamask.io', '_blank');
+    }
   };
-
-  const navItems: HeaderNavItemsType[] = HeaderNavItems;
 
   return (
     <header className="border-b bg-white dark:bg-slate-950">
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group mr-16">
-            <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-1 rounded-full 
+        <div className="flex h-14 items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 group mr-8">
+            <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-0.5 rounded-full 
                             group-hover:shadow-lg group-hover:shadow-blue-500/25 transition-all duration-300">
               <div className="bg-white dark:bg-slate-950 rounded-full p-0.5">
                 <Image
-                  src="/logo.png"
-                  alt="RNA Analysis Logo"
-                  width={45}
-                  height={44}
+                  src="/rug-watch-dog-circle.png"
+                  alt="RugWatchDog Logo"
+                  width={32}
+                  height={32}
                   className="rounded-full transform group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
             </div>
-            <span className={`text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 
+            <span className={`text-sm font-bold bg-gradient-to-r from-blue-600 to-purple-600 
                              text-transparent bg-clip-text group-hover:from-blue-500 
                              group-hover:to-purple-500 transition-all duration-300
                              ${poppins.className}`}>
-              RNAlytics
+              RugWatchDog
             </span>
           </Link>
 
-          <nav className="flex-1 max-w-xl mx-auto">
-            <ul className="flex justify-center gap-2">
-              {navItems.map((item) => {
-                const isActive = getCurrentTab() === item.value;
+          {/* Main Navigation */}
+          <nav className="flex-1 max-w-lg mx-auto">
+            <ul className="flex justify-center gap-1">
+              {mainNavItems.map((item) => {
+                const isActive = pathname.includes(item.value);
                 return (
                   <li key={item.value}>
                     <Link
                       href={`/${item.value}`}
                       className={`
-                        flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
+                        flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] font-medium
                         transition-all duration-300 transform hover:scale-105
                         ${isActive 
                           ? "bg-gradient-to-r from-blue-500/10 to-purple-500/10 text-blue-600 dark:text-blue-400 shadow-sm"
@@ -67,7 +115,7 @@ export function Header() {
                         hover:shadow-md hover:shadow-blue-500/5
                       `}
                     >
-                      <item.icon className={`h-4 w-4 transition-colors duration-300
+                      <item.icon className={`h-3 w-3 transition-colors duration-300
                         ${isActive 
                           ? "text-blue-600 dark:text-blue-400" 
                           : "text-slate-500 dark:text-slate-400"
@@ -86,17 +134,42 @@ export function Header() {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-4">
+          {/* Right section with external links and buttons */}
+          <div className="flex items-center gap-2">
+            {/* External Links */}
+            {externalLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                title={link.title}
+                className="flex items-center px-2 py-1 rounded-lg text-[11px] font-medium
+                          hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-300
+                          transform hover:scale-105"
+              >
+                <span className="text-base">{link.label}</span>
+              </Link>
+            ))}
+
+            {/* Wallet and other buttons */}
+            <Button
+              onClick={handleConnectWallet}
+              variant={isWalletConnected ? "outline" : "default"}
+              className="flex items-center gap-1 text-[11px] py-1 px-2"
+            >
+              <Wallet className="h-3 w-3" />
+              <span>{isWalletConnected ? "Connected" : "Connect Wallet"}</span>
+            </Button>
             <ModeToggle />
             <Link
-              href="https://github.com/aryehky/CsA-VOC-RNASeq-Anaylsis"
-              className="flex items-center gap-2 text-sm text-muted-foreground
-                         px-4 py-2 rounded-lg transition-all duration-300
+              href="https://github.com/aryehky/RugWatchDog"
+              className="flex items-center gap-1 text-[11px] text-muted-foreground
+                         px-2 py-1 rounded-lg transition-all duration-300
                          hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-purple-500/10
                          hover:text-foreground hover:shadow-md hover:shadow-purple-500/5
                          transform hover:scale-105"
             >
-              <GitHubLogoIcon className="h-5 w-5" />
+              <GitHubLogoIcon className="h-3 w-3" />
               <span className="font-medium">GitHub</span>
             </Link>
           </div>
