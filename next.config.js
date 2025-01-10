@@ -1,4 +1,4 @@
-import { setupDevPlatform } from "@cloudflare/next-on-pages/next-dev";
+const { setupDevPlatform } = require("@cloudflare/next-on-pages/next-dev");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -36,6 +36,7 @@ if (process.env.NODE_ENV === "development") {
     } catch (e) {
         console.warn("Failed to setup dev platform:", e);
     }
+
 }
 
-export default nextConfig;
+module.exports = nextConfig;

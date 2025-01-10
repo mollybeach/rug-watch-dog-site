@@ -1,4 +1,4 @@
-name = "rugwatchdog"
-compatibility_date = "2024-11-17"
+name = "rug-watch-dog"
+compatibility_date = "2025-01-10"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".vercel/output/static"
