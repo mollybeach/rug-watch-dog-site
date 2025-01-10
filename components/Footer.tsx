@@ -14,14 +14,14 @@ export function Footer() {
           <p className="text-sm text-muted-foreground font-medium">
             Made with <HeartFilledIcon className="inline h-4 w-4 text-red-500 mx-1" /> by
             <span className="font-semibold text-foreground hover:text-primary transition-colors ml-1">
-              Ky & Molly
+              Molly
             </span>
           </p>
           <div className="flex items-center space-x-3 ml-4">
-            <a href="https://github.com//aryehky/RugWatchDog" className="text-muted-foreground hover:text-foreground transition-colors">
+            <a href="https://github.com/mollybeach/rug-watch-dog" className="text-muted-foreground hover:text-foreground transition-colors">
               <GitHubLogoIcon className="h-5 w-5" />
             </a>
-            <a href="https://linkedin.com/in/kyaryeh" className="text-muted-foreground hover:text-foreground transition-colors">
+            <a href="https://linkedin.com/in/mollybeach" className="text-muted-foreground hover:text-foreground transition-colors">
               <LinkedInLogoIcon className="h-5 w-5" />
             </a>
           </div>

@@ -15,13 +15,13 @@ const features: FeatureCard[] = [
     title: "NFT Analytics",
     description: "Track and analyze NFT market trends",
     icon: BarChart3,
-    href: "/analytics"
+    href: "/visualizations/nft-analytics"
   },
   {
     title: "Price History",
     description: "View historical price data",
     icon: LineChart,
-    href: "/prices"
+    href: "/visualizations/price-history"
   }
 ];
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import { Wallet, ShoppingBag, Code, BarChart3, FileText, BookOpen, LineChart } from "lucide-react";
+import { Wallet, ShoppingBasket, ReceiptText, Code, BarChart3, FileText, BookOpen, LineChart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -43,12 +43,12 @@ const mainNavItems: HeaderNavItemsType[] = [
 // External links with emojis
 const externalLinks = [
   {
-    label: "🛍️",
+    label: ShoppingBasket,
     title: "OpenSea",
     href: "https://opensea.io"
   },
   {
-    label: "📜",
+    label: ReceiptText,
     title: "Smart Contract",
     href: "https://etherscan.io"
   }
@@ -147,7 +147,7 @@ export function Header() {
                           hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-300
                           transform hover:scale-105"
               >
-                <span className="text-base">{link.label}</span>
+                <link.label className="h-4 w-4" />
               </Link>
             ))}
 
@@ -162,7 +162,7 @@ export function Header() {
             </Button>
             <ModeToggle />
             <Link
-              href="https://github.com/aryehky/RugWatchDog"
+              href="https://github.com/mollybeach/rug-watch-dog"
               className="flex items-center gap-1 text-[11px] text-muted-foreground
                          px-2 py-1 rounded-lg transition-all duration-300
                          hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-purple-500/10
