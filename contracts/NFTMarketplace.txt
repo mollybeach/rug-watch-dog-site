@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -22,7 +23,7 @@ contract NFTMarketplace is ERC721, ReentrancyGuard {
     event NFTSold(uint256 indexed tokenId, address indexed seller, address indexed buyer, uint256 price);
     event ListingCanceled(uint256 indexed tokenId, address indexed seller);
     
-    constructor() ERC721("RWD NFT Marketplace", "RWD") {
+    constructor(string memory _name, string memory _symbol) ERC721(_name, _symbol) {
         _tokenIds.increment();
     }
     

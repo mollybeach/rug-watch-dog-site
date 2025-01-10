@@ -164,10 +164,10 @@ export function Header() {
             <Link
               href="https://github.com/mollybeach/rug-watch-dog"
               className="flex items-center gap-1 text-[11px] text-muted-foreground
-                         px-2 py-1 rounded-lg transition-all duration-300
-                         hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-purple-500/10
-                         hover:text-foreground hover:shadow-md hover:shadow-purple-500/5
-                         transform hover:scale-105"
+                        px-2 py-1 rounded-lg transition-all duration-300
+                        hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-purple-500/10
+                        hover:text-foreground hover:shadow-md hover:shadow-purple-500/5
+                        transform hover:scale-105"
             >
               <GitHubLogoIcon className="h-3 w-3" />
               <span className="font-medium">GitHub</span>
