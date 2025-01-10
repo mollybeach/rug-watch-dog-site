@@ -83,6 +83,9 @@ export function Hero() {
             and chatbot integration <span className="font-medium">🤝</span> to enhance security 
             <span className="font-medium">🔒</span> in the crypto ecosystem.
           </p>
+          <p className="text-muted-foreground">
+            Don&apos;t let &quot;rug pulls&quot; catch you off guard!
+          </p>
         </div>
       </div>
     </div>
