@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+/*import { ethers } from "ethers";
 import { useNotification } from "@/contexts/NotificationContext";
 
 export const NFT_MARKETPLACE_ADDRESS = "YOUR_DEPLOYED_CONTRACT_ADDRESS";
@@ -105,4 +105,4 @@ export class NFTMarketplaceContract {
     const tx = await this.contract.cancelListing(tokenId);
     return tx.wait();
   }
-} 
+} */

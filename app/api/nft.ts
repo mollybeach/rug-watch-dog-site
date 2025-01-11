@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+/*import { ethers } from "ethers";
 import { MetaMaskInpageProvider } from "@metamask/providers";
 import { NFT_MARKETPLACE_ABI, NFT_MARKETPLACE_ADDRESS } from '@/lib/contracts/NFTMarketplace';
 import { getEthereumProvider } from '@/lib/utils/ethereum';
@@ -84,4 +84,4 @@ export const listNFTForSale = async (tokenId: string, price: string) => {
     console.error("Error listing NFT:", error);
     throw error;
   }
-}; 
+}; */

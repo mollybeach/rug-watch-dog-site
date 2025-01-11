@@ -1,10 +1,10 @@
-import { create } from 'kubo-rpc-client';
+/*import { create } from 'kubo-rpc-client';
 
 const projectId = process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_ID;
 const projectSecret = process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_SECRET;
 const auth = 'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
 
-const client = create({
+const client = await create({
     url: 'https://ipfs.infura.io:5001/api/v0',
     headers: {
         authorization: auth,
@@ -35,4 +35,4 @@ export async function uploadMetadataToIPFS(metadata: {
         console.error('Error uploading metadata to IPFS:', error);
         throw error;
     }
-} 
+} */

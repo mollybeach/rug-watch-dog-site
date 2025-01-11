@@ -21,6 +21,7 @@
         "export": "next export"
     },
     "dependencies": {
+        "@ethersproject/providers": "^5.7.2",
         "@metamask/providers": "^13.0.0",
         "@openzeppelin/contracts": "4.9.0",
         "@radix-ui/react-dialog": "^1.1.2",
@@ -30,8 +31,10 @@
         "@radix-ui/react-slot": "^1.0.2",
         "@radix-ui/react-tabs": "^1.1.1",
         "@radix-ui/react-toast": "^1.2.2",
+        "ajv": "^8.17.1",
         "class-variance-authority": "0.7.0",
         "clsx": "^2.1.0",
+        "cmdk": "^0.2.1",
         "d3-force": "3.0.0",
         "ethers": "^5.7.0",
         "kubo-rpc-client": "^2.0.0",
@@ -44,14 +47,14 @@
         "react-force-graph": "1.43.2",
         "react-plotly.js": "^2.6.0",
         "tailwind-merge": "^2.5.4",
-        "web3": "1.7.0",
-        "cmdk": "^0.2.1"
+        "web3": "1.7.0"
     },
     "devDependencies": {
         "@cloudflare/next-on-pages": "^1.13.5",
         "@nomiclabs/hardhat-ethers": "^2.2.3",
         "@nomiclabs/hardhat-waffle": "^2.0.5",
         "@openzeppelin/hardhat-upgrades": "^1.22.1",
+        "@types/ajv": "^1.0.4",
         "@types/d3-force": "^3.0.10",
         "@types/node": "^20.17.6",
         "@types/plotly.js-dist-min": "^2.3.4",

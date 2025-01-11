@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+/*import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ethers } from "ethers";
 import { useNotification } from "@/contexts/NotificationContext";
@@ -187,4 +187,4 @@ const NFTDashboard: React.FC = () => {
   );
 }
 
-export default NFTDashboard;
+export default NFTDashboard; */

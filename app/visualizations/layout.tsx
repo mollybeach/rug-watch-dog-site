@@ -5,17 +5,25 @@
  */
 "use client";
 
+import { useState, useEffect } from "react";
 import { visualizations } from "@/lib/data/metadata";
 import SideBar from "@/components/SideBar";
 
 export default function VisualizationsLayout({
   children,
-  params,
 }: {
   children: React.ReactNode;
-  params: { slug: string };
 }) {
-  // Extract the current visualization from the URL
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
   const currentViz = window.location.pathname.split('/').pop() || 'market-risk-radar';
 
   return (
