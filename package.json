@@ -17,7 +17,6 @@
         "start": "next start",
         "lint": "next lint",
         "go": "next build && next dev",
-        "predeploy": "npm run build",
         "deploy": "vercel deploy --prod",
         "export": "next export"
     },
@@ -45,7 +44,8 @@
         "react-force-graph": "1.43.2",
         "react-plotly.js": "^2.6.0",
         "tailwind-merge": "^2.5.4",
-        "web3": "1.7.0"
+        "web3": "1.7.0",
+        "cmdk": "^0.2.1"
     },
     "devDependencies": {
         "@cloudflare/next-on-pages": "^1.13.5",

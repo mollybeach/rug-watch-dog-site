@@ -1,15 +1,7 @@
-import React, { createContext, useContext, useState } from 'react';
-import { Toast } from '@/components/ui/toast';
+import React, { createContext, useContext } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 
 type NotificationType = 'success' | 'error' | 'info' | 'warning';
-
-interface Notification {
-    id: string;
-    type: NotificationType;
-    title: string;
-    message: string;
-}
 
 interface NotificationContextType {
     showNotification: (type: NotificationType, title: string, message: string) => void;
