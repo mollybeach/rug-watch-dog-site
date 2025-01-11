@@ -19,7 +19,7 @@ const poppins = Poppins({
 // Regular nav items
 const mainNavItems: HeaderNavItemsType[] = [
   {
-    label: "Analytics",
+    label: "Security",
     value: "analysis",
     icon: BarChart3
   },
@@ -106,7 +106,7 @@ export function Header() {
                     <Link
                       href={`/${item.value}`}
                       className={`
-                        flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] font-medium
+                        flex items-center gap-1 px-4 py-1 rounded-lg text-[13px] font-medium
                         transition-all duration-300 transform hover:scale-105
                         ${isActive 
                           ? "bg-gradient-to-r from-blue-500/10 to-purple-500/10 text-blue-600 dark:text-blue-400 shadow-sm"

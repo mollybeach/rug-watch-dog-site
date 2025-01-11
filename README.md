@@ -8,6 +8,9 @@ Rug Watch Dog Site is a blockchain-based platform designed to monitor and intera
 - **NFT Monitoring**: Track and analyze NFT projects for potential risks and opportunities.
 - **Social Media Integration**: Stay updated with the latest news via Discord and Twitter.
 
+Check out the live demo: [RugWatchDog](https://rugwatchdog.vercel.app/)
+![Rug Watch Dog](./assets/images/logo.png)
+
 ## Objectives
 1. Provide a secure platform for users to connect their wallets and interact with NFTs.
 2. Offer tools for analyzing NFT projects and identifying potential risks.
