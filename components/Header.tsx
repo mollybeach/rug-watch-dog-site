@@ -106,8 +106,7 @@ export function Header() {
                     <Link
                       href={`/${item.value}`}
                       className={`
-                        flex items-center gap-3 px-6 py-2 rounded-lg text-[13px] font-medium
-                        min-w-[140px] justify-center
+                        flex items-center gap-1 px-4 py-1 rounded-lg text-[13px] font-medium
                         transition-all duration-300 transform hover:scale-105
                         ${isActive 
                           ? "bg-gradient-to-r from-blue-500/10 to-purple-500/10 text-blue-600 dark:text-blue-400 shadow-sm"
@@ -116,7 +115,7 @@ export function Header() {
                         hover:shadow-md hover:shadow-blue-500/5
                       `}
                     >
-                      <item.icon className={`h-4 w-4 flex-shrink-0 transition-colors duration-300
+                      <item.icon className={`h-3 w-3 transition-colors duration-300
                         ${isActive 
                           ? "text-blue-600 dark:text-blue-400" 
                           : "text-slate-500 dark:text-slate-400"
