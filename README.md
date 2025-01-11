@@ -9,6 +9,7 @@ Rug Watch Dog Site is a blockchain-based platform designed to monitor and intera
 - **Social Media Integration**: Stay updated with the latest news via Discord and Twitter.
 
 Check out the live demo: [RugWatchDog](https://rugwatchdog.vercel.app/)
+
 ![Rug Watch Dog](./assets/images/logo.png)
 
 ## Objectives

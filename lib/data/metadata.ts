@@ -5,7 +5,7 @@
  */
 
 import { VisualizationType, HeaderNavItemsType } from "@/types/types";
-import { LineChart, BarChart2, NetworkIcon, TrendingUp, Home, FileText, BookOpen } from "lucide-react";
+import { LineChart, BarChart2, NetworkIcon, TrendingUp, Home, FileText, BookOpen, AlertTriangle } from "lucide-react";
 
 export const visualizations: VisualizationType[] = [
     {
@@ -35,6 +35,13 @@ export const visualizations: VisualizationType[] = [
       icon: LineChart,
       description: "View historical price data",
       path: "price-history",
+    },
+    {
+      id: "risk-metrics",
+      label: "Risk Metrics",
+      icon: AlertTriangle,
+      description: "Real-time token risk analysis metrics",
+      path: "risk-metrics"
     }
 ];
 

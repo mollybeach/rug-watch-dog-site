@@ -107,4 +107,34 @@ export interface ColorData {
   safe: string;
   moderate: string;
   risky: string;
+}
+
+// Add these interfaces to your existing types
+export interface TokenAnalysis {
+  token: string;
+  name: string;
+  symbol: string;
+  volumeAnomaly: number;
+  holderConcentration: number;
+  liquidityScore: number;
+  priceVolatility: number;
+  sellPressure: number;
+  marketCapRisk: number;
+  bundlerActivity: boolean;
+  accumulationRate: number;
+  stealthAccumulation: number;
+  suspiciousPattern: string | null;
+  isRugPull: boolean;
+  metadata: {
+    reason: string;
+  };
+}
+
+export interface RiskMetrics {
+  volumeAnomaly: number;
+  holderConcentration: number;
+  liquidityScore: number;
+  priceVolatility: number;
+  sellPressure: number;
+  marketCapRisk: number;
 } 
