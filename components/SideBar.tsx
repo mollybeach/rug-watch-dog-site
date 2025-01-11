@@ -36,7 +36,7 @@ const SideBar: React.FC<SideBarProps> = ({ visualizations, currentViz}) => {
                 }}
                 variant="ghost"
                 className={cn(
-                  "w-full flex items-start gap-4 p-4 h-auto rounded-xl transition-all duration-200",
+                  "w-full flex items-center gap-4 p-4 h-auto rounded-xl transition-all duration-200",
                   "hover:shadow-md hover:shadow-blue-500/5 hover:scale-[1.02]",
                   isActive
                     ? "bg-gradient-to-r from-blue-500/10 to-purple-500/10 shadow-sm"
@@ -44,21 +44,21 @@ const SideBar: React.FC<SideBarProps> = ({ visualizations, currentViz}) => {
                 )}
               >
                 <div className={cn(
-                  "p-2 rounded-lg transition-colors",
+                  "p-2 rounded-lg transition-colors flex-shrink-0",
                   isActive 
                     ? "bg-blue-500 text-white"
                     : "bg-slate-100 dark:bg-slate-800 text-slate-500"
                 )}>
                   <viz.icon className="h-5 w-5" />
                 </div>
-                <div className="flex-1 text-left">
+                <div className="flex-1 text-left min-w-0">
                   <div className={cn(
-                    "font-medium mb-1",
+                    "font-medium mb-1 truncate",
                     isActive && "text-blue-600 dark:text-blue-400"
                   )}>
                     {viz.label}
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-muted-foreground line-clamp-2">
                     {viz.description}
                   </p>
                 </div>
