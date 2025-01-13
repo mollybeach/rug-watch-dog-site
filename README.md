@@ -20,6 +20,7 @@ Check out the live demo: [RugWatchDog](https://rugwatchdog.vercel.app/)
 ## Tech Stack
 - **Frontend**: Next.js, Tailwind CSS
 - **Blockchain**: ethers.js, web3.js
+- **Database**: AWS (specify the service, e.g., DynamoDB, RDS)
 - **Deployment**: Vercel, Cloudflare Pages
 
 ## Usage Instructions
