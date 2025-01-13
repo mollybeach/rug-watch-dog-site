@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db/config';
 import { QueryResult } from 'pg';
+import { sql } from '@vercel/postgres';
+import Redis from 'ioredis';
 
 interface RiskMetricsRow {
     address: string;
@@ -19,18 +21,17 @@ interface RiskMetricsRow {
     market_cap: number;
 }
 
-// Cache the results for 5 minutes
-let cachedData: any = null;
-let lastCacheTime: number = 0;
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+// Initialize Redis client
+const redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379');
+const CACHE_TTL = 300; // 5 minutes in seconds
+const CACHE_KEY = 'risk_metrics_data';
 
 export async function GET() {
     try {
-        // Check if we have valid cached data
-        const now = Date.now();
-        if (cachedData && (now - lastCacheTime) < CACHE_DURATION) {
-            console.log('Returning cached data');
-            return NextResponse.json(cachedData);
+        // Try to get data from cache first
+        const cachedData = await redis.get(CACHE_KEY);
+        if (cachedData) {
+            return Response.json(JSON.parse(cachedData));
         }
 
         console.log('Starting risk metrics fetch...');
@@ -72,25 +73,28 @@ export async function GET() {
                 LIMIT 15;
             `;
 
-            const result = await client.query(query);
+            const result = await Promise.race([
+                sql.query(query),
+                new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('Query timeout')), 30000) // 30 second timeout
+                )
+            ]);
+
             console.log(`Query completed. Found ${result.rows?.length || 0} records`);
 
             if (!result.rows || result.rows.length === 0) {
                 const response = {
-                    success: false,
-                    error: 'No data found',
                     data: [],
                     metadata: {
-                        totalTokens: 0,
-                        highRiskCount: 0,
-                        mediumRiskCount: 0,
-                        lowRiskCount: 0,
-                        timestamp: new Date().toISOString()
+                        total_tokens: 0,
+                        high_risk: 0,
+                        medium_risk: 0,
+                        low_risk: 0
                     }
                 };
-                cachedData = response;
-                lastCacheTime = now;
-                return NextResponse.json(response);
+                // Cache empty response for a shorter duration
+                await redis.setex(CACHE_KEY, 60, JSON.stringify(response));
+                return Response.json(response);
             }
 
             // Process the data
@@ -108,34 +112,48 @@ export async function GET() {
             }));
 
             const response = {
-                success: true,
                 data: processedData,
                 metadata: {
-                    totalTokens: processedData.length,
-                    highRiskCount: processedData.filter(t => t.riskCategory === 'High').length,
-                    mediumRiskCount: processedData.filter(t => t.riskCategory === 'Medium').length,
-                    lowRiskCount: processedData.filter(t => t.riskCategory === 'Low').length,
-                    timestamp: new Date().toISOString()
+                    total_tokens: processedData.length,
+                    high_risk: processedData.filter(token => token.riskCategory === 'High').length,
+                    medium_risk: processedData.filter(token => token.riskCategory === 'Medium').length,
+                    low_risk: processedData.filter(token => token.riskCategory === 'Low').length
                 }
             };
 
-            // Cache the results
-            cachedData = response;
-            lastCacheTime = now;
-
-            return NextResponse.json(response);
+            // Cache the successful response
+            await redis.setex(CACHE_KEY, CACHE_TTL, JSON.stringify(response));
+            return Response.json(response);
         } finally {
             // Always release the client back to the pool
             client.release();
         }
     } catch (error) {
-        console.error('Error in risk metrics API:', error);
-        return NextResponse.json({
-            success: false,
-            error: 'Failed to fetch risk metrics',
-            details: error instanceof Error ? error.message : 'Unknown error',
-            timestamp: new Date().toISOString()
-        }, { status: error instanceof Error && error.message.includes('timeout') ? 504 : 500 });
+        console.error('Error fetching risk metrics:', error);
+        
+        // Try to get stale cache in case of error
+        try {
+            const staleData = await redis.get(CACHE_KEY);
+            if (staleData) {
+                const response = JSON.parse(staleData);
+                response.metadata.is_stale = true;
+                return Response.json(response);
+            }
+        } catch (cacheError) {
+            console.error('Error fetching from cache:', cacheError);
+        }
+
+        if (error.message === 'Query timeout') {
+            return Response.json(
+                { error: 'Request timed out. Please try again.' },
+                { status: 504 }
+            );
+        }
+        
+        return Response.json(
+            { error: 'Failed to fetch risk metrics' },
+            { status: 500 }
+        );
     }
 }
 
