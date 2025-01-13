@@ -34,104 +34,100 @@ export async function GET() {
         }
 
         console.log('Starting risk metrics fetch...');
+        
+        // Get a client from the pool with a shorter timeout
+        const client = await pool.connect();
+        
+        try {
+            // Set statement timeout for this specific query
+            await client.query('SET statement_timeout = 4000'); // 4 seconds
+            
+            // Simplified and optimized query
+            const query = `
+                WITH latest_data AS (
+                    SELECT DISTINCT ON (t.address)
+                        t.address,
+                        t.name,
+                        t.symbol,
+                        m.volume_anomaly as "volumeAnomaly",
+                        m.holder_concentration as "holderConcentration",
+                        m.liquidity_score as "liquidityScore",
+                        m.price_volatility as "priceVolatility",
+                        m.sell_pressure as "sellPressure",
+                        m.market_cap_risk as "marketCapRisk",
+                        m.is_rug_pull as "isRugPull",
+                        m.timestamp,
+                        COALESCE(p.price, 0) as current_price,
+                        COALESCE(p.volume_24h, 0) as volume_24h,
+                        COALESCE(p.market_cap, 0) as market_cap
+                    FROM tokens t
+                    LEFT JOIN token_metrics m ON m.token_address = t.address
+                    LEFT JOIN token_prices p ON p.token_address = t.address
+                    WHERE m.timestamp >= NOW() - INTERVAL '24 hours'
+                    ORDER BY t.address, m.timestamp DESC
+                )
+                SELECT *
+                FROM latest_data
+                ORDER BY timestamp DESC
+                LIMIT 15;
+            `;
 
-        // Simplified query that only gets the latest metrics for each token
-        const query = `
-            SELECT 
-                t.address,
-                t.name,
-                t.symbol,
-                m."volumeAnomaly",
-                m."holderConcentration",
-                m."liquidityScore",
-                m."priceVolatility",
-                m."sellPressure",
-                m."marketCapRisk",
-                m."isRugPull",
-                m.timestamp,
-                COALESCE(p.price, 0) as current_price,
-                COALESCE(p.volume_24h, 0) as volume_24h,
-                COALESCE(p.market_cap, 0) as market_cap
-            FROM tokens t
-            LEFT JOIN (
-                SELECT DISTINCT ON (token_address)
-                    token_address,
-                    "volumeAnomaly",
-                    "holderConcentration",
-                    "liquidityScore",
-                    "priceVolatility",
-                    "sellPressure",
-                    "marketCapRisk",
-                    "isRugPull",
-                    timestamp
-                FROM token_metrics
-                ORDER BY token_address, timestamp DESC
-            ) m ON m.token_address = t.address
-            LEFT JOIN (
-                SELECT DISTINCT ON (token_address)
-                    token_address,
-                    price,
-                    volume_24h,
-                    market_cap
-                FROM token_prices
-                ORDER BY token_address, timestamp DESC
-            ) p ON p.token_address = t.address
-            ORDER BY m.timestamp DESC NULLS LAST
-            LIMIT 25;
-        `;
+            const result = await client.query(query);
+            console.log(`Query completed. Found ${result.rows?.length || 0} records`);
 
-        const result = await pool.query(query);
-        console.log(`Query completed. Found ${result.rows?.length || 0} records`);
+            if (!result.rows || result.rows.length === 0) {
+                const response = {
+                    success: false,
+                    error: 'No data found',
+                    data: [],
+                    metadata: {
+                        totalTokens: 0,
+                        highRiskCount: 0,
+                        mediumRiskCount: 0,
+                        lowRiskCount: 0,
+                        timestamp: new Date().toISOString()
+                    }
+                };
+                cachedData = response;
+                lastCacheTime = now;
+                return NextResponse.json(response);
+            }
 
-        if (!result.rows || result.rows.length === 0) {
+            // Process the data
+            const processedData = result.rows.map(token => ({
+                ...token,
+                riskScore: calculateRiskScore(token),
+                riskCategory: calculateRiskCategory(
+                    token.volumeAnomaly,
+                    token.holderConcentration,
+                    token.liquidityScore,
+                    token.priceVolatility,
+                    token.sellPressure,
+                    token.marketCapRisk
+                )
+            }));
+
             const response = {
-                success: false,
-                error: 'No data found',
-                data: [],
+                success: true,
+                data: processedData,
                 metadata: {
-                    totalTokens: 0,
-                    highRiskCount: 0,
-                    mediumRiskCount: 0,
-                    lowRiskCount: 0,
+                    totalTokens: processedData.length,
+                    highRiskCount: processedData.filter(t => t.riskCategory === 'High').length,
+                    mediumRiskCount: processedData.filter(t => t.riskCategory === 'Medium').length,
+                    lowRiskCount: processedData.filter(t => t.riskCategory === 'Low').length,
                     timestamp: new Date().toISOString()
                 }
             };
+
+            // Cache the results
             cachedData = response;
             lastCacheTime = now;
+
             return NextResponse.json(response);
+        } finally {
+            // Always release the client back to the pool
+            client.release();
         }
-
-        // Process the data
-        const processedData = result.rows.map(token => ({
-            ...token,
-            riskScore: calculateRiskScore(token),
-            riskCategory: calculateRiskCategory(
-                token.volumeAnomaly,
-                token.holderConcentration,
-                token.liquidityScore,
-                token.priceVolatility,
-                token.sellPressure,
-                token.marketCapRisk
-            )
-        }));
-
-        const response = {
-            success: true,
-            data: processedData,
-            metadata: {
-                totalTokens: processedData.length,
-                highRiskCount: processedData.filter(t => t.riskCategory === 'High').length,
-                mediumRiskCount: processedData.filter(t => t.riskCategory === 'Medium').length,
-                lowRiskCount: processedData.filter(t => t.riskCategory === 'Low').length,
-                timestamp: new Date().toISOString()
-            }
-        };
-
-        // Cache the results
-        cachedData = response;
-        lastCacheTime = now;
-
-        return NextResponse.json(response);
     } catch (error) {
         console.error('Error in risk metrics API:', error);
         return NextResponse.json({
@@ -139,7 +135,7 @@ export async function GET() {
             error: 'Failed to fetch risk metrics',
             details: error instanceof Error ? error.message : 'Unknown error',
             timestamp: new Date().toISOString()
-        }, { status: error instanceof Error && error.message === 'Query timeout' ? 504 : 500 });
+        }, { status: error instanceof Error && error.message.includes('timeout') ? 504 : 500 });
     }
 }
 
