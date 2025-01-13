@@ -1,13 +1,31 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db/config';
+import { QueryResult } from 'pg';
+
+interface RiskMetricsRow {
+    address: string;
+    name: string;
+    symbol: string;
+    volumeAnomaly: number;
+    holderConcentration: number;
+    liquidityScore: number;
+    priceVolatility: number;
+    sellPressure: number;
+    marketCapRisk: number;
+    isRugPull: boolean;
+    timestamp: Date;
+    current_price: number;
+    volume_24h: number;
+    market_cap: number;
+}
 
 export async function GET() {
     try {
         console.log('Starting risk metrics fetch...');
 
         // First verify database connection
-        const testConnection = await pool.query('SELECT 1');
-        console.log('Database connection verified');
+        const testConnection = await pool.query('SELECT NOW() as now');
+        console.log('Database query successful:', testConnection.rows[0]);
 
         // Check if tables exist and have data
         const tableCheck = await pool.query(`
@@ -21,19 +39,19 @@ export async function GET() {
 
         // Optimized query with better indexing
         const queryTimeout = 15000;
-        const queryPromise = pool.query(`
+        const queryPromise: Promise<QueryResult<RiskMetricsRow>> = pool.query(`
             WITH RankedMetrics AS (
                 SELECT 
-                    token_address,
-                    volume_anomaly,
-                    holder_concentration,
-                    liquidity_score,
-                    price_volatility,
-                    sell_pressure,
-                    market_cap_risk,
-                    is_rug_pull,
+                    "tokenAddress",
+                    "volumeAnomaly",
+                    "holderConcentration",
+                    "liquidityScore",
+                    "priceVolatility",
+                    "sellPressure",
+                    "marketCapRisk",
+                    "isRugPull",
                     timestamp,
-                    ROW_NUMBER() OVER (PARTITION BY token_address ORDER BY timestamp DESC) as rn
+                    ROW_NUMBER() OVER (PARTITION BY "tokenAddress" ORDER BY timestamp DESC) as rn
                 FROM token_metrics
             ),
             RankedPrices AS (
@@ -49,29 +67,26 @@ export async function GET() {
                 t.address,
                 t.name,
                 t.symbol,
-                m.volume_anomaly as "volumeAnomaly",
-                m.holder_concentration as "holderConcentration",
-                m.liquidity_score as "liquidityScore",
-                m.price_volatility as "priceVolatility",
-                m.sell_pressure as "sellPressure",
-                m.market_cap_risk as "marketCapRisk",
-                m.is_rug_pull as "isRugPull",
+                m."volumeAnomaly",
+                m."holderConcentration",
+                m."liquidityScore",
+                m."priceVolatility",
+                m."sellPressure",
+                m."marketCapRisk",
+                m."isRugPull",
                 m.timestamp,
                 COALESCE(p.price, 0) as current_price,
                 COALESCE(p.volume_24h, 0) as volume_24h,
                 COALESCE(p.market_cap, 0) as market_cap
             FROM tokens t
-            LEFT JOIN RankedMetrics m ON t.address = m.token_address AND m.rn = 1
-            LEFT JOIN RankedPrices p ON t.address = p.token_address AND p.rn = 1
+            LEFT JOIN RankedMetrics m ON t.address = m."tokenAddress"
+            LEFT JOIN RankedPrices p ON t.address = p.token_address
+            WHERE m.rn = 1 OR m.rn IS NULL
             ORDER BY m.timestamp DESC NULLS LAST
             LIMIT 100;
         `);
 
-        const timeoutPromise = new Promise((_, reject) => {
-            setTimeout(() => reject(new Error('Query timeout')), queryTimeout);
-        });
-
-        const result = await Promise.race([queryPromise, timeoutPromise]);
+        const result = await queryPromise;
         console.log(`Query completed. Found ${result.rows?.length || 0} records`);
 
         if (!result.rows || result.rows.length === 0) {
@@ -130,7 +145,7 @@ export async function GET() {
     }
 }
 
-function calculateRiskScore(token: any): string {
+function calculateRiskScore(token: RiskMetricsRow): string {
     return (
         (token.volumeAnomaly * 0.2) +
         (token.holderConcentration * 0.25) +

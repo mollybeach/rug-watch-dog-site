@@ -29,15 +29,7 @@ const pool = new Pool({
     
     // Query timeout settings
     statement_timeout: 10000, // Abort queries that take more than 10 seconds
-    query_timeout: 10000, // Timeout for acquiring a connection from the pool
-    
-    // Connection retry settings
-    retry_strategy: {
-        retries: 3,
-        factor: 2,
-        minTimeout: 1000,
-        maxTimeout: 5000
-    }
+    query_timeout: 10000 // Timeout for acquiring a connection from the pool
 });
 
 // Add error handling
