@@ -183,17 +183,29 @@ export default function RiskMetricsPage() {
                     <h2 className="text-xl font-semibold mb-4">Recent Token Analysis</h2>
                     <div className="overflow-auto max-h-[500px]">
                         <table className="min-w-full">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-4 py-2 text-left">Token</th>
-                                    <th className="px-4 py-2 text-left">Price</th>
-                                    <th className="px-4 py-2 text-left">Volume (24h)</th>
-                                    <th className="px-4 py-2 text-left">Market Cap</th>
-                                    <th className="px-4 py-2 text-left">Risk Score</th>
-                                    <th className="px-4 py-2 text-left">Category</th>
+                            <thead>
+                                <tr className="border-b border-slate-200 dark:border-slate-700">
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400 bg-transparent">
+                                        Token
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400 bg-transparent">
+                                        Price
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400 bg-transparent">
+                                        Volume (24h)
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400 bg-transparent">
+                                        Market Cap
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400 bg-transparent">
+                                        Risk Score
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-slate-500 dark:text-slate-400 bg-transparent">
+                                        Category
+                                    </th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-200">
+                            <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
                                 {metrics.map((token) => (
                                     <tr key={token.address} className="hover:bg-gray-50">
                                         <td className="px-4 py-2">
