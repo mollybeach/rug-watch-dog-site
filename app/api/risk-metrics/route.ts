@@ -25,6 +25,30 @@ export async function GET() {
 
         // Optimized query with better indexing and no window functions
         const query = `
+            WITH latest_metrics AS MATERIALIZED (
+                SELECT DISTINCT ON (token_address)
+                    token_address,
+                    "volumeAnomaly",
+                    "holderConcentration",
+                    "liquidityScore",
+                    "priceVolatility",
+                    "sellPressure",
+                    "marketCapRisk",
+                    "isRugPull",
+                    timestamp
+                FROM token_metrics
+                ORDER BY token_address, timestamp DESC
+            ),
+            latest_prices AS MATERIALIZED (
+                SELECT DISTINCT ON (token_address)
+                    token_address,
+                    price,
+                    volume_24h,
+                    market_cap,
+                    timestamp
+                FROM token_prices
+                ORDER BY token_address, timestamp DESC
+            )
             SELECT 
                 t.address,
                 t.name,
@@ -41,28 +65,16 @@ export async function GET() {
                 COALESCE(tp.volume_24h, 0) as volume_24h,
                 COALESCE(tp.market_cap, 0) as market_cap
             FROM tokens t
-            LEFT JOIN LATERAL (
-                SELECT *
-                FROM token_metrics
-                WHERE "tokenAddress" = t.address
-                ORDER BY timestamp DESC
-                LIMIT 1
-            ) tm ON true
-            LEFT JOIN LATERAL (
-                SELECT *
-                FROM token_prices
-                WHERE token_address = t.address
-                ORDER BY timestamp DESC
-                LIMIT 1
-            ) tp ON true
+            LEFT JOIN latest_metrics tm ON tm.token_address = t.address
+            LEFT JOIN latest_prices tp ON tp.token_address = t.address
             ORDER BY tm.timestamp DESC NULLS LAST
             LIMIT 100;
         `;
 
-        // Set a timeout of 5 seconds for the query
+        // Set a timeout of 30 seconds for the query
         const queryPromise = pool.query(query);
         const timeoutPromise = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Query timeout')), 5000)
+            setTimeout(() => reject(new Error('Query timeout')), 30000)
         );
 
         const result = await Promise.race([queryPromise, timeoutPromise]) as QueryResult<RiskMetricsRow>;
