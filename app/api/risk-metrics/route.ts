@@ -19,13 +19,41 @@ interface RiskMetricsRow {
     market_cap: number;
 }
 
+// Cache the results for 5 minutes
+let cachedData: any = null;
+let lastCacheTime: number = 0;
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+
 export async function GET() {
     try {
+        // Check if we have valid cached data
+        const now = Date.now();
+        if (cachedData && (now - lastCacheTime) < CACHE_DURATION) {
+            console.log('Returning cached data');
+            return NextResponse.json(cachedData);
+        }
+
         console.log('Starting risk metrics fetch...');
 
-        // Optimized query with limit and no materialized views
+        // Simplified query that only gets the latest metrics for each token
         const query = `
-            WITH latest_metrics AS (
+            SELECT 
+                t.address,
+                t.name,
+                t.symbol,
+                m."volumeAnomaly",
+                m."holderConcentration",
+                m."liquidityScore",
+                m."priceVolatility",
+                m."sellPressure",
+                m."marketCapRisk",
+                m."isRugPull",
+                m.timestamp,
+                COALESCE(p.price, 0) as current_price,
+                COALESCE(p.volume_24h, 0) as volume_24h,
+                COALESCE(p.market_cap, 0) as market_cap
+            FROM tokens t
+            LEFT JOIN (
                 SELECT DISTINCT ON (token_address)
                     token_address,
                     "volumeAnomaly",
@@ -37,46 +65,26 @@ export async function GET() {
                     "isRugPull",
                     timestamp
                 FROM token_metrics
-                WHERE timestamp >= NOW() - INTERVAL '24 hours'
                 ORDER BY token_address, timestamp DESC
-            ),
-            latest_prices AS (
+            ) m ON m.token_address = t.address
+            LEFT JOIN (
                 SELECT DISTINCT ON (token_address)
                     token_address,
                     price,
                     volume_24h,
                     market_cap
                 FROM token_prices
-                WHERE timestamp >= NOW() - INTERVAL '24 hours'
                 ORDER BY token_address, timestamp DESC
-            )
-            SELECT 
-                t.address,
-                t.name,
-                t.symbol,
-                COALESCE(tm."volumeAnomaly", 0) as "volumeAnomaly",
-                COALESCE(tm."holderConcentration", 0) as "holderConcentration",
-                COALESCE(tm."liquidityScore", 0) as "liquidityScore",
-                COALESCE(tm."priceVolatility", 0) as "priceVolatility",
-                COALESCE(tm."sellPressure", 0) as "sellPressure",
-                COALESCE(tm."marketCapRisk", 0) as "marketCapRisk",
-                COALESCE(tm."isRugPull", false) as "isRugPull",
-                COALESCE(tm.timestamp, NOW()) as timestamp,
-                COALESCE(tp.price, 0) as current_price,
-                COALESCE(tp.volume_24h, 0) as volume_24h,
-                COALESCE(tp.market_cap, 0) as market_cap
-            FROM tokens t
-            LEFT JOIN latest_metrics tm ON tm.token_address = t.address
-            LEFT JOIN latest_prices tp ON tp.token_address = t.address
-            ORDER BY COALESCE(tm.timestamp, NOW()) DESC
-            LIMIT 50;
+            ) p ON p.token_address = t.address
+            ORDER BY m.timestamp DESC NULLS LAST
+            LIMIT 25;
         `;
 
         const result = await pool.query(query);
         console.log(`Query completed. Found ${result.rows?.length || 0} records`);
 
         if (!result.rows || result.rows.length === 0) {
-            return NextResponse.json({
+            const response = {
                 success: false,
                 error: 'No data found',
                 data: [],
@@ -87,7 +95,10 @@ export async function GET() {
                     lowRiskCount: 0,
                     timestamp: new Date().toISOString()
                 }
-            });
+            };
+            cachedData = response;
+            lastCacheTime = now;
+            return NextResponse.json(response);
         }
 
         // Process the data
@@ -104,7 +115,7 @@ export async function GET() {
             )
         }));
 
-        return NextResponse.json({
+        const response = {
             success: true,
             data: processedData,
             metadata: {
@@ -114,7 +125,13 @@ export async function GET() {
                 lowRiskCount: processedData.filter(t => t.riskCategory === 'Low').length,
                 timestamp: new Date().toISOString()
             }
-        });
+        };
+
+        // Cache the results
+        cachedData = response;
+        lastCacheTime = now;
+
+        return NextResponse.json(response);
     } catch (error) {
         console.error('Error in risk metrics API:', error);
         return NextResponse.json({
