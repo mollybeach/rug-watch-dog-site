@@ -23,9 +23,9 @@ export async function GET() {
     try {
         console.log('Starting risk metrics fetch...');
 
-        // Optimized query with better indexing and no window functions
+        // Optimized query with limit and no materialized views
         const query = `
-            WITH latest_metrics AS MATERIALIZED (
+            WITH latest_metrics AS (
                 SELECT DISTINCT ON (token_address)
                     token_address,
                     "volumeAnomaly",
@@ -37,47 +37,42 @@ export async function GET() {
                     "isRugPull",
                     timestamp
                 FROM token_metrics
+                WHERE timestamp >= NOW() - INTERVAL '24 hours'
                 ORDER BY token_address, timestamp DESC
             ),
-            latest_prices AS MATERIALIZED (
+            latest_prices AS (
                 SELECT DISTINCT ON (token_address)
                     token_address,
                     price,
                     volume_24h,
-                    market_cap,
-                    timestamp
+                    market_cap
                 FROM token_prices
+                WHERE timestamp >= NOW() - INTERVAL '24 hours'
                 ORDER BY token_address, timestamp DESC
             )
             SELECT 
                 t.address,
                 t.name,
                 t.symbol,
-                tm."volumeAnomaly",
-                tm."holderConcentration",
-                tm."liquidityScore",
-                tm."priceVolatility",
-                tm."sellPressure",
-                tm."marketCapRisk",
-                tm."isRugPull",
-                tm.timestamp,
+                COALESCE(tm."volumeAnomaly", 0) as "volumeAnomaly",
+                COALESCE(tm."holderConcentration", 0) as "holderConcentration",
+                COALESCE(tm."liquidityScore", 0) as "liquidityScore",
+                COALESCE(tm."priceVolatility", 0) as "priceVolatility",
+                COALESCE(tm."sellPressure", 0) as "sellPressure",
+                COALESCE(tm."marketCapRisk", 0) as "marketCapRisk",
+                COALESCE(tm."isRugPull", false) as "isRugPull",
+                COALESCE(tm.timestamp, NOW()) as timestamp,
                 COALESCE(tp.price, 0) as current_price,
                 COALESCE(tp.volume_24h, 0) as volume_24h,
                 COALESCE(tp.market_cap, 0) as market_cap
             FROM tokens t
             LEFT JOIN latest_metrics tm ON tm.token_address = t.address
             LEFT JOIN latest_prices tp ON tp.token_address = t.address
-            ORDER BY tm.timestamp DESC NULLS LAST
-            LIMIT 100;
+            ORDER BY COALESCE(tm.timestamp, NOW()) DESC
+            LIMIT 50;
         `;
 
-        // Set a timeout of 30 seconds for the query
-        const queryPromise = pool.query(query);
-        const timeoutPromise = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Query timeout')), 30000)
-        );
-
-        const result = await Promise.race([queryPromise, timeoutPromise]) as QueryResult<RiskMetricsRow>;
+        const result = await pool.query(query);
         console.log(`Query completed. Found ${result.rows?.length || 0} records`);
 
         if (!result.rows || result.rows.length === 0) {
@@ -122,8 +117,6 @@ export async function GET() {
         });
     } catch (error) {
         console.error('Error in risk metrics API:', error);
-        
-        // Return a structured error response
         return NextResponse.json({
             success: false,
             error: 'Failed to fetch risk metrics',
