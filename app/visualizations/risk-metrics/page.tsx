@@ -66,18 +66,42 @@ export default function RiskMetricsPage() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await fetch('/api/risk-metrics');
+                setLoading(true);
+                setError(null);
+                
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 second timeout
+                
+                const response = await fetch('/api/risk-metrics', {
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    let errorMessage = 'Failed to fetch risk metrics';
+                    try {
+                        const errorJson = JSON.parse(errorText);
+                        errorMessage = errorJson.error || errorMessage;
+                    } catch {
+                        errorMessage = errorText || errorMessage;
+                    }
+                    throw new Error(errorMessage);
+                }
+
                 const data: MetricsResponse = await response.json();
                 
                 if (data.success) {
                     setMetrics(data.data);
                     setMetadata(data.metadata);
                 } else {
-                    setError(data.error || 'Failed to fetch data');
+                    throw new Error(data.error || 'Failed to fetch data');
                 }
             } catch (err) {
-                setError('Failed to fetch risk metrics');
-                console.error('Error:', err);
+                const errorMessage = err instanceof Error ? err.message : 'Failed to fetch risk metrics';
+                setError(errorMessage);
+                console.error('Error fetching risk metrics:', err);
             } finally {
                 setLoading(false);
             }

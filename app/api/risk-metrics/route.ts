@@ -3,25 +3,27 @@ import pool from '@/lib/db/config';
 
 export async function GET() {
     try {
-        // First, check if the tables exist
-        const checkTable = await pool.query(`
-            SELECT EXISTS (
-                SELECT FROM information_schema.tables 
-                WHERE table_name = 'tokens'
-            );
+        console.log('Starting risk metrics fetch...');
+
+        // First verify database connection
+        const testConnection = await pool.query('SELECT 1');
+        console.log('Database connection verified');
+
+        // Check if tables exist and have data
+        const tableCheck = await pool.query(`
+            SELECT 
+                (SELECT COUNT(*) FROM tokens) as token_count,
+                (SELECT COUNT(*) FROM token_metrics) as metrics_count,
+                (SELECT COUNT(*) FROM token_prices) as prices_count
         `);
+        
+        console.log('Table counts:', tableCheck.rows[0]);
 
-        if (!checkTable.rows[0].exists) {
-            return NextResponse.json({
-                success: false,
-                error: 'Database tables not initialized'
-            }, { status: 500 });
-        }
-
-        // Fetch the latest metrics with more detailed information
-        const result = await pool.query(`
-            WITH LatestMetrics AS (
-                SELECT DISTINCT ON (token_address) 
+        // Optimized query with better indexing
+        const queryTimeout = 15000;
+        const queryPromise = pool.query(`
+            WITH RankedMetrics AS (
+                SELECT 
                     token_address,
                     volume_anomaly,
                     holder_concentration,
@@ -30,9 +32,18 @@ export async function GET() {
                     sell_pressure,
                     market_cap_risk,
                     is_rug_pull,
-                    timestamp
+                    timestamp,
+                    ROW_NUMBER() OVER (PARTITION BY token_address ORDER BY timestamp DESC) as rn
                 FROM token_metrics
-                ORDER BY token_address, timestamp DESC
+            ),
+            RankedPrices AS (
+                SELECT 
+                    token_address,
+                    price,
+                    volume_24h,
+                    market_cap,
+                    ROW_NUMBER() OVER (PARTITION BY token_address ORDER BY timestamp DESC) as rn
+                FROM token_prices
             )
             SELECT 
                 t.address,
@@ -50,28 +61,39 @@ export async function GET() {
                 COALESCE(p.volume_24h, 0) as volume_24h,
                 COALESCE(p.market_cap, 0) as market_cap
             FROM tokens t
-            INNER JOIN LatestMetrics m ON t.address = m.token_address
-            LEFT JOIN token_prices p ON t.address = p.token_address
-            WHERE p.timestamp = (
-                SELECT MAX(timestamp)
-                FROM token_prices
-                WHERE token_address = t.address
-            )
-            ORDER BY m.timestamp DESC
-            LIMIT 100
+            LEFT JOIN RankedMetrics m ON t.address = m.token_address AND m.rn = 1
+            LEFT JOIN RankedPrices p ON t.address = p.token_address AND p.rn = 1
+            ORDER BY m.timestamp DESC NULLS LAST
+            LIMIT 100;
         `);
 
-        // Calculate risk scores and categories
+        const timeoutPromise = new Promise((_, reject) => {
+            setTimeout(() => reject(new Error('Query timeout')), queryTimeout);
+        });
+
+        const result = await Promise.race([queryPromise, timeoutPromise]);
+        console.log(`Query completed. Found ${result.rows?.length || 0} records`);
+
+        if (!result.rows || result.rows.length === 0) {
+            console.log('No data found in the database');
+            return NextResponse.json({
+                success: false,
+                error: 'No data found',
+                data: [],
+                metadata: {
+                    totalTokens: 0,
+                    highRiskCount: 0,
+                    mediumRiskCount: 0,
+                    lowRiskCount: 0,
+                    timestamp: new Date().toISOString()
+                }
+            });
+        }
+
+        // Process the data
         const processedData = result.rows.map(token => ({
             ...token,
-            riskScore: (
-                (token.volumeAnomaly * 0.2) +
-                (token.holderConcentration * 0.25) +
-                (token.liquidityScore * 0.15) +
-                (token.priceVolatility * 0.15) +
-                (token.sellPressure * 0.15) +
-                (token.marketCapRisk * 0.1)
-            ).toFixed(2),
+            riskScore: calculateRiskScore(token),
             riskCategory: calculateRiskCategory(
                 token.volumeAnomaly,
                 token.holderConcentration,
@@ -81,6 +103,8 @@ export async function GET() {
                 token.marketCapRisk
             )
         }));
+
+        console.log('Data processing completed');
 
         return NextResponse.json({
             success: true,
@@ -94,13 +118,27 @@ export async function GET() {
             }
         });
     } catch (error) {
-        console.error('Error fetching risk metrics:', error);
+        console.error('Error in risk metrics API:', error);
+        
+        // Return a structured error response
         return NextResponse.json({
             success: false,
-            error: error instanceof Error ? error.message : 'Failed to fetch risk metrics',
-            details: process.env.NODE_ENV === 'development' ? error : undefined
+            error: 'Failed to fetch risk metrics',
+            details: error instanceof Error ? error.message : 'Unknown error',
+            timestamp: new Date().toISOString()
         }, { status: 500 });
     }
+}
+
+function calculateRiskScore(token: any): string {
+    return (
+        (token.volumeAnomaly * 0.2) +
+        (token.holderConcentration * 0.25) +
+        (token.liquidityScore * 0.15) +
+        (token.priceVolatility * 0.15) +
+        (token.sellPressure * 0.15) +
+        (token.marketCapRisk * 0.1)
+    ).toFixed(2);
 }
 
 function calculateRiskCategory(
