@@ -58,50 +58,45 @@ function formatLargeNumber(num: string | number): string {
 }
 
 export default function RiskMetricsPage() {
-    const [metrics, setMetrics] = useState<RiskMetrics[]>([]);
-    const [metadata, setMetadata] = useState<MetricsResponse['metadata'] | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [data, setData] = useState<RiskMetrics[]>([]);
+    const [metadata, setMetadata] = useState<MetricsResponse['metadata'] | null>(null);
 
     useEffect(() => {
         async function fetchData() {
+            setLoading(true);
+            setError(null);
+
             try {
-                setLoading(true);
-                setError(null);
-                
+                // Set up AbortController for client-side timeout
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 second timeout
-                
+
                 const response = await fetch('/api/risk-metrics', {
                     signal: controller.signal
                 });
-                
                 clearTimeout(timeoutId);
-                
+
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    let errorMessage = 'Failed to fetch risk metrics';
-                    try {
-                        const errorJson = JSON.parse(errorText);
-                        errorMessage = errorJson.error || errorMessage;
-                    } catch {
-                        errorMessage = errorText || errorMessage;
+                    if (response.status === 504) {
+                        throw new Error('Request timed out. Please try again.');
                     }
-                    throw new Error(errorMessage);
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to fetch risk metrics');
                 }
 
-                const data: MetricsResponse = await response.json();
+                const result: MetricsResponse = await response.json();
                 
-                if (data.success) {
-                    setMetrics(data.data);
-                    setMetadata(data.metadata);
-                } else {
-                    throw new Error(data.error || 'Failed to fetch data');
+                if (!result.success) {
+                    throw new Error(result.error || 'Failed to fetch risk metrics');
                 }
+
+                setData(result.data);
+                setMetadata(result.metadata);
             } catch (err) {
-                const errorMessage = err instanceof Error ? err.message : 'Failed to fetch risk metrics';
-                setError(errorMessage);
                 console.error('Error fetching risk metrics:', err);
+                setError(err instanceof Error ? err.message : 'An unexpected error occurred');
             } finally {
                 setLoading(false);
             }
@@ -110,22 +105,38 @@ export default function RiskMetricsPage() {
         fetchData();
     }, []);
 
-    if (loading) return (
-        <div className="flex items-center justify-center min-h-screen">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-        </div>
-    );
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mb-4"></div>
+                    <p>Loading risk metrics...</p>
+                </div>
+            </div>
+        );
+    }
 
-    if (error) return (
-        <div className="flex items-center justify-center min-h-screen">
-            <div className="text-red-500 text-xl">Error: {error}</div>
-        </div>
-    );
+    if (error) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="text-center text-red-600">
+                    <h2 className="text-xl font-bold mb-2">Error</h2>
+                    <p>{error}</p>
+                    <button 
+                        onClick={() => window.location.reload()} 
+                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    >
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     // Prepare data for radar chart
-    const highRiskAvg = calculateAverageMetrics(metrics.filter(m => m.riskCategory === 'High'));
-    const mediumRiskAvg = calculateAverageMetrics(metrics.filter(m => m.riskCategory === 'Medium'));
-    const lowRiskAvg = calculateAverageMetrics(metrics.filter(m => m.riskCategory === 'Low'));
+    const highRiskAvg = calculateAverageMetrics(data.filter(m => m.riskCategory === 'High'));
+    const mediumRiskAvg = calculateAverageMetrics(data.filter(m => m.riskCategory === 'Medium'));
+    const lowRiskAvg = calculateAverageMetrics(data.filter(m => m.riskCategory === 'Low'));
 
     const radarData = [
         {
@@ -230,7 +241,7 @@ export default function RiskMetricsPage() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
-                                {metrics.map((token) => (
+                                {data.map((token) => (
                                     <tr key={token.address} className="hover:bg-gray-50">
                                         <td className="px-4 py-2">
                                             <div>

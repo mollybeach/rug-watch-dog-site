@@ -23,74 +23,52 @@ export async function GET() {
     try {
         console.log('Starting risk metrics fetch...');
 
-        // First verify database connection
-        const testConnection = await pool.query('SELECT NOW() as now');
-        console.log('Database query successful:', testConnection.rows[0]);
-
-        // Check if tables exist and have data
-        const tableCheck = await pool.query(`
-            SELECT 
-                (SELECT COUNT(*) FROM tokens) as token_count,
-                (SELECT COUNT(*) FROM token_metrics) as metrics_count,
-                (SELECT COUNT(*) FROM token_prices) as prices_count
-        `);
-        
-        console.log('Table counts:', tableCheck.rows[0]);
-
-        // Optimized query with better indexing
-        const queryTimeout = 15000;
-        const queryPromise: Promise<QueryResult<RiskMetricsRow>> = pool.query(`
-            WITH RankedMetrics AS (
-                SELECT 
-                    "tokenAddress",
-                    "volumeAnomaly",
-                    "holderConcentration",
-                    "liquidityScore",
-                    "priceVolatility",
-                    "sellPressure",
-                    "marketCapRisk",
-                    "isRugPull",
-                    timestamp,
-                    ROW_NUMBER() OVER (PARTITION BY "tokenAddress" ORDER BY timestamp DESC) as rn
-                FROM token_metrics
-            ),
-            RankedPrices AS (
-                SELECT 
-                    token_address,
-                    price,
-                    volume_24h,
-                    market_cap,
-                    ROW_NUMBER() OVER (PARTITION BY token_address ORDER BY timestamp DESC) as rn
-                FROM token_prices
-            )
+        // Optimized query with better indexing and no window functions
+        const query = `
             SELECT 
                 t.address,
                 t.name,
                 t.symbol,
-                m."volumeAnomaly",
-                m."holderConcentration",
-                m."liquidityScore",
-                m."priceVolatility",
-                m."sellPressure",
-                m."marketCapRisk",
-                m."isRugPull",
-                m.timestamp,
-                COALESCE(p.price, 0) as current_price,
-                COALESCE(p.volume_24h, 0) as volume_24h,
-                COALESCE(p.market_cap, 0) as market_cap
+                tm."volumeAnomaly",
+                tm."holderConcentration",
+                tm."liquidityScore",
+                tm."priceVolatility",
+                tm."sellPressure",
+                tm."marketCapRisk",
+                tm."isRugPull",
+                tm.timestamp,
+                COALESCE(tp.price, 0) as current_price,
+                COALESCE(tp.volume_24h, 0) as volume_24h,
+                COALESCE(tp.market_cap, 0) as market_cap
             FROM tokens t
-            LEFT JOIN RankedMetrics m ON t.address = m."tokenAddress"
-            LEFT JOIN RankedPrices p ON t.address = p.token_address
-            WHERE m.rn = 1 OR m.rn IS NULL
-            ORDER BY m.timestamp DESC NULLS LAST
+            LEFT JOIN LATERAL (
+                SELECT *
+                FROM token_metrics
+                WHERE "tokenAddress" = t.address
+                ORDER BY timestamp DESC
+                LIMIT 1
+            ) tm ON true
+            LEFT JOIN LATERAL (
+                SELECT *
+                FROM token_prices
+                WHERE token_address = t.address
+                ORDER BY timestamp DESC
+                LIMIT 1
+            ) tp ON true
+            ORDER BY tm.timestamp DESC NULLS LAST
             LIMIT 100;
-        `);
+        `;
 
-        const result = await queryPromise;
+        // Set a timeout of 5 seconds for the query
+        const queryPromise = pool.query(query);
+        const timeoutPromise = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Query timeout')), 5000)
+        );
+
+        const result = await Promise.race([queryPromise, timeoutPromise]) as QueryResult<RiskMetricsRow>;
         console.log(`Query completed. Found ${result.rows?.length || 0} records`);
 
         if (!result.rows || result.rows.length === 0) {
-            console.log('No data found in the database');
             return NextResponse.json({
                 success: false,
                 error: 'No data found',
@@ -119,8 +97,6 @@ export async function GET() {
             )
         }));
 
-        console.log('Data processing completed');
-
         return NextResponse.json({
             success: true,
             data: processedData,
@@ -141,7 +117,7 @@ export async function GET() {
             error: 'Failed to fetch risk metrics',
             details: error instanceof Error ? error.message : 'Unknown error',
             timestamp: new Date().toISOString()
-        }, { status: 500 });
+        }, { status: error instanceof Error && error.message === 'Query timeout' ? 504 : 500 });
     }
 }
 
