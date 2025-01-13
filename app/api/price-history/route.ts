@@ -5,41 +5,42 @@
  */
 
 import { NextResponse } from 'next/server';
-export const runtime = 'edge';
-export const dynamic = "force-dynamic";
-export const revalidate = 60;
+import pool from '@/lib/db/config';
 
-function generatePriceHistory() {
-    const now = new Date();
-    const dates = Array.from({length: 30}, (_, i) => {
-        const date = new Date(now);
-        date.setDate(date.getDate() - (29 - i));
-        return date.toISOString();
-    });
+export async function GET(request: Request) {
+    const { searchParams } = new URL(request.url);
+    const address = searchParams.get('address');
+    const limit = parseInt(searchParams.get('limit') || '100');
 
-    return {
-        dates,
-        collections: {
-            BAYC: dates.map((_, i) => 50 + Math.sin(i/3) * 10 + Math.random() * 5),
-            Azuki: dates.map((_, i) => 30 + Math.cos(i/4) * 8 + Math.random() * 4),
-            CryptoPunks: dates.map((_, i) => 80 + Math.sin(i/2) * 15 + Math.random() * 6),
-        }
-    };
-}
-
-export async function GET() {
-    try {
-        const priceData = generatePriceHistory();
-        return NextResponse.json(priceData, { status: 200 });
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-            return NextResponse.json(
-                { error: `Failed to fetch price history: ${error.message}` },
-                { status: 500 }
-            );
-        }
+    if (!address) {
         return NextResponse.json(
-            { error: 'Failed to fetch price history' },
+            { success: false, error: 'Token address is required' },
+            { status: 400 }
+        );
+    }
+
+    try {
+        const result = await pool.query(`
+            SELECT 
+                price,
+                volume_24h as "volume24h",
+                market_cap as "marketCap",
+                liquidity,
+                timestamp
+            FROM token_prices
+            WHERE token_address = $1
+            ORDER BY timestamp DESC
+            LIMIT $2
+        `, [address, limit]);
+
+        return NextResponse.json({
+            success: true,
+            data: result.rows
+        });
+    } catch (error) {
+        console.error('Error fetching price history:', error);
+        return NextResponse.json(
+            { success: false, error: 'Failed to fetch price history' },
             { status: 500 }
         );
     }

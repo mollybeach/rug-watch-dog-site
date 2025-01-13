@@ -1,159 +1,138 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { LineChart } from "lucide-react";
-import dynamic from "next/dynamic";
-import { Card } from "@/components/ui/card";
+import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
-const Plot = dynamic(() => import('react-plotly.js'), {
-  ssr: false,
-  loading: () => (
-    <div className="flex items-center justify-center h-[500px]">
-      <div className="animate-pulse text-muted-foreground">Loading price data...</div>
-    </div>
-  )
-});
+const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 
-const COLORS = {
-  primary: '#8b5cf6',    // Purple
-  secondary: '#ec4899',  // Pink
-  tertiary: '#3b82f6',   // Blue
-  background: 'rgba(0, 0, 0, 0)',
-  grid: 'rgba(148, 163, 184, 0.1)'
-};
+interface PriceData {
+    price: number;
+    volume24h: number;
+    marketCap: number;
+    liquidity: number;
+    timestamp: string;
+}
 
-export default function PriceHistory() {
-  const [isMounted, setIsMounted] = useState(false);
-  const [data, setData] = useState<any[]>([]);
+export default function PriceHistoryPage() {
+    const [address, setAddress] = useState('');
+    const [priceData, setPriceData] = useState<PriceData[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    setIsMounted(true);
-    generateMockData();
-  }, []);
+    const fetchPriceHistory = async () => {
+        if (!address) return;
 
-  const generateMockData = () => {
-    const now = new Date();
-    const dates = Array.from({length: 30}, (_, i) => {
-      const date = new Date(now);
-      date.setDate(date.getDate() - (29 - i));
-      return date;
-    });
+        setLoading(true);
+        setError(null);
 
-    setData([{
-      dates,
-      bayc: dates.map((_, i) => 50 + Math.sin(i/3) * 10 + Math.random() * 5),
-      azuki: dates.map((_, i) => 30 + Math.cos(i/4) * 8 + Math.random() * 4),
-      punk: dates.map((_, i) => 80 + Math.sin(i/2) * 15 + Math.random() * 6),
-    }]);
-  };
+        try {
+            const response = await fetch(`/api/price-history?address=${address}`);
+            const data = await response.json();
 
-  if (!isMounted) {
-    return <div>Loading...</div>;
-  }
+            if (data.success) {
+                setPriceData(data.data);
+            } else {
+                setError(data.error || 'Failed to fetch price history');
+            }
+        } catch (err) {
+            setError('Failed to fetch price history');
+            console.error('Error:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  const plotData = [
-    {
-      x: data[0]?.dates,
-      y: data[0]?.bayc,
-      type: 'scatter',
-      mode: 'lines',
-      name: 'BAYC',
-      line: {
-        color: COLORS.primary,
-        width: 3,
-        shape: 'spline'
-      },
-      hovertemplate: '%{y:.2f} ETH<br>%{x|%b %d}'
-    },
-    {
-      x: data[0]?.dates,
-      y: data[0]?.azuki,
-      type: 'scatter',
-      mode: 'lines',
-      name: 'Azuki',
-      line: {
-        color: COLORS.secondary,
-        width: 3,
-        shape: 'spline'
-      },
-      hovertemplate: '%{y:.2f} ETH<br>%{x|%b %d}'
-    },
-    {
-      x: data[0]?.dates,
-      y: data[0]?.punk,
-      type: 'scatter',
-      mode: 'lines',
-      name: 'CryptoPunks',
-      line: {
-        color: COLORS.tertiary,
-        width: 3,
-        shape: 'spline'
-      },
-      hovertemplate: '%{y:.2f} ETH<br>%{x|%b %d}'
-    }
-  ];
+    const preparePriceChart = () => {
+        const sortedData = [...priceData].sort((a, b) => 
+            new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+        );
 
-  const layout = {
-    title: {
-      text: '30-Day Price History',
-      font: {
-        size: 24,
-        color: '#64748b'
-      }
-    },
-    paper_bgcolor: COLORS.background,
-    plot_bgcolor: COLORS.background,
-    xaxis: {
-      title: 'Date',
-      gridcolor: COLORS.grid,
-      zeroline: false,
-      showline: true,
-      linecolor: COLORS.grid,
-      tickformat: '%b %d'
-    },
-    yaxis: {
-      title: 'Floor Price (ETH)',
-      gridcolor: COLORS.grid,
-      zeroline: false,
-      showline: true,
-      linecolor: COLORS.grid
-    },
-    showlegend: true,
-    legend: {
-      bgcolor: COLORS.background,
-      bordercolor: COLORS.grid,
-      borderwidth: 1
-    },
-    hovermode: 'x unified',
-    hoverlabel: {
-      bgcolor: '#1e293b',
-      font: { color: '#ffffff' }
-    },
-    margin: { t: 60, r: 20, b: 40, l: 60 },
-    height: 500,
-    autosize: true
-  };
+        return [{
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Price',
+            x: sortedData.map(d => d.timestamp),
+            y: sortedData.map(d => d.price),
+            line: { color: '#2E7D32' }
+        }];
+    };
 
-  const config = {
-    responsive: true,
-    displayModeBar: false
-  };
+    const prepareVolumeChart = () => {
+        const sortedData = [...priceData].sort((a, b) => 
+            new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+        );
 
-  return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center gap-2">
-        <LineChart className="h-5 w-5 text-purple-500" />
-        <h2 className="text-xl font-semibold">Historical Price Analysis</h2>
-      </div>
+        return [{
+            type: 'bar',
+            name: 'Volume',
+            x: sortedData.map(d => d.timestamp),
+            y: sortedData.map(d => d.volume24h),
+            marker: { color: '#1976D2' }
+        }];
+    };
 
-      <Card className="p-4">
-        <Plot
-          data={plotData}
-          layout={layout}
-          config={config}
-          className="w-full"
-        />
-      </Card>
-    </div>
-  );
+    return (
+        <div className="container mx-auto p-4">
+            <h1 className="text-2xl font-bold mb-4">Token Price History</h1>
+
+            <div className="flex gap-4 mb-6">
+                <Input
+                    type="text"
+                    placeholder="Enter token address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    className="max-w-md"
+                />
+                <Button 
+                    onClick={fetchPriceHistory}
+                    disabled={!address || loading}
+                >
+                    {loading ? 'Loading...' : 'Fetch Data'}
+                </Button>
+            </div>
+
+            {error && (
+                <div className="text-red-500 mb-4">
+                    Error: {error}
+                </div>
+            )}
+
+            {priceData.length > 0 && (
+                <div className="grid grid-cols-1 gap-6">
+                    <Card className="p-4">
+                        <h2 className="text-xl font-semibold mb-4">Price Chart</h2>
+                        <Plot
+                            data={preparePriceChart()}
+                            layout={{
+                                title: 'Token Price Over Time',
+                                xaxis: { title: 'Date' },
+                                yaxis: { title: 'Price (USD)' },
+                                height: 400
+                            }}
+                            useResizeHandler
+                            style={{ width: '100%' }}
+                        />
+                    </Card>
+
+                    <Card className="p-4">
+                        <h2 className="text-xl font-semibold mb-4">Volume Chart</h2>
+                        <Plot
+                            data={prepareVolumeChart()}
+                            layout={{
+                                title: '24h Trading Volume',
+                                xaxis: { title: 'Date' },
+                                yaxis: { title: 'Volume (USD)' },
+                                height: 400
+                            }}
+                            useResizeHandler
+                            style={{ width: '100%' }}
+                        />
+                    </Card>
+                </div>
+            )}
+        </div>
+    );
 } 
