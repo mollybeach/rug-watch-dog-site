@@ -15,12 +15,19 @@ const nextConfig = {
                 stream: false
             };
         }
-        // Add module resolution without using path
-        config.resolve.modules = [
-            '.',
-            'node_modules',
-            ...config.resolve.modules || [],
-        ];
+        // Configure module resolution and aliases
+        config.resolve = {
+            ...config.resolve,
+            modules: ['node_modules', '.'],
+            alias: {
+                ...config.resolve.alias,
+                '@': '.',
+                '@/components': './components',
+                '@/lib': './lib',
+                '@/styles': './styles',
+                '@/types': './types'
+            }
+        };
         return config;
     },
     experimental: {
