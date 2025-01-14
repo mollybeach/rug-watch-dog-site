@@ -21,9 +21,34 @@ interface RiskMetricsRow {
     timestamp: string;
 }
 
+async function executeQueryWithRetry<T>(
+    query: string,
+    maxRetries = 3,
+    delay = 1000
+): Promise<QueryResult<T>> {
+    let lastError;
+    
+    for (let i = 0; i < maxRetries; i++) {
+        try {
+            const client = await pool.connect();
+            try {
+                return await client.query<T>(query);
+            } finally {
+                client.release();
+            }
+        } catch (error) {
+            lastError = error;
+            if (i < maxRetries - 1) {
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+        }
+    }
+    throw lastError;
+}
+
 export async function GET() {
     try {
-        const queryPromise = pool.query<RiskMetricsRow>(`
+        const query = `
             SELECT DISTINCT ON (t.address)
                 t.address,
                 t.name,
@@ -46,13 +71,9 @@ export async function GET() {
             WHERE tm.timestamp >= NOW() - INTERVAL '24 hours'
             ORDER BY t.address, tm.timestamp DESC
             LIMIT 5;
-        `);
+        `;
 
-        const timeoutPromise = new Promise<never>((_, reject) => {
-            setTimeout(() => reject(new Error('Query timeout')), 5000);
-        });
-
-        const result = await Promise.race([queryPromise, timeoutPromise]) as QueryResult<RiskMetricsRow>;
+        const result = await executeQueryWithRetry<RiskMetricsRow>(query);
 
         return NextResponse.json({
             success: true,
