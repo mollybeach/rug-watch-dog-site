@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { client } from '@/lib/db/config';
-import { QueryResult, QueryResultRow } from 'pg';
+import { client, pool, initClient } from '@/lib/db/config';
+import { QueryResult, QueryResultRow, PoolClient } from 'pg';
 
 interface RiskMetricsRow extends QueryResultRow {
     address: string;
@@ -22,7 +22,14 @@ interface RiskMetricsRow extends QueryResultRow {
 }
 
 export async function GET() {
-    if (!client) {
+    let currentClient: PoolClient | null = client;
+    
+    if (!currentClient) {
+        await initClient();
+        currentClient = client;
+    }
+
+    if (!currentClient) {
         return NextResponse.json(
             { 
                 success: false, 
@@ -58,7 +65,7 @@ export async function GET() {
             LIMIT 5;
         `;
 
-        const result = await client.query<RiskMetricsRow>(query);
+        const result = await currentClient.query<RiskMetricsRow>(query);
 
         return NextResponse.json({
             success: true,

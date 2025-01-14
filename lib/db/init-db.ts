@@ -1,4 +1,4 @@
-import pool from './config';
+import { pool } from '@/lib/db/config';
 
 async function initializeDatabase() {
     try {

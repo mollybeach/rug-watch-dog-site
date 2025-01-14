@@ -1,4 +1,4 @@
-import { Pool } from 'pg';
+import { Pool, PoolClient } from 'pg';
 
 const pool = new Pool({
     user: process.env.DB_USERNAME,
@@ -9,20 +9,25 @@ const pool = new Pool({
     ssl: {
         rejectUnauthorized: false
     },
-    // Increase timeouts significantly
-    connectionTimeoutMillis: 30000, // 30 seconds
+    connectionTimeoutMillis: 30000,
     idleTimeoutMillis: 30000,
-    max: 1, // Single connection
+    max: 1,
     keepAlive: true,
     statement_timeout: 30000
 });
 
-// Create a single client
-let client;
-try {
-    client = await pool.connect();
-} catch (err) {
-    console.error('Failed to create initial connection:', err);
+let client: PoolClient | null = null;
+
+// Initialize client function
+async function initClient() {
+    try {
+        client = await pool.connect();
+    } catch (err) {
+        console.error('Failed to create initial connection:', err);
+    }
 }
 
-export { pool, client }; 
+// Initialize the client
+initClient();
+
+export { pool, client, initClient }; 
