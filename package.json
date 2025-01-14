@@ -56,7 +56,12 @@
         "tailwindcss": "^3.4.15",
         "postcss": "^8.4.49",
         "autoprefixer": "^10.4.20",
-        "critters": "^0.0.20"
+        "critters": "^0.0.20",
+        "@types/node": "^20.17.6",
+        "@types/react": "^18.3.12",
+        "@types/react-dom": "^18.3.1",
+        "@types/react-plotly.js": "^2.6.3",
+        "typescript": "^5.7.3"
     },
     "devDependencies": {
         "@babel/core": "^7.26.0",
@@ -70,11 +75,6 @@
         "@openzeppelin/hardhat-upgrades": "^1.22.1",
         "@types/ajv": "^1.0.4",
         "@types/d3-force": "^3.0.10",
-        "@types/node": "^20.17.6",
-        "@types/plotly.js-dist-min": "^2.3.4",
-        "@types/react": "^18.3.12",
-        "@types/react-dom": "^18.3.1",
-        "@types/react-plotly.js": "^2.6.3",
         "babel-plugin-transform-runtime": "^6.23.0",
         "babel-preset-next": "^1.4.0",
         "chai": "^4.3.7",
@@ -84,7 +84,6 @@
         "ethereum-waffle": "^4.0.10",
         "hardhat": "^2.17.0",
         "ts-node-dev": "^2.0.0",
-        "typescript": "^5.7.3",
         "wrangler": "^3.87.0"
     }
 }
