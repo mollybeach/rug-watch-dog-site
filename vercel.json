@@ -1,7 +1,9 @@
 {
+    "version": 2,
     "buildCommand": "pnpm run build",
-    "framework": "nextjs",
     "installCommand": "pnpm install",
+    "framework": "nextjs",
+    "regions": ["iad1"],
     "builds": [{
         "src": "package.json",
         "use": "@vercel/next"
@@ -9,6 +11,13 @@
     "build": {
         "env": {
             "NODE_VERSION": "20"
+        }
+    },
+    "git": {
+        "deploymentEnabled": {
+            "main": true,
+            "dev": true,
+            "feature/*": false
         }
     }
 }

@@ -19,7 +19,14 @@ const nextConfig = {
     },
     experimental: {
         optimizePackageImports: ['plotly.js-dist-min']
-    }
+    },
+    images: {
+        domains: ['rugwatchdog.com', 'assets.rugwatchdog.com'],
+        deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+        formats: ['image/webp']
+    },
+    assetPrefix: process.env.NODE_ENV === 'production' ?
+        'https://assets.rugwatchdog.com' : ''
 };
 
 module.exports = nextConfig;

@@ -1,0 +1,14 @@
+.git
+.env
+.env.*
+node_modules
+.next
+out
+build
+README.md
+.gitignore
+.eslintrc.json
+.prettierrc
+coverage
+.vscode
+*.log
