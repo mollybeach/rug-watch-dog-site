@@ -12,6 +12,9 @@ Check out the live demo: [RugWatchDog](https://rugwatchdog.vercel.app/)
 - **Eliza Chatbot Integration**: Interact with a conversational AI assistant on Discord, Telegram, and Twitter for real-time insights
 - **FUD Alerts**: Automatically generate social media alerts for high-risk tokens to keep the community informed
 - **Customizable AI Models**: Train and adapt the AI to detect emerging fraud patterns in the crypto ecosystem
+- **Database**: PostgreSQL on AWS RDS
+- **ORM**: Vercel Postgres SDK
+- **Deployment**: Vercel
 
 ## Tech Stack
 
@@ -107,6 +110,7 @@ The model is trained on a diverse dataset including:
 Training data is collected from:
 - Etherscan (holder data, contract info)
 - DexScreener (price, volume, liquidity data)
+
 
 ## 📜 License
 
