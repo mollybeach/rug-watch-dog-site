@@ -8,11 +8,9 @@ import { Badge } from '@/components/ui/badge';
 // Rename dynamic import to avoid conflict
 const DynamicPlot = dynamic(() => import('react-plotly.js'), { ssr: false });
 
-// Add config object for page behavior
-export const config = {
-    runtime: 'edge',
-    dynamic: 'force-dynamic'
-};
+// Use the new runtime export syntax
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
 interface RiskMetrics {
     address: string;
