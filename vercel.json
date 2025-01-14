@@ -1,16 +1,20 @@
 {
-  "buildCommand": "pnpm run build",
-  "framework": "nextjs",
-  "installCommand": "pnpm install",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
+    "buildCommand": "pnpm run build",
+    "framework": "nextjs",
+    "installCommand": "pnpm install",
+    "builds": [{
+        "src": "package.json",
+        "use": "@vercel/next"
+    }],
+    "build": {
+        "env": {
+            "NODE_VERSION": "20"
+        }
+    },
+    "functions": {
+        "app/api/**/*.ts": {
+            "memory": 1024,
+            "maxDuration": 10
+        }
     }
-  ],
-  "build": {
-    "env": {
-      "NODE_VERSION": "20"
-    }
-  }
 }

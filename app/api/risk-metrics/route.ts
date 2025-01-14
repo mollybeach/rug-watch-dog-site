@@ -1,12 +1,8 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db/config';
 
-export const runtime = 'edge'; // Use edge runtime for better performance
-export const maxDuration = 5; // Set max duration to 5 seconds
-
 export async function GET() {
     try {
-        // Add timeout to the query
         const query = `
             SELECT DISTINCT ON (t.address)
                 t.address,
@@ -29,16 +25,10 @@ export async function GET() {
             LEFT JOIN token_metrics tm ON t.address = tm.tokenAddress
             WHERE tm.timestamp >= NOW() - INTERVAL '24 hours'
             ORDER BY t.address, tm.timestamp DESC
-            LIMIT 10;  /* Reduced limit for faster response */
+            LIMIT 10;
         `;
 
-        // Add query timeout
-        const result = await Promise.race([
-            pool.query(query),
-            new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('Query timeout')), 4000)
-            )
-        ]);
+        const result = await pool.query(query);
 
         return NextResponse.json({
             success: true,
@@ -52,7 +42,7 @@ export async function GET() {
                 error: 'Failed to fetch risk metrics',
                 details: error.message 
             },
-            { status: error.message === 'Query timeout' ? 504 : 500 }
+            { status: 500 }
         );
     }
 } 

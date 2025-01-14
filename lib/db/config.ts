@@ -9,14 +9,12 @@ const pool = new Pool({
     ssl: {
         rejectUnauthorized: false
     },
-    // Add timeouts
-    statement_timeout: 3000, // 3 seconds
-    query_timeout: 4000,     // 4 seconds
-    connectionTimeoutMillis: 5000, // 5 seconds
-    idle_in_transaction_session_timeout: 5000 // 5 seconds
+    // Shorter timeouts for Vercel
+    connectionTimeoutMillis: 5000,
+    idleTimeoutMillis: 5000,
+    max: 5 // Reduce max connections
 });
 
-// Add connection error handling
 pool.on('error', (err) => {
     console.error('Unexpected error on idle client', err);
 });
