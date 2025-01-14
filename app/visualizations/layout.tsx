@@ -5,8 +5,6 @@
  */
 "use client";
 
-import { useState, useEffect } from "react";
-import { visualizationMetadata } from "@/lib/data/metadata";
 import SideBar from "@/components/SideBar";
 
 export default function VisualizationsLayout({
