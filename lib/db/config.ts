@@ -9,21 +9,20 @@ const pool = new Pool({
     ssl: {
         rejectUnauthorized: false
     },
-    // Optimize connection settings
-    connectionTimeoutMillis: 10000,
-    idleTimeoutMillis: 10000,
-    max: 2,
-    keepAlive: true
+    // Increase timeouts significantly
+    connectionTimeoutMillis: 30000, // 30 seconds
+    idleTimeoutMillis: 30000,
+    max: 1, // Single connection
+    keepAlive: true,
+    statement_timeout: 30000
 });
 
-// Add connection error handling
-pool.on('error', (err) => {
-    console.error('Unexpected error on idle client', err);
-});
+// Create a single client
+let client;
+try {
+    client = await pool.connect();
+} catch (err) {
+    console.error('Failed to create initial connection:', err);
+}
 
-// Add connection management
-pool.on('connect', () => {
-    console.log('New client connected to database');
-});
-
-export default pool; 
+export { pool, client }; 

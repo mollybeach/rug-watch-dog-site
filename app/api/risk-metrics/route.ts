@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import pool from '@/lib/db/config';
+import { client } from '@/lib/db/config';
 import { QueryResult, QueryResultRow } from 'pg';
 
 interface RiskMetricsRow extends QueryResultRow {
@@ -21,32 +21,17 @@ interface RiskMetricsRow extends QueryResultRow {
     timestamp: string;
 }
 
-async function executeQueryWithRetry<T extends QueryResultRow>(
-    query: string,
-    maxRetries = 3,
-    delay = 1000
-): Promise<QueryResult<T>> {
-    let lastError;
-    
-    for (let i = 0; i < maxRetries; i++) {
-        try {
-            const client = await pool.connect();
-            try {
-                return await client.query<T>(query);
-            } finally {
-                client.release();
-            }
-        } catch (error) {
-            lastError = error;
-            if (i < maxRetries - 1) {
-                await new Promise(resolve => setTimeout(resolve, delay));
-            }
-        }
-    }
-    throw lastError;
-}
-
 export async function GET() {
+    if (!client) {
+        return NextResponse.json(
+            { 
+                success: false, 
+                error: 'Database connection not available',
+            },
+            { status: 503 }
+        );
+    }
+
     try {
         const query = `
             SELECT DISTINCT ON (t.address)
@@ -73,7 +58,7 @@ export async function GET() {
             LIMIT 5;
         `;
 
-        const result = await executeQueryWithRetry<RiskMetricsRow>(query);
+        const result = await client.query<RiskMetricsRow>(query);
 
         return NextResponse.json({
             success: true,
