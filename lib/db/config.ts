@@ -1,51 +1,100 @@
-import { Pool } from 'pg';
+import { Pool, PoolClient } from 'pg';
 
-if (!process.env.DB_HOST || !process.env.DB_USERNAME || !process.env.DB_PASSWORD) {
-    console.error('Missing required database environment variables');
+// Validate required environment variables
+const requiredEnvVars = ['DB_HOST', 'DB_USERNAME', 'DB_PASSWORD', 'DB_NAME'];
+const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingVars.length > 0) {
+    console.error('Missing required database environment variables:', missingVars.join(', '));
     process.exit(1);
 }
 
-const pool = new Pool({
+interface ExtendedPoolClient extends PoolClient {
+    processID?: number;
+    connectionParameters?: any;
+    active?: boolean;
+}
+
+interface PostgresError extends Error {
+    code?: string;
+    detail?: string;
+}
+
+const poolConfig = {
     user: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT || '5432'),
-    database: process.env.DB_NAME || 'rugwatchdog',
+    database: process.env.DB_NAME,
     ssl: {
         rejectUnauthorized: false
     },
-    // Optimized pool settings for serverless
-    max: 1, // Single connection for serverless
-    min: 0,
-    idleTimeoutMillis: 10000, // 10 seconds
-    connectionTimeoutMillis: 3000, // 3 seconds
-    maxUses: 7500,
-    statement_timeout: 5000, // 5 seconds
-    query_timeout: 5000, // 5 seconds
-    keepAlive: true,
-    keepAliveInitialDelayMillis: 0,
-    allowExitOnIdle: true
+    // Connection pool settings
+    max: 20,                 // Maximum number of clients in the pool
+    idleTimeoutMillis: 30000,// How long a client is allowed to remain idle before being closed
+    connectionTimeoutMillis: 10000, // How long to wait for a connection
+    maxUses: 7500,          // Number of times a client can be used before being recycled
+    // Query settings
+    statement_timeout: 30000,// 30 seconds
+    query_timeout: 30000,    // 30 seconds
+};
+
+console.log('Initializing database pool with config:', {
+    ...poolConfig,
+    password: '[REDACTED]' // Don't log the password
 });
 
-// Add error handling
-pool.on('error', (err, client) => {
-    console.error('Unexpected error on idle client:', err.message);
-    if (client) {
-        client.release(true);
-    }
+const pool = new Pool(poolConfig);
+
+// Log pool events for debugging
+pool.on('connect', (client: ExtendedPoolClient) => {
+    console.log('Database pool client connected', {
+        processID: client.processID,
+        connectionParameters: client.connectionParameters
+    });
 });
 
-// Add connection monitoring
-pool.on('connect', () => {
-    console.log('New database connection established');
+pool.on('error', (err: PostgresError, client: ExtendedPoolClient) => {
+    console.error('Unexpected database pool error:', {
+        error: {
+            name: err.name,
+            message: err.message,
+            code: err.code,
+            detail: err.detail
+        },
+        client: {
+            processID: client?.processID,
+            active: client?.active,
+            connectionParameters: client?.connectionParameters
+        }
+    });
 });
 
-pool.on('acquire', () => {
-    console.log('Connection acquired from pool');
+pool.on('acquire', (client: ExtendedPoolClient) => {
+    console.log('Client acquired from pool', {
+        processID: client.processID,
+        active: client.active
+    });
 });
 
-pool.on('remove', () => {
-    console.log('Connection removed from pool');
+pool.on('remove', (client: ExtendedPoolClient) => {
+    console.log('Client removed from pool', {
+        processID: client.processID
+    });
 });
+
+// Test the connection immediately
+pool.query('SELECT NOW()')
+    .then(result => {
+        console.log('Initial database connection test successful:', result.rows[0]);
+    })
+    .catch((error: PostgresError) => {
+        console.error('Initial database connection test failed:', {
+            name: error.name,
+            message: error.message,
+            code: error.code,
+            detail: error.detail
+        });
+    });
 
 export default pool; 

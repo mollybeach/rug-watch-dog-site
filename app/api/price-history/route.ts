@@ -24,11 +24,11 @@ export async function GET(request: Request) {
             SELECT 
                 price,
                 volume_24h as "volume24h",
-                market_cap as "marketCap",
+                marketCap as "marketCap",
                 liquidity,
                 timestamp
             FROM token_prices
-            WHERE token_address = $1
+            WHERE tokenAddress = $1
             ORDER BY timestamp DESC
             LIMIT $2
         `, [address, limit]);

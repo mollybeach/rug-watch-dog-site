@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db/config';
-import { QueryResult } from 'pg';
-import { sql } from '@vercel/postgres';
-import Redis from 'ioredis';
+import { DatabaseError } from 'pg';
 
 interface RiskMetricsRow {
     address: string;
@@ -14,178 +12,217 @@ interface RiskMetricsRow {
     priceVolatility: number;
     sellPressure: number;
     marketCapRisk: number;
+    bundlerActivity: number;
+    accumulationRate: number;
+    stealthAccumulation: number | null;
+    suspiciousPattern: boolean | null;
     isRugPull: boolean;
-    timestamp: Date;
-    current_price: number;
-    volume_24h: number;
-    market_cap: number;
+    metadata: { reason: string };
+    timestamp: string;
 }
 
-// Initialize Redis client
-const redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379');
-const CACHE_TTL = 300; // 5 minutes in seconds
-const CACHE_KEY = 'risk_metrics_data';
+interface PostgresError extends Error {
+    code?: string;
+    detail?: string;
+    hint?: string;
+    position?: string;
+    internalPosition?: string;
+    internalQuery?: string;
+    where?: string;
+    schema?: string;
+    table?: string;
+    column?: string;
+    dataType?: string;
+    constraint?: string;
+    file?: string;
+    line?: string;
+    routine?: string;
+}
 
 export async function GET() {
     try {
-        // Try to get data from cache first
-        const cachedData = await redis.get(CACHE_KEY);
-        if (cachedData) {
-            return Response.json(JSON.parse(cachedData));
-        }
+        console.log('Starting risk metrics API request...');
+        console.log('All env vars:', {
+            DB_HOST: process.env.DB_HOST,
+            DB_USERNAME: process.env.DB_USERNAME,
+            DB_NAME: process.env.DB_NAME,
+            DB_PORT: process.env.DB_PORT,
+            NODE_ENV: process.env.NODE_ENV,
+            PWD: process.cwd()
+        });
 
-        console.log('Starting risk metrics fetch...');
-        
-        // Get a client from the pool with a shorter timeout
-        const client = await pool.connect();
-        
+        // First test the connection and check table structure
         try {
-            // Set statement timeout for this specific query
-            await client.query('SET statement_timeout = 4000'); // 4 seconds
+            console.log('Testing database connection and checking schema...');
+            const testResult = await pool.query('SELECT NOW()');
+            console.log('Database connection test successful:', testResult.rows[0]);
             
-            // Simplified and optimized query
-            const query = `
-                WITH latest_data AS (
-                    SELECT DISTINCT ON (t.address)
-                        t.address,
-                        t.name,
-                        t.symbol,
-                        m.volume_anomaly as "volumeAnomaly",
-                        m.holder_concentration as "holderConcentration",
-                        m.liquidity_score as "liquidityScore",
-                        m.price_volatility as "priceVolatility",
-                        m.sell_pressure as "sellPressure",
-                        m.market_cap_risk as "marketCapRisk",
-                        m.is_rug_pull as "isRugPull",
-                        m.timestamp,
-                        COALESCE(p.price, 0) as current_price,
-                        COALESCE(p.volume_24h, 0) as volume_24h,
-                        COALESCE(p.market_cap, 0) as market_cap
-                    FROM tokens t
-                    LEFT JOIN token_metrics m ON m.token_address = t.address
-                    LEFT JOIN token_prices p ON p.token_address = t.address
-                    WHERE m.timestamp >= NOW() - INTERVAL '24 hours'
-                    ORDER BY t.address, m.timestamp DESC
-                )
-                SELECT *
-                FROM latest_data
-                ORDER BY timestamp DESC
-                LIMIT 15;
+            // Check table structure
+            const schemaQuery = `
+                SELECT column_name, data_type 
+                FROM information_schema.columns 
+                WHERE table_name = 'token_metrics';
             `;
+            const schemaResult = await pool.query(schemaQuery);
+            console.log('Table structure:', schemaResult.rows);
+        } catch (connError) {
+            const pgError = connError as PostgresError;
+            console.error('Database connection test failed:', {
+                name: pgError.name,
+                message: pgError.message,
+                code: pgError.code,
+                detail: pgError.detail
+            });
+            throw pgError;
+        }
 
-            const result = await Promise.race([
-                sql.query(query),
-                new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error('Query timeout')), 30000) // 30 second timeout
-                )
-            ]);
+        console.log('Executing main database query...');
+        const query = `
+            SELECT DISTINCT ON (t.address)
+                t.address,
+                t.name,
+                t.symbol,
+                tm.volumeAnomaly,
+                tm.holderConcentration,
+                tm.liquidityScore,
+                tm.priceVolatility,
+                tm.sellPressure,
+                tm.marketCapRisk,
+                tm.bundlerActivity,
+                tm.accumulationRate,
+                tm.stealthAccumulation,
+                tm.suspiciousPattern,
+                tm.isRugPull,
+                tm.metadata,
+                tm.timestamp
+            FROM tokens t
+            LEFT JOIN token_metrics tm ON t.address = tm.tokenAddress
+            WHERE tm.timestamp >= NOW() - INTERVAL '24 hours'
+            ORDER BY t.address, tm.timestamp DESC
+            LIMIT 25;
+        `;
 
-            console.log(`Query completed. Found ${result.rows?.length || 0} records`);
-
-            if (!result.rows || result.rows.length === 0) {
-                const response = {
-                    data: [],
-                    metadata: {
-                        total_tokens: 0,
-                        high_risk: 0,
-                        medium_risk: 0,
-                        low_risk: 0
-                    }
-                };
-                // Cache empty response for a shorter duration
-                await redis.setex(CACHE_KEY, 60, JSON.stringify(response));
-                return Response.json(response);
-            }
-
-            // Process the data
-            const processedData = result.rows.map(token => ({
-                ...token,
-                riskScore: calculateRiskScore(token),
-                riskCategory: calculateRiskCategory(
-                    token.volumeAnomaly,
-                    token.holderConcentration,
-                    token.liquidityScore,
-                    token.priceVolatility,
-                    token.sellPressure,
-                    token.marketCapRisk
-                )
-            }));
-
-            const response = {
-                data: processedData,
+        const result = await pool.query<RiskMetricsRow>(query);
+        console.log(`Query completed. Found ${result.rows.length} rows`);
+        
+        if (result.rows.length === 0) {
+            return NextResponse.json({
+                success: true,
+                data: [],
                 metadata: {
-                    total_tokens: processedData.length,
-                    high_risk: processedData.filter(token => token.riskCategory === 'High').length,
-                    medium_risk: processedData.filter(token => token.riskCategory === 'Medium').length,
-                    low_risk: processedData.filter(token => token.riskCategory === 'Low').length
+                    totalTokens: 0,
+                    highRiskCount: 0,
+                    mediumRiskCount: 0,
+                    lowRiskCount: 0,
+                    timestamp: new Date().toISOString()
                 }
+            });
+        }
+
+        const processedData = result.rows.map(row => {
+            const riskScore = calculateRiskScore(row);
+            const riskCategory = categorizeRisk(riskScore);
+            
+            return {
+                address: row.address,
+                name: row.name,
+                symbol: row.symbol,
+                volumeAnomaly: row.volumeAnomaly,
+                holderConcentration: row.holderConcentration,
+                liquidityScore: row.liquidityScore,
+                priceVolatility: row.priceVolatility,
+                sellPressure: row.sellPressure,
+                marketCapRisk: row.marketCapRisk,
+                bundlerActivity: row.bundlerActivity,
+                accumulationRate: row.accumulationRate,
+                stealthAccumulation: row.stealthAccumulation,
+                suspiciousPattern: row.suspiciousPattern,
+                isRugPull: row.isRugPull,
+                riskScore: riskScore.toFixed(2),
+                riskCategory,
+                reason: row.metadata.reason
             };
+        });
 
-            // Cache the successful response
-            await redis.setex(CACHE_KEY, CACHE_TTL, JSON.stringify(response));
-            return Response.json(response);
-        } finally {
-            // Always release the client back to the pool
-            client.release();
-        }
-    } catch (error) {
-        console.error('Error fetching risk metrics:', error);
-        
-        // Try to get stale cache in case of error
-        try {
-            const staleData = await redis.get(CACHE_KEY);
-            if (staleData) {
-                const response = JSON.parse(staleData);
-                response.metadata.is_stale = true;
-                return Response.json(response);
+        return NextResponse.json({
+            success: true,
+            data: processedData,
+            metadata: {
+                totalTokens: result.rows.length,
+                highRiskCount: processedData.filter(row => row.riskCategory === 'High').length,
+                mediumRiskCount: processedData.filter(row => row.riskCategory === 'Medium').length,
+                lowRiskCount: processedData.filter(row => row.riskCategory === 'Low').length,
+                timestamp: new Date().toISOString()
             }
-        } catch (cacheError) {
-            console.error('Error fetching from cache:', cacheError);
-        }
+        });
 
-        if (error.message === 'Query timeout') {
-            return Response.json(
-                { error: 'Request timed out. Please try again.' },
-                { status: 504 }
-            );
-        }
-        
-        return Response.json(
-            { error: 'Failed to fetch risk metrics' },
-            { status: 500 }
-        );
+    } catch (error) {
+        const pgError = error as PostgresError;
+        console.error('Database error details:', {
+            name: pgError.name,
+            message: pgError.message,
+            code: pgError.code,
+            detail: pgError.detail,
+            where: pgError.where,
+            hint: pgError.hint,
+            position: pgError.position,
+            internalPosition: pgError.internalPosition,
+            internalQuery: pgError.internalQuery,
+            schema: pgError.schema,
+            table: pgError.table,
+            column: pgError.column,
+            dataType: pgError.dataType,
+            constraint: pgError.constraint,
+            file: pgError.file,
+            line: pgError.line,
+            routine: pgError.routine
+        });
+
+        return NextResponse.json({ 
+            success: false,
+            error: 'Failed to fetch risk metrics',
+            message: pgError.message || 'Unknown error',
+            details: process.env.NODE_ENV === 'development' ? {
+                name: pgError.name,
+                message: pgError.message,
+                code: pgError.code,
+                detail: pgError.detail
+            } : undefined
+        }, { 
+            status: 500,
+            headers: {
+                'Content-Type': 'application/json',
+                'Cache-Control': 'no-store'
+            }
+        });
     }
 }
 
-function calculateRiskScore(token: RiskMetricsRow): string {
-    return (
-        (token.volumeAnomaly * 0.2) +
-        (token.holderConcentration * 0.25) +
-        (token.liquidityScore * 0.15) +
-        (token.priceVolatility * 0.15) +
-        (token.sellPressure * 0.15) +
-        (token.marketCapRisk * 0.1)
-    ).toFixed(2);
+function calculateRiskScore(metrics: RiskMetricsRow): number {
+    const weights = {
+        volumeAnomaly: 0.2,
+        holderConcentration: 0.2,
+        liquidityScore: 0.15,
+        priceVolatility: 0.15,
+        sellPressure: 0.15,
+        marketCapRisk: 0.1,
+        accumulationRate: 0.05
+    };
+
+    let score = 0;
+    score += metrics.volumeAnomaly * weights.volumeAnomaly;
+    score += metrics.holderConcentration * weights.holderConcentration;
+    score += (1 - metrics.liquidityScore) * weights.liquidityScore;
+    score += metrics.priceVolatility * weights.priceVolatility;
+    score += metrics.sellPressure * weights.sellPressure;
+    score += metrics.marketCapRisk * weights.marketCapRisk;
+    score += metrics.accumulationRate * weights.accumulationRate;
+
+    return Math.min(Math.max(score * 100, 0), 100);
 }
 
-function calculateRiskCategory(
-    volumeAnomaly: number,
-    holderConcentration: number,
-    liquidityScore: number,
-    priceVolatility: number,
-    sellPressure: number,
-    marketCapRisk: number
-): 'High' | 'Medium' | 'Low' {
-    const score = (
-        (volumeAnomaly * 0.2) +
-        (holderConcentration * 0.25) +
-        (liquidityScore * 0.15) +
-        (priceVolatility * 0.15) +
-        (sellPressure * 0.15) +
-        (marketCapRisk * 0.1)
-    );
-
-    if (score >= 0.7) return 'High';
-    if (score >= 0.4) return 'Medium';
+function categorizeRisk(score: number): string {
+    if (score >= 70) return 'High';
+    if (score >= 40) return 'Medium';
     return 'Low';
 } 

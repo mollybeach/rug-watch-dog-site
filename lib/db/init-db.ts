@@ -28,22 +28,22 @@ async function initializeDatabase() {
         await client.query(`
             CREATE TABLE token_metrics (
                 id SERIAL PRIMARY KEY,
-                token_address VARCHAR(42) REFERENCES tokens(address),
-                volume_anomaly NUMERIC(10,4) NOT NULL DEFAULT 0,
-                holder_concentration NUMERIC(10,4) NOT NULL DEFAULT 0,
-                liquidity_score NUMERIC(10,4) NOT NULL DEFAULT 0,
-                price_volatility NUMERIC(10,4) NOT NULL DEFAULT 0,
-                sell_pressure NUMERIC(10,4) NOT NULL DEFAULT 0,
-                market_cap_risk NUMERIC(10,4) NOT NULL DEFAULT 0,
-                is_rug_pull BOOLEAN DEFAULT false,
+                tokenAddress VARCHAR(42) REFERENCES tokens(address),
+                volumeAnomaly NUMERIC(10,4) NOT NULL DEFAULT 0,
+                holderConcentration NUMERIC(10,4) NOT NULL DEFAULT 0,
+                liquidityScore NUMERIC(10,4) NOT NULL DEFAULT 0,
+                priceVolatility NUMERIC(10,4) NOT NULL DEFAULT 0,
+                sellPressure NUMERIC(10,4) NOT NULL DEFAULT 0,
+                marketCapRisk NUMERIC(10,4) NOT NULL DEFAULT 0,
+                isRugPull BOOLEAN DEFAULT false,
                 timestamp TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
                 CONSTRAINT metrics_range CHECK (
-                    volume_anomaly BETWEEN 0 AND 1 AND
-                    holder_concentration BETWEEN 0 AND 1 AND
-                    liquidity_score BETWEEN 0 AND 1 AND
-                    price_volatility BETWEEN 0 AND 1 AND
-                    sell_pressure BETWEEN 0 AND 1 AND
-                    market_cap_risk BETWEEN 0 AND 1
+                    volumeAnomaly BETWEEN 0 AND 1 AND
+                    holderConcentration BETWEEN 0 AND 1 AND
+                    liquidityScore BETWEEN 0 AND 1 AND
+                    priceVolatility BETWEEN 0 AND 1 AND
+                    sellPressure BETWEEN 0 AND 1 AND
+                    marketCapRisk BETWEEN 0 AND 1
                 )
             );
         `);
@@ -52,10 +52,10 @@ async function initializeDatabase() {
         await client.query(`
             CREATE TABLE token_prices (
                 id SERIAL PRIMARY KEY,
-                token_address VARCHAR(42) REFERENCES tokens(address),
+                tokenAddress VARCHAR(42) REFERENCES tokens(address),
                 price NUMERIC(24,12) NOT NULL DEFAULT 0,
                 volume_24h NUMERIC(24,12) NOT NULL DEFAULT 0,
-                market_cap NUMERIC(24,12) NOT NULL DEFAULT 0,
+                marketCap NUMERIC(24,12) NOT NULL DEFAULT 0,
                 timestamp TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
             );
         `);
@@ -63,12 +63,12 @@ async function initializeDatabase() {
 
         // Create indexes
         await client.query(`
-            CREATE INDEX idx_token_metrics_token_address_timestamp 
-            ON token_metrics(token_address, timestamp DESC);
+            CREATE INDEX idx_token_metrics_tokenAddress_timestamp 
+            ON token_metrics(tokenAddress, timestamp DESC);
         `);
         await client.query(`
-            CREATE INDEX idx_token_prices_token_address_timestamp 
-            ON token_prices(token_address, timestamp DESC);
+            CREATE INDEX idx_token_prices_tokenAddress_timestamp 
+            ON token_prices(tokenAddress, timestamp DESC);
         `);
         console.log('Created indexes');
 
@@ -83,7 +83,7 @@ async function initializeDatabase() {
 
         await client.query(`
             INSERT INTO token_metrics 
-            (token_address, volume_anomaly, holder_concentration, liquidity_score, price_volatility, sell_pressure, market_cap_risk, is_rug_pull)
+            (tokenAddress, volumeAnomaly, holderConcentration, liquidityScore, priceVolatility, sellPressure, marketCapRisk, isRugPull)
             VALUES
             ('0x1234567890123456789012345678901234567890', 0.2, 0.3, 0.8, 0.4, 0.3, 0.2, false),
             ('0x2345678901234567890123456789012345678901', 0.7, 0.8, 0.3, 0.6, 0.7, 0.8, true),
@@ -93,7 +93,7 @@ async function initializeDatabase() {
 
         await client.query(`
             INSERT INTO token_prices 
-            (token_address, price, volume_24h, market_cap)
+            (tokenAddress, price, volume_24h, marketCap)
             VALUES
             ('0x1234567890123456789012345678901234567890', 1.5, 1000000, 15000000),
             ('0x2345678901234567890123456789012345678901', 0.5, 500000, 5000000),

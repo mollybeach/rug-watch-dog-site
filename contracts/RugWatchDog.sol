@@ -61,7 +61,7 @@ contract RugWatchDog is Ownable, ReentrancyGuard {
         }
         
         if (_holderDistribution > metrics.holderDistribution * 120 / 100) { // 20% concentration
-            emit RiskAlert(_tokenAddress, "HOLDER_CONCENTRATION", 3);
+            emit RiskAlert(_tokenAddress, "holderConcentration", 3);
         }
 
         // Update metrics

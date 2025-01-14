@@ -12,19 +12,20 @@ interface RiskMetrics {
     address: string;
     name: string;
     symbol: string;
+    holders: number;
+    total_supply: number;
+    marketCap: string;
+    volume_24h: string;
+    current_price: string;
     volumeAnomaly: number;
     holderConcentration: number;
     liquidityScore: number;
     priceVolatility: number;
     sellPressure: number;
-    marketCapRisk: number;
+    is_honeypot: boolean;
     isRugPull: boolean;
-    timestamp: string;
     riskScore: string;
     riskCategory: 'High' | 'Medium' | 'Low';
-    current_price: string;
-    volume_24h: string;
-    market_cap: string;
 }
 
 interface MetricsResponse {
@@ -37,6 +38,7 @@ interface MetricsResponse {
         mediumRiskCount: number;
         lowRiskCount: number;
         timestamp: string;
+        is_stale?: boolean;
     };
 }
 
@@ -71,19 +73,27 @@ export default function RiskMetricsPage() {
             try {
                 // Set up AbortController for client-side timeout
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 second timeout
+                const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
 
                 const response = await fetch('/api/risk-metrics', {
-                    signal: controller.signal
+                    signal: controller.signal,
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                        'Pragma': 'no-cache'
+                    }
                 });
                 clearTimeout(timeoutId);
 
                 if (!response.ok) {
-                    if (response.status === 504) {
-                        throw new Error('Request timed out. Please try again.');
+                    const errorText = await response.text();
+                    let errorMessage;
+                    try {
+                        const errorData = JSON.parse(errorText);
+                        errorMessage = errorData.error || errorData.message || 'Failed to fetch risk metrics';
+                    } catch {
+                        errorMessage = errorText || 'Failed to fetch risk metrics';
                     }
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Failed to fetch risk metrics');
+                    throw new Error(errorMessage);
                 }
 
                 const result: MetricsResponse = await response.json();
@@ -96,7 +106,15 @@ export default function RiskMetricsPage() {
                 setMetadata(result.metadata);
             } catch (err) {
                 console.error('Error fetching risk metrics:', err);
-                setError(err instanceof Error ? err.message : 'An unexpected error occurred');
+                let errorMessage = 'An unexpected error occurred';
+                if (err instanceof Error) {
+                    if (err.name === 'AbortError') {
+                        errorMessage = 'Request timed out. The server is taking too long to respond.';
+                    } else {
+                        errorMessage = err.message;
+                    }
+                }
+                setError(errorMessage);
             } finally {
                 setLoading(false);
             }
@@ -256,7 +274,7 @@ export default function RiskMetricsPage() {
                                             {formatLargeNumber(token.volume_24h)}
                                         </td>
                                         <td className="px-4 py-2">
-                                            {formatLargeNumber(token.market_cap)}
+                                            {formatLargeNumber(token.marketCap)}
                                         </td>
                                         <td className="px-4 py-2">
                                             {token.riskScore}
@@ -282,34 +300,21 @@ export default function RiskMetricsPage() {
 }
 
 function calculateAverageMetrics(tokens: RiskMetrics[]) {
-    if (tokens.length === 0) return {
+    if (!tokens.length) return {
         volumeAnomaly: 0,
         holderConcentration: 0,
         liquidityScore: 0,
         priceVolatility: 0,
-        sellPressure: 0,
-        marketCapRisk: 0
+        sellPressure: 0
     };
 
-    const sum = tokens.reduce((acc, token) => ({
-        volumeAnomaly: acc.volumeAnomaly + token.volumeAnomaly,
-        holderConcentration: acc.holderConcentration + token.holderConcentration,
-        liquidityScore: acc.liquidityScore + token.liquidityScore,
-        priceVolatility: acc.priceVolatility + token.priceVolatility,
-        sellPressure: acc.sellPressure + token.sellPressure,
-        marketCapRisk: acc.marketCapRisk + token.marketCapRisk
-    }), {
-        volumeAnomaly: 0,
-        holderConcentration: 0,
-        liquidityScore: 0,
-        priceVolatility: 0,
-        sellPressure: 0,
-        marketCapRisk: 0
-    });
-
-    return Object.fromEntries(
-        Object.entries(sum).map(([key, value]) => [key, value / tokens.length])
-    );
+    return {
+        volumeAnomaly: tokens.reduce((sum, t) => sum + t.volumeAnomaly, 0) / tokens.length,
+        holderConcentration: tokens.reduce((sum, t) => sum + t.holderConcentration, 0) / tokens.length,
+        liquidityScore: tokens.reduce((sum, t) => sum + t.liquidityScore, 0) / tokens.length,
+        priceVolatility: tokens.reduce((sum, t) => sum + t.priceVolatility, 0) / tokens.length,
+        sellPressure: tokens.reduce((sum, t) => sum + t.sellPressure, 0) / tokens.length
+    };
 }
 
 function getMetricLabels() {
@@ -318,7 +323,6 @@ function getMetricLabels() {
         'Holder Concentration',
         'Liquidity Score',
         'Price Volatility',
-        'Sell Pressure',
-        'Market Cap Risk'
+        'Sell Pressure'
     ];
 } 
