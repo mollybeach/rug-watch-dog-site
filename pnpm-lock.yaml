@@ -86,6 +86,12 @@ importers:
       d3-force:
         specifier: 3.0.0
         version: 3.0.0
+      eslint:
+        specifier: ^8.56.0
+        version: 8.57.1
+      eslint-config-next:
+        specifier: 14.1.0
+        version: 14.1.0(eslint@8.57.1)(typescript@5.7.3)
       ethers:
         specifier: ^5.7.0
         version: 5.7.2(bufferutil@4.0.9)(utf-8-validate@5.0.10)
@@ -118,7 +124,7 @@ importers:
         version: 18.2.0(react@18.2.0)
       react-force-graph:
         specifier: 1.43.2
-        version: 1.43.2(react@18.2.0)(three@0.164.1)
+        version: 1.43.2(react@18.2.0)(three@0.172.0)
       react-plotly.js:
         specifier: ^2.6.0
         version: 2.6.0(plotly.js@2.35.3(mapbox-gl@1.13.3)(webpack@5.97.1(esbuild@0.17.19)))(react@18.2.0)
@@ -180,12 +186,6 @@ importers:
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
-      eslint:
-        specifier: ^8.56.0
-        version: 8.57.1
-      eslint-config-next:
-        specifier: 14.1.0
-        version: 14.1.0(eslint@8.57.1)(typescript@5.7.3)
       ethereum-waffle:
         specifier: ^4.0.10
         version: 4.0.10(@ensdomains/ens@0.4.5)(@ensdomains/resolver@0.2.4)(@ethersproject/abi@5.7.0)(@ethersproject/providers@5.7.2(bufferutil@4.0.9)(utf-8-validate@5.0.10))(encoding@0.1.13)(ethers@5.7.2(bufferutil@4.0.9)(utf-8-validate@5.0.10))(typescript@5.7.3)
@@ -8852,19 +8852,19 @@ packages:
 
 snapshots:
 
-  3d-force-graph-ar@1.9.3(three@0.164.1):
+  3d-force-graph-ar@1.9.3(three@0.172.0):
     dependencies:
-      aframe-forcegraph-component: 3.1.0(three@0.164.1)
+      aframe-forcegraph-component: 3.1.0(three@0.172.0)
       kapsule: 1.16.0
     transitivePeerDependencies:
       - three
 
-  3d-force-graph-vr@2.4.3(three@0.164.1):
+  3d-force-graph-vr@2.4.3(three@0.172.0):
     dependencies:
       accessor-fn: 1.5.1
       aframe: 1.6.0
       aframe-extras: 7.5.4
-      aframe-forcegraph-component: 3.1.0(three@0.164.1)
+      aframe-forcegraph-component: 3.1.0(three@0.172.0)
       kapsule: 1.16.0
       polished: 4.3.1
     transitivePeerDependencies:
@@ -12922,10 +12922,10 @@ snapshots:
       three: 0.164.1
       three-pathfinding: 1.3.0(three@0.164.1)
 
-  aframe-forcegraph-component@3.1.0(three@0.164.1):
+  aframe-forcegraph-component@3.1.0(three@0.172.0):
     dependencies:
       accessor-fn: 1.5.1
-      three-forcegraph: 1.42.11(three@0.164.1)
+      three-forcegraph: 1.42.11(three@0.172.0)
     transitivePeerDependencies:
       - three
 
@@ -14729,7 +14729,7 @@ snapshots:
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.7.0(eslint-plugin-import@2.31.0(eslint@8.57.1))(eslint@8.57.1)
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import@2.31.0(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.57.1)
       eslint-plugin-react: 7.37.3(eslint@8.57.1)
       eslint-plugin-react-hooks: 5.0.0-canary-7118f5dd7-20230705(eslint@8.57.1)
@@ -14760,7 +14760,7 @@ snapshots:
       is-glob: 4.0.3
       stable-hash: 0.0.4
     optionalDependencies:
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import@2.31.0(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -14775,7 +14775,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1):
+  eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import@2.31.0(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.8
@@ -17739,11 +17739,11 @@ snapshots:
       react: 18.2.0
       scheduler: 0.23.2
 
-  react-force-graph@1.43.2(react@18.2.0)(three@0.164.1):
+  react-force-graph@1.43.2(react@18.2.0)(three@0.172.0):
     dependencies:
       3d-force-graph: 1.74.5
-      3d-force-graph-ar: 1.9.3(three@0.164.1)
-      3d-force-graph-vr: 2.4.3(three@0.164.1)
+      3d-force-graph-ar: 1.9.3(three@0.172.0)
+      3d-force-graph-vr: 2.4.3(three@0.172.0)
       force-graph: 1.47.2
       prop-types: 15.8.1
       react: 18.2.0
@@ -18739,20 +18739,6 @@ snapshots:
       layout-bmfont-text: 1.3.4
       nice-color-palettes: 3.0.0
       quad-indices: 2.0.1
-
-  three-forcegraph@1.42.11(three@0.164.1):
-    dependencies:
-      accessor-fn: 1.5.1
-      d3-array: 3.2.4
-      d3-force-3d: 3.0.5
-      d3-scale: 4.0.2
-      d3-scale-chromatic: 3.1.0
-      data-bind-mapper: 1.0.1
-      kapsule: 1.16.0
-      ngraph.forcelayout: 3.3.1
-      ngraph.graph: 20.0.1
-      three: 0.164.1
-      tinycolor2: 1.6.0
 
   three-forcegraph@1.42.11(three@0.172.0):
     dependencies:
