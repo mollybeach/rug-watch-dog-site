@@ -27,9 +27,7 @@ const pool = new Pool({
     },
     max: 20,
     idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 5000,
-    statement_timeout: 4000,
-    query_timeout: 4000
+    connectionTimeoutMillis: 5000
 });
 
 // Create a wrapped client with connection pooling and timeouts

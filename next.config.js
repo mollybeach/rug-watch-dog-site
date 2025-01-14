@@ -5,16 +5,22 @@ const nextConfig = {
         styledComponents: true
     },
     webpack: (config, { isServer }) => {
-        if (isServer) {
+        if (!isServer) {
+            // Client-side polyfills
             config.resolve.fallback = {
                 ...config.resolve.fallback,
                 fs: false,
                 net: false,
                 tls: false,
                 path: false,
-                stream: false
+                stream: false,
+                crypto: false,
+                dns: false,
+                os: false,
+                util: false
             };
         }
+
         // Add module aliases using absolute paths
         config.resolve.alias = {
             ...config.resolve.alias,
