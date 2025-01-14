@@ -15,12 +15,12 @@ const nextConfig = {
                 stream: false
             };
         }
-        // Add module aliases
+        // Add module aliases using absolute paths
         config.resolve.alias = {
             ...config.resolve.alias,
-            '@': '.',
-            '@/components': './components',
-            '@/lib': './lib'
+            '@': '/vercel/path0',
+            '@/components': '/vercel/path0/components',
+            '@/lib': '/vercel/path0/lib'
         };
         return config;
     },
