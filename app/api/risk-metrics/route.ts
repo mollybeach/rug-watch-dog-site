@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db/config';
-import { QueryResult } from 'pg';
+import { QueryResult, QueryResultRow } from 'pg';
 
-interface RiskMetricsRow {
+interface RiskMetricsRow extends QueryResultRow {
     address: string;
     name: string;
     symbol: string;
@@ -21,7 +21,7 @@ interface RiskMetricsRow {
     timestamp: string;
 }
 
-async function executeQueryWithRetry<T>(
+async function executeQueryWithRetry<T extends QueryResultRow>(
     query: string,
     maxRetries = 3,
     delay = 1000
