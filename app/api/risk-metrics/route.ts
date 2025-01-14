@@ -1,9 +1,29 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db/config';
+import { QueryResult } from 'pg';
+
+interface RiskMetricsRow {
+    address: string;
+    name: string;
+    symbol: string;
+    volumeAnomaly: number;
+    holderConcentration: number;
+    liquidityScore: number;
+    priceVolatility: number;
+    sellPressure: number;
+    marketCapRisk: number;
+    bundlerActivity: boolean;
+    accumulationRate: number;
+    stealthAccumulation: number | null;
+    suspiciousPattern: boolean | null;
+    isRugPull: boolean;
+    metadata: { reason: string };
+    timestamp: string;
+}
 
 export async function GET() {
     try {
-        const queryPromise = pool.query(`
+        const queryPromise = pool.query<RiskMetricsRow>(`
             SELECT DISTINCT ON (t.address)
                 t.address,
                 t.name,
@@ -28,11 +48,11 @@ export async function GET() {
             LIMIT 5;
         `);
 
-        const timeoutPromise = new Promise((_, reject) => {
+        const timeoutPromise = new Promise<never>((_, reject) => {
             setTimeout(() => reject(new Error('Query timeout')), 1500);
         });
 
-        const result = await Promise.race([queryPromise, timeoutPromise]);
+        const result = await Promise.race([queryPromise, timeoutPromise]) as QueryResult<RiskMetricsRow>;
 
         return NextResponse.json({
             success: true,
