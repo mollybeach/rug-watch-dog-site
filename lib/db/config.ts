@@ -1,5 +1,20 @@
 import { Pool, PoolClient, QueryResult } from 'pg';
 
+// Query options type
+type QueryOptions = {
+    timeout?: number;
+    signal?: AbortSignal;
+};
+
+// Type for our database client
+type DbClient = {
+    query<T extends Record<string, any>>(
+        query: string, 
+        values?: any[], 
+        options?: QueryOptions
+    ): Promise<QueryResult<T>>;
+};
+
 // AWS RDS Configuration
 const pool = new Pool({
     user: process.env.DB_USERNAME,
@@ -17,15 +32,6 @@ const pool = new Pool({
     query_timeout: 4000
 });
 
-// Type for our database client
-type DbClient = {
-    query<T extends Record<string, any>>(
-        query: string, 
-        values?: any[], 
-        options?: { timeout?: number }
-    ): Promise<QueryResult<T>>;
-};
-
 // Create a wrapped client with connection pooling and timeouts
 async function getClient(): Promise<DbClient> {
     let client: PoolClient | null = null;
@@ -35,10 +41,9 @@ async function getClient(): Promise<DbClient> {
             query: async <T extends Record<string, any>>(
                 queryText: string, 
                 values?: any[],
-                options?: { timeout?: number }
+                options?: QueryOptions
             ): Promise<QueryResult<T>> => {
                 try {
-                    // Set query timeout if provided
                     if (options?.timeout) {
                         await client!.query(`SET statement_timeout = ${options.timeout}`);
                     }

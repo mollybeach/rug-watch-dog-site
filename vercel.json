@@ -19,5 +19,11 @@
             "dev": true,
             "feature/*": false
         }
+    },
+    "functions": {
+        "app/api/risk-metrics/route.ts": {
+            "memory": 1024,
+            "maxDuration": 60
+        }
     }
 }
