@@ -15,23 +15,19 @@ const nextConfig = {
                 stream: false
             };
         }
-        // Configure module resolution and aliases
-        config.resolve = {
-            ...config.resolve,
-            modules: ['node_modules', '.'],
-            alias: {
-                ...config.resolve.alias,
-                '@': '.',
-                '@/components': './components',
-                '@/lib': './lib',
-                '@/styles': './styles',
-                '@/types': './types'
-            }
-        };
         return config;
     },
     experimental: {
         optimizePackageImports: ['plotly.js-dist-min']
+    },
+    // Add baseUrl and paths directly in Next.js config
+    modularizeImports: {
+        '@/components': {
+            transform: './components/{{member}}'
+        },
+        '@/lib': {
+            transform: './lib/{{member}}'
+        }
     }
 };
 
