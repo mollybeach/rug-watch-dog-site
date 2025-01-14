@@ -9,6 +9,11 @@ const nextConfig = {
     },
     experimental: {
         serverActions: true
+    },
+    // Add this to ensure proper module resolution
+    webpack: (config) => {
+        config.resolve.fallback = { fs: false, net: false, tls: false };
+        return config;
     }
 }
 
