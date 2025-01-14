@@ -1,6 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
-import { TokenData } from '../src/types/metrics';
-import { predictRisk } from '../src/training/modelPredictor';
+import { TokenData } from '../types/metrics';
+import { predictRisk } from '../training/modelPredictor';
 
 describe('Risk Predictor', () => {
     it('should calculate risk scores correctly', () => {

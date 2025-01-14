@@ -21,7 +21,7 @@
         "export": "next export",
         "test-db": "pnpm tsc scripts/test-db.ts && pnpm node scripts/test-db.js",
         "check-db": "pnpm tsc scripts/check-db-access.ts && pnpm node scripts/check-db-access.js",
-        "test": "jest",
+        "test": "jest src/tests",
         "test:watch": "jest --watch"
     },
     "dependencies": {
