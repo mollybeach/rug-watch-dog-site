@@ -9,10 +9,11 @@ const pool = new Pool({
     ssl: {
         rejectUnauthorized: false
     },
-    // Shorter timeouts for Vercel
-    connectionTimeoutMillis: 5000,
-    idleTimeoutMillis: 5000,
-    max: 5 // Reduce max connections
+    // Add connection timeouts
+    connectionTimeoutMillis: 2000,
+    idleTimeoutMillis: 2000,
+    max: 1, // Reduce max connections
+    keepAlive: true
 });
 
 pool.on('error', (err) => {
