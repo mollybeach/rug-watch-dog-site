@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getClient } from '@/lib/db/config';
-import { QueryResultRow } from 'pg';
+import type { QueryResultRow } from 'pg';
 
 interface RiskMetricsRow extends QueryResultRow {
     address: string;
@@ -22,7 +22,6 @@ interface RiskMetricsRow extends QueryResultRow {
 }
 
 export const dynamic = 'force-dynamic';
-export const runtime = 'edge';
 
 export async function GET() {
     try {

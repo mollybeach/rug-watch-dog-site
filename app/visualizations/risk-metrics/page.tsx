@@ -5,12 +5,15 @@ import { default as dynamicImport } from 'next/dynamic';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
-// Use renamed import
-const DynamicPlot = dynamicImport(() => import('react-plotly.js'), { ssr: false });
-
-// Use the new runtime export syntax
-export const runtime = 'edge';
-export const dynamic = 'force-dynamic';
+// Use dynamic import with loading state
+const DynamicPlot = dynamicImport(() => import('react-plotly.js'), { 
+    ssr: false,
+    loading: () => (
+        <div className="w-full h-[500px] flex items-center justify-center bg-gray-100 rounded-lg">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />
+        </div>
+    )
+});
 
 interface RiskMetrics {
     address: string;
