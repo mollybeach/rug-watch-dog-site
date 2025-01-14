@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
+import { default as dynamicImport } from 'next/dynamic';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
-// Rename dynamic import to avoid conflict
-const DynamicPlot = dynamic(() => import('react-plotly.js'), { ssr: false });
+// Use renamed import
+const DynamicPlot = dynamicImport(() => import('react-plotly.js'), { ssr: false });
 
 // Use the new runtime export syntax
 export const runtime = 'edge';

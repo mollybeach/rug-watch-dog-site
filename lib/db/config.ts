@@ -1,20 +1,12 @@
-import { Pool, PoolClient } from 'pg';
+import { Pool, PoolClient } from '@vercel/postgres';
 
 // Create a new pool for each request
 function createPool() {
     return new Pool({
-        user: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD,
-        host: process.env.DB_HOST,
-        port: parseInt(process.env.DB_PORT || '5432'),
-        database: process.env.DB_NAME,
+        connectionString: process.env.POSTGRES_URL,
         ssl: {
             rejectUnauthorized: false
-        },
-        // Shorter timeouts for serverless
-        connectionTimeoutMillis: 8000,
-        idleTimeoutMillis: 8000,
-        max: 1
+        }
     });
 }
 
