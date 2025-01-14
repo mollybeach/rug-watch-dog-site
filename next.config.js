@@ -15,6 +15,12 @@ const nextConfig = {
                 stream: false
             };
         }
+        // Add module resolution without using path
+        config.resolve.modules = [
+            '.',
+            'node_modules',
+            ...config.resolve.modules || [],
+        ];
         return config;
     },
     experimental: {
