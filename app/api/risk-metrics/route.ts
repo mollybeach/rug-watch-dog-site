@@ -25,9 +25,8 @@ export const dynamic = 'force-dynamic';
 export const runtime = 'edge';
 
 export async function GET() {
-    let client = null;
     try {
-        client = await getClient();
+        const client = await getClient();
         
         const result = await client.query<RiskMetricsRow>(`
             SELECT DISTINCT ON (t.address)
@@ -68,9 +67,5 @@ export async function GET() {
             },
             { status: 500 }
         );
-    } finally {
-        if (client) {
-            client.release();
-        }
     }
 } 

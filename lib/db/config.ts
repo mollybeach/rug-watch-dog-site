@@ -1,30 +1,26 @@
-import { Pool, PoolClient } from '@vercel/postgres';
+import { sql } from '@vercel/postgres';
+import { QueryResult } from 'pg';
 
-// Create a new pool for each request
-function createPool() {
-    return new Pool({
-        connectionString: process.env.POSTGRES_URL,
-        ssl: {
-            rejectUnauthorized: false
+// Type for our database client
+type DbClient = {
+    query<T = any>(query: string, values?: any[]): Promise<QueryResult<T>>;
+};
+
+// Create a wrapped client
+async function getClient(): Promise<DbClient> {
+    return {
+        query: async <T>(queryText: string, values?: any[]) => {
+            try {
+                if (values) {
+                    return await sql.query<T>(queryText, values);
+                }
+                return await sql.query<T>(queryText);
+            } catch (err) {
+                console.error('Database query error:', err);
+                throw err;
+            }
         }
-    });
+    };
 }
 
-// Get a client with retries
-async function getClient(retries = 3): Promise<PoolClient> {
-    const pool = createPool();
-    
-    for (let i = 0; i < retries; i++) {
-        try {
-            const client = await pool.connect();
-            return client;
-        } catch (err) {
-            console.error(`Connection attempt ${i + 1} failed:`, err);
-            if (i === retries - 1) throw err;
-            await new Promise(resolve => setTimeout(resolve, 1000));
-        }
-    }
-    throw new Error('Failed to get client after retries');
-}
-
-export { createPool, getClient }; 
+export { getClient }; 
