@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { client, pool, initClient } from '@/lib/db/config';
-import { QueryResult, QueryResultRow, PoolClient } from 'pg';
+import { getClient } from '@/lib/db/config';
+import { QueryResultRow } from 'pg';
 
 interface RiskMetricsRow extends QueryResultRow {
     address: string;
@@ -22,25 +22,11 @@ interface RiskMetricsRow extends QueryResultRow {
 }
 
 export async function GET() {
-    let currentClient: PoolClient | null = client;
-    
-    if (!currentClient) {
-        await initClient();
-        currentClient = client;
-    }
-
-    if (!currentClient) {
-        return NextResponse.json(
-            { 
-                success: false, 
-                error: 'Database connection not available',
-            },
-            { status: 503 }
-        );
-    }
-
+    let client = null;
     try {
-        const query = `
+        client = await getClient();
+        
+        const result = await client.query<RiskMetricsRow>(`
             SELECT DISTINCT ON (t.address)
                 t.address,
                 t.name,
@@ -63,9 +49,7 @@ export async function GET() {
             WHERE tm.timestamp >= NOW() - INTERVAL '24 hours'
             ORDER BY t.address, tm.timestamp DESC
             LIMIT 5;
-        `;
-
-        const result = await currentClient.query<RiskMetricsRow>(query);
+        `);
 
         return NextResponse.json({
             success: true,
@@ -86,5 +70,9 @@ export async function GET() {
             },
             { status: 500 }
         );
+    } finally {
+        if (client) {
+            client.release();
+        }
     }
 } 

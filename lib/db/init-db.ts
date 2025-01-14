@@ -1,9 +1,12 @@
-import { pool } from '@/lib/db/config';
+import { getClient } from '@/lib/db/config';
 
 async function initializeDatabase() {
+    let client = null;
     try {
+        client = await getClient();
+        
         // Create tables if they don't exist
-        await pool.query(`
+        await client.query(`
             -- Create tokens table if not exists
             CREATE TABLE IF NOT EXISTS tokens (
                 address VARCHAR(42) PRIMARY KEY,
@@ -31,8 +34,10 @@ async function initializeDatabase() {
                 metadata JSONB,
                 timestamp TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
             );
+        `);
 
-            -- Insert sample data if tables are empty
+        // Insert sample data if tables are empty
+        await client.query(`
             INSERT INTO tokens (address, name, symbol)
             SELECT 
                 '0x1234567890123456789012345678901234567890',
@@ -74,6 +79,10 @@ async function initializeDatabase() {
     } catch (error) {
         console.error('Error initializing database:', error);
         throw error;
+    } finally {
+        if (client) {
+            client.release();
+        }
     }
 }
 

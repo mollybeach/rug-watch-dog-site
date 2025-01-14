@@ -4,7 +4,7 @@
  */
 
 import { NextResponse } from 'next/server';
-import { pool } from '@/lib/db/config';
+import { getClient } from '@/lib/db/config';
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -18,8 +18,11 @@ export async function GET(request: Request) {
         );
     }
 
+    let client = null;
     try {
-        const result = await pool.query(`
+        client = await getClient();
+        
+        const result = await client.query(`
             SELECT 
                 price,
                 volume24h,
@@ -42,5 +45,9 @@ export async function GET(request: Request) {
             { success: false, error: 'Failed to fetch price history' },
             { status: 500 }
         );
+    } finally {
+        if (client) {
+            client.release();
+        }
     }
 } 
