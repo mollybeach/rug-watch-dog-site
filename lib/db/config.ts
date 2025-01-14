@@ -1,33 +1,47 @@
 import { Pool, PoolClient, QueryResult } from 'pg';
 
-// AWS RDS Configuration using your existing env variables
+// AWS RDS Configuration
 const pool = new Pool({
-    user: process.env.DB_USERNAME,     
+    user: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
-    host: process.env.DB_HOST,         
+    host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT || '5432'),
-    database: process.env.DB_NAME,    
+    database: process.env.DB_NAME,
     ssl: {
         rejectUnauthorized: false
     },
     max: 20,
     idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 10000,
+    connectionTimeoutMillis: 5000,
+    statement_timeout: 4000,
+    query_timeout: 4000
 });
 
 // Type for our database client
 type DbClient = {
-    query<T extends Record<string, any>>(query: string, values?: any[]): Promise<QueryResult<T>>;
+    query<T extends Record<string, any>>(
+        query: string, 
+        values?: any[], 
+        options?: { timeout?: number }
+    ): Promise<QueryResult<T>>;
 };
 
-// Create a wrapped client with connection pooling
+// Create a wrapped client with connection pooling and timeouts
 async function getClient(): Promise<DbClient> {
     let client: PoolClient | null = null;
     try {
         client = await pool.connect();
         return {
-            query: async <T extends Record<string, any>>(queryText: string, values?: any[]): Promise<QueryResult<T>> => {
+            query: async <T extends Record<string, any>>(
+                queryText: string, 
+                values?: any[],
+                options?: { timeout?: number }
+            ): Promise<QueryResult<T>> => {
                 try {
+                    // Set query timeout if provided
+                    if (options?.timeout) {
+                        await client!.query(`SET statement_timeout = ${options.timeout}`);
+                    }
                     return await client!.query(queryText, values);
                 } catch (err) {
                     console.error('Query error:', {

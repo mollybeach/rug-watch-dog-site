@@ -22,6 +22,7 @@ interface RiskMetricsRow extends QueryResultRow {
 }
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 5;
 
 export async function GET() {
     try {
@@ -46,12 +47,16 @@ export async function GET() {
                 COALESCE(tm.metadata, '{"reason": "No data"}') as metadata,
                 COALESCE(tm.timestamp, NOW()) as timestamp
             FROM tokens t
-            LEFT JOIN token_metrics tm ON t.address = tm."tokenAddress"
-            WHERE tm.timestamp >= NOW() - INTERVAL '24 hours'
-                OR tm.timestamp IS NULL
-            ORDER BY t.address, tm.timestamp DESC NULLS LAST
+            LEFT JOIN LATERAL (
+                SELECT *
+                FROM token_metrics tm
+                WHERE tm."tokenAddress" = t.address
+                AND tm.timestamp >= NOW() - INTERVAL '24 hours'
+                ORDER BY timestamp DESC
+                LIMIT 1
+            ) tm ON true
             LIMIT 5;
-        `);
+        `, [], { timeout: 4000 });
 
         return NextResponse.json({
             success: true,
