@@ -1,6 +1,6 @@
 # 🐕 Rug Watch Dog 🤖🔗
 
-Welcome to the **Rug Watch Dog**, an advanced AI-driven platform that helps investors analyze cryptocurrency tokens, especially meme coins 🐕💰, to detect potential "rug pulls" 🛑. This project combines cutting-edge machine learning 📊, blockchain data analysis 🔗, and chatbot integration 🤝 to enhance security 🔒 in the crypto ecosystem.
+Welcome to the **Rug Watch Dog**, an advanced AI-driven platform that helps investors analyze cryptocurrency tokens, especially meme coins 🐕💰, to detect potential "rug pulls" 🛑. This project combines cutting-edge machine learning 📊, blockchain data analysis 🔗, and chatbot integration 🤝 to enhance security 🔒 in the crypto ecosystem
 
 Check out the live demo: [RugWatchDog](https://rugwatchdog.vercel.app/)
 
@@ -23,6 +23,7 @@ Check out the live demo: [RugWatchDog](https://rugwatchdog.vercel.app/)
 - **Styling**: Tailwind CSS, Radix UI
 - **State Management**: React Context
 - **Data Visualization**: Plotly.js, D3 Force Graph
+- **Chatbot**: Discord, Telegram, Twitter
 
 ### Backend
 - **Runtime**: Node.js 20
