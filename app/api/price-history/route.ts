@@ -1,7 +1,6 @@
 /**
  * @title Price History API
  * @fileoverview Historical price data API
- * @path /api/price-history/route.ts
  */
 
 import { NextResponse } from 'next/server';
@@ -23,11 +22,11 @@ export async function GET(request: Request) {
         const result = await pool.query(`
             SELECT 
                 price,
-                volume_24h as "volume24h",
-                marketCap as "marketCap",
+                volume24h,
+                marketCap,
                 liquidity,
                 timestamp
-            FROM token_prices
+            FROM public.token_price
             WHERE tokenAddress = $1
             ORDER BY timestamp DESC
             LIMIT $2
