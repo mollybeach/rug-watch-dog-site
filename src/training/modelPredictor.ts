@@ -1,5 +1,22 @@
 import { TokenData, BaseMetrics } from '../types/metrics';
 
+interface RiskScore {
+    overall: number;
+    liquidity: number;
+    social: number;
+    technical: number;
+}
+
+export function predictRisk(token: TokenData): RiskScore {
+    // TODO: Implement actual risk prediction logic
+    return {
+        overall: 0.5,
+        liquidity: token.metrics.liquidityScore,
+        social: 1 - token.metrics.holderConcentration,
+        technical: token.metrics.bundlerActivity
+    };
+}
+
 export async function analyzeToken(tokenData: TokenData): Promise<BaseMetrics> {
     // Calculate metrics based on token data
     const metrics: BaseMetrics = {
