@@ -51,3 +51,22 @@ export const HeaderNavItems: HeaderNavItemsType[] = [
     { value: "data", icon: FileText, label: "Data" },
     { value: "documentation", icon: BookOpen, label: "Documentation" },
 ];
+
+export const visualizationMetadata = {
+    riskMetrics: {
+        title: 'Risk Metrics',
+        description: 'Analyze token risk metrics and patterns'
+    },
+    marketRiskRadar: {
+        title: 'Market Risk Radar',
+        description: 'Visualize market risk indicators'
+    },
+    networkAnalysis: {
+        title: 'Network Analysis',
+        description: 'Explore token transaction networks'
+    },
+    nftAnalytics: {
+        title: 'NFT Analytics',
+        description: 'Track NFT market trends and metrics'
+    }
+};
