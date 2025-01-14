@@ -13,9 +13,9 @@ Check out the live demo: [RugWatchDog](https://rugwatchdog.vercel.app/)
 ![Rug Watch Dog](./assets/images/logo.png)
 
 ## Objectives
-1. Provide a secure platform for users to connect their wallets and interact with NFTs.
+1. Provide a secure platform for users to connect their wallets and interact with NFTs
 2. Offer tools for analyzing NFT projects and identifying potential risks.
-3. Integrate social media channels for community engagement and updates.
+3. Integrate social media channels for community engagement and updates
 
 ## Tech Stack
 - **Frontend**: Next.js, Tailwind CSS
