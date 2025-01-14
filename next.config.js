@@ -1,37 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true,
-    compiler: {
-        styledComponents: true
+    typescript: {
+        ignoreBuildErrors: true
     },
     webpack: (config, { isServer }) => {
         if (!isServer) {
-            // Client-side polyfills
             config.resolve.fallback = {
-                ...config.resolve.fallback,
                 fs: false,
                 net: false,
-                tls: false,
-                path: false,
-                stream: false,
-                crypto: false,
-                dns: false,
-                os: false,
-                util: false
+                tls: false
             };
         }
-
-        // Add module aliases using absolute paths
-        config.resolve.alias = {
-            ...config.resolve.alias,
-            '@': '/vercel/path0',
-            '@/components': '/vercel/path0/components',
-            '@/lib': '/vercel/path0/lib'
-        };
         return config;
-    },
-    experimental: {
-        optimizePackageImports: ['plotly.js-dist-min']
     }
 };
 

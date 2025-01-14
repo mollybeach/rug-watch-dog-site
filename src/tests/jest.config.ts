@@ -10,7 +10,8 @@ const config: Config = {
     testMatch: ['**/*.test.ts'],
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/../../src/$1'
-    }
+    },
+    setupFiles: ['<rootDir>/test.env']
 };
 
 export default config; 

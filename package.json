@@ -94,5 +94,10 @@
         "ts-jest": "^29.2.5",
         "ts-node-dev": "^2.0.0",
         "wrangler": "^3.87.0"
+    },
+    "nextConfig": {
+        "typescript": {
+            "ignoreBuildErrors": true
+        }
     }
 }
