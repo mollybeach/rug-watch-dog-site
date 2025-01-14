@@ -21,6 +21,9 @@ interface RiskMetricsRow extends QueryResultRow {
     timestamp: string;
 }
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
+
 export async function GET() {
     let client = null;
     try {
@@ -56,12 +59,7 @@ export async function GET() {
             data: result.rows || []
         });
     } catch (error: any) {
-        console.error('Database error:', {
-            message: error.message,
-            code: error.code,
-            stack: error.stack
-        });
-        
+        console.error('Database error:', error);
         return NextResponse.json(
             { 
                 success: false, 

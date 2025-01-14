@@ -5,7 +5,14 @@ import dynamic from 'next/dynamic';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
-const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
+// Rename dynamic import to avoid conflict
+const DynamicPlot = dynamic(() => import('react-plotly.js'), { ssr: false });
+
+// Add config object for page behavior
+export const config = {
+    runtime: 'edge',
+    dynamic: 'force-dynamic'
+};
 
 interface RiskMetrics {
     address: string;
@@ -230,7 +237,7 @@ export default function RiskMetricsPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Card className="p-4">
-                    <Plot
+                    <DynamicPlot
                         data={radarData}
                         layout={layout}
                         useResizeHandler
