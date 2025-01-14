@@ -1,16 +1,11 @@
 {
     "version": 2,
-    "buildCommand": "pnpm run build",
-    "installCommand": "pnpm install",
     "framework": "nextjs",
     "regions": ["iad1"],
-    "builds": [{
-        "src": "package.json",
-        "use": "@vercel/next"
-    }],
-    "build": {
-        "env": {
-            "NODE_VERSION": "20"
+    "functions": {
+        "api/**/*.ts": {
+            "memory": 1024,
+            "maxDuration": 60
         }
     },
     "git": {
@@ -18,12 +13,6 @@
             "main": true,
             "dev": true,
             "feature/*": false
-        }
-    },
-    "functions": {
-        "app/api/risk-metrics/route.ts": {
-            "memory": 1024,
-            "maxDuration": 60
         }
     }
 }
