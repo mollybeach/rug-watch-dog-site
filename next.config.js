@@ -18,7 +18,6 @@ const nextConfig = {
         return config;
     },
     experimental: {
-        optimizeCss: true,
         optimizePackageImports: ['plotly.js-dist-min']
     }
 };
