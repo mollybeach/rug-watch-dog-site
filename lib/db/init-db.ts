@@ -1,9 +1,8 @@
 import { getClient } from '@/lib/db/config';
 
 async function initializeDatabase() {
-    let client = null;
     try {
-        client = await getClient();
+        const client = await getClient();
         
         // Create tables if they don't exist
         await client.query(`
@@ -79,10 +78,6 @@ async function initializeDatabase() {
     } catch (error) {
         console.error('Error initializing database:', error);
         throw error;
-    } finally {
-        if (client) {
-            client.release();
-        }
     }
 }
 

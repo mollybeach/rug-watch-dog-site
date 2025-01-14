@@ -18,9 +18,8 @@ export async function GET(request: Request) {
         );
     }
 
-    let client = null;
     try {
-        client = await getClient();
+        const client = await getClient();
         
         const result = await client.query(`
             SELECT 
@@ -45,9 +44,5 @@ export async function GET(request: Request) {
             { success: false, error: 'Failed to fetch price history' },
             { status: 500 }
         );
-    } finally {
-        if (client) {
-            client.release();
-        }
     }
 } 
