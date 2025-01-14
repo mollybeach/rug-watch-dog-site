@@ -32,23 +32,24 @@ export async function GET() {
                 t.address,
                 t.name,
                 t.symbol,
-                tm."volumeAnomaly",
-                tm."holderConcentration",
-                tm."liquidityScore",
-                tm."priceVolatility",
-                tm."sellPressure",
-                tm."marketCapRisk",
-                tm."bundlerActivity",
-                tm."accumulationRate",
+                COALESCE(tm."volumeAnomaly", 0) as "volumeAnomaly",
+                COALESCE(tm."holderConcentration", 0) as "holderConcentration",
+                COALESCE(tm."liquidityScore", 0) as "liquidityScore",
+                COALESCE(tm."priceVolatility", 0) as "priceVolatility",
+                COALESCE(tm."sellPressure", 0) as "sellPressure",
+                COALESCE(tm."marketCapRisk", 0) as "marketCapRisk",
+                COALESCE(tm."bundlerActivity", false) as "bundlerActivity",
+                COALESCE(tm."accumulationRate", 0) as "accumulationRate",
                 tm."stealthAccumulation",
                 tm."suspiciousPattern",
-                tm."isRugPull",
-                tm.metadata,
-                tm.timestamp
+                COALESCE(tm."isRugPull", false) as "isRugPull",
+                COALESCE(tm.metadata, '{"reason": "No data"}') as metadata,
+                COALESCE(tm.timestamp, NOW()) as timestamp
             FROM tokens t
             LEFT JOIN token_metrics tm ON t.address = tm."tokenAddress"
             WHERE tm.timestamp >= NOW() - INTERVAL '24 hours'
-            ORDER BY t.address, tm.timestamp DESC
+                OR tm.timestamp IS NULL
+            ORDER BY t.address, tm.timestamp DESC NULLS LAST
             LIMIT 5;
         `);
 
