@@ -1,18 +1,18 @@
 export interface TokenMetrics {
-    volume_anomaly: number;
-    holder_concentration: number;
-    liquidity_score: number;
-    price_volatility: number;
-    sell_pressure: number;
-    market_cap_risk: number;
+    volumeAnomaly: number;
+    holderConcentration: number;
+    liquidityScore: number;
+    priceVolatility: number;
+    sellPressure: number;
+    marketCapRisk: number;
 }
 
 export interface BaseMetrics extends TokenMetrics {
-    is_rug_pull: boolean;
-    bundler_activity: boolean;
-    accumulation_rate: number;
-    stealth_accumulation: number;
-    suspicious_pattern: boolean | null;
+    isRugPull: boolean;
+    bundlerActivity: boolean;
+    accumulationRate: number;
+    stealthAccumulation: number;
+    suspiciousPattern: boolean | null;
     metadata: Record<string, any>;
 }
 
@@ -21,17 +21,17 @@ export interface TokenData {
     name: string;
     symbol: string;
     metrics: TokenMetrics & {
-        is_rug_pull: boolean;
-        bundler_activity: boolean;
-        accumulation_rate: number;
-        stealth_accumulation: number;
-        suspicious_pattern: boolean | null;
+        isRugPull: boolean;
+        bundlerActivity: boolean;
+        accumulationRate: number;
+        stealthAccumulation: number;
+        suspiciousPattern: boolean | null;
         metadata: Record<string, any>;
     };
     price: {
         price: number;
         volume24h: number;
-        market_cap: number;
+        marketCap: number;
         liquidity: number;
     };
 }

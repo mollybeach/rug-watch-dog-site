@@ -7,26 +7,26 @@ export interface TokenAnalysisRequest {
 
 export interface TokenAnalysis {
     token: string;
-    rug_pull_probability: number;
+    rugPullProbability: number;
     metrics: {
-        volume_anomaly: number;
-        holder_concentration: number;
-        liquidity_score: number;
-        price_volatility: number;
-        sell_pressure: number;
+        volumeAnomaly: number;
+        holderConcentration: number;
+        liquidityScore: number;
+        priceVolatility: number;
+        sellPressure: number;
         market_cap_risk: number;
     };
-    bundler_activity: boolean;
-    accumulation_rate: number;
-    stealth_accumulation: number;
-    suspicious_pattern: number;
+    bundlerActivity: boolean;
+    accumulationRate: number;
+    stealthAccumulation: number;
+    suspiciousPattern: number;
     reason: string;
 }
 
 export interface TokenStatsResponse {
-    total_tokens: number;
-    rug_pulls: number;
-    legitimate_tokens: number;
-    average_metrics: TokenMetrics;
-    last_updated: string;
+    totalTokens: number;
+    rugPulls: number;
+    legitimateTokens: number;
+    averageMetrics: TokenMetrics;
+    lastUpdated: string;
 } 

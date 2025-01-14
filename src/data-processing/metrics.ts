@@ -5,24 +5,24 @@ import { loadExistingData } from './storage';
 export async function getTokenStats() {
     const data = await loadExistingData();
     const totalTokens = data.length;
-    const rugPulls = data.filter(t => t.metrics.is_rug_pull).length;
-    const legitimate_tokens = totalTokens - rugPulls;
+    const rugPulls = data.filter(t => t.metrics.isRugPull).length;
+    const legitimateTokens = totalTokens - rugPulls;
 
     const averageMetrics = data.reduce<TokenMetrics>((acc, token) => {
-        acc.volume_anomaly += token.metrics.volume_anomaly;
-        acc.holder_concentration += token.metrics.holder_concentration;
-        acc.liquidity_score += token.metrics.liquidity_score;
-        acc.price_volatility += token.metrics.price_volatility;
-        acc.sell_pressure += token.metrics.sell_pressure;
-        acc.market_cap_risk += token.metrics.market_cap_risk;
+        acc.volumeAnomaly += token.metrics.volumeAnomaly;
+        acc.holderConcentration += token.metrics.holderConcentration;
+        acc.liquidityScore += token.metrics.liquidityScore;
+        acc.priceVolatility += token.metrics.priceVolatility;
+        acc.sellPressure += token.metrics.sellPressure;
+        acc.marketCapRisk += token.metrics.marketCapRisk;
         return acc;
     }, {
-        volume_anomaly: 0,
-        holder_concentration: 0,
-        liquidity_score: 0,
-        price_volatility: 0,
-        sell_pressure: 0,
-        market_cap_risk: 0
+        volumeAnomaly: 0,
+        holderConcentration: 0,
+        liquidityScore: 0,
+        priceVolatility: 0,
+        sellPressure: 0,
+        marketCapRisk: 0
     });
 
     // Calculate averages
@@ -35,7 +35,7 @@ export async function getTokenStats() {
     return {
         totalTokens,
         rugPulls,
-        legitimate_tokens,
+        legitimateTokens,
         averageMetrics,
         lastUpdated: new Date().toISOString()
     };

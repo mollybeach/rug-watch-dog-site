@@ -14,17 +14,17 @@ router.get('/analyze/:tokenAddress', async (req, res) => {
             name: '', // These will be filled in by analyzeToken
             symbol: '',
             metrics: {
-                volume_anomaly: 0,
-                holder_concentration: 0,
-                liquidity_score: 0,
-                price_volatility: 0,
-                sell_pressure: 0,
-                market_cap_risk: 0,
-                bundler_activity: 0,
-                accumulation_rate: 0,
-                stealth_accumulation: 0,
-                suspicious_pattern: false,
-                is_rug_pull: false,
+                volumeAnomaly: 0,
+                holderConcentration: 0,
+                liquidityScore: 0,
+                priceVolatility: 0,
+                sellPressure: 0,
+                marketCapRisk: 0,
+                bundlerActivity: 0,
+                accumulationRate: 0,
+                stealthAccumulation: 0,
+                suspiciousPattern: false,
+                isRugPull: false,
                 metadata: { reason: '' },
                 timestamp: new Date().toISOString()
             }

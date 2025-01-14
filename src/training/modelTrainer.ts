@@ -8,17 +8,17 @@ export async function trainModel(trainingData: TrainingData[]): Promise<tf.Layer
     try {
         // Convert training data to base metrics format
         const processedData: BaseMetrics[] = trainingData.map(data => ({
-            volume_anomaly: data.volume_anomaly,
-            holder_concentration: data.holder_concentration,
-            liquidity_score: data.liquidity_score,
-            price_volatility: data.price_volatility,
-            sell_pressure: data.sell_pressure,
-            market_cap_risk: data.market_cap_risk,
-            bundler_activity: data.bundler_activity,
-            accumulation_rate: data.accumulation_rate,
-            stealth_accumulation: data.stealth_accumulation,
-            suspicious_pattern: data.suspicious_pattern,
-            is_rug_pull: data.is_rug_pull,
+            volumeAnomaly: data.volumeAnomaly,
+            holderConcentration: data.holderConcentration,
+            liquidityScore: data.liquidityScore,
+            priceVolatility: data.priceVolatility,
+            sellPressure: data.sellPressure,
+            marketCapRisk: data.marketCapRisk,
+            bundlerActivity: data.bundlerActivity,
+            accumulationRate: data.accumulationRate,
+            stealthAccumulation: data.stealthAccumulation,
+            suspiciousPattern: data.suspiciousPattern,
+            isRugPull: data.isRugPull,
             metadata: data.metadata,
             timestamp: data.timestamp
         }));
@@ -80,17 +80,17 @@ export async function trainModel(trainingData: TrainingData[]): Promise<tf.Layer
 // Run training if called directly
 if (require.main === module) {
     const dummyData: TrainingData[] = [{
-        volume_anomaly: 0.5,
-        holder_concentration: 0.3,
-        liquidity_score: 0.7,
-        price_volatility: 0.4,
-        sell_pressure: 0.2,
-        market_cap_risk: 0.3,
-        bundler_activity: 0.2,
-        accumulation_rate: 0.1,
-        stealth_accumulation: 0.2,
-        suspicious_pattern: false,
-        is_rug_pull: false,
+        volumeAnomaly: 0.5,
+        holderConcentration: 0.3,
+        liquidityScore: 0.7,
+        priceVolatility: 0.4,
+        sellPressure: 0.2,
+        marketCapRisk: 0.3,
+        bundlerActivity: 0.2,
+        accumulationRate: 0.1,
+        stealthAccumulation: 0.2,
+        suspiciousPattern: false,
+        isRugPull: false,
         metadata: { reason: 'Training data' },
         timestamp: new Date().toISOString(),
         address: '0x0'

@@ -205,24 +205,24 @@ export async function fetchTokenData(tokenAddress: string, chain: string = 'ethe
         const accMetrics = await calculateAccumulationMetrics(etherscanData.result);
 
         const metrics: TokenMetricsData = {
-            volume_anomaly: calculateVolumeAnomaly(dexData),
-            holder_concentration: calculateHolderConcentration(etherscanData),
-            liquidity_score: calculateLiquidityScore(dexData),
-            price_volatility: calculatePriceVolatility(dexData),
-            sell_pressure: calculateSellPressure(dexData),
-            market_cap_risk: calculateMarketCapRisk(dexData),
-            is_rug_pull: false,
-            bundler_activity: bundlerPattern.isFromBundler,
-            accumulation_rate: accMetrics.accumulationRate,
-            stealth_accumulation: accMetrics.stealthAccumulation,
-            suspicious_pattern: bundlerPattern.timePattern > 0.5 ? true : bundlerPattern.timePattern === 0 ? null : false,
+            volumeAnomaly: calculateVolumeAnomaly(dexData),
+            holderConcentration: calculateHolderConcentration(etherscanData),
+            liquidityScore: calculateLiquidityScore(dexData),
+            priceVolatility: calculatePriceVolatility(dexData),
+            sellPressure: calculateSellPressure(dexData),
+            marketCapRisk: calculateMarketCapRisk(dexData),
+            isRugPull: false,
+            bundlerActivity: bundlerPattern.isFromBundler,
+            accumulationRate: accMetrics.accumulationRate,
+            stealthAccumulation: accMetrics.stealthAccumulation,
+            suspiciousPattern: bundlerPattern.timePattern > 0.5 ? true : bundlerPattern.timePattern === 0 ? null : false,
             metadata: {}
         };
 
         const price: TokenPriceData = {
             price: dexData.pairs[0].priceUsd || 0,
             volume24h: dexData.pairs[0].volume?.h24 || 0,
-            market_cap: (dexData.pairs[0].priceUsd || 0) * 1000000, // Approximate
+            marketCap: (dexData.pairs[0].priceUsd || 0) * 1000000, // Approximate
             liquidity: dexData.pairs[0].liquidity?.usd || 0
         };
 

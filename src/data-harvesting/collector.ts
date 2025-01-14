@@ -58,18 +58,18 @@ class DataCollector {
             const metricsRepository = queryRunner.manager.getRepository(TokenMetrics);
             const metricsEntities = batchToProcess.map(data => 
                 metricsRepository.create({
-                    token_address: data.address,
-                    volume_anomaly: data.metrics.volume_anomaly ?? 0,
-                    holder_concentration: data.metrics.holder_concentration ?? 0,
-                    liquidity_score: data.metrics.liquidity_score ?? 0,
-                    price_volatility: data.metrics.price_volatility ?? 0,
-                    sell_pressure: data.metrics.sell_pressure ?? 0,
-                    market_cap_risk: data.metrics.market_cap_risk ?? 0,
-                    bundler_activity: data.metrics.bundler_activity ?? false,
-                    accumulation_rate: data.metrics.accumulation_rate ?? 0,
-                    stealth_accumulation: data.metrics.stealth_accumulation ?? 0,
-                    suspicious_pattern: data.metrics.suspicious_pattern,
-                    is_rug_pull: data.metrics.is_rug_pull,
+                    tokenAddress: data.address,
+                    volumeAnomaly: data.metrics.volumeAnomaly ?? 0,
+                    holderConcentration: data.metrics.holderConcentration ?? 0,
+                    liquidityScore: data.metrics.liquidityScore ?? 0,
+                    priceVolatility: data.metrics.priceVolatility ?? 0,
+                    sellPressure: data.metrics.sellPressure ?? 0,
+                    marketCapRisk: data.metrics.marketCapRisk ?? 0,
+                    bundlerActivity: data.metrics.bundlerActivity ?? false,
+                    accumulationRate: data.metrics.accumulationRate ?? 0,
+                    stealthAccumulation: data.metrics.stealthAccumulation ?? 0,
+                    suspiciousPattern: data.metrics.suspiciousPattern,
+                    isRugPull: data.metrics.isRugPull,
                     metadata: data.metrics.metadata ?? {}
                 })
             );
@@ -79,10 +79,10 @@ class DataCollector {
             const priceRepository = queryRunner.manager.getRepository(TokenPrice);
             const priceEntities = batchToProcess.map(data =>
                 priceRepository.create({
-                    token_address: data.address,
+                    tokenAddress: data.address,
                     price: data.price.price,
                     volume24h: data.price.volume24h,
-                    market_cap: data.price.market_cap,
+                    marketCap: data.price.marketCap,
                     liquidity: data.price.liquidity
                 })
             );

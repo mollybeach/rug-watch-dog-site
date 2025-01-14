@@ -16,16 +16,16 @@ export async function loadModel(modelPath: string): Promise<void> {
 
 function preprocessFeatures(tokenData: TokenData): tf.Tensor2D {
     const features = [
-        tokenData.metrics.volume_anomaly,
-        tokenData.metrics.holder_concentration,
-        tokenData.metrics.liquidity_score,
-        tokenData.metrics.price_volatility,
-        tokenData.metrics.sell_pressure,
-        tokenData.metrics.market_cap_risk,
-        tokenData.metrics.bundler_activity,
-        tokenData.metrics.accumulation_rate,
-        tokenData.metrics.stealth_accumulation || 0,
-        tokenData.metrics.suspicious_pattern ? 1 : 0
+        tokenData.metrics.volumeAnomaly,
+        tokenData.metrics.holderConcentration,
+        tokenData.metrics.liquidityScore,
+        tokenData.metrics.priceVolatility,
+        tokenData.metrics.sellPressure,
+        tokenData.metrics.marketCapRisk,
+        tokenData.metrics.bundlerActivity,
+        tokenData.metrics.accumulationRate,
+        tokenData.metrics.stealthAccumulation || 0,
+        tokenData.metrics.suspiciousPattern ? 1 : 0
     ].map(f => f === null ? 0 : f);
 
     return tf.tensor2d([features], [1, features.length]);
@@ -38,17 +38,17 @@ export async function analyzeToken(tokenData: TokenData): Promise<BaseMetrics> {
         const isRugPull = (await prediction.data())[0] > 0.5;
 
         const baseMetrics: BaseMetrics = {
-            volume_anomaly: tokenData.metrics.volume_anomaly,
-            holder_concentration: tokenData.metrics.holder_concentration,
-            liquidity_score: tokenData.metrics.liquidity_score,
-            price_volatility: tokenData.metrics.price_volatility,
-            sell_pressure: tokenData.metrics.sell_pressure,
-            market_cap_risk: tokenData.metrics.market_cap_risk,
-            bundler_activity: tokenData.metrics.bundler_activity,
-            accumulation_rate: tokenData.metrics.accumulation_rate,
-            stealth_accumulation: tokenData.metrics.stealth_accumulation || 0,
-            suspicious_pattern: tokenData.metrics.suspicious_pattern || false,
-            is_rug_pull: isRugPull,
+            volumeAnomaly: tokenData.metrics.volumeAnomaly,
+            holderConcentration: tokenData.metrics.holderConcentration,
+            liquidityScore: tokenData.metrics.liquidityScore,
+            priceVolatility: tokenData.metrics.priceVolatility,
+            sellPressure: tokenData.metrics.sellPressure,
+            marketCapRisk: tokenData.metrics.marketCapRisk,
+            bundlerActivity: tokenData.metrics.bundlerActivity,
+            accumulationRate: tokenData.metrics.accumulationRate,
+            stealthAccumulation: tokenData.metrics.stealthAccumulation || 0,
+            suspiciousPattern: tokenData.metrics.suspiciousPattern || false,
+            isRugPull: isRugPull,
             metadata: {
                 reason: isRugPull ? 'High risk indicators detected' : 'No significant risk detected'
             },
