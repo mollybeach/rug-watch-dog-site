@@ -9,11 +9,12 @@ const pool = new Pool({
     ssl: {
         rejectUnauthorized: false
     },
-    // Add connection timeouts
-    connectionTimeoutMillis: 2000,
-    idleTimeoutMillis: 2000,
-    max: 1, // Reduce max connections
-    keepAlive: true
+    // Increase timeouts
+    connectionTimeoutMillis: 5000,
+    idleTimeoutMillis: 5000,
+    max: 1,
+    keepAlive: true,
+    statement_timeout: 10000
 });
 
 pool.on('error', (err) => {

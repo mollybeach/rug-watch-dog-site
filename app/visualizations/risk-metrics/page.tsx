@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { PlotParams } from 'react-plotly.js';
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 

@@ -49,7 +49,7 @@ export async function GET() {
         `);
 
         const timeoutPromise = new Promise<never>((_, reject) => {
-            setTimeout(() => reject(new Error('Query timeout')), 1500);
+            setTimeout(() => reject(new Error('Query timeout')), 5000);
         });
 
         const result = await Promise.race([queryPromise, timeoutPromise]) as QueryResult<RiskMetricsRow>;
