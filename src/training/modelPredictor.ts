@@ -1,68 +1,63 @@
 //path: src/training/modelPredictor.ts
 import * as tf from '@tensorflow/tfjs-node';
-import { TokenData, BaseMetrics } from '../types/token';
+import { TokenData, BaseMetrics } from '../types/metrics';
 
-export class ModelPredictor {
-    private model: tf.LayersModel | null = null;
+let model: tf.LayersModel;
 
-    async loadModel(modelPath: string): Promise<void> {
-        try {
-            this.model = await tf.loadLayersModel(`file://${modelPath}`);
-            console.log('Model loaded successfully');
-        } catch (error) {
-            console.error('Error loading model:', error);
-            throw error;
-        }
+export async function loadModel(modelPath: string): Promise<void> {
+    try {
+        model = await tf.loadLayersModel(`file://${modelPath}`);
+        console.log('Model loaded successfully');
+    } catch (error) {
+        console.error('Error loading model:', error);
+        throw error;
     }
+}
 
-    private preprocessInput(metrics: BaseMetrics): tf.Tensor {
-        const features = [
-            metrics.volumeAnomaly,
-            metrics.holderConcentration,
-            metrics.liquidityScore,
-            metrics.priceVolatility,
-            metrics.sellPressure,
-            metrics.marketCapRisk,
-            metrics.bundlerActivity ? 1 : 0,
-            metrics.accumulationRate,
-            metrics.stealthAccumulation,
-            metrics.suspiciousPattern === true ? 1 : metrics.suspiciousPattern === false ? 0 : 0.5
-        ];
-        return tf.tensor2d([features], [1, features.length]);
-    }
+function preprocessFeatures(tokenData: TokenData): tf.Tensor2D {
+    const features = [
+        tokenData.metrics.volume_anomaly,
+        tokenData.metrics.holder_concentration,
+        tokenData.metrics.liquidity_score,
+        tokenData.metrics.price_volatility,
+        tokenData.metrics.sell_pressure,
+        tokenData.metrics.market_cap_risk,
+        tokenData.metrics.bundler_activity,
+        tokenData.metrics.accumulation_rate,
+        tokenData.metrics.stealth_accumulation || 0,
+        tokenData.metrics.suspicious_pattern ? 1 : 0
+    ].map(f => f === null ? 0 : f);
 
-    async predict(tokenData: TokenData): Promise<number> {
-        if (!this.model) {
-            throw new Error('Model not loaded');
-        }
+    return tf.tensor2d([features], [1, features.length]);
+}
 
-        try {
-            const baseMetrics: BaseMetrics = {
-                volumeAnomaly: tokenData.metrics.volumeAnomaly,
-                holderConcentration: tokenData.metrics.holderConcentration,
-                liquidityScore: tokenData.metrics.liquidityScore,
-                priceVolatility: tokenData.metrics.priceVolatility,
-                sellPressure: tokenData.metrics.sellPressure,
-                marketCapRisk: tokenData.metrics.marketCapRisk,
-                isRugPull: tokenData.metrics.isRugPull,
-                bundlerActivity: tokenData.metrics.bundlerActivity,
-                accumulationRate: tokenData.metrics.accumulationRate,
-                stealthAccumulation: tokenData.metrics.stealthAccumulation,
-                suspiciousPattern: tokenData.metrics.suspiciousPattern,
-                metadata: tokenData.metrics.metadata
-            };
+export async function analyzeToken(tokenData: TokenData): Promise<BaseMetrics> {
+    try {
+        const features = preprocessFeatures(tokenData);
+        const prediction = await model.predict(features) as tf.Tensor;
+        const isRugPull = (await prediction.data())[0] > 0.5;
 
-            const input = this.preprocessInput(baseMetrics);
-            const prediction = this.model.predict(input) as tf.Tensor;
-            const score = (await prediction.data())[0];
-            
-            input.dispose();
-            prediction.dispose();
-            
-            return score;
-        } catch (error) {
-            console.error('Error making prediction:', error);
-            throw error;
-        }
+        const baseMetrics: BaseMetrics = {
+            volume_anomaly: tokenData.metrics.volume_anomaly,
+            holder_concentration: tokenData.metrics.holder_concentration,
+            liquidity_score: tokenData.metrics.liquidity_score,
+            price_volatility: tokenData.metrics.price_volatility,
+            sell_pressure: tokenData.metrics.sell_pressure,
+            market_cap_risk: tokenData.metrics.market_cap_risk,
+            bundler_activity: tokenData.metrics.bundler_activity,
+            accumulation_rate: tokenData.metrics.accumulation_rate,
+            stealth_accumulation: tokenData.metrics.stealth_accumulation || 0,
+            suspicious_pattern: tokenData.metrics.suspicious_pattern || false,
+            is_rug_pull: isRugPull,
+            metadata: {
+                reason: isRugPull ? 'High risk indicators detected' : 'No significant risk detected'
+            },
+            timestamp: new Date().toISOString()
+        };
+
+        return baseMetrics;
+    } catch (error) {
+        console.error('Error analyzing token:', error);
+        throw error;
     }
 } 

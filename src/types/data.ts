@@ -1,33 +1,39 @@
 export interface TokenMetrics {
-    volumeAnomaly: number;
-    holderConcentration: number;
-    liquidityScore: number;
-    priceVolatility: number;
-    sellPressure: number;
-    marketCapRisk: number;
+    volume_anomaly: number;
+    holder_concentration: number;
+    liquidity_score: number;
+    price_volatility: number;
+    sell_pressure: number;
+    market_cap_risk: number;
 }
 
 export interface BaseMetrics extends TokenMetrics {
-    isRugPull: boolean;
+    is_rug_pull: boolean;
+    bundler_activity: boolean;
+    accumulation_rate: number;
+    stealth_accumulation: number;
+    suspicious_pattern: boolean | null;
+    metadata: Record<string, any>;
 }
 
-export interface TokenData extends TokenMetrics {
-    token: string;
+export interface TokenData {
+    address: string;
     name: string;
     symbol: string;
-    bundlerActivity: boolean;
-    accumulationRate: number;
-    stealthAccumulation: number;
-    suspiciousPattern: boolean | null;
-    isRugPull: boolean;
-    metadata: {
-        reason: string;
+    metrics: TokenMetrics & {
+        is_rug_pull: boolean;
+        bundler_activity: boolean;
+        accumulation_rate: number;
+        stealth_accumulation: number;
+        suspicious_pattern: boolean | null;
+        metadata: Record<string, any>;
     };
-    // Price data
-    currentPrice?: number;
-    volume24h?: number;
-    marketCap?: number;
-    liquidity?: number;
+    price: {
+        price: number;
+        volume24h: number;
+        market_cap: number;
+        liquidity: number;
+    };
 }
 
 export interface TrainingData extends BaseMetrics {
@@ -36,12 +42,12 @@ export interface TrainingData extends BaseMetrics {
 
 export interface TokenAnalysis {
     token: string;
-    rugPullProbability: number;
+    rug_pull_probability: number;
     metrics: TokenMetrics;
-    bundlerActivity: boolean;
-    accumulationRate: number;
-    stealthAccumulation: number;
-    suspiciousPattern: boolean | null;
+    bundler_activity: boolean;
+    accumulation_rate: number;
+    stealth_accumulation: number;
+    suspicious_pattern: boolean | null;
     reason: string;
 }
 

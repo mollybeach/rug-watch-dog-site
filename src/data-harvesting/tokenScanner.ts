@@ -1,7 +1,7 @@
 // path: src/data-harvesting/tokenScanner.ts
 import { ethers } from 'ethers';
 import { fetchTokenData } from './fetcher';
-import { DataCollector } from './collector';
+import { dataCollector } from './collector';
 import { AppDataSource } from '../db/data-source';
 
 const RPC_ENDPOINTS = {
@@ -15,9 +15,7 @@ export async function scanToken(chains: string[] = ['ethereum'], batchSize: numb
     await AppDataSource.initialize();
     console.log('✅ Database initialized');
     
-    // Create data collector instance
-    const dataCollector = new DataCollector();
-    
+    // Use imported dataCollector
     for (const chain of chains) {
         const provider = new ethers.JsonRpcProvider(RPC_ENDPOINTS[chain as keyof typeof RPC_ENDPOINTS]);
         console.log(`\n🔍 Scanning ${chain} chain...`);

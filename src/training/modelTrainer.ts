@@ -1,112 +1,99 @@
 //path: src/training/modelTrainer.ts
 import * as tf from '@tensorflow/tfjs-node';
-import { TrainingData } from '../types/data';
+import { BaseMetrics, TrainingData } from '../types/metrics';
 import { preprocessTokenData } from '../data-processing/parser';
 import path from 'path';
-import fs from 'fs/promises';
-
-const MODEL_DIR = path.join(process.cwd(), 'models', 'trained');
-const MODEL_PATH = 'file://' + path.join(MODEL_DIR, 'model.json');
 
 export async function trainModel(trainingData: TrainingData[]): Promise<tf.LayersModel> {
-    if (trainingData.length === 0) {
-        throw new Error('No training data provided');
-    }
-
-    console.log(`Training with ${trainingData.length} samples`);
-    
-    // Create sequential model
-    const model = tf.sequential();
-    
-    // Add layers
-    model.add(tf.layers.dense({
-        units: 12,
-        activation: 'relu',
-        inputShape: [6]  // 6 features
-    }));
-    
-    model.add(tf.layers.dense({
-        units: 8,
-        activation: 'relu'
-    }));
-    
-    model.add(tf.layers.dense({
-        units: 1,
-        activation: 'sigmoid'
-    }));
-    
-    // Compile model
-    model.compile({
-        optimizer: tf.train.adam(0.001),
-        loss: 'binaryCrossentropy',
-        metrics: ['accuracy']
-    });
-    
-    // Preprocess data
-    const { features, labels } = preprocessTokenData(trainingData);
-    
-    // Convert to tensors
-    const xs = tf.tensor2d(features);
-    const ys = tf.tensor2d(labels, [labels.length, 1]);
-    
     try {
-        // Adjust training parameters based on dataset size
-        const batchSize = Math.max(1, Math.min(32, Math.floor(trainingData.length / 2)));
-        const validationSplit = trainingData.length > 10 ? 0.2 : 0; // Only use validation split if we have enough data
+        // Convert training data to base metrics format
+        const processedData: BaseMetrics[] = trainingData.map(data => ({
+            volume_anomaly: data.volume_anomaly,
+            holder_concentration: data.holder_concentration,
+            liquidity_score: data.liquidity_score,
+            price_volatility: data.price_volatility,
+            sell_pressure: data.sell_pressure,
+            market_cap_risk: data.market_cap_risk,
+            bundler_activity: data.bundler_activity,
+            accumulation_rate: data.accumulation_rate,
+            stealth_accumulation: data.stealth_accumulation,
+            suspicious_pattern: data.suspicious_pattern,
+            is_rug_pull: data.is_rug_pull,
+            metadata: data.metadata,
+            timestamp: data.timestamp
+        }));
+
+        const { features, labels } = preprocessTokenData(processedData);
+
+        // Create and compile model
+        const model = tf.sequential();
         
-        console.log(`Using batch size: ${batchSize}, validation split: ${validationSplit}`);
+        model.add(tf.layers.dense({
+            units: 64,
+            activation: 'relu',
+            inputShape: [features[0].length]
+        }));
         
+        model.add(tf.layers.dropout({ rate: 0.2 }));
+        model.add(tf.layers.dense({ units: 32, activation: 'relu' }));
+        model.add(tf.layers.dropout({ rate: 0.2 }));
+        model.add(tf.layers.dense({ units: 1, activation: 'sigmoid' }));
+
+        model.compile({
+            optimizer: tf.train.adam(0.001),
+            loss: 'binaryCrossentropy',
+            metrics: ['accuracy']
+        });
+
+        // Convert data to tensors
+        const xs = tf.tensor2d(features);
+        const ys = tf.tensor2d(labels, [labels.length, 1]);
+
         // Train model
         await model.fit(xs, ys, {
             epochs: 100,
-            batchSize,
-            validationSplit,
-            verbose: 1,
+            batchSize: 32,
+            validationSplit: 0.2,
             callbacks: {
                 onEpochEnd: (epoch, logs) => {
-                    if (logs) {
-                        let logMessage = `Epoch ${epoch + 1}/100 - loss: ${logs.loss.toFixed(4)}`;
-                        if (logs.acc !== undefined) {
-                            logMessage += `, accuracy: ${logs.acc.toFixed(4)}`;
-                        }
-                        if (validationSplit > 0) {
-                            if (logs.val_loss !== undefined) {
-                                logMessage += `, val_loss: ${logs.val_loss.toFixed(4)}`;
-                            }
-                            if (logs.val_acc !== undefined) {
-                                logMessage += `, val_accuracy: ${logs.val_acc.toFixed(4)}`;
-                            }
-                        }
-                        console.log(logMessage);
-                    }
+                    console.log(`Epoch ${epoch + 1} - loss: ${logs?.loss.toFixed(4)} - accuracy: ${logs?.acc.toFixed(4)}`);
                 }
             }
         });
-        
-        // Create model directory if it doesn't exist
-        await fs.mkdir(MODEL_DIR, { recursive: true });
-        
+
         // Save model
-        await model.save(MODEL_PATH);
-        
-        return model;
-    } finally {
+        const modelPath = path.join(__dirname, '../../models/rugpull_model');
+        await model.save(`file://${modelPath}`);
+        console.log(`Model saved to ${modelPath}`);
+
         // Clean up tensors
         xs.dispose();
         ys.dispose();
+
+        return model;
+    } catch (error) {
+        console.error('Error training model:', error);
+        throw error;
     }
 }
 
 // Run training if called directly
 if (require.main === module) {
     const dummyData: TrainingData[] = [{
-        volumeAnomaly: 0.5,
-        holderConcentration: 0.6,
-        liquidityScore: 0.7,
-        priceVolatility: 0.4,
-        sellPressure: 0.3,
-        marketCapRisk: 0.2,
-        isRugPull: false
+        volume_anomaly: 0.5,
+        holder_concentration: 0.3,
+        liquidity_score: 0.7,
+        price_volatility: 0.4,
+        sell_pressure: 0.2,
+        market_cap_risk: 0.3,
+        bundler_activity: 0.2,
+        accumulation_rate: 0.1,
+        stealth_accumulation: 0.2,
+        suspicious_pattern: false,
+        is_rug_pull: false,
+        metadata: { reason: 'Training data' },
+        timestamp: new Date().toISOString(),
+        address: '0x0'
     }];
     trainModel(dummyData).catch(console.error);
 }

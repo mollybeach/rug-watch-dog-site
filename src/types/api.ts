@@ -1,32 +1,32 @@
 import { TokenMetrics } from './data';
 
 export interface TokenAnalysisRequest {
-    tokenAddress: string;
+    token_address: string;
     chain?: string;
 }
 
 export interface TokenAnalysis {
     token: string;
-    rugPullProbability: number;
+    rug_pull_probability: number;
     metrics: {
-        volumeAnomaly: number;
-        holderConcentration: number;
-        liquidityScore: number;
-        priceVolatility: number;
-        sellPressure: number;
-        marketCapRisk: number;
+        volume_anomaly: number;
+        holder_concentration: number;
+        liquidity_score: number;
+        price_volatility: number;
+        sell_pressure: number;
+        market_cap_risk: number;
     };
-    bundlerActivity: boolean;
-    accumulationRate: number;
-    stealthAccumulation: number;
-    suspiciousPattern: number;
+    bundler_activity: boolean;
+    accumulation_rate: number;
+    stealth_accumulation: number;
+    suspicious_pattern: number;
     reason: string;
 }
 
 export interface TokenStatsResponse {
-    totalTokens: number;
-    rugPulls: number;
-    legitimateTokens: number;
-    averageMetrics: TokenMetrics;
-    lastUpdated: string;
+    total_tokens: number;
+    rug_pulls: number;
+    legitimate_tokens: number;
+    average_metrics: TokenMetrics;
+    last_updated: string;
 } 

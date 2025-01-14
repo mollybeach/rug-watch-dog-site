@@ -277,7 +277,7 @@ Note: DexScreener API does not require an API key but has a rate limit of 300 re
 
 1. **Property Missing Error**
 ```typescript
-Property 'marketCap' does not exist on type '{ volumeAnomaly: boolean; holderConcentration: boolean; liquidityScore: boolean; }'
+Property 'marketCap' does not exist on type '{ volume_anomaly: boolean; holder_concentration: boolean; liquidity_score: boolean; }'
 ```
 Fix: Ensure your interfaces match the data structure:
 ```typescript
@@ -294,18 +294,18 @@ interface TokenMetrics {
 
 2. **Training Data Type Mismatch**
 ```typescript
-Argument of type '{ volumeAnomaly: number; holderConcentration: number; liquidityScore: number; isRugPull: boolean; }[]' is not assignable to parameter of type 'TrainingData[]'
+Argument of type '{ volume_anomaly: number; holder_concentration: number; liquidity_score: number; is_rug_pull: boolean; }[]' is not assignable to parameter of type 'TrainingData[]'
 ```
 Fix: Make sure your training data includes all required fields:
 ```typescript
 interface TrainingData {
-  volumeAnomaly: number;
-  holderConcentration: number;
-  liquidityScore: number;
-  priceVolatility: number;
-  sellPressure: number;
-  marketCapRisk: number;
-  isRugPull: boolean;
+  volume_anomaly: number;
+  holder_concentration: number;
+  liquidity_score: number;
+  price_volatility: number;
+  sell_pressure: number;
+  market_cap_risk: number;
+  is_rug_pull: boolean;
 }
 ```
 

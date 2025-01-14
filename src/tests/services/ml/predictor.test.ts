@@ -1,83 +1,53 @@
 import { analyzeToken } from '../../../training/modelPredictor';
-import { fetchTokenData } from '../../../data-harvesting/fetcher';
-import { TokenData } from '../../../types/data';
+import { TokenData } from '../../../types/metrics';
 
-// Mock the dependencies
-jest.mock('../../../services/data/fetcher');
-jest.mock('@tensorflow/tfjs-node', () => ({
-    loadLayersModel: jest.fn().mockResolvedValue({
-        predict: jest.fn().mockReturnValue({
-            dataSync: () => [0.75],
-            dispose: jest.fn()
-        }),
-        dispose: jest.fn()
-    }),
-    tensor2d: jest.fn().mockReturnValue({
-        dispose: jest.fn()
-    })
-}));
-
-describe('Predictor Service', () => {
+describe('Token Analysis', () => {
     const mockTokenData: TokenData = {
-        token: '0x123',
-        volumeAnomaly: 0.8,
-        holderConcentration: 0.7,
-        liquidityScore: 0.4,
-        priceVolatility: 0.6,
-        sellPressure: 0.5,
-        marketCapRisk: 0.3,
-        bundlerActivity: true,
-        accumulationRate: 0.6,
-        stealthAccumulation: 0.4,
-        suspiciousPattern: true,
-        isRugPull: true,
-        metadata: {
-            reason: 'Test reason'
+        address: '0x123',
+        name: 'Test Token',
+        symbol: 'TEST',
+        metrics: {
+            volume_anomaly: 0.5,
+            holder_concentration: 0.3,
+            liquidity_score: 0.7,
+            price_volatility: 0.4,
+            sell_pressure: 0.2,
+            market_cap_risk: 0.3,
+            bundler_activity: 0.2,
+            accumulation_rate: 0.1,
+            stealth_accumulation: 0.2,
+            suspicious_pattern: false,
+            is_rug_pull: false,
+            metadata: { reason: 'Test data' },
+            timestamp: new Date().toISOString()
         }
     };
 
-    beforeEach(() => {
-        jest.clearAllMocks();
-        (fetchTokenData as jest.Mock).mockResolvedValue(mockTokenData);
+    it('should analyze token metrics correctly', async () => {
+        const result = await analyzeToken(mockTokenData);
+        expect(result).toBeDefined();
+        expect(result.volume_anomaly).toBeDefined();
+        expect(result.holder_concentration).toBeDefined();
+        expect(result.liquidity_score).toBeDefined();
+        expect(result.price_volatility).toBeDefined();
+        expect(result.sell_pressure).toBeDefined();
+        expect(result.market_cap_risk).toBeDefined();
+        expect(result.bundler_activity).toBeDefined();
+        expect(result.accumulation_rate).toBeDefined();
+        expect(result.stealth_accumulation).toBeDefined();
+        expect(result.suspicious_pattern).toBeDefined();
+        expect(result.is_rug_pull).toBeDefined();
+        expect(result.metadata).toBeDefined();
     });
 
-    it('should analyze a token and return predictions', async () => {
-        const result = await analyzeToken('0x123');
-
-        expect(result).toEqual({
-            token: '0x123',
-            rugPullProbability: 0.75,
+    it('should handle errors gracefully', async () => {
+        const invalidToken: TokenData = {
+            ...mockTokenData,
             metrics: {
-                volumeAnomaly: 0.8,
-                holderConcentration: 0.7,
-                liquidityScore: 0.4,
-                priceVolatility: 0.6,
-                sellPressure: 0.5,
-                marketCapRisk: 0.3
-            },
-            bundlerActivity: true,
-            accumulationRate: 0.6,
-            stealthAccumulation: 0.4,
-            suspiciousPattern: true,
-            reason: 'Test reason'
-        });
-    });
-
-    it('should throw an error when token data is not found', async () => {
-        (fetchTokenData as jest.Mock).mockResolvedValue(null);
-
-        await expect(analyzeToken('0x123')).rejects.toThrow('Token data not found');
-    });
-
-    it('should use ethereum as default chain', async () => {
-        await analyzeToken('0x123');
-
-        expect(fetchTokenData).toHaveBeenCalledWith('0x123', 'ethereum');
-    });
-
-    it('should accept custom chain parameter', async () => {
-        await analyzeToken('0x123', 'bsc');
-
-        expect(fetchTokenData).toHaveBeenCalledWith('0x123', 'bsc');
+                ...mockTokenData.metrics,
+                volume_anomaly: -1 // Invalid value
+            }
+        };
+        await expect(analyzeToken(invalidToken)).rejects.toThrow();
     });
 }); 

@@ -1,28 +1,28 @@
 // path: src/data-processing/metrics.ts
-import { TokenMetrics } from '../types/data';
+import { TokenMetrics, TokenData } from '../types/data';
 import { loadExistingData } from './storage';
 
 export async function getTokenStats() {
     const data = await loadExistingData();
     const totalTokens = data.length;
-    const rugPulls = data.filter(t => t.isRugPull).length;
-    const legitimateTokens = totalTokens - rugPulls;
+    const rugPulls = data.filter(t => t.metrics.is_rug_pull).length;
+    const legitimate_tokens = totalTokens - rugPulls;
 
     const averageMetrics = data.reduce<TokenMetrics>((acc, token) => {
-        acc.volumeAnomaly += token.volumeAnomaly;
-        acc.holderConcentration += token.holderConcentration;
-        acc.liquidityScore += token.liquidityScore;
-        acc.priceVolatility += token.priceVolatility;
-        acc.sellPressure += token.sellPressure;
-        acc.marketCapRisk += token.marketCapRisk;
+        acc.volume_anomaly += token.metrics.volume_anomaly;
+        acc.holder_concentration += token.metrics.holder_concentration;
+        acc.liquidity_score += token.metrics.liquidity_score;
+        acc.price_volatility += token.metrics.price_volatility;
+        acc.sell_pressure += token.metrics.sell_pressure;
+        acc.market_cap_risk += token.metrics.market_cap_risk;
         return acc;
     }, {
-        volumeAnomaly: 0,
-        holderConcentration: 0,
-        liquidityScore: 0,
-        priceVolatility: 0,
-        sellPressure: 0,
-        marketCapRisk: 0
+        volume_anomaly: 0,
+        holder_concentration: 0,
+        liquidity_score: 0,
+        price_volatility: 0,
+        sell_pressure: 0,
+        market_cap_risk: 0
     });
 
     // Calculate averages
@@ -35,7 +35,7 @@ export async function getTokenStats() {
     return {
         totalTokens,
         rugPulls,
-        legitimateTokens,
+        legitimate_tokens,
         averageMetrics,
         lastUpdated: new Date().toISOString()
     };

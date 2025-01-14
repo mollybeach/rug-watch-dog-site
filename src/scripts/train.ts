@@ -1,63 +1,37 @@
-import { collectTrainingData } from '../data-processing/trainingData';
+import { loadExistingData } from '../data-processing/trainingData';
 import { trainModel } from '../training/modelTrainer';
-import { TokenData, TrainingData } from '../types/data';
-import * as tf from '@tensorflow/tfjs-node';
-import { AppDataSource } from '../db/data-source';
+import { evaluateModel, printEvaluationReport } from '../training/modelEvaluator';
+import { BaseMetrics, TrainingData } from '../types/metrics';
 
 async function main() {
     try {
-        // Initialize database connection
-        await AppDataSource.initialize();
-        console.log('✅ Database connection established');
+        console.log('Loading training data...');
+        const baseMetrics = await loadExistingData();
+        
+        // Convert BaseMetrics to TrainingData format
+        const trainingData: TrainingData[] = baseMetrics.map((metrics, index) => ({
+            ...metrics,
+            address: `token_${index}` // Use a placeholder address since we don't have the real one
+        }));
 
-        // Load collected data
-        console.log('\n📊 Loading collected data for training...');
-        const tokenData = await collectTrainingData();
-        console.log(`Found ${tokenData.length} tokens in dataset`);
+        // Split data into training and test sets
+        const splitIndex = Math.floor(trainingData.length * 0.8);
+        const trainSet = trainingData.slice(0, splitIndex);
+        const testSet = trainingData.slice(splitIndex);
 
-        if (tokenData.length > 0) {
-            // Convert TokenData to the TrainingData
-            const trainingData: TrainingData[] = tokenData.map((token: TokenData): TrainingData => ({
-                volumeAnomaly: token.volumeAnomaly,
-                holderConcentration: token.holderConcentration,
-                liquidityScore: token.liquidityScore,
-                priceVolatility: token.priceVolatility,
-                sellPressure: token.sellPressure,
-                marketCapRisk: token.marketCapRisk,
-                isRugPull: token.isRugPull
-            }));
+        console.log(`Training with ${trainSet.length} samples, testing with ${testSet.length} samples`);
 
-            // Train model
-            console.log('\n🤖 Training model...');
-            const model = await trainModel(trainingData);
+        // Train model
+        console.log('\nTraining model...');
+        const model = await trainModel(trainSet);
 
-            // Test the model
-            const sampleInput = tf.tensor2d([[
-                tokenData[0].volumeAnomaly,
-                tokenData[0].holderConcentration,
-                tokenData[0].liquidityScore,
-                tokenData[0].priceVolatility,
-                tokenData[0].sellPressure,
-                tokenData[0].marketCapRisk
-            ]], [1, 6]);
+        // Evaluate model
+        console.log('\nEvaluating model...');
+        const evaluationMetrics = await evaluateModel(model, testSet);
+        printEvaluationReport(evaluationMetrics);
 
-            const prediction = model.predict(sampleInput) as tf.Tensor;
-            console.log('\n🔮 Sample prediction for first token:', prediction.dataSync()[0]);
-            console.log('\n✅ Training complete!');
-
-            // Clean up
-            sampleInput.dispose();
-            prediction.dispose();
-        }
-
-        // Close database connection
-        await AppDataSource.destroy();
-        console.log('✅ Database connection closed');
     } catch (error) {
-        console.error('Error in training process:', error);
-        if (AppDataSource.isInitialized) {
-            await AppDataSource.destroy();
-        }
+        console.error('Error in training script:', error);
         process.exit(1);
     }
 }
