@@ -118,3 +118,60 @@ Training data is collected from:
 ## 📜 License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
+
+
+## 📜 Database Schema
+
+The database schema is defined in the `dbschema` directory. The schema is defined in the `default.esdl` file. The schema is generated using the `edgedb-cli` command `edgedb schema generate`.
+
+The schema is generated using the `edgedb-cli` command `edgedb schema generate`.
+
+
+## 📜 Database Migrations
+
+The database migrations are defined in the `migrations` directory. The migrations are generated using the `edgedb-cli` command `edgedb migration generate`.
+
+
+
+Using EdgeDB Shell
+1. Open EdgeDB Shell:
+Run the following command in your terminal to open the EdgeDB interactive shell:
+```bash
+edgedb
+```
+2. List All Object Types:
+Use the following EdgeQL command to list all object types (tables) and their properties:
+
+```bash 
+     SELECT schema::ObjectType {
+         name,
+         properties: {
+             name,
+             target: {
+                 name
+             }
+         }
+     } FILTER .name LIKE 'default::%';
+```
+
+Step 1: Create a New Migration
+1. Ensure Your Schema is Updated: Make sure your .esdl files reflect the current desired schema state.
+2. Create a Migration:
+Run the following command in your terminal to create a new migration:
+
+```bash
+edgedb migration create
+```
+
+3. Apply the Migration:
+Run the following command in your terminal to apply the migration:
+
+```bash
+ edgedb migrate
+```
+
+
+```bash
+edgedb migrate -I mollybeach/rug-watch-dog-db
+```
+

@@ -1,20 +1,23 @@
 module default {
     type Token {
-        required property id -> int32;  # Unique identifier for the token
         required property address -> str {
-            constraint exclusive;  # Ensure unique token addresses
+            constraint exclusive;
+            constraint max_len_value(42);
         }
-        required property name -> str;  # Token name
-        required property symbol -> str { 
-            constraint max_len_value(10);  # Limit symbol length to a reasonable max
+        required property name -> str {
+            constraint max_len_value(255);
         }
-        required property createdAt -> datetime {
-            default := datetime_current();  # Default to the current timestamp
+        required property symbol -> str {
+            constraint max_len_value(10);
         }
-        required property updatedAt -> datetime {
-            default := datetime_current();  # Default to the current timestamp
+        required property metrics -> str;
+        required property created_at -> datetime {
+            default := datetime_current();
         }
-    };
+        required property updated_at -> datetime {
+            default := datetime_current();
+        }
+    }
 
     type TokenMetrics {
         required property tokenAddress -> str;

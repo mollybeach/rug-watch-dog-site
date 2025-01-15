@@ -1,18 +1,48 @@
-import { Pool } from 'pg';
+import { createClient } from 'edgedb';
 
-const pool = new Pool({
-    user: process.env.DB_USERNAME,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: parseInt(process.env.DB_PORT || '5432'),
-    ssl: {
-        rejectUnauthorized: false,
-    },
-});
-
-export function getClient() {
-    return pool;
+// Define the expected result type
+interface RiskMetrics {
+    tokenAddress: string;
+    volumeAnomaly: number;
+    holderConcentration: number;
+    liquidityScore: number;
+    priceVolatility: number;
+    sellPressure: number;
+    marketCapRisk: number;
+    isRugPull: boolean;
+    timestamp: Date;
 }
 
-export default pool;
+// Create an EdgeDB client
+const client = createClient();
+
+async function getRiskMetrics() {
+    // Execute the query and cast the result to the expected type
+    const result: RiskMetrics[] = await client.query(`
+        SELECT TokenMetrics {
+            tokenAddress,
+            volumeAnomaly,
+            holderConcentration,
+            liquidityScore,
+            priceVolatility,
+            sellPressure,
+            marketCapRisk,
+            isRugPull,
+            timestamp
+        };
+    `);
+
+    // Now you can access the properties safely
+    result.forEach((metric) => {
+        console.log(metric.tokenAddress, metric.volumeAnomaly);
+    });
+}
+
+getRiskMetrics().catch(console.error);
+
+// Function to get the EdgeDB client
+export function getClient() {
+    return client;
+}
+
+export default client;

@@ -47,9 +47,6 @@ module default {
             default := <decimal>0.0;  # Default value
         }
         optional property suspiciousPattern -> str;  # Nullable, no default
-        required property isRugPull -> bool {
-            default := false;  # Default to `false`
-        }
         required property timestamp -> datetime {
             default := datetime_current();  # Default to the current timestamp
         }

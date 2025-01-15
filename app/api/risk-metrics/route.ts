@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import pool from '@/lib/db/config';
+import client from '@/lib/db/config';
 import type { TokenMetrics } from '@/src/types/metrics';
 import { predictRisk } from '@/src/training/modelPredictor';
 
@@ -16,14 +16,26 @@ export async function GET(request: Request) {
             return NextResponse.json({ error: 'Token ID is required' }, { status: 400 });
         }
 
-        const result = await pool.query('SELECT * FROM token_metrics WHERE id = $1', [id]);
-        
-        console.log('Database query result:', result.rows);
-        if (result.rows.length === 0) {
+        const result: TokenMetrics[] = await client.query(`
+            SELECT TokenMetrics {
+                tokenAddress,
+                volumeAnomaly,
+                holderConcentration,
+                liquidityScore,
+                priceVolatility,
+                sellPressure,
+                marketCapRisk,
+                isRugPull,
+                timestamp
+            } FILTER .id = <int64>$0
+        `, [parseInt(id)]);
+
+        console.log('Database query result:', result);
+        if (result.length === 0) {
             return NextResponse.json({ error: 'Token not found' }, { status: 404 });
         }
 
-        const tokenData: TokenMetrics = result.rows[0];
+        const tokenData: TokenMetrics = result[0];
         const riskMetrics = predictRisk(tokenData);
 
         return NextResponse.json({
