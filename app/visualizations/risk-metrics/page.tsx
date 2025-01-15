@@ -92,37 +92,14 @@ export default function RiskMetricsPage() {
             setError(null);
 
             try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
-
-                const response = await fetch('/api/risk-metrics?id=85', {
-                    signal: controller.signal,
-                    headers: {
-                        'Cache-Control': 'no-cache',
-                        'Pragma': 'no-cache'
-                    }
-                });
-                clearTimeout(timeoutId);
-
+                const response = await fetch('/api/risk-metrics?id=85'); // Adjust the ID as needed
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    let errorMessage;
-                    try {
-                        const errorData = JSON.parse(errorText);
-                        errorMessage = errorData.error || errorData.message || 'Failed to fetch risk metrics';
-                    } catch {
-                        errorMessage = errorText || 'Failed to fetch risk metrics';
-                    }
-                    console.error('Server response:', errorText); // Log the server response
-                    throw new Error(errorMessage);
+                    throw new Error('Failed to fetch risk metrics');
                 }
-
                 const result: MetricsResponse = await response.json();
-                
                 if (!result.success) {
                     throw new Error(result.error || 'Failed to fetch risk metrics');
                 }
-
                 setData(result.data);
                 setMetadata(result.metadata);
             } catch (err) {
