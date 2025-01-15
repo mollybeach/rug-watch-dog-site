@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import { Wallet, ShoppingBasket, ReceiptText, Code, BarChart3, FileText, BookOpen, LineChart } from "lucide-react";
+import { Wallet, ShoppingBasket, ReceiptText, BarChart3, FileText, BookOpen, LineChart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

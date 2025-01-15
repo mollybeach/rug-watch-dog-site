@@ -47,8 +47,10 @@ Check out the live demo: [RugWatchDog](https://rugwatchdog.vercel.app/)
 - **Coverage**: ts-jest
 
 ### Deployment
-- **Platform**: Vercel
+- **Platform**: AWS Amplify
 - **CI/CD**: GitHub Actions
+- **Database**: AWS RDS (PostgreSQL)
+- **Storage**: AWS S3
 - **Environment**: Production, Preview, Development
 
 ## 🛠️ Setup

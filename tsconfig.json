@@ -18,14 +18,16 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@/components/*": ["./components/*"],
-      "@/lib/*": ["./lib/*"],
-      "@/styles/*": ["./styles/*"],
-      "@/types/*": ["./types/*"]
-    },
-    "types": ["jest", "node"]
+      "@/app/*": ["app/*"],
+      "@/components/*": ["components/*"],
+      "@/lib/*": ["lib/*"],
+      "@/types/*": ["types/*"],
+      "@/styles/*": ["styles/*"],
+      "@/ui/*": ["components/ui/*"]
+    }
   },
   "include": [
     "next-env.d.ts",
@@ -36,9 +38,7 @@
     "components/**/*",
     "lib/**/*",
     "types/**/*",
-    "contexts/**/*",
-    "next.config.mjs",
-    "tailwind.config.js"
+    "styles/**/*"
   ],
   "exclude": ["node_modules"]
 }

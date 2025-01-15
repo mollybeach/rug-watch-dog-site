@@ -4,35 +4,21 @@
  */
 
 import { NextResponse } from 'next/server';
-import { getClient } from '@/lib/db/config';
+import pool from '@/lib/db/config';
 
 export async function GET(request: Request) {
-    const { searchParams } = new URL(request.url);
-    const address = searchParams.get('address');
-    const limit = parseInt(searchParams.get('limit') || '100');
-
-    if (!address) {
-        return NextResponse.json(
-            { success: false, error: 'Token address is required' },
-            { status: 400 }
-        );
-    }
-
     try {
-        const client = await getClient();
-        
-        const result = await client.query(`
-            SELECT 
-                price,
-                volume24h,
-                marketCap,
-                liquidity,
-                timestamp
-            FROM public.token_price
-            WHERE tokenAddress = $1
-            ORDER BY timestamp DESC
-            LIMIT $2
-        `, [address, limit]);
+        const { searchParams } = new URL(request.url);
+        const address = searchParams.get('address');
+
+        if (!address) {
+            return NextResponse.json({ error: 'Token address is required' }, { status: 400 });
+        }
+
+        const result = await pool.query(
+            'SELECT price, timestamp FROM token_prices WHERE tokenAddress = $1 ORDER BY timestamp DESC LIMIT 100',
+            [address]
+        );
 
         return NextResponse.json({
             success: true,
@@ -40,9 +26,6 @@ export async function GET(request: Request) {
         });
     } catch (error) {
         console.error('Error fetching price history:', error);
-        return NextResponse.json(
-            { success: false, error: 'Failed to fetch price history' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
 } 

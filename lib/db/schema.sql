@@ -4,12 +4,14 @@ DROP TABLE IF EXISTS token_prices CASCADE;
 DROP TABLE IF EXISTS tokens CASCADE;
 
 -- Create tokens table
-CREATE TABLE tokens (
-    address VARCHAR(42) PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS tokens (
+    id SERIAL PRIMARY KEY,
+    address VARCHAR(42) UNIQUE NOT NULL,
     name VARCHAR(255) NOT NULL,
-    symbol VARCHAR(50) NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    symbol VARCHAR(10) NOT NULL,
+    metrics JSONB NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create token_metrics table
@@ -98,4 +100,7 @@ CREATE INDEX IF NOT EXISTS idx_token_metrics_timestamp
 ON token_metrics (timestamp DESC);
 
 CREATE INDEX IF NOT EXISTS idx_token_metrics_address_timestamp 
-ON token_metrics (tokenAddress, timestamp DESC); 
+ON token_metrics (tokenAddress, timestamp DESC);
+
+CREATE INDEX IF NOT EXISTS idx_tokens_address ON tokens(address);
+CREATE INDEX IF NOT EXISTS idx_tokens_symbol ON tokens(symbol); 
