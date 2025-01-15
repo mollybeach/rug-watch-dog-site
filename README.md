@@ -192,6 +192,7 @@ Execute a SELECT query to retrieve data from the TokenMetrics table. For example
          accumulationRate,
          stealthAccumulation,
          suspiciousPattern,
-         timestamp
+         timestamp,
+         isRugPull
      };
 ```

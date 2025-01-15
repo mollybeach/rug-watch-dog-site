@@ -90,9 +90,9 @@ export default function RiskMetricsPage() {
         async function fetchData() {
             setLoading(true);
             setError(null);
-
+            const id = '5aa354f8-d39a-11ef-911d-d7c620b00f42';
             try {
-                const response = await fetch('/api/risk-metrics?id=85'); // Adjust the ID as needed
+                const response = await fetch(`/api/risk-metrics?id=${id}`); // Adjust the ID as needed
                 if (!response.ok) {
                     throw new Error('Failed to fetch risk metrics');
                 }

@@ -16,6 +16,12 @@ export async function GET(request: Request) {
             return NextResponse.json({ error: 'Token ID is required' }, { status: 400 });
         }
 
+        // Validate UUID format
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        if (!uuidRegex.test(id)) {
+            return NextResponse.json({ error: 'Invalid UUID format' }, { status: 400 });
+        }
+
         const result: TokenMetrics[] = await client.query(`
             SELECT TokenMetrics {
                 tokenAddress,
