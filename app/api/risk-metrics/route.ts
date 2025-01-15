@@ -27,8 +27,8 @@ export async function GET(request: Request) {
                 marketCapRisk,
                 isRugPull,
                 timestamp
-            } FILTER .id = <int64>$0
-        `, [parseInt(id)]);
+            } FILTER .id = <uuid>$0
+        `, [id]);
 
         console.log('Database query result:', result);
         if (result.length === 0) {
