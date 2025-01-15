@@ -1,0 +1,173 @@
+ INSERT Token {
+        id := 1,
+        address := '0x01D7367A1F1AfdC3D2667C37ef5A3723012d7757',
+        name := 'Frog Sorcerer',
+        symbol := 'FROG',
+        createdAt := <datetime>'2025-01-13T07:57:13.658565',
+        updatedAt := <datetime>'2025-01-13T07:57:13.658565'
+    }, {
+        id := 2,
+        address := '0x037A54AaB062628C9Bbae1FDB1583c195585fe41',
+        name := 'LCX',
+        symbol := 'LCX',
+        createdAt := <datetime>'2025-01-13T07:57:13.658565',
+        updatedAt := <datetime>'2025-01-13T07:57:13.658565'
+    }, {
+        id := 3,
+        address := '0x06113abCeF9D163C026441b112e70c82EE1c4A79',
+        name := 'Omira',
+        symbol := 'OMIRA',
+        createdAt := <datetime>'2025-01-13T07:57:13.658565',
+        updatedAt := <datetime>'2025-01-13T07:57:13.658565'
+    }, {
+        id := 4,
+        address := '0x06B964d96f5dCF7Eae9d7C559B09EDCe244d4B8E',
+        name := 'USUALX',
+        symbol := 'USUALX',
+        createdAt := <datetime>'2025-01-13T07:57:13.658565',
+        updatedAt := <datetime>'2025-01-13T07:57:13.658565'
+    };
+
+    INSERT TokenMetrics {
+        id := 85,
+        metadata := '{"reason": "High concentration of holders, High price volatility"}',
+        tokenAddress := '0x4592C7A4397Fc06d94465C56616AD9D6c1A7D947',
+        volumeAnomaly := 0.2,
+        holderConcentration := 0.8,
+        liquidityScore := 0.5,
+        priceVolatility := 0.8,
+        sellPressure := 0.2,
+        marketCapRisk := 0.5,
+        bundlerActivity := false,
+        accumulationRate := 0.8095238095238095,
+        stealthAccumulation := 0.2,
+        suspiciousPattern := <optional str>$null,
+        isRugPull := false,
+        timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    }, {
+        id := 86,
+        metadata := '{"reason": "Suspicious accumulation pattern"}',
+        tokenAddress := '0x6c3ea9036406852006290770BEdFcAbA0e23A0e8',
+        volumeAnomaly := 0.2,
+        holderConcentration := 0.2,
+        liquidityScore := 0.2,
+        priceVolatility := 0.2,
+        sellPressure := 0.2,
+        marketCapRisk := 0.2,
+        bundlerActivity := false,
+        accumulationRate := 0.2868,
+        stealthAccumulation := 0.8,
+        suspiciousPattern := <optional str>$null,
+        isRugPull := false,
+        timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    }, {
+        id := 87,
+        metadata := '{"reason": "Suspicious accumulation pattern"}',
+        tokenAddress := '0x80ac24aA929eaF5013f6436cdA2a7ba190f5Cc0b',
+        volumeAnomaly := 0.2,
+        holderConcentration := 0.2,
+        liquidityScore := 0.2,
+        priceVolatility := 0.5,
+        sellPressure := 0.5,
+        marketCapRisk := 0.2,
+        bundlerActivity := false,
+        accumulationRate := 0.14668462804969315,
+        stealthAccumulation := 0.8,
+        suspiciousPattern := <optional str>$null,
+        isRugPull := false,
+        timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    }, {
+        id := 88,
+        metadata := '{"reason": "Suspicious accumulation pattern"}',
+        tokenAddress := '0x1495bc9e44Af1F8BCB62278D2bEC4540cF0C05ea',
+        volumeAnomaly := 0.2,
+        holderConcentration := 0.2,
+        liquidityScore := 0.2,
+        priceVolatility := 0.2,
+        sellPressure := 0.2,
+        marketCapRisk := 0.2,
+        bundlerActivity := false,
+        accumulationRate := 0.2481,
+        stealthAccumulation := 0.8,
+        suspiciousPattern := <optional str>$null,
+        isRugPull := false,
+        timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    }, {
+        id := 89,
+        metadata := '{"reason": "Suspicious accumulation pattern"}',
+        tokenAddress := '0xa84f95eb3DaBdc1bbD613709ef5F2fD42CE5bE8d',
+        volumeAnomaly := 0.2,
+        holderConcentration := 0.2,
+        liquidityScore := 0.2,
+        priceVolatility := 0.2,
+        sellPressure := 0.2,
+        marketCapRisk := 0.2,
+        bundlerActivity := false,
+        accumulationRate := 0.1857,
+        stealthAccumulation := 0.8,
+        suspiciousPattern := <optional str>$null,
+        isRugPull := false,
+        timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    }, {
+        id := 90,
+        metadata := '{"reason": "Suspicious accumulation pattern"}',
+        tokenAddress := '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+        volumeAnomaly := 0.2,
+        holderConcentration := 0.2,
+        liquidityScore := 0.2,
+        priceVolatility := 0.2,
+        sellPressure := 0.2,
+        marketCapRisk := 0.2,
+        bundlerActivity := false,
+        accumulationRate := 0.5256,
+        stealthAccumulation := 0.8,
+        suspiciousPattern := <optional str>$null,
+        isRugPull := false,
+        timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    };
+
+INSERT TokenPrices {
+    id := 1,
+    tokenAddress := '0x4592C7A4397Fc06d94465C56616AD9D6c1A7D947',
+    price := 0.00000000,
+    volume_24h := 0.00,
+    marketCap := 0.00,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+}, {
+    id := 2,
+    tokenAddress := '0x6c3ea9036406852006290770BEdFcAbA0e23A0e8',
+    price := 0.00000000,
+    volume_24h := 0.00,
+    marketCap := 0.00,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+}, {
+    id := 3,
+    tokenAddress := '0x80ac24aA929eaF5013f6436cdA2a7ba190f5Cc0b',
+    price := 0.00000000,
+    volume_24h := 0.00,
+    marketCap := 0.00,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+}, {
+    id := 4,
+    tokenAddress := '0x1495bc9e44Af1F8BCB62278D2bEC4540cF0C05ea',
+    price := 0.00000000,
+    volume_24h := 0.00,
+    marketCap := 0.00,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+}, {
+    id := 5,
+    tokenAddress := '0xa84f95eb3DaBdc1bbD613709ef5F2fD42CE5bE8d',
+    price := 0.00000000,
+    volume_24h := 0.00,
+    marketCap := 0.00,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+}, {
+    id := 6,
+    tokenAddress := '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    price := 0.00000000,
+    volume_24h := 0.00,
+    marketCap := 0.00,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+};
+
+};

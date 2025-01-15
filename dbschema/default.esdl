@@ -1,80 +1,75 @@
 module default {
     type Token {
         required property address -> str {
-            constraint exclusive;
-            constraint max_len_value(42);
+            constraint exclusive;  # Ensure unique token addresses
         }
-        required property name -> str {
-            constraint max_len_value(255);
+        required property name -> str;  # Token name
+        required property symbol -> str { 
+            constraint max_len_value(10);  # Limit symbol length to a reasonable max
         }
-        required property symbol -> str {
-            constraint max_len_value(10);
+        required property createdAt -> datetime {
+            default := datetime_current();  # Default to the current timestamp
         }
-        required property metrics -> str;
-        required property created_at -> datetime {
-            default := datetime_current();
+        required property updatedAt -> datetime {
+            default := datetime_current();  # Default to the current timestamp
         }
-        required property updated_at -> datetime {
-            default := datetime_current();
-        }
-    }
-
+    };
     type TokenMetrics {
-        required property tokenAddress -> str;
-        required property holders -> int16 {
-            default := 0;
+        required property metadata -> str {
+            default := '{}';  # Default to an empty JSON object
         }
-        required property total_supply -> decimal {
-            default := 0;
-        }
+        required property tokenAddress -> str;  # No default because it's unique for each token
         required property volumeAnomaly -> decimal {
-            default := 0;
+            default := <decimal>0.0;  # Default value
         }
         required property holderConcentration -> decimal {
-            default := 0;
+            default := <decimal>0.0;  # Default value
         }
         required property liquidityScore -> decimal {
-            default := 0;
+            default := <decimal>0.0;  # Default value
         }
         required property priceVolatility -> decimal {
-            default := 0;
+            default := <decimal>0.0;  # Default value
         }
         required property sellPressure -> decimal {
-            default := 0;
+            default := <decimal>0.0;  # Default value
         }
         required property marketCapRisk -> decimal {
-            default := 0;
+            default := <decimal>0.0;  # Default value
         }
-        required property is_honeypot -> bool {
-            default := false;
+        required property bundlerActivity -> bool {
+            default := false;  # Default to `false`
         }
+        required property accumulationRate -> decimal {
+            default := <decimal>0.0;  # Default value
+        }
+        optional property stealthAccumulation -> decimal {
+            default := <decimal>0.0;  # Default value
+        }
+        optional property suspiciousPattern -> str;  # Nullable, no default
         required property isRugPull -> bool {
-            default := false;
-        }
-        required property risk_score -> decimal {
-            default := 0;
+            default := false;  # Default to `false`
         }
         required property timestamp -> datetime {
-            default := datetime_current();
+            default := datetime_current();  # Default to the current timestamp
         }
-    }
+    };
 
     type TokenPrices {
-        required property tokenAddress -> str;
+        required property tokenAddress -> str {
+            constraint exclusive;  # Ensure uniqueness for token addresses if needed
+        }
         required property price -> decimal {
-            default := 0;
+            default := <decimal>0.0;  # Default value of 0.0
         }
         required property volume_24h -> decimal {
-            default := 0;
+            default := <decimal>0.0;  # Default 24-hour volume to 0.0
         }
         required property marketCap -> decimal {
-            default := 0;
-        }
-        required property liquidity -> decimal {
-            default := 0;
+            default := <decimal>0.0;  # Default market capitalization to 0.0
         }
         required property timestamp -> datetime {
-            default := datetime_current();
+            default := datetime_current();  # Default to the current timestamp
         }
-    }
-}
+    };
+};
