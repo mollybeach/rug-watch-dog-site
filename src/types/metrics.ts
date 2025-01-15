@@ -1,4 +1,7 @@
 export interface TokenMetrics {
+    id: number;
+    metadata: string;
+    address: string;
     liquidityScore: number;
     holderConcentration: number;
     tradingVolume: number;
@@ -10,6 +13,8 @@ export interface TokenMetrics {
     accumulationRate: number;
     stealthAccumulation: number;
     suspiciousPattern: boolean;
+    isRugPull: boolean;
+    timestamp: Date;
 }
 
 export interface RiskMetrics {

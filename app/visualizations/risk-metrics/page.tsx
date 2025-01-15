@@ -73,6 +73,13 @@ function formatLargeNumber(num: string | number | null | undefined): string {
     return value.toFixed(2);
 }
 
+// Define a type for the token
+type Token = {
+    liquidityScore: number;
+    priceVolatility: number;
+    // Add other properties as needed
+};
+
 export default function RiskMetricsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -85,11 +92,10 @@ export default function RiskMetricsPage() {
             setError(null);
 
             try {
-                // Set up AbortController for client-side timeout
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
 
-                const response = await fetch('/api/risk-metrics', {
+                const response = await fetch('/api/risk-metrics?id=85', {
                     signal: controller.signal,
                     headers: {
                         'Cache-Control': 'no-cache',
@@ -107,6 +113,7 @@ export default function RiskMetricsPage() {
                     } catch {
                         errorMessage = errorText || 'Failed to fetch risk metrics';
                     }
+                    console.error('Server response:', errorText); // Log the server response
                     throw new Error(errorMessage);
                 }
 
@@ -165,10 +172,30 @@ export default function RiskMetricsPage() {
         );
     }
 
+    // Example function to determine risk category
+    function determineRiskCategory(token: Token): "High" | "Medium" | "Low" {
+        if (token.liquidityScore > 0.7 && token.priceVolatility > 0.7) {
+            return 'High';
+        } else if (token.liquidityScore > 0.4) {
+            return 'Medium';
+        } else {
+            return 'Low';
+        }
+    }
+
+    // Ensure data is defined and is an array
+    const safeData = Array.isArray(data) ? data : [];
+
+    // Add riskCategory to each token
+    const categorizedData = safeData.map(token => ({
+        ...token,
+        riskCategory: determineRiskCategory(token as Token)
+    }));
+
     // Prepare data for radar chart
-    const highRiskAvg = calculateAverageMetrics(data.filter(m => m.riskCategory === 'High'));
-    const mediumRiskAvg = calculateAverageMetrics(data.filter(m => m.riskCategory === 'Medium'));
-    const lowRiskAvg = calculateAverageMetrics(data.filter(m => m.riskCategory === 'Low'));
+    const highRiskAvg = calculateAverageMetrics(categorizedData.filter(m => m.riskCategory === 'High'));
+    const mediumRiskAvg = calculateAverageMetrics(categorizedData.filter(m => m.riskCategory === 'Medium'));
+    const lowRiskAvg = calculateAverageMetrics(categorizedData.filter(m => m.riskCategory === 'Low'));
 
     const radarData = [
         {
@@ -273,7 +300,7 @@ export default function RiskMetricsPage() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
-                                {data.map((token) => (
+                                {safeData.map((token) => (
                                     <tr key={token.address} className="hover:bg-gray-50">
                                         <td className="px-4 py-2">
                                             <div>

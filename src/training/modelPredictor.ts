@@ -1,6 +1,6 @@
-import type { TokenData, RiskMetrics } from '@/src/types/metrics';
+import type { TokenMetrics, RiskMetrics } from '@/src/types/metrics';
 
-export function predictRisk(token: TokenData): RiskMetrics {
+export function predictRisk(token: TokenMetrics): RiskMetrics {
     // Your risk prediction logic here
     return {
         overall: calculateOverallRisk(token),
@@ -12,37 +12,38 @@ export function predictRisk(token: TokenData): RiskMetrics {
     };
 }
 
-export async function analyzeToken(token: TokenData): Promise<RiskMetrics> {
+export async function analyzeToken(token: TokenMetrics): Promise<RiskMetrics> {
     // If there's any asynchronous operation, include it here. Otherwise, wrap predictRisk.
     return predictRisk(token);
 }
 
-function calculateOverallRisk(token: TokenData): number {
+function calculateOverallRisk(token: TokenMetrics): number {
     // Implementation
     return 0.5; // placeholder
 }
 
-function calculateLiquidityRisk(token: TokenData): number {
+function calculateLiquidityRisk(token: TokenMetrics): number {
     // Implementation
-    return token.metrics.liquidityScore;
+    return token.liquidityScore;
 }
 
-function calculateConcentrationRisk(token: TokenData): number {
+function calculateConcentrationRisk(token: TokenMetrics): number {
     // Implementation
-    return token.metrics.holderConcentration;
+    return token.holderConcentration;
 }
 
-function calculateVolatilityRisk(token: TokenData): number {
+function calculateVolatilityRisk(token: TokenMetrics): number {
     // Implementation
-    return token.metrics.priceVolatility;
+    return token.priceVolatility;
 }
 
-function calculateSocialRisk(token: TokenData): number {
+function calculateSocialRisk(token: TokenMetrics): number {
     // Implementation
-    return 0.3; // placeholder
+    return token.isRugPull ? 1 : 0;
 }
 
-function calculateTechnicalRisk(token: TokenData): number {
+function calculateTechnicalRisk(token: TokenMetrics): number {
     // Implementation
-    return 0.4; // placeholder
+    return token.suspiciousPattern ? 1 : 0; 
+    
 } 
