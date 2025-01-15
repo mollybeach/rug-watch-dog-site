@@ -5,16 +5,19 @@
  */
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { visualizations } from "@/lib/data/metadata";
 import SideBar from "@/components/SideBar";
+import { Header } from "@/components/Header";
+import { VisualizationType } from "@/types/types";
 
-export default function VisualizationsLayout({
-  children,
-}: {
+interface LayoutProps {
   children: React.ReactNode;
-}) {
+}
+
+export default function VisualizationsLayout({ children }: LayoutProps) {
   const [isMounted, setIsMounted] = useState(false);
+  const [currentViz, setCurrentViz] = useState("market-risk-radar");
 
   useEffect(() => {
     setIsMounted(true);
@@ -24,11 +27,10 @@ export default function VisualizationsLayout({
     return null;
   }
 
-  const currentViz = window.location.pathname.split('/').pop() || 'market-risk-radar';
-
   return (
-    <div className="container py-6">
-      <div className="flex flex-col lg:flex-row gap-6">
+    <div className="container mx-auto px-4 py-6">
+      <Header className="your-header-classes" />
+      <div className="flex gap-6">
         <SideBar 
           visualizations={visualizations} 
           currentViz={currentViz}

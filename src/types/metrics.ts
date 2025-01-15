@@ -1,30 +1,30 @@
-export interface BaseMetrics {
-    volumeAnomaly: number;
-    holderConcentration: number;
+export interface TokenMetrics {
     liquidityScore: number;
+    holderConcentration: number;
+    tradingVolume: number;
     priceVolatility: number;
+    marketCap: number;
+    volumeAnomaly: number;
     sellPressure: number;
-    marketCapRisk: number;
     bundlerActivity: number;
     accumulationRate: number;
-    stealthAccumulation: number | null;
-    suspiciousPattern: boolean | null;
-    isRugPull: boolean;
-    metadata: { reason: string };
-    timestamp: string;
+    stealthAccumulation: number;
+    suspiciousPattern: boolean;
+}
+
+export interface RiskMetrics {
+    overall: number;
+    liquidity: number;
+    concentration: number;
+    volatility: number;
+    social: number;
+    technical: number;
 }
 
 export interface TokenData {
     address: string;
     name: string;
     symbol: string;
-    metrics: BaseMetrics;
-}
-
-export interface TokenMetrics extends BaseMetrics {
-    // TokenMetrics is identical to BaseMetrics for now
-}
-
-export interface TrainingData extends BaseMetrics {
-    address: string; // Training data includes the token address
+    metrics: TokenMetrics;
+    riskMetrics?: RiskMetrics;
 } 

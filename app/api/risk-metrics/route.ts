@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db/config';
-import type { TokenData } from '@/types/metrics';
-import { predictRisk } from '@/training/modelPredictor';
+import type { TokenData } from '@/src/types/metrics';
+import { predictRisk } from '@/src/training/modelPredictor';
+
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+export const revalidate = 0;
 
 export async function GET(request: Request) {
     try {

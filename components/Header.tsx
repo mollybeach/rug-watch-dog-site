@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Wallet, ShoppingBasket, ReceiptText, BarChart3, FileText, BookOpen, LineChart } from "lucide-react";
 import Image from "next/image";
@@ -10,6 +10,7 @@ import { Poppins } from 'next/font/google';
 import { ModeToggle } from "./ModeToggle";
 import { Button } from "./ui/button";
 import { HeaderNavItemsType } from "@/types/types";
+import { cn } from "@/lib/utils";
 
 const poppins = Poppins({ 
   subsets: ['latin'],
@@ -40,7 +41,7 @@ const mainNavItems: HeaderNavItemsType[] = [
   }
 ];
 
-// External links with emojis
+// External links with icons
 const externalLinks = [
   {
     label: ShoppingBasket,
@@ -54,7 +55,11 @@ const externalLinks = [
   }
 ];
 
-export function Header() {
+interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
+  className?: string;
+}
+
+export function Header({ className, ...props }: HeaderProps) {
   const pathname = usePathname();
   const [isWalletConnected, setIsWalletConnected] = useState(false);
 
@@ -72,7 +77,7 @@ export function Header() {
   };
 
   return (
-    <header className="border-b bg-white dark:bg-slate-950">
+    <header className={cn("border-b bg-white dark:bg-slate-950", className)} {...props}>
       <div className="container mx-auto px-4">
         <div className="flex h-14 items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group mr-8">
@@ -89,9 +94,9 @@ export function Header() {
               </div>
             </div>
             <span className={`text-sm font-bold bg-gradient-to-r from-blue-600 to-purple-600 
-                             text-transparent bg-clip-text group-hover:from-blue-500 
-                             group-hover:to-purple-500 transition-all duration-300
-                             ${poppins.className}`}>
+                              text-transparent bg-clip-text group-hover:from-blue-500 
+                              group-hover:to-purple-500 transition-all duration-300
+                              ${poppins.className}`}>
               RugWatchDog
             </span>
           </Link>
@@ -100,7 +105,7 @@ export function Header() {
           <nav className="flex-1 max-w-lg mx-auto">
             <ul className="flex justify-center gap-1">
               {mainNavItems.map((item) => {
-                const isActive = pathname.includes(item.value);
+                const isActive = pathname?.includes(item.value) ?? false;
                 return (
                   <li key={item.value}>
                     <Link
@@ -134,44 +139,17 @@ export function Header() {
             </ul>
           </nav>
 
-          {/* Right section with external links and buttons */}
-          <div className="flex items-center gap-2">
-            {/* External Links */}
+          {/* External Links */}
+          <div className="flex items-center gap-4">
             {externalLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                target="_blank"
-                title={link.title}
-                className="flex items-center px-2 py-1 rounded-lg text-[11px] font-medium
-                          hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-300
-                          transform hover:scale-105"
-              >
-                <link.label className="h-4 w-4" />
+              <Link key={link.title} href={link.href} target="_blank" rel="noopener noreferrer">
+                <link.label className="h-5 w-5" aria-label={link.title} />
               </Link>
             ))}
-
-            {/* Wallet and other buttons */}
-            <Button
-              onClick={handleConnectWallet}
-              variant={isWalletConnected ? "outline" : "default"}
-              className="flex items-center gap-1 text-[11px] py-1 px-2"
-            >
-              <Wallet className="h-3 w-3" />
-              <span>{isWalletConnected ? "Connected" : "Connect Wallet"}</span>
-            </Button>
             <ModeToggle />
-            <Link
-              href="https://github.com/mollybeach/rug-watch-dog"
-              className="flex items-center gap-1 text-[11px] text-muted-foreground
-                        px-2 py-1 rounded-lg transition-all duration-300
-                        hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-purple-500/10
-                        hover:text-foreground hover:shadow-md hover:shadow-purple-500/5
-                        transform hover:scale-105"
-            >
-              <GitHubLogoIcon className="h-3 w-3" />
-              <span className="font-medium">GitHub</span>
-            </Link>
+            <Button onClick={handleConnectWallet}>
+              {isWalletConnected ? "Wallet Connected" : "Connect Wallet"}
+            </Button>
           </div>
         </div>
       </div>

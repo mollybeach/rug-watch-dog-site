@@ -1,20 +1,22 @@
 "use client";
 
+import React from 'react';
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { VisualizationType } from "@/types/types";
 import { useRouter } from "next/navigation";
 
-interface SideBarProps {
+interface SideBarProps extends React.HTMLAttributes<HTMLElement> {
+  className?: string;
   visualizations: VisualizationType[];
   currentViz: string;
 }
 
-const SideBar: React.FC<SideBarProps> = ({ visualizations, currentViz}) => {
+const SideBar = ({ className, visualizations, currentViz, ...props }: SideBarProps) => {
   const router = useRouter();
 
   return (
-    <aside className="lg:w-72 xl:w-80">
+    <aside className={cn("lg:w-72 xl:w-80", className)} {...props}>
       <div className="sticky top-6 space-y-6">
         <div>
           <h2 className="text-2xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text mb-2">
@@ -26,7 +28,7 @@ const SideBar: React.FC<SideBarProps> = ({ visualizations, currentViz}) => {
         </div>
 
         <nav className="space-y-2">
-          {visualizations.map((viz) => {
+          {visualizations.map((viz: VisualizationType) => {
             const isActive = viz.id === currentViz;
             return (
               <Button
