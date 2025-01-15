@@ -173,5 +173,25 @@ Run the following command in your terminal to apply the migration:
 
 ```bash
 edgedb migrate -I mollybeach/rug-watch-dog-db
-```
 
+To check the contents of your EdgeDB database, you can use the EdgeDB shell to run a SELECT query. Here’s how you can do it:
+Select Data:
+Execute a SELECT query to retrieve data from the TokenMetrics table. For example:
+```
+```bash
+     SELECT TokenMetrics {
+         id,
+         tokenAddress,
+         volumeAnomaly,
+         holderConcentration,
+         liquidityScore,
+         priceVolatility,
+         sellPressure,
+         marketCapRisk,
+         bundlerActivity,
+         accumulationRate,
+         stealthAccumulation,
+         suspiciousPattern,
+         timestamp
+     };
+```

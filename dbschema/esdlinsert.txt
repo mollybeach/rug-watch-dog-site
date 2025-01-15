@@ -2,32 +2,32 @@ INSERT Token {
     address := '0x01D7367A1F1AfdC3D2667C37ef5A3723012d7757',
     name := 'Frog Sorcerer',
     symbol := 'FROG',
-    createdAt := <datetime>'2025-01-13T07:57:13.658565',
-    updatedAt := <datetime>'2025-01-13T07:57:13.658565'
+    createdAt := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    updatedAt := <datetime>'2025-01-13T07:57:13.658565'+00.00'
 };
 
 INSERT Token {
     address := '0x037A54AaB062628C9Bbae1FDB1583c195585fe41',
     name := 'LCX',
     symbol := 'LCX',
-    createdAt := <datetime>'2025-01-13T07:57:13.658565',
-    updatedAt := <datetime>'2025-01-13T07:57:13.658565'
+    createdAt := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    updatedAt := <datetime>'2025-01-13T07:57:13.658565'+00.00'
 };
 
 INSERT Token {
     address := '0x06113abCeF9D163C026441b112e70c82EE1c4A79',
     name := 'Omira',
     symbol := 'OMIRA',
-    createdAt := <datetime>'2025-01-13T07:57:13.658565',
-    updatedAt := <datetime>'2025-01-13T07:57:13.658565'
+    createdAt := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    updatedAt := <datetime>'2025-01-13T07:57:13.658565'+00.00'
 };
 
 INSERT Token {
     address := '0x06B964d96f5dCF7Eae9d7C559B09EDCe244d4B8E',
     name := 'USUALX',
     symbol := 'USUALX',
-    createdAt := <datetime>'2025-01-13T07:57:13.658565',
-    updatedAt := <datetime>'2025-01-13T07:57:13.658565'
+    createdAt := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    updatedAt := <datetime>'2025-01-13T07:57:13.658565'+00.00'
 };
 
 INSERT TokenMetrics {
@@ -41,9 +41,9 @@ INSERT TokenMetrics {
     bundlerActivity := false,
     accumulationRate := <decimal>0.8095238095238095,
     stealthAccumulation := <decimal>0.2,
-    suspiciousPattern := <optional str>$null,
+    suspiciousPattern := <optional str>'false',
     isRugPull := false,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565+00:00'
 };
 
 INSERT TokenMetrics {
@@ -58,9 +58,9 @@ INSERT TokenMetrics {
     bundlerActivity := false,
     accumulationRate := <decimal>0.2868,
     stealthAccumulation := <decimal>0.8,
-    suspiciousPattern := <optional str>$null,
+    suspiciousPattern := <optional str>"false",
     isRugPull := false,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
 };
 
 INSERT TokenMetrics {
@@ -75,9 +75,9 @@ INSERT TokenMetrics {
     bundlerActivity := false,
     accumulationRate := <decimal>0.14668462804969315,
     stealthAccumulation := <decimal>0.8,
-    suspiciousPattern := <optional str>$null,
+    suspiciousPattern := <optional str>"false",
     isRugPull := false,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
 };
 
 INSERT TokenMetrics {
@@ -92,9 +92,9 @@ INSERT TokenMetrics {
     bundlerActivity := false,
     accumulationRate := <decimal>0.2481,
     stealthAccumulation := <decimal>0.8,
-    suspiciousPattern := <optional str>$null,
+    suspiciousPattern := <optional str>"false",
     isRugPull := false,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
 };
 
 INSERT TokenMetrics {
@@ -109,9 +109,9 @@ INSERT TokenMetrics {
     bundlerActivity := false,
     accumulationRate := <decimal>0.1857,
     stealthAccumulation := <decimal>0.8,
-    suspiciousPattern := <optional str>$null,
+    suspiciousPattern := <optional str>"false",
     isRugPull := false,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
 };
 
 INSERT TokenMetrics {
@@ -126,9 +126,9 @@ INSERT TokenMetrics {
     bundlerActivity := false,
     accumulationRate := <decimal>0.5256,
     stealthAccumulation := <decimal>0.8,
-    suspiciousPattern := <optional str>$null,
+    suspiciousPattern := <optional str>"false",
     isRugPull := false,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
 };
 
 INSERT TokenPrices {
@@ -136,7 +136,7 @@ INSERT TokenPrices {
     price := <decimal>0.00000000,
     volume_24h := <decimal>0.00,
     marketCap := <decimal>0.00,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
 };
 
 INSERT TokenPrices {
@@ -144,7 +144,7 @@ INSERT TokenPrices {
     price := <decimal>0.00000000,
     volume_24h := <decimal>0.00,
     marketCap := <decimal>0.00,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
 };
 
 INSERT TokenPrices {
@@ -152,7 +152,7 @@ INSERT TokenPrices {
     price := <decimal>0.00000000,
     volume_24h := <decimal>0.00,
     marketCap := <decimal>0.00,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
 };
 
 INSERT TokenPrices {
@@ -160,7 +160,7 @@ INSERT TokenPrices {
     price := <decimal>0.00000000,
     volume_24h := <decimal>0.00,
     marketCap := <decimal>0.00,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
 };
 
 INSERT TokenPrices {
@@ -168,7 +168,7 @@ INSERT TokenPrices {
     price := <decimal>0.00000000,
     volume_24h := <decimal>0.00,
     marketCap := <decimal>0.00,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
 };
 
 INSERT TokenPrices {
@@ -176,6 +176,6 @@ INSERT TokenPrices {
     price := <decimal>0.00000000,
     volume_24h := <decimal>0.00,
     marketCap := <decimal>0.00,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
 };
 
