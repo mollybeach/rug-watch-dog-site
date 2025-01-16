@@ -14,6 +14,7 @@ module default {
             default := datetime_current();  # Default to the current timestamp
         }
     };
+
     type TokenMetrics {
         required property metadata -> str {
             default := '{}';  # Default to an empty JSON object
@@ -53,8 +54,19 @@ module default {
         required property timestamp -> datetime {
             default := datetime_current();  # Default to the current timestamp
         }
+        required property holders -> decimal {
+            default := <decimal>0.0;  # Number of holders
+        }
+        required property total_supply -> decimal {
+            default := <decimal>0.0;  # Total supply
+        }
+        required property current_price -> decimal {
+            default := <decimal>0.0;  # Current price
+        }
+        required property is_honeypot -> bool {
+            default := false;  # Honeypot indicator
+        }
     };
-
     type TokenPrices {
         required property tokenAddress -> str {
             constraint exclusive;  # Ensure uniqueness for token addresses if needed

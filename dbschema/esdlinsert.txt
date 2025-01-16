@@ -31,6 +31,7 @@ INSERT Token {
 };
 
 INSERT TokenMetrics {
+    metadata := '{"reason": "Suspicious accumulation pattern"};',
     tokenAddress := '0x4592C7A4397Fc06d94465C56616AD9D6c1A7D947',
     volumeAnomaly := <decimal>0.2,
     holderConcentration := <decimal>0.8,
@@ -43,7 +44,11 @@ INSERT TokenMetrics {
     stealthAccumulation := <decimal>0.2,
     suspiciousPattern := <optional str>'false',
     isRugPull := false,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565+00:00'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565+00:00',
+    holders := <decimal>0.0,
+    total_supply := <decimal>0.0,
+    current_price := <decimal>0.0,
+    is_honeypot := false
 };
 
 INSERT TokenMetrics {
@@ -60,7 +65,11 @@ INSERT TokenMetrics {
     stealthAccumulation := <decimal>0.8,
     suspiciousPattern := <optional str>"false",
     isRugPull := false,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    holders := <decimal>0.0,
+    total_supply := <decimal>0.0,
+    current_price := <decimal>0.0,
+    is_honeypot := false
 };
 
 INSERT TokenMetrics {
@@ -77,11 +86,15 @@ INSERT TokenMetrics {
     stealthAccumulation := <decimal>0.8,
     suspiciousPattern := <optional str>"false",
     isRugPull := false,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    holders := <decimal>0.0,
+    total_supply := <decimal>0.0,
+    current_price := <decimal>0.0,
+    is_honeypot := false
 };
 
 INSERT TokenMetrics {
-    metadata := '{"reason": "Suspicious accumulation pattern"};',
+    metadata := '{"reason": "
     tokenAddress := '0x1495bc9e44Af1F8BCB62278D2bEC4540cF0C05ea',
     volumeAnomaly := <decimal>0.2,
     holderConcentration := <decimal>0.2,
@@ -94,7 +107,11 @@ INSERT TokenMetrics {
     stealthAccumulation := <decimal>0.8,
     suspiciousPattern := <optional str>"false",
     isRugPull := false,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    holders := <decimal>0.0,
+    total_supply := <decimal>0.0,
+    current_price := <decimal>0.0,
+    is_honeypot := false
 };
 
 INSERT TokenMetrics {
@@ -111,7 +128,11 @@ INSERT TokenMetrics {
     stealthAccumulation := <decimal>0.8,
     suspiciousPattern := <optional str>"false",
     isRugPull := false,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    holders := <decimal>0.0,
+    total_supply := <decimal>0.0,
+    current_price := <decimal>0.0,
+    is_honeypot := false
 };
 
 INSERT TokenMetrics {
@@ -128,7 +149,11 @@ INSERT TokenMetrics {
     stealthAccumulation := <decimal>0.8,
     suspiciousPattern := <optional str>"false",
     isRugPull := false,
-    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    holders := <decimal>0.0,
+    total_supply := <decimal>0.0,
+    current_price := <decimal>0.0,
+    is_honeypot := false
 };
 
 INSERT TokenPrices {
