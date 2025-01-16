@@ -90,7 +90,7 @@ export default function RiskMetricsPage() {
         async function fetchData() {
             setLoading(true);
             setError(null);
-            const id = '5aa354f8-d39a-11ef-911d-d7c620b00f42';
+            const id = 'af6e1352-d39e-11ef-9a4e-9702f6f475b8';
             try {
                 const response = await fetch(`/api/risk-metrics?id=${id}`); // Adjust the ID as needed
                 if (!response.ok) {
