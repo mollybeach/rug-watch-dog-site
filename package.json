@@ -1,7 +1,6 @@
 {
     "name": "rug-watch-dog-site",
     "version": "1.0.0",
-    "type": "module",
     "description": "A blockchain-based platform for monitoring and interacting with NFT projects, featuring wallet connectivity and social media integration.",
     "homepage": "https://rug-watch-dog-site.pages.dev",
     "repository": {
@@ -24,7 +23,7 @@
         "check-db": "pnpm tsc scripts/check-db-access.ts && pnpm node scripts/check-db-access.js",
         "test": "jest -c src/tests/jest.config.ts src/tests",
         "test:watch": "jest --watch",
-        "insert-token-metrics": "pnpm node scripts/insertTokenMetrics.mjs"
+        "insert-token-metrics": "pnpm node scripts/insertTokenMetrics.js"
     },
     "dependencies": {
         "@ethersproject/providers": "^5.7.2",
