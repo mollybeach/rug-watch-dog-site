@@ -1,11 +1,12 @@
-import fs from 'fs';
-import csv from 'csv-parser';
-import fetch from 'node-fetch';
-import dotenv from 'dotenv';
+const fs = require('fs');
+const csv = require('csv-parser');
+const dotenv = require('dotenv');
 
 dotenv.config();
 
 async function importTokenMetrics() {
+    const fetch = (await
+        import ('node-fetch')).default;
     const results = [];
 
     fs.createReadStream('dbschema/token_metrics.csv')
