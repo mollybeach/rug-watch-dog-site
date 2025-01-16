@@ -196,3 +196,5 @@ Execute a SELECT query to retrieve data from the TokenMetrics table. For example
          isRugPull
      };
 ```
+
+To close the EdgeDB shell, type `CTRL + D` and press Enter.
