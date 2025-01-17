@@ -1,4 +1,4 @@
-import { edgedbClient } from '../db/connection';
+import { edgedbClient } from '../db/connection/connection';
 async function cleanDatabase() {
     try {
         await edgedbClient.ensureConnected();

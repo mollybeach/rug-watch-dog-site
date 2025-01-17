@@ -1,5 +1,6 @@
-import { edgedbClient } from '../db/data-source';
+import { edgedbClient } from '../db/connection/connection';
 import edgeql from '../../dbschema/edgeql-js';
+
 /*
 async function checkData() {
     try {

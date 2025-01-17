@@ -184,6 +184,50 @@ edgedb migration generate
      pnpm generate edgeql-js
 ```
 
+4. Connect to the EdgeDB instance
+```bash
+     edgedb -I mollybeach/rug-watch-dog-db
+```
+
+5. Write a SELECT query to check the data
+```edgeql
+    SELECT Token {
+    address,
+    name,
+    symbol,
+    metrics: {
+        tokenAddress,
+        volumeAnomaly,
+        holderConcentration,
+        liquidityScore,
+        priceVolatility,
+        sellPressure,
+        marketCapRisk,
+        bundlerActivity,
+        accumulationRate,
+        stealthAccumulation,
+        suspiciousPattern,
+        isRugPull,
+        timestamp,
+        holders,
+        totalSupply,
+        currentPrice,
+        isHoneyPot
+    },
+    price: {
+        tokenAddress,
+        price,
+        liquidity,
+        volume24h,
+        marketCap,
+        timestamp
+    },
+    createdAt,
+    updatedAt
+};
+
+SELECT TokenMetrics;
+```
 
 
 ## Checking Data in EdgeDB
@@ -193,23 +237,8 @@ To check the contents of your EdgeDB database, you can use the EdgeDB shell to r
 - **Select Data**:
   Execute a `SELECT` query to retrieve data from the `TokenMetrics` table. For example:
   ```edgeql
-  SELECT TokenMetrics {
-      id,
-      metadata,
-      tokenAddress,
-      volumeAnomaly,
-      holderConcentration,
-      liquidityScore,
-      priceVolatility,
-      sellPressure,
-      marketCapRisk,
-      bundlerActivity,
-      accumulationRate,
-      stealthAccumulation,
-      suspiciousPattern,
-      isRugPull,
-      timestamp
-  };
+SELECT TokenMetrics;
+SELECT TokenPrices;
   ```
 
   4. Login to EdgeDB

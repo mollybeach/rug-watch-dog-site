@@ -1,5 +1,5 @@
 // path: src/db/services/TokenService.ts
-import { edgedbClient } from '../data-source';
+import { edgedbClient } from '../connection/connection';
 import edgeql from '../../../dbschema/edgeql-js';
 import type { TokenMetricsType, TokenDataType, TokenPriceType } from '../../types/data';
 /*

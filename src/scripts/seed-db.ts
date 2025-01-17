@@ -1,7 +1,5 @@
 import edgeql from '../../dbschema/edgeql-js';
-import { createClient } from 'edgedb';
-
-const edgedbClient = createClient();
+import { edgedbClient } from '../db/connection/connection';
 
 const SAMPLE_TOKENS = [
     {
@@ -329,9 +327,9 @@ async function seedDatabase() {
             const priceQuery = edgeql.insert(edgeql.TokenPrices, {
                 tokenAddress: token.price.tokenAddress,
                 price: token.price.price.toString(),
-                liquidity: token.price.liquidity.toString(),
                 volume24h: token.price.volume24h.toString(),
                 marketCap: token.price.marketCap.toString(),
+                liquidity: token.price.liquidity.toString(),
                 timestamp: new Date(token.price.timestamp)
             });
 
@@ -345,6 +343,8 @@ async function seedDatabase() {
                 updatedAt: new Date(token.updatedAt)
             });
 
+            await metricsQuery.run(edgedbClient);
+            await priceQuery.run(edgedbClient);
             await tokenQuery.run(edgedbClient);
             console.log(`Seeded token: ${token.name}`);
         }

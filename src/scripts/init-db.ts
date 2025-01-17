@@ -1,4 +1,4 @@
-import { edgedbClient } from '../db/data-source';
+import { edgedbClient } from '../db/connection/connection';
 
 async function main() {
     try {

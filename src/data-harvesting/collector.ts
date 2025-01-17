@@ -1,5 +1,5 @@
 // path: src/data-harvesting/collector.ts
-import { edgedbClient } from '../db/data-source';
+import { edgedbClient } from '../db/connection/connection';
 import edgeql from '../../dbschema/edgeql-js';
 import { TokenDataType} from '../types/data';
 class DataCollector {

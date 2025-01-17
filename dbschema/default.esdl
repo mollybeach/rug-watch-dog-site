@@ -98,9 +98,4 @@ module default {
         required property condition -> bool;
         required property message -> str;
     }
-    type TrainingData {
-        required link token -> Token;
-        required link metrics -> TokenMetrics;
-        required link price -> TokenPrices;
-    }
 };
