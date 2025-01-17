@@ -1,8 +1,5 @@
 // path: src/data-harvesting/tokenScanner.ts
 import { ethers } from 'ethers';
-import { fetchTokenData } from './fetcher';
-import { dataCollector } from './collector';
-import { edgedbClient } from '../db/data-source';
 
 const RPC_ENDPOINTS = {
     ethereum: process.env.ETHEREUM_RPC || 'https://eth-mainnet.g.alchemy.com/v2/'+process.env.ALCHEMY_API_KEY,
