@@ -42,7 +42,7 @@ export async function getTokenStats() {
         isRugPull: false,
         metadata: '',
         tokenAddress: '',
-        timestamp: new Date().toISOString(),
+        timestamp: new Date(),
         holders: 0,
         totalSupply: 0,
         currentPrice: 0,

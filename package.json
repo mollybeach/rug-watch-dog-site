@@ -4,6 +4,7 @@
     "description": "AI-powered cryptocurrency token analyzer for detecting potential rug pulls",
     "main": "dist/api/server.js",
     "scripts": {
+        "build": "tsc",
         "start": "ts-node src/api/server.ts",
         "dev": "ts-node-dev --respawn --transpile-only src/api/server.ts",
         "watch": "tsc --watch",
