@@ -221,6 +221,10 @@ Generate the Query builder
 pnpm generate edgeql-js
 ```
 
+Migrate to the cloud instance
+```
+edgedb migrate -I mollybeach/rug-watch-dog-db
+```
 To close the EdgeDB shell, type `CTRL + D` and press Enter.
 
 ---
