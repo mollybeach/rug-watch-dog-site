@@ -30,28 +30,32 @@ router.get('/stats', async (_req, res) => {
         const rugPulls = data.filter(t => t.metrics.isRugPull).length;
         const legitimateTokens = totalTokens - rugPulls;
 
-        const initialMetrics: TokenMetricsType = {
-            metadata: { reason: '' }.toString(),
-            tokenAddress: '',
+        // Define a type for numeric metrics
+        type NumericMetrics = {
+            volumeAnomaly: number;
+            holderConcentration: number;
+            liquidityScore: number;
+            priceVolatility: number;
+            sellPressure: number;
+            marketCapRisk: number;
+            accumulationRate: number;
+            stealthAccumulation: number;
+        };
+
+        // Initialize the aggregation object
+        const initialNumericMetrics: NumericMetrics = {
             volumeAnomaly: 0,
             holderConcentration: 0,
             liquidityScore: 0,
             priceVolatility: 0,
             sellPressure: 0,
             marketCapRisk: 0,
-            bundlerActivity: false,
             accumulationRate: 0,
-            stealthAccumulation: 0,
-            suspiciousPattern: '',
-            isRugPull: false,
-            timestamp: new Date(),
-            holders: 0,
-            totalSupply: 0,
-            currentPrice: 0,
-            isHoneyPot: false
+            stealthAccumulation: 0
         };
 
-        const averageMetrics: TokenMetricsType = data.reduce((acc, token) => {
+        // Aggregate numeric metrics
+        const averageMetrics: NumericMetrics = data.reduce((acc, token) => {
             const metrics = token.metrics;
             acc.volumeAnomaly += metrics.volumeAnomaly;
             acc.holderConcentration += metrics.holderConcentration;
@@ -60,13 +64,13 @@ router.get('/stats', async (_req, res) => {
             acc.sellPressure += metrics.sellPressure;
             acc.marketCapRisk += metrics.marketCapRisk;
             acc.accumulationRate += metrics.accumulationRate;
-            acc.stealthAccumulation = (acc.stealthAccumulation ?? 0) + (metrics.stealthAccumulation ?? 0);
+            acc.stealthAccumulation += metrics.stealthAccumulation ?? 0;
             return acc;
-        }, initialMetrics);
+        }, initialNumericMetrics);
 
         // Calculate averages
         if (totalTokens > 0) {
-            const numericKeys: (keyof TokenMetricsType)[] = [
+            const numericKeys: (keyof NumericMetrics)[] = [
                 'volumeAnomaly', 'holderConcentration', 'liquidityScore',
                 'priceVolatility', 'sellPressure', 'marketCapRisk',
                 'accumulationRate', 'stealthAccumulation'

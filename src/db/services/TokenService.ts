@@ -2,7 +2,7 @@
 import { edgedbClient } from '../data-source';
 import edgeql from '../../../dbschema/edgeql-js';
 import type { TokenMetricsType, TokenDataType, TokenPriceType } from '../../types/data';
-
+/*
 export class TokenService {
     async upsertToken(tokenData: Partial<TokenDataType>): Promise<void> {
         const query = edgeql.insert(edgeql.Token, {
@@ -171,4 +171,4 @@ export class TokenService {
             timestamp: item.timestamp
         }));
     }
-}
+}*/

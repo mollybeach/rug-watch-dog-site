@@ -82,10 +82,10 @@ module default {
             constraint max_len_value(10);  # Limit symbol length to a reasonable max
         }
         required link metrics -> TokenMetrics {
-            constraint exclusive;
+            constraint exclusive;  # Ensure each Token has a unique TokenMetrics
         }
         required link price -> TokenPrices {
-            constraint exclusive;
+            constraint exclusive;  # Ensure each Token has a unique TokenPrices
         }
         required property createdAt -> datetime {
             default := datetime_current();  # Default to the current timestamp
