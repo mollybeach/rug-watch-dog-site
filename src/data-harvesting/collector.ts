@@ -50,10 +50,9 @@ class DataCollector {
                     currentPrice: tokenData.metrics.currentPrice.toString(),
                     isHoneyPot: tokenData.metrics.isHoneyPot
                 }),
-                prices: edgeql.insert(edgeql.TokenPrices, {
+                price: edgeql.insert(edgeql.TokenPrices, {
                     tokenAddress: tokenData.address,
                     price: tokenData.price.price.toString(),
-                    //@ts-ignore
                     volume24h: tokenData.price.volume24h.toString(),
                     marketCap: tokenData.price.marketCap.toString(),
                     liquidity: tokenData.price.liquidity.toString(),

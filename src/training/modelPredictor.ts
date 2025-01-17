@@ -1,6 +1,6 @@
 //path: src/training/modelPredictor.ts
 import * as tf from '@tensorflow/tfjs-node';
-import { TokenData, TokenMetrics } from '../types/metrics';
+import { TokenDataType, TokenMetricsType } from '../types/data';
 
 let model: tf.LayersModel;
 
@@ -14,7 +14,7 @@ export async function loadModel(modelPath: string): Promise<void> {
     }
 }
 
-function preprocessFeatures(tokenData: TokenData): tf.Tensor2D {
+function preprocessFeatures(tokenData: TokenDataType): tf.Tensor2D {
     const features = [
         tokenData.metrics.volumeAnomaly,
         tokenData.metrics.holderConcentration,
@@ -31,13 +31,13 @@ function preprocessFeatures(tokenData: TokenData): tf.Tensor2D {
     return tf.tensor2d([features], [1, features.length]);
 }
 
-export async function analyzeToken(tokenData: TokenData): Promise<TokenMetrics> {
+export async function analyzeToken(tokenData: TokenDataType): Promise<TokenMetricsType> {
     try {
         const features = preprocessFeatures(tokenData);
         const prediction = await model.predict(features) as tf.Tensor;
         const isRugPull = (await prediction.data())[0] > 0.5;
 
-        const tokenMetrics: TokenMetrics = {
+        const tokenMetrics: TokenMetricsType = {
             volumeAnomaly: tokenData.metrics.volumeAnomaly,
             holderConcentration: tokenData.metrics.holderConcentration,
             liquidityScore: tokenData.metrics.liquidityScore,
@@ -49,9 +49,9 @@ export async function analyzeToken(tokenData: TokenData): Promise<TokenMetrics> 
             stealthAccumulation: tokenData.metrics.stealthAccumulation || 0,
             suspiciousPattern: tokenData.metrics.suspiciousPattern || null,
             isRugPull: isRugPull,
-            metadata: isRugPull ? { reason: 'High risk indicators detected' } : { reason: 'No significant risk detected' },
+            metadata: isRugPull ? { reason: 'High risk indicators detected' }.toString() : { reason: 'No significant risk detected' }.toString(),
             tokenAddress: tokenData.address,
-            timestamp: new Date().toISOString(),
+            timestamp: new Date(),
             holders: 0, // Placeholder, update as needed
             totalSupply: 0, // Placeholder, update as needed
             currentPrice: 0, // Placeholder, update as needed

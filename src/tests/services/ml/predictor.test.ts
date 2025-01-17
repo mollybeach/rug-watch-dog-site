@@ -1,12 +1,14 @@
 import { analyzeToken } from '../../../training/modelPredictor';
-import { TokenData } from '../../../types/metrics';
+import { TokenDataType } from '../../../types/data';
 
 describe('Token Analysis', () => {
-    const mockTokenData: TokenData = {
+    const mockTokenData: TokenDataType = {
         address: '0x123',
         name: 'Test Token',
         symbol: 'TEST',
         metrics: {
+            metadata: { reason: 'Test data' }.toString(),
+            tokenAddress: '0x123',
             volumeAnomaly: 0.5,
             holderConcentration: 0.3,
             liquidityScore: 0.7,
@@ -18,14 +20,22 @@ describe('Token Analysis', () => {
             stealthAccumulation: 0.2,
             suspiciousPattern: false ? 'true' : 'false',
             isRugPull: false,
-            metadata: { reason: 'Test data' },
-            timestamp: new Date().toISOString(),
-            tokenAddress: '0x123',
+            timestamp: new Date,
             holders: 1000,
             totalSupply: 1000000,
             currentPrice: 1.5,
             isHoneyPot: false
-        }
+        },
+        price: {
+            tokenAddress: '0x123',
+            price: 1.5,
+            volume24h: 1000,
+            marketCap: 1000000,
+            liquidity: 1000,
+            timestamp: new Date()
+        },
+        createdAt: new Date(),
+        updatedAt: new Date()
     };
 
     it('should analyze token metrics correctly', async () => {
@@ -46,7 +56,7 @@ describe('Token Analysis', () => {
     });
 
     it('should handle errors gracefully', async () => {
-        const invalidToken: TokenData = {
+        const invalidToken: TokenDataType = {
             ...mockTokenData,
             metrics: {
                 ...mockTokenData.metrics,

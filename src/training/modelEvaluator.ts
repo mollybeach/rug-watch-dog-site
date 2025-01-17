@@ -1,6 +1,6 @@
 //path: src/training/modelEvaluator.ts
 import * as tf from '@tensorflow/tfjs-node';
-import { TrainingData, TokenMetrics } from '../types/metrics';
+import { TrainingData, TokenMetricsType } from '../types/data';
 import { preprocessTokenData } from '../data-processing/parser';
 
 interface EvaluationMetrics {
@@ -16,7 +16,7 @@ export async function evaluateModel(
     testData: TrainingData[]
 ): Promise<EvaluationMetrics> {
     // Convert TrainingData to TokenMetrics format
-    const processedData: TokenMetrics[] = testData.map(data => ({
+    const processedData: TokenMetricsType[] = testData.map(data => ({
         volumeAnomaly: data.volumeAnomaly,
         holderConcentration: data.holderConcentration,
         liquidityScore: data.liquidityScore,
