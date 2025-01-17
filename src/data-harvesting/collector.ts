@@ -1,6 +1,6 @@
 // path: src/data-harvesting/collector.ts
 import { edgedbClient } from '../db/data-source';
-import * as edgeql from '../../dbschema/edgeql-js';
+import edgeql from '../../dbschema/edgeql-js';
 import { TokenDataType} from '../types/data';
 class DataCollector {
     private tokenBatch: TokenDataType[] = [];
@@ -41,12 +41,10 @@ class DataCollector {
                     bundlerActivity: tokenData.metrics.bundlerActivity,
                     accumulationRate: tokenData.metrics.accumulationRate.toString(),
                     stealthAccumulation: tokenData.metrics.stealthAccumulation?.toString(),
-                    suspiciousPattern: tokenData.metrics.suspiciousPattern,
+                    suspiciousPattern: tokenData.metrics.suspiciousPattern ?? '',
                     isRugPull: tokenData.metrics.isRugPull,
                     holders: tokenData.metrics.holders.toString(), 
-                    //@ts-ignore
                     totalSupply: tokenData.metrics.totalSupply.toString(),
-                    //@ts-ignore
                     currentPrice: tokenData.metrics.currentPrice.toString(),
                     isHoneyPot: tokenData.metrics.isHoneyPot
                 }),
