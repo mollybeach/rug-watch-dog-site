@@ -1,8 +1,10 @@
 import edgeql from '../../dbschema/edgeql-js';
-import { edgedbClient } from '../db/connection/connection';
+import { createClient } from 'edgedb';
+
+const edgedbClient = createClient();
 
 let currentTokens: any;
-async function viewExistingData() {
+async function viewLocalData() {
     try {
         // Query to select all tokens and their related metrics and prices
         const tokensQuery = edgeql.select(edgeql.Token, (token) => ({
@@ -52,6 +54,6 @@ async function viewExistingData() {
 }
 
 // Call the function to view existing data
-viewExistingData();
+viewLocalData();
 
 export { currentTokens };
