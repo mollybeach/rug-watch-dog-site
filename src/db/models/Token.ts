@@ -1,32 +1,23 @@
-// path: src/db/models/Token.ts
+// EdgeDB schema for Token entity
+import { TokenMetrics } from './TokenMetrics';
+import { TokenPrice } from './TokenPrice';
 
-// EdgeDB schema for Token model
-export class TokenModel {
+export class Token {
     address: string;
-    chain: string;
     name: string;
     symbol: string;
-    volumeAnomaly: number;
-    holderConcentration: number;
-    liquidityScore: number;
-    priceVolatility: number;
-    sellPressure: number;
-    marketCapRisk: number;
-    isRugPull: boolean;
-    metadata: object;
+    metrics: TokenMetrics;
+    price: TokenPrice;
+    createdAt: Date;
+    updatedAt: Date;
 
-    constructor(address: string, chain: string, name: string, symbol: string, volumeAnomaly: number, holderConcentration: number, liquidityScore: number, priceVolatility: number, sellPressure: number, marketCapRisk: number, isRugPull: boolean, metadata: object) {
+    constructor(address: string, name: string, symbol: string) {
         this.address = address;
-        this.chain = chain;
         this.name = name;
         this.symbol = symbol;
-        this.volumeAnomaly = volumeAnomaly;
-        this.holderConcentration = holderConcentration;
-        this.liquidityScore = liquidityScore;
-        this.priceVolatility = priceVolatility;
-        this.sellPressure = sellPressure;
-        this.marketCapRisk = marketCapRisk;
-        this.isRugPull = isRugPull;
-        this.metadata = metadata;
+        this.metrics = new TokenMetrics(address);
+        this.price = new TokenPrice(address);
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
     }
 } 
