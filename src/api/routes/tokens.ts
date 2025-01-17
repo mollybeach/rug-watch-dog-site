@@ -26,7 +26,7 @@ router.get('/analyze/:tokenAddress', async (req, res) => {
                 suspiciousPattern: "false,",
                 isRugPull: false,
                 metadata: { reason: '' }.toString(),
-                timestamp: new Date().toISOString(),
+                timestamp: new Date(),
                 tokenAddress: tokenAddress,
                 holders: 0,
                 totalSupply: 0,

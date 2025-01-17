@@ -32,9 +32,9 @@ export async function evaluateModel(
         tokenAddress: data.tokenAddress,
         timestamp: data.timestamp,
         holders: data.holders,
-        total_supply: data.total_supply,
-        current_price: data.current_price,
-        is_honeypot: data.is_honeypot
+        totalSupply: data.totalSupply,
+        currentPrice: data.currentPrice,
+        isHoneyPot: data.isHoneyPot
     }));
     
     const { features, labels } = preprocessTokenData(processedData);

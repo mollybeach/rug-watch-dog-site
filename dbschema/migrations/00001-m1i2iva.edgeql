@@ -30,7 +30,7 @@ CREATE MIGRATION m1i2iva54cgpgfijknvdk6ulypx4cx2tpotc7spfaijgqmyuteyvxq
       CREATE REQUIRED PROPERTY isRugPull: std::bool {
           SET default := false;
       };
-      CREATE REQUIRED PROPERTY is_honeypot: std::bool {
+      CREATE REQUIRED PROPERTY isHoneyPot: std::bool {
           SET default := false;
       };
       CREATE REQUIRED PROPERTY liquidityScore: std::decimal {
@@ -52,7 +52,7 @@ CREATE MIGRATION m1i2iva54cgpgfijknvdk6ulypx4cx2tpotc7spfaijgqmyuteyvxq
           SET default := (std::datetime_current());
       };
       CREATE REQUIRED PROPERTY tokenAddress: std::str;
-      CREATE REQUIRED PROPERTY total_supply: std::decimal {
+      CREATE REQUIRED PROPERTY totalSupply: std::decimal {
           SET default := 0;
       };
       CREATE REQUIRED PROPERTY volumeAnomaly: std::decimal {

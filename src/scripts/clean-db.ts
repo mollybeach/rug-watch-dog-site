@@ -1,8 +1,4 @@
 import { edgedbClient } from '../db/connection';
-import { Token } from '../db/entities/Token';
-import { TokenMetrics } from '../db/entities/TokenMetrics';
-import { TokenPrice } from '../db/entities/TokenPrice';
-
 async function cleanDatabase() {
     try {
         await edgedbClient.ensureConnected();

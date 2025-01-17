@@ -53,9 +53,9 @@ export async function analyzeToken(tokenData: TokenData): Promise<TokenMetrics> 
             tokenAddress: tokenData.address,
             timestamp: new Date().toISOString(),
             holders: 0, // Placeholder, update as needed
-            total_supply: 0, // Placeholder, update as needed
-            current_price: 0, // Placeholder, update as needed
-            is_honeypot: false // Placeholder, update as needed
+            totalSupply: 0, // Placeholder, update as needed
+            currentPrice: 0, // Placeholder, update as needed
+            isHoneyPot: false // Placeholder, update as needed
         };
 
         return tokenMetrics;

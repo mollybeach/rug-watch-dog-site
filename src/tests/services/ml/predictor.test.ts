@@ -22,9 +22,9 @@ describe('Token Analysis', () => {
             timestamp: new Date().toISOString(),
             tokenAddress: '0x123',
             holders: 1000,
-            total_supply: 1000000,
-            current_price: 1.5,
-            is_honeypot: false
+            totalSupply: 1000000,
+            currentPrice: 1.5,
+            isHoneyPot: false
         }
     };
 

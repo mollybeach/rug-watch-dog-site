@@ -31,7 +31,7 @@ CREATE MIGRATION m1mvvnnmj3daoiwkgvsy6r5rpnrocqbjcfrrv3gokrbvise6ttkeqa
       DROP PROPERTY holders;
   };
   ALTER TYPE default::TokenMetrics {
-      ALTER PROPERTY is_honeypot {
+      ALTER PROPERTY isHoneyPot {
           RENAME TO bundlerActivity;
       };
       ALTER PROPERTY liquidityScore {
@@ -71,7 +71,7 @@ CREATE MIGRATION m1mvvnnmj3daoiwkgvsy6r5rpnrocqbjcfrrv3gokrbvise6ttkeqa
       CREATE OPTIONAL PROPERTY suspiciousPattern: std::str;
   };
   ALTER TYPE default::TokenMetrics {
-      DROP PROPERTY total_supply;
+      DROP PROPERTY totalSupply;
       ALTER PROPERTY volumeAnomaly {
           SET default := (<std::decimal>0.0);
       };

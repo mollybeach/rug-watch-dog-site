@@ -10,12 +10,12 @@ CREATE MIGRATION m1fziifnwjqtttud2tj5evjgpz4nktpqc2im3lu7ydnap2tq76sscq
       };
   };
   ALTER TYPE default::TokenMetrics {
-      ALTER PROPERTY current_price {
+      ALTER PROPERTY currentPrice {
           RENAME TO currentPrice;
       };
   };
   ALTER TYPE default::TokenMetrics {
-      ALTER PROPERTY is_honeypot {
+      ALTER PROPERTY isHoneyPot {
           RENAME TO isHoneyPot;
       };
       ALTER PROPERTY stealthAccumulation {
@@ -26,7 +26,7 @@ CREATE MIGRATION m1fziifnwjqtttud2tj5evjgpz4nktpqc2im3lu7ydnap2tq76sscq
       };
   };
   ALTER TYPE default::TokenMetrics {
-      ALTER PROPERTY total_supply {
+      ALTER PROPERTY totalSupply {
           RENAME TO totalSupply;
       };
   };

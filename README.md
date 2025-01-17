@@ -308,6 +308,11 @@ interface TokenMetrics {
   buyTxns24h: number;
   sellTxns24h: number;
   marketCap: number;
+  totalSupply: number;
+  currentPrice: number;
+  isRugPull: boolean;
+  isHoneyPot: boolean;
+  timestamp: Date;
 }
 ```
 
