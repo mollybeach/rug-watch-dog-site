@@ -1,3 +1,4 @@
+// path: src/scripts/train.ts
 import { loadExistingData } from '../data-processing/trainingData';
 import { trainModel } from '../training/modelTrainer';
 import { evaluateModel, printEvaluationReport } from '../training/modelEvaluator';
