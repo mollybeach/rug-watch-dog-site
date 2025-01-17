@@ -14,7 +14,7 @@ export interface TokenMetricsType {
     stealthAccumulation: number | null;
     suspiciousPattern: string | null;
     isRugPull: boolean;
-    timestamp: string;
+    timestamp: Date;
     holders: number;
     totalSupply: number;
     currentPrice: number;
@@ -54,7 +54,7 @@ export interface TrainingData {
     stealthAccumulation: number | null;
     suspiciousPattern: string | null;
     isRugPull: boolean;
-    timestamp: string;
+    timestamp: Date;
     holders: number;
     totalSupply: number;
     currentPrice: number;

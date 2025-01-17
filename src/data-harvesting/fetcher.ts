@@ -203,6 +203,8 @@ export async function fetchTokenData(tokenAddress: string, chain: string = 'ethe
         const accMetrics = await calculateAccumulationMetrics(etherscanData.result);
 
         const metrics: TokenMetricsType = {
+            metadata: JSON.stringify({ reason: 'default reason' }),
+            tokenAddress: tokenAddress,
             volumeAnomaly: calculateVolumeAnomaly(dexData),
             holderConcentration: calculateHolderConcentration(etherscanData),
             liquidityScore: calculateLiquidityScore(dexData),
@@ -214,9 +216,7 @@ export async function fetchTokenData(tokenAddress: string, chain: string = 'ethe
             accumulationRate: accMetrics.accumulationRate,
             stealthAccumulation: accMetrics.stealthAccumulation,
             suspiciousPattern: bundlerPattern.timePattern > 0.5 ? 'true' : bundlerPattern.timePattern === 0 ? null : 'false',
-            metadata: JSON.stringify({ reason: 'default reason' }),
-            tokenAddress: tokenAddress,
-            timestamp: new Date().toISOString(),
+            timestamp: new Date,
             holders: 0,
             totalSupply: 0,
             currentPrice: 0,
@@ -224,10 +224,12 @@ export async function fetchTokenData(tokenAddress: string, chain: string = 'ethe
         };
 
         const price: TokenPriceType = {
+            tokenAddress: tokenAddress,
             price: dexData.pairs[0].priceUsd || 0,
             volume24h: dexData.pairs[0].volume?.h24 || 0,
             marketCap: (dexData.pairs[0].priceUsd || 0) * 1000000, // Approximate
-            liquidity: dexData.pairs[0].liquidity?.usd || 0
+            liquidity: dexData.pairs[0].liquidity?.usd || 0,
+            timestamp: new Date()
         };
 
         return {

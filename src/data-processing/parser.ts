@@ -1,11 +1,12 @@
-import { TokenMetrics } from '../types/metrics';
+//path: src/data-processing/parser.ts
+import { TokenMetricsType } from '../types/data';
 
 interface ProcessedData {
     features: number[][];
     labels: number[];
 }
 
-export function normalizeFeatures(data: TokenMetrics): number[] {
+export function normalizeFeatures(data: TokenMetricsType): number[] {
     return [
         data.volumeAnomaly,
         data.holderConcentration,
@@ -16,11 +17,16 @@ export function normalizeFeatures(data: TokenMetrics): number[] {
         data.bundlerActivity ? 1 : 0,
         data.accumulationRate,
         data.stealthAccumulation || 0,
-        data.suspiciousPattern ? 1 : 0
+        data.suspiciousPattern ? 1 : 0,
+        data.isRugPull ? 1 : 0,
+        data.holders,
+        data.totalSupply,
+        data.currentPrice,
+        data.isHoneyPot ? 1 : 0,
     ];
 }
 
-export function preprocessTokenData(data: TokenMetrics[]): ProcessedData {
+export function preprocessTokenData(data: TokenMetricsType[]): ProcessedData {
     return {
         features: data.map(token => normalizeFeatures(token)),
         labels: data.map(token => token.isRugPull ? 1 : 0)

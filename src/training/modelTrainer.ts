@@ -1,34 +1,48 @@
 //path: src/training/modelTrainer.ts
 import * as tf from '@tensorflow/tfjs-node';
-import { TokenMetrics, TrainingData } from '../types/metrics';
+import { TokenMetricsType, TrainingData } from '../types/data';
 import { preprocessTokenData } from '../data-processing/parser';
 import path from 'path';
 
 export async function trainModel(trainingData: TrainingData[]): Promise<tf.LayersModel> {
     try {
-        // Convert training data to base metrics format
-        const processedData: TokenMetrics[] = trainingData.map(data => ({
+        const processedData: TokenMetricsType[] = trainingData.map(data => ({
+            address: data.address,
+            name: data.name,
+            symbol: data.symbol,
+            metadata: data.metadata,
+            tokenAddress: data.tokenAddress,
             volumeAnomaly: data.volumeAnomaly,
             holderConcentration: data.holderConcentration,
             liquidityScore: data.liquidityScore,
             priceVolatility: data.priceVolatility,
             sellPressure: data.sellPressure,
             marketCapRisk: data.marketCapRisk,
-            bundlerActivity: data.bundlerActivity ? 1 : 0,
+            bundlerActivity: data.bundlerActivity,
             accumulationRate: data.accumulationRate,
             stealthAccumulation: data.stealthAccumulation,
-            suspiciousPattern: data.suspiciousPattern ? 'true' : 'false',
+            suspiciousPattern: data.suspiciousPattern,
             isRugPull: data.isRugPull,
-            metadata: data.metadata,
-            tokenAddress: data.tokenAddress,
             timestamp: data.timestamp,
             holders: data.holders,
-            total_supply: data.total_supply,
-            current_price: data.current_price,
-            is_honeypot: data.is_honeypot
+            totalSupply: data.totalSupply,
+            currentPrice: data.currentPrice,
+            isHoneyPot: data.isHoneyPot,
+            price: data.price,
+            volume24h: data.volume24h,
+            marketCap: data.marketCap,
+            liquidity: data.liquidity,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt
         }));
 
         const { features, labels } = preprocessTokenData(processedData);
+
+        if (features && features.length > 0 && labels && labels.length > 0) {
+            // Proceed with model training
+        } else {
+            console.error('Features or labels are undefined or empty');
+        }
 
         // Create and compile model
         const model = tf.sequential();
@@ -85,20 +99,33 @@ export async function trainModel(trainingData: TrainingData[]): Promise<tf.Layer
 // Run training if called directly
 if (require.main === module) {
     const dummyData: TrainingData[] = [{
+        address: '0x0',
+        name: 'Test Token',
+        symbol: 'TEST',
+        metadata: { reason: 'Training data' }.toString(),
+        tokenAddress: '0x0',
         volumeAnomaly: 0.5,
         holderConcentration: 0.3,
         liquidityScore: 0.7,
         priceVolatility: 0.4,
         sellPressure: 0.2,
         marketCapRisk: 0.3,
-        bundlerActivity: 0.2,
+        bundlerActivity: false,
         accumulationRate: 0.1,
         stealthAccumulation: 0.2,
-        suspiciousPattern: false,
+        suspiciousPattern: "false",
         isRugPull: false,
-        metadata: { reason: 'Training data' },
-        timestamp: new Date().toISOString(),
-        address: '0x0'
+        timestamp: new Date(),
+        holders: 1000000,
+        totalSupply: 1000000,
+        currentPrice: 100,
+        isHoneyPot: false,
+        price: 100,
+        volume24h: 1000000,
+        marketCap: 1000000,
+        liquidity: 1000000,
+        createdAt: new Date(),
+        updatedAt: new Date(),
     }];
     trainModel(dummyData).catch(console.error);
 }

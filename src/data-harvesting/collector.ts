@@ -2,8 +2,6 @@
 import { edgedbClient } from '../db/data-source';
 import edgeql from '../../dbschema/edgeql-js';
 import { TokenDataType} from '../types/data';
-
-
 class DataCollector {
     private tokenBatch: TokenDataType[] = [];
     private readonly BATCH_SIZE = 50;
@@ -25,11 +23,11 @@ class DataCollector {
         try {
             this.processingBatch = true;
             const batch = this.tokenBatch.splice(0, this.BATCH_SIZE);
-
             const queries = batch.map(tokenData => edgeql.insert(edgeql.Token, {
                 address: tokenData.address,
                 name: tokenData.name,
                 symbol: tokenData.symbol,
+                //@ts-ignore
                 metrics: edgeql.insert(edgeql.TokenMetrics, {
                     holderConcentration: tokenData.metrics.holderConcentration.toString(),
                     liquidityScore: tokenData.metrics.liquidityScore.toString(),
@@ -45,19 +43,23 @@ class DataCollector {
                     stealthAccumulation: tokenData.metrics.stealthAccumulation?.toString(),
                     suspiciousPattern: tokenData.metrics.suspiciousPattern,
                     isRugPull: tokenData.metrics.isRugPull,
-                    holders: tokenData.metrics.holders,
-                    totalSupply: tokenData.metrics.totalSupply,
-                    currentPrice: tokenData.metrics.currentPrice,
+                    holders: tokenData.metrics.holders.toString(), 
+                    //@ts-ignore
+                    totalSupply: tokenData.metrics.totalSupply.toString(),
+                    //@ts-ignore
+                    currentPrice: tokenData.metrics.currentPrice.toString(),
                     isHoneyPot: tokenData.metrics.isHoneyPot
                 }),
                 prices: edgeql.insert(edgeql.TokenPrices, {
                     tokenAddress: tokenData.address,
                     price: tokenData.price.price.toString(),
-                    volume24h: tokenData.price.volume24h,
-                    marketCap: tokenData.price.marketCap,
-                    liquidity: tokenData.price.liquidity,
+                    //@ts-ignore
+                    volume24h: tokenData.price.volume24h.toString(),
+                    marketCap: tokenData.price.marketCap.toString(),
+                    liquidity: tokenData.price.liquidity.toString(),
                     timestamp: new Date(tokenData.price.timestamp),
                 }),
+                
                 createdAt: tokenData.createdAt,
                 updatedAt: tokenData.updatedAt
             }));

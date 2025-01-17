@@ -7,7 +7,7 @@ async function main() {
     try {
         console.log('Loading training data...');
         const baseMetrics = await loadExistingData();
-
+        console.log('baseMetrics', baseMetrics);
         const trainingData: TrainingData[] = baseMetrics.map((token, index) => ({
             address: token.address,
             name: token.name,

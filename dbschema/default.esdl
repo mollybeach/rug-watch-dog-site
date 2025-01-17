@@ -46,10 +46,10 @@ module default {
         required property accumulationRate -> decimal {
             default := <decimal>0.0;  # Default value
         }
-        optional property stealthAccumulation -> decimal {
+        required property stealthAccumulation -> decimal {
             default := <decimal>0.0;  # Default value
         }
-        optional property suspiciousPattern -> str;  # Nullable, no default
+        required property suspiciousPattern -> str;  # Nullable, no default
         required property isRugPull -> bool {
             default := false;  # Default to `false`
         }

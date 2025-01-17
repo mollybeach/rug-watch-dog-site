@@ -33,15 +33,17 @@ async function processTrainingData(filePath: string): Promise<void> {
                 isRugPull: data.isRugPull ?? false,
                 timestamp: data.timestamp,
                 holders: data.holders ?? 0,
-                total_supply: data.total_supply ?? 0,
-                current_price: data.current_price ?? 0,
-                is_honeypot: data.is_honeypot ?? false
+                totalSupply: data.totalSupply ?? 0,
+                currentPrice: data.currentPrice ?? 0,
+                isHoneyPot: data.isHoneyPot ?? false
             },
             price: {
-                price: 0, // These fields aren't in training data
-                volume24h: 0,
-                marketCap: 0,
-                liquidity: 0
+                tokenAddress: data.tokenAddress,
+                price: data.price,
+                volume24h: data.volume24h,
+                marketCap: data.marketCap,
+                liquidity: data.liquidity,
+                timestamp: new Date()
             },
             createdAt: new Date(),
             updatedAt: new Date()
