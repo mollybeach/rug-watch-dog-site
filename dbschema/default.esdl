@@ -81,8 +81,12 @@ module default {
         required property symbol -> str { 
             constraint max_len_value(10);  # Limit symbol length to a reasonable max
         }
-        required link metrics -> TokenMetrics;
-        required link price -> TokenPrices;
+        required link metrics -> TokenMetrics {
+            constraint exclusive;
+        }
+        required link price -> TokenPrices {
+            constraint exclusive;
+        }
         required property createdAt -> datetime {
             default := datetime_current();  # Default to the current timestamp
         }
@@ -94,7 +98,6 @@ module default {
         required property condition -> bool;
         required property message -> str;
     }
-
     type TrainingData {
         required link token -> Token;
         required link metrics -> TokenMetrics;
