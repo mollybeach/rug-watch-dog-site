@@ -1,22 +1,22 @@
-import { Options } from 'sequelize';
-import path from 'path';
+// path: src/config/index.ts
+import { createClient } from 'edgedb';
 
 interface DatabaseConfig {
-    url: string;
-    options: Options;
+    client: any; // Use the appropriate type for EdgeDB client if available
 }
 
 interface Config {
     database: DatabaseConfig;
 }
 
+const edgedbClient = createClient({
+    dsn: process.env.EDGE_CONNECTION_STRING || 'edgedb://edgedb@rug-watch-dog-db--mollybeach.c-96.i.aws.edgedb.cloud:5656/main?password=Honeysuckle1014!'
+});
+
 export const config: Config = {
     database: {
-        url: process.env.DATABASE_URL || 'sqlite:' + path.join(process.cwd(), 'data', 'database.sqlite'),
-        options: {
-            logging: false,
-            dialect: 'sqlite',
-            storage: path.join(process.cwd(), 'data', 'database.sqlite')
-        }
+        client: edgedbClient
     }
 };
+
+export { edgedbClient };

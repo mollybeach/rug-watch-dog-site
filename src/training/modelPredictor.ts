@@ -1,6 +1,6 @@
 //path: src/training/modelPredictor.ts
 import * as tf from '@tensorflow/tfjs-node';
-import { TokenData, BaseMetrics } from '../types/metrics';
+import { TokenData, TokenMetrics } from '../types/metrics';
 
 let model: tf.LayersModel;
 
@@ -22,7 +22,7 @@ function preprocessFeatures(tokenData: TokenData): tf.Tensor2D {
         tokenData.metrics.priceVolatility,
         tokenData.metrics.sellPressure,
         tokenData.metrics.marketCapRisk,
-        tokenData.metrics.bundlerActivity,
+        tokenData.metrics.bundlerActivity ? 1 : 0,
         tokenData.metrics.accumulationRate,
         tokenData.metrics.stealthAccumulation || 0,
         tokenData.metrics.suspiciousPattern ? 1 : 0
@@ -31,13 +31,13 @@ function preprocessFeatures(tokenData: TokenData): tf.Tensor2D {
     return tf.tensor2d([features], [1, features.length]);
 }
 
-export async function analyzeToken(tokenData: TokenData): Promise<BaseMetrics> {
+export async function analyzeToken(tokenData: TokenData): Promise<TokenMetrics> {
     try {
         const features = preprocessFeatures(tokenData);
         const prediction = await model.predict(features) as tf.Tensor;
         const isRugPull = (await prediction.data())[0] > 0.5;
 
-        const baseMetrics: BaseMetrics = {
+        const tokenMetrics: TokenMetrics = {
             volumeAnomaly: tokenData.metrics.volumeAnomaly,
             holderConcentration: tokenData.metrics.holderConcentration,
             liquidityScore: tokenData.metrics.liquidityScore,
@@ -47,15 +47,18 @@ export async function analyzeToken(tokenData: TokenData): Promise<BaseMetrics> {
             bundlerActivity: tokenData.metrics.bundlerActivity,
             accumulationRate: tokenData.metrics.accumulationRate,
             stealthAccumulation: tokenData.metrics.stealthAccumulation || 0,
-            suspiciousPattern: tokenData.metrics.suspiciousPattern || false,
+            suspiciousPattern: tokenData.metrics.suspiciousPattern || null,
             isRugPull: isRugPull,
-            metadata: {
-                reason: isRugPull ? 'High risk indicators detected' : 'No significant risk detected'
-            },
-            timestamp: new Date().toISOString()
+            metadata: isRugPull ? { reason: 'High risk indicators detected' } : { reason: 'No significant risk detected' },
+            tokenAddress: tokenData.address,
+            timestamp: new Date().toISOString(),
+            holders: 0, // Placeholder, update as needed
+            total_supply: 0, // Placeholder, update as needed
+            current_price: 0, // Placeholder, update as needed
+            is_honeypot: false // Placeholder, update as needed
         };
 
-        return baseMetrics;
+        return tokenMetrics;
     } catch (error) {
         console.error('Error analyzing token:', error);
         throw error;

@@ -1,7 +1,7 @@
 // path: src/data-harvesting/fetcher.ts
 import axios from 'axios';
 import dotenv from 'dotenv';
-import { TokenData, TokenMetricsData, TokenPriceData } from '../types/token';
+import { TokenDataType, TokenMetricsType, TokenPriceType } from '../types/data';
 
 dotenv.config();
 
@@ -88,9 +88,7 @@ async function fetchEtherscanData(tokenAddress: string, chain: string = 'ethereu
         
         console.log(`❌ Invalid response from ${chain}scan:`, 
             response.data?.message || 
-            (response.data?.result === null ? 'No transactions found' : 
-             response.data?.status === '0' ? 'API request failed' : 
-             'Unknown error')
+            (response.data?.result === null ? 'No transactions found' : response.data?.status === '0' ? 'API request failed' : 'Unknown error')
         );
         console.log('🔍 Response details:', JSON.stringify(response.data, null, 2));
         return null;
@@ -185,7 +183,7 @@ async function calculateAccumulationMetrics(transactions: Transaction[]): Promis
     };
 }
 
-export async function fetchTokenData(tokenAddress: string, chain: string = 'ethereum'): Promise<TokenData | null> {
+export async function fetchTokenData(tokenAddress: string, chain: string = 'ethereum'): Promise<TokenDataType | null> {
     try {
         console.log(`\n📊 Fetching data for token: ${tokenAddress} on ${chain}`);
         
@@ -204,7 +202,7 @@ export async function fetchTokenData(tokenAddress: string, chain: string = 'ethe
         const bundlerPattern = await detectBundlerPattern(etherscanData.result);
         const accMetrics = await calculateAccumulationMetrics(etherscanData.result);
 
-        const metrics: TokenMetricsData = {
+        const metrics: TokenMetricsType = {
             volumeAnomaly: calculateVolumeAnomaly(dexData),
             holderConcentration: calculateHolderConcentration(etherscanData),
             liquidityScore: calculateLiquidityScore(dexData),
@@ -215,11 +213,17 @@ export async function fetchTokenData(tokenAddress: string, chain: string = 'ethe
             bundlerActivity: bundlerPattern.isFromBundler,
             accumulationRate: accMetrics.accumulationRate,
             stealthAccumulation: accMetrics.stealthAccumulation,
-            suspiciousPattern: bundlerPattern.timePattern > 0.5 ? true : bundlerPattern.timePattern === 0 ? null : false,
-            metadata: {}
+            suspiciousPattern: bundlerPattern.timePattern > 0.5 ? 'true' : bundlerPattern.timePattern === 0 ? null : 'false',
+            metadata: JSON.stringify({ reason: 'default reason' }),
+            tokenAddress: tokenAddress,
+            timestamp: new Date().toISOString(),
+            holders: 0,
+            totalSupply: 0,
+            currentPrice: 0,
+            isHoneyPot: false
         };
 
-        const price: TokenPriceData = {
+        const price: TokenPriceType = {
             price: dexData.pairs[0].priceUsd || 0,
             volume24h: dexData.pairs[0].volume?.h24 || 0,
             marketCap: (dexData.pairs[0].priceUsd || 0) * 1000000, // Approximate
@@ -231,7 +235,9 @@ export async function fetchTokenData(tokenAddress: string, chain: string = 'ethe
             name: dexData.pairs[0].baseToken?.name || 'Unknown',
             symbol: dexData.pairs[0].baseToken?.symbol || 'UNKNOWN',
             metrics,
-            price
+            price,
+            createdAt: new Date(),
+            updatedAt: new Date()
         };
     } catch (error) {
         console.error('Error fetching token data:', error);

@@ -1,3 +1,4 @@
+import client from '../db/edgedbClient';
 import { AppDataSource } from '../db/data-source';
 import { Token } from '../db/entities/Token';
 import { TokenMetrics } from '../db/entities/TokenMetrics';

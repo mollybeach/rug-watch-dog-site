@@ -1,4 +1,5 @@
-import { TokenMetrics } from './data';
+// path: src/types/api.ts
+import { TokenMetricsType } from './data';
 
 export interface TokenAnalysisRequest {
     token_address: string;
@@ -27,6 +28,6 @@ export interface TokenStatsResponse {
     totalTokens: number;
     rugPulls: number;
     legitimateTokens: number;
-    averageMetrics: TokenMetrics;
+    averageMetrics: TokenMetricsType;
     lastUpdated: string;
 } 

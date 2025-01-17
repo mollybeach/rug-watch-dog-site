@@ -1,17 +1,41 @@
 import { loadExistingData } from '../data-processing/trainingData';
 import { trainModel } from '../training/modelTrainer';
 import { evaluateModel, printEvaluationReport } from '../training/modelEvaluator';
-import { BaseMetrics, TrainingData } from '../types/metrics';
+import { TrainingData } from '../types/data';
 
 async function main() {
     try {
         console.log('Loading training data...');
         const baseMetrics = await loadExistingData();
-        
-        // Convert BaseMetrics to TrainingData format
-        const trainingData: TrainingData[] = baseMetrics.map((metrics, index) => ({
-            ...metrics,
-            address: `token_${index}` // Use a placeholder address since we don't have the real one
+
+        const trainingData: TrainingData[] = baseMetrics.map((token, index) => ({
+            address: token.address,
+            name: token.name,
+            symbol: token.symbol,
+            metadata: token.metrics.metadata,
+            tokenAddress: token.metrics.tokenAddress,
+            volumeAnomaly: token.metrics.volumeAnomaly,
+            holderConcentration: token.metrics.holderConcentration,
+            liquidityScore: token.metrics.liquidityScore,
+            priceVolatility: token.metrics.priceVolatility,
+            sellPressure: token.metrics.sellPressure,
+            marketCapRisk: token.metrics.marketCapRisk,
+            bundlerActivity: token.metrics.bundlerActivity,
+            accumulationRate: token.metrics.accumulationRate,
+            stealthAccumulation: token.metrics.stealthAccumulation,
+            suspiciousPattern: token.metrics.suspiciousPattern,
+            isRugPull: token.metrics.isRugPull,
+            timestamp: token.metrics.timestamp,
+            holders: token.metrics.holders,
+            totalSupply: token.metrics.totalSupply,
+            currentPrice: token.metrics.currentPrice,
+            isHoneyPot: token.metrics.isHoneyPot,
+            price: token.price.price,
+            volume24h: token.price.volume24h,
+            marketCap: token.price.marketCap,
+            liquidity: token.price.liquidity,
+            createdAt: token.createdAt,
+            updatedAt: token.updatedAt
         }));
 
         // Split data into training and test sets

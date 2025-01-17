@@ -1,29 +1,21 @@
-import { Sequelize } from 'sequelize';
-import { initToken } from './models/Token';
+import { createClient } from 'edgedb';
 
-const sequelize = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost:5432/rugwatchdog', {
-    dialect: 'postgres',
-    logging: false,
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    }
+const edgedbClient = createClient({
+    dsn: process.env.EDGE_CONNECTION_STRING
 });
 
-// Initialize models
-export const Token = initToken(sequelize);
-
+export async function runQuery(query: string) {
+    const result = await edgedbClient.query(query);
+    return result;
+}
 // Test connection
 export async function testConnection() {
     try {
-        await sequelize.authenticate();
-        console.log('Database connection established successfully.');
+        await edgedbClient.ensureConnected();
+        console.log('✅ EdgeDB connection successful');
     } catch (error) {
-        console.error('Unable to connect to the database:', error);
-        throw error;
+        console.error('❌ EdgeDB connection failed:', error);
     }
 }
 
-export default sequelize; 
+export { edgedbClient }; 

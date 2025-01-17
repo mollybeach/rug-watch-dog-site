@@ -1,7 +1,7 @@
+// path: src/scripts/collect-data.ts
 import { fetchTokenData } from '../data-harvesting/fetcher';
 import { dataCollector } from '../data-harvesting/collector';
-import { AppDataSource } from '../db/data-source';
-import { TokenData } from '../types/token';
+import { TokenDataType } from '../types/data';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -13,30 +13,38 @@ async function processTrainingData(filePath: string): Promise<void> {
         console.log(`Read ${rawTrainingData.length} records from training data file`);
         
         // Map the data to match our TokenData interface
-        const trainingData: TokenData[] = rawTrainingData.map((data: any) => ({
+        const trainingData: TokenDataType[] = rawTrainingData.map((data: any) => ({
             address: data.token, // Map token field to address
             name: data.name,
             symbol: data.symbol,
             metrics: {
+                metadata: data.metadata?? { reason: '' },
+                tokenAddress: data.tokenAddress,
                 volumeAnomaly: data.volumeAnomaly ?? 0,
                 holderConcentration: data.holderConcentration ?? 0,
                 liquidityScore: data.liquidityScore ?? 0,
                 priceVolatility: data.priceVolatility ?? 0,
                 sellPressure: data.sellPressure ?? 0,
                 marketCapRisk: data.marketCapRisk ?? 0,
-                isRugPull: data.isRugPull ?? false,
                 bundlerActivity: data.bundlerActivity ?? false,
                 accumulationRate: data.accumulationRate ?? 0,
                 stealthAccumulation: data.stealthAccumulation ?? 0,
                 suspiciousPattern: data.suspiciousPattern, // This can be null
-                metadata: data.metadata ?? {}
+                isRugPull: data.isRugPull ?? false,
+                timestamp: data.timestamp,
+                holders: data.holders ?? 0,
+                total_supply: data.total_supply ?? 0,
+                current_price: data.current_price ?? 0,
+                is_honeypot: data.is_honeypot ?? false
             },
             price: {
                 price: 0, // These fields aren't in training data
                 volume24h: 0,
                 marketCap: 0,
                 liquidity: 0
-            }
+            },
+            createdAt: new Date(),
+            updatedAt: new Date()
         }));
         
         console.log(`Mapped ${trainingData.length} tokens for processing`);
@@ -55,16 +63,9 @@ async function processTrainingData(filePath: string): Promise<void> {
             }
         }
         
-        // Flush any remaining data
-        try {
-            await dataCollector.flushRemaining();
-            console.log('\nProcessing Summary:');
-            console.log(`Successfully processed: ${successCount} tokens`);
-            console.log(`Failed to process: ${errorCount} tokens`);
-        } catch (error) {
-            console.error('Error flushing remaining data:', error);
-            throw error;
-        }
+        console.log('\nProcessing Summary:');
+        console.log(`Successfully processed: ${successCount} tokens`);
+        console.log(`Failed to process: ${errorCount} tokens`);
     } catch (error) {
         console.error('Error processing training data:', error);
         throw error;
@@ -103,7 +104,6 @@ async function processTokens(tokenAddresses: string[]): Promise<void> {
 
 async function main() {
     try {
-        await AppDataSource.initialize();
         console.log('Database connection initialized');
 
         const trainingDataPath = path.join(__dirname, '../models/datasets/training.json');
@@ -124,7 +124,6 @@ async function main() {
             await processTokens(tokenAddresses);
         }
 
-        await AppDataSource.destroy();
         console.log('Database connection closed');
     } catch (error) {
         console.error('Error:', error);

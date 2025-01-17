@@ -1,5 +1,7 @@
+// src/api/server.ts
+
 import express from 'express';
-import { initializeDatabase } from '../db/data-source';
+import { edgedbClient } from '../db/data-source';
 import tokenRoutes from './routes/tokenRoutes';
 
 const app = express();
@@ -18,9 +20,9 @@ const PORT = process.env.PORT || 3000;
 
 async function startServer() {
     try {
-        // Initialize database connection
-        await initializeDatabase();
-        console.log('Database connection initialized');
+        // Ensure EdgeDB client is ready
+        await edgedbClient.ensureConnected();
+        console.log('EdgeDB client connected');
 
         // Start the server
         app.listen(PORT, () => {

@@ -27,21 +27,21 @@
         "typecheck": "tsc --noEmit"
     },
     "dependencies": {
+        "@jest/types": "^29.6.3",
         "@tensorflow/tfjs-node": "^4.11.0",
         "@types/sequelize": "^4.28.20",
         "axios": "^1.5.0",
         "dotenv": "^16.3.1",
+        "edgedb": "^1.5.12",
         "ethers": "^6.7.1",
         "express": "^4.18.2",
         "ioredis": "^5.4.2",
         "p-limit": "^6.2.0",
-        "pg": "^8.13.1",
         "reflect-metadata": "^0.2.2",
-        "sequelize": "^6.37.5",
-        "sqlite3": "^5.1.6",
         "typeorm": "^0.3.20"
     },
     "devDependencies": {
+        "@edgedb/generate": "^0.5.6",
         "@types/express": "^4.17.17",
         "@types/jest": "^29.5.5",
         "@types/node": "^20.17.12",

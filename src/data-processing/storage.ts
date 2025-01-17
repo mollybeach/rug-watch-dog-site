@@ -1,12 +1,12 @@
 //path: /storage.ts
-import { TokenData } from '../types/data';
+import { TokenDataType } from '../types/data';
 import fs from 'fs/promises';
 import path from 'path';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const TRAINING_FILE = path.join(DATA_DIR, 'training_data.json');
 
-export async function loadExistingData(): Promise<TokenData[]> {
+export async function loadExistingData(): Promise<TokenDataType[]> {
     try {
         await fs.mkdir(DATA_DIR, { recursive: true });
         const data = await fs.readFile(TRAINING_FILE, 'utf-8');
@@ -17,7 +17,7 @@ export async function loadExistingData(): Promise<TokenData[]> {
     }
 }
 
-export async function appendTokenData(tokenData: TokenData): Promise<void> {
+export async function appendTokenData(tokenData: TokenDataType): Promise<void> {
     try {
         await fs.mkdir(DATA_DIR, { recursive: true });
         const existingData = await loadExistingData();

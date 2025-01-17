@@ -1,54 +1,74 @@
-export interface TokenMetrics {
+// path: src/types/data.ts
+
+export interface TokenMetricsType {
+    metadata: string;
+    tokenAddress: string;
     volumeAnomaly: number;
     holderConcentration: number;
     liquidityScore: number;
     priceVolatility: number;
     sellPressure: number;
     marketCapRisk: number;
-}
-
-export interface BaseMetrics extends TokenMetrics {
-    isRugPull: boolean;
     bundlerActivity: boolean;
     accumulationRate: number;
-    stealthAccumulation: number;
-    suspiciousPattern: boolean | null;
-    metadata: Record<string, any>;
+    stealthAccumulation: number | null;
+    suspiciousPattern: string | null;
+    isRugPull: boolean;
+    timestamp: string;
+    holders: number;
+    totalSupply: number;
+    currentPrice: number;
+    isHoneyPot: boolean;
 }
-
-export interface TokenData {
+export interface TokenPriceType {
+    tokenAddress: string;
+    price: number;
+    volume24h: number;
+    marketCap: number;
+    liquidity: number;
+    timestamp: Date;
+}
+export interface TokenDataType {
+    address: string;
+    name: string;
+    symbol: string
+    metrics: TokenMetricsType;
+    price: TokenPriceType;
+    createdAt: Date;
+    updatedAt: Date;
+}
+export interface TrainingData {
     address: string;
     name: string;
     symbol: string;
-    metrics: TokenMetrics & {
-        isRugPull: boolean;
-        bundlerActivity: boolean;
-        accumulationRate: number;
-        stealthAccumulation: number;
-        suspiciousPattern: boolean | null;
-        metadata: Record<string, any>;
-    };
-    price: {
-        price: number;
-        volume24h: number;
-        marketCap: number;
-        liquidity: number;
-    };
+    metadata: string;
+    tokenAddress: string;
+    volumeAnomaly: number;
+    holderConcentration: number;
+    liquidityScore: number;
+    priceVolatility: number;
+    sellPressure: number;
+    marketCapRisk: number;
+    bundlerActivity: boolean;
+    accumulationRate: number;
+    stealthAccumulation: number | null;
+    suspiciousPattern: string | null;
+    isRugPull: boolean;
+    timestamp: string;
+    holders: number;
+    totalSupply: number;
+    currentPrice: number;
+    isHoneyPot: boolean;
+    price: number;
+    volume24h: number;
+    marketCap: number;
+    liquidity: number;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
-export interface TrainingData extends BaseMetrics {
-    // Training data only needs the core metrics
-}
-
-export interface TokenAnalysis {
-    token: string;
-    rug_pull_probability: number;
-    metrics: TokenMetrics;
-    bundler_activity: boolean;
-    accumulation_rate: number;
-    stealth_accumulation: number;
-    suspicious_pattern: boolean | null;
-    reason: string;
+export interface TokenAnalysis extends TokenDataType {
+    // TokenAnalysis extends TokenData with additional fields
 }
 
 export interface ReasonMessage {

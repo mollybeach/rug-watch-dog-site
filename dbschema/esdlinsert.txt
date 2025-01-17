@@ -1,0 +1,206 @@
+INSERT Token {
+    address := '0x01D7367A1F1AfdC3D2667C37ef5A3723012d7757',
+    name := 'Frog Sorcerer',
+    symbol := 'FROG',
+    createdAt := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    updatedAt := <datetime>'2025-01-13T07:57:13.658565'+00.00'
+};
+
+INSERT Token {
+    address := '0x037A54AaB062628C9Bbae1FDB1583c195585fe41',
+    name := 'LCX',
+    symbol := 'LCX',
+    createdAt := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    updatedAt := <datetime>'2025-01-13T07:57:13.658565'+00.00'
+};
+
+INSERT Token {
+    address := '0x06113abCeF9D163C026441b112e70c82EE1c4A79',
+    name := 'Omira',
+    symbol := 'OMIRA',
+    createdAt := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    updatedAt := <datetime>'2025-01-13T07:57:13.658565'+00.00'
+};
+
+INSERT Token {
+    address := '0x06B964d96f5dCF7Eae9d7C559B09EDCe244d4B8E',
+    name := 'USUALX',
+    symbol := 'USUALX',
+    createdAt := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    updatedAt := <datetime>'2025-01-13T07:57:13.658565'+00.00'
+};
+
+INSERT TokenMetrics {
+    metadata := '{"reason": "Suspicious accumulation pattern"};',
+    tokenAddress := '0x4592C7A4397Fc06d94465C56616AD9D6c1A7D947',
+    volumeAnomaly := <decimal>0.2,
+    holderConcentration := <decimal>0.8,
+    liquidityScore := <decimal>0.5,
+    priceVolatility := <decimal>0.8,
+    sellPressure := <decimal>0.2,
+    marketCapRisk := <decimal>0.5,
+    bundlerActivity := false,
+    accumulationRate := <decimal>0.8095238095238095,
+    stealthAccumulation := <decimal>0.2,
+    suspiciousPattern := <optional str>'false',
+    isRugPull := false,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565+00:00',
+    holders := <decimal>0.0,
+    totalSupply := <decimal>0.0,
+    currentPrice := <decimal>0.0,
+    isHoneyPot := false
+};
+
+INSERT TokenMetrics {
+    metadata := '{"reason": "Suspicious accumulation pattern"};',
+    tokenAddress := '0x6c3ea9036406852006290770BEdFcAbA0e23A0e8',
+    volumeAnomaly := <decimal>0.2,
+    holderConcentration := <decimal>0.2,
+    liquidityScore := <decimal>0.2,
+    priceVolatility := <decimal>0.2,
+    sellPressure := <decimal>0.2,
+    marketCapRisk := <decimal>0.2,
+    bundlerActivity := false,
+    accumulationRate := <decimal>0.2868,
+    stealthAccumulation := <decimal>0.8,
+    suspiciousPattern := <optional str>"false",
+    isRugPull := false,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    holders := <decimal>0.0,
+    totalSupply := <decimal>0.0,
+    currentPrice := <decimal>0.0,
+    isHoneyPot := false
+};
+
+INSERT TokenMetrics {
+    metadata := '{"reason": "Suspicious accumulation pattern"};',
+    tokenAddress := '0x80ac24aA929eaF5013f6436cdA2a7ba190f5Cc0b',
+    volumeAnomaly := <decimal>0.2,
+    holderConcentration := <decimal>0.2,
+    liquidityScore := <decimal>0.2,
+    priceVolatility := <decimal>0.5,
+    sellPressure := <decimal>0.5,
+    marketCapRisk := <decimal>0.2,
+    bundlerActivity := false,
+    accumulationRate := <decimal>0.14668462804969315,
+    stealthAccumulation := <decimal>0.8,
+    suspiciousPattern := <optional str>"false",
+    isRugPull := false,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    holders := <decimal>0.0,
+    totalSupply := <decimal>0.0,
+    currentPrice := <decimal>0.0,
+    isHoneyPot := false
+};
+
+INSERT TokenMetrics {
+    metadata := '{"reason": "
+    tokenAddress := '0x1495bc9e44Af1F8BCB62278D2bEC4540cF0C05ea',
+    volumeAnomaly := <decimal>0.2,
+    holderConcentration := <decimal>0.2,
+    liquidityScore := <decimal>0.2,
+    priceVolatility := <decimal>0.2,
+    sellPressure := <decimal>0.2,
+    marketCapRisk := <decimal>0.2,
+    bundlerActivity := false,
+    accumulationRate := <decimal>0.2481,
+    stealthAccumulation := <decimal>0.8,
+    suspiciousPattern := <optional str>"false",
+    isRugPull := false,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    holders := <decimal>0.0,
+    totalSupply := <decimal>0.0,
+    currentPrice := <decimal>0.0,
+    isHoneyPot := false
+};
+
+INSERT TokenMetrics {
+    metadata := '{"reason": "Suspicious accumulation pattern"};',
+    tokenAddress := '0xa84f95eb3DaBdc1bbD613709ef5F2fD42CE5bE8d',
+    volumeAnomaly := <decimal>0.2,
+    holderConcentration := <decimal>0.2,
+    liquidityScore := <decimal>0.2,
+    priceVolatility := <decimal>0.2,
+    sellPressure := <decimal>0.2,
+    marketCapRisk := <decimal>0.2,
+    bundlerActivity := false,
+    accumulationRate := <decimal>0.1857,
+    stealthAccumulation := <decimal>0.8,
+    suspiciousPattern := <optional str>"false",
+    isRugPull := false,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    holders := <decimal>0.0,
+    totalSupply := <decimal>0.0,
+    currentPrice := <decimal>0.0,
+    isHoneyPot := false
+};
+
+INSERT TokenMetrics {
+    metadata := '{"reason": "Suspicious accumulation pattern"};',
+    tokenAddress := '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    volumeAnomaly := <decimal>0.2,
+    holderConcentration := <decimal>0.2,
+    liquidityScore := <decimal>0.2,
+    priceVolatility := <decimal>0.2,
+    sellPressure := <decimal>0.2,
+    marketCapRisk := <decimal>0.2,
+    bundlerActivity := false,
+    accumulationRate := <decimal>0.5256,
+    stealthAccumulation := <decimal>0.8,
+    suspiciousPattern := <optional str>"false",
+    isRugPull := false,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00',
+    holders := <decimal>0.0,
+    totalSupply := <decimal>0.0,
+    currentPrice := <decimal>0.0,
+    isHoneyPot := false
+};
+
+INSERT TokenPrices {
+    tokenAddress := '0x4592C7A4397Fc06d94465C56616AD9D6c1A7D947',
+    price := <decimal>0.00000000,
+    volume24h := <decimal>0.00,
+    marketCap := <decimal>0.00,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
+};
+
+INSERT TokenPrices {
+    tokenAddress := '0x6c3ea9036406852006290770BEdFcAbA0e23A0e8',
+    price := <decimal>0.00000000,
+    volume24h := <decimal>0.00,
+    marketCap := <decimal>0.00,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
+};
+
+INSERT TokenPrices {
+    tokenAddress := '0x80ac24aA929eaF5013f6436cdA2a7ba190f5Cc0b',
+    price := <decimal>0.00000000,
+    volume24h := <decimal>0.00,
+    marketCap := <decimal>0.00,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
+};
+
+INSERT TokenPrices {
+    tokenAddress := '0x1495bc9e44Af1F8BCB62278D2bEC4540cF0C05ea',
+    price := <decimal>0.00000000,
+    volume24h := <decimal>0.00,
+    marketCap := <decimal>0.00,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
+};
+
+INSERT TokenPrices {
+    tokenAddress := '0xa84f95eb3DaBdc1bbD613709ef5F2fD42CE5bE8d',
+    price := <decimal>0.00000000,
+    volume24h := <decimal>0.00,
+    marketCap := <decimal>0.00,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
+};
+
+INSERT TokenPrices {
+    tokenAddress := '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    price := <decimal>0.00000000,
+    volume24h := <decimal>0.00,
+    marketCap := <decimal>0.00,
+    timestamp := <datetime>'2025-01-13T07:57:13.658565'+00.00'
+};
+

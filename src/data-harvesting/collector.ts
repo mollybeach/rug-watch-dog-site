@@ -1,17 +1,19 @@
 // path: src/data-harvesting/collector.ts
-import { Token } from '../db/entities/Token';
-import { TokenMetrics } from '../db/entities/TokenMetrics';
-import { TokenPrice } from '../db/entities/TokenPrice';
-import { AppDataSource } from '../db/data-source';
-import { TokenData } from '../types/token';
-import { In } from 'typeorm';
+import { edgedbClient } from '../db/data-source';
+import edgeql from '../../dbschema/edgeql-js';
+import { TokenDataType} from '../types/data';
+
 
 class DataCollector {
-    private tokenBatch: TokenData[] = [];
+    private tokenBatch: TokenDataType[] = [];
     private readonly BATCH_SIZE = 50;
     private processingBatch = false;
 
-    async collectAndStoreTokenData(tokenData: TokenData): Promise<void> {
+    async collectAndStoreTokenData(tokenData: TokenDataType): Promise<void> {
+        if (!tokenData?.address || !tokenData?.name || !tokenData?.symbol || !tokenData?.metrics || !tokenData?.price || !tokenData?.createdAt || !tokenData?.updatedAt) {
+            throw new Error('Invalid token data provided');
+        }
+        
         this.tokenBatch.push(tokenData);
         
         if (this.tokenBatch.length >= this.BATCH_SIZE && !this.processingBatch) {
@@ -20,91 +22,52 @@ class DataCollector {
     }
 
     private async processBatch(): Promise<void> {
-        if (this.processingBatch || this.tokenBatch.length === 0) return;
-        
-        this.processingBatch = true;
-        const batchToProcess = [...this.tokenBatch];
-        this.tokenBatch = [];
-
-        const queryRunner = AppDataSource.createQueryRunner();
-        await queryRunner.connect();
-        await queryRunner.startTransaction();
-
         try {
-            // Process tokens in bulk
-            const tokenRepository = queryRunner.manager.getRepository(Token);
-            const tokenAddresses = batchToProcess.map(data => data.address);
-            
-            // Check existing tokens
-            const existingTokens = await tokenRepository.find({
-                where: { address: In(tokenAddresses) }
-            });
-            const existingAddresses = new Set(existingTokens.map(t => t.address));
-            
-            // Prepare new tokens
-            const newTokens = batchToProcess
-                .filter(data => !existingAddresses.has(data.address))
-                .map(data => tokenRepository.create({
-                    address: data.address,
-                    name: data.name,
-                    symbol: data.symbol
-                }));
+            this.processingBatch = true;
+            const batch = this.tokenBatch.splice(0, this.BATCH_SIZE);
 
-            if (newTokens.length > 0) {
-                await tokenRepository.save(newTokens);
-            }
+            const queries = batch.map(tokenData => edgeql.insert(edgeql.Token, {
+                address: tokenData.address,
+                name: tokenData.name,
+                symbol: tokenData.symbol,
+                metrics: edgeql.insert(edgeql.TokenMetrics, {
+                    holderConcentration: tokenData.metrics.holderConcentration.toString(),
+                    liquidityScore: tokenData.metrics.liquidityScore.toString(),
+                    marketCapRisk: tokenData.metrics.marketCapRisk.toString(),
+                    timestamp: new Date(tokenData.metrics.timestamp),
+                    metadata: JSON.stringify(tokenData.metrics.metadata),
+                    tokenAddress: tokenData.address,
+                    volumeAnomaly: tokenData.metrics.volumeAnomaly.toString(),
+                    priceVolatility: tokenData.metrics.priceVolatility.toString(),
+                    sellPressure: tokenData.metrics.sellPressure.toString(),
+                    bundlerActivity: tokenData.metrics.bundlerActivity,
+                    accumulationRate: tokenData.metrics.accumulationRate.toString(),
+                    stealthAccumulation: tokenData.metrics.stealthAccumulation?.toString(),
+                    suspiciousPattern: tokenData.metrics.suspiciousPattern,
+                    isRugPull: tokenData.metrics.isRugPull,
+                    holders: tokenData.metrics.holders,
+                    totalSupply: tokenData.metrics.totalSupply,
+                    currentPrice: tokenData.metrics.currentPrice,
+                    isHoneyPot: tokenData.metrics.isHoneyPot
+                }),
+                prices: edgeql.insert(edgeql.TokenPrices, {
+                    tokenAddress: tokenData.address,
+                    price: tokenData.price.price.toString(),
+                    volume24h: tokenData.price.volume24h,
+                    marketCap: tokenData.price.marketCap,
+                    liquidity: tokenData.price.liquidity,
+                    timestamp: new Date(tokenData.price.timestamp),
+                }),
+                createdAt: tokenData.createdAt,
+                updatedAt: tokenData.updatedAt
+            }));
 
-            // Process metrics in bulk
-            const metricsRepository = queryRunner.manager.getRepository(TokenMetrics);
-            const metricsEntities = batchToProcess.map(data => 
-                metricsRepository.create({
-                    tokenAddress: data.address,
-                    volumeAnomaly: data.metrics.volumeAnomaly ?? 0,
-                    holderConcentration: data.metrics.holderConcentration ?? 0,
-                    liquidityScore: data.metrics.liquidityScore ?? 0,
-                    priceVolatility: data.metrics.priceVolatility ?? 0,
-                    sellPressure: data.metrics.sellPressure ?? 0,
-                    marketCapRisk: data.metrics.marketCapRisk ?? 0,
-                    bundlerActivity: data.metrics.bundlerActivity ?? false,
-                    accumulationRate: data.metrics.accumulationRate ?? 0,
-                    stealthAccumulation: data.metrics.stealthAccumulation ?? 0,
-                    suspiciousPattern: data.metrics.suspiciousPattern,
-                    isRugPull: data.metrics.isRugPull,
-                    metadata: data.metrics.metadata ?? {}
-                })
-            );
-            await metricsRepository.save(metricsEntities);
-
-            // Process prices in bulk
-            const priceRepository = queryRunner.manager.getRepository(TokenPrice);
-            const priceEntities = batchToProcess.map(data =>
-                priceRepository.create({
-                    tokenAddress: data.address,
-                    price: data.price.price,
-                    volume24h: data.price.volume24h,
-                    marketCap: data.price.marketCap,
-                    liquidity: data.price.liquidity
-                })
-            );
-            await priceRepository.save(priceEntities);
-
-            await queryRunner.commitTransaction();
-            console.log(`✅ Successfully processed batch of ${batchToProcess.length} tokens`);
+            await Promise.all(queries.map(query => query.run(edgedbClient)));
         } catch (error) {
-            console.error('Error processing batch:', error);
-            await queryRunner.rollbackTransaction();
-            
-            // Requeue failed items
-            this.tokenBatch = [...this.tokenBatch, ...batchToProcess];
+            console.error('Error processing token batch:', error);
+            throw error;
         } finally {
             this.processingBatch = false;
-            await queryRunner.release();
-        }
-    }
-
-    async flushRemaining(): Promise<void> {
-        if (this.tokenBatch.length > 0) {
-            await this.processBatch();
         }
     }
 }

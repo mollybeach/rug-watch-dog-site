@@ -1,26 +1,31 @@
 //path: src/training/modelTrainer.ts
 import * as tf from '@tensorflow/tfjs-node';
-import { BaseMetrics, TrainingData } from '../types/metrics';
+import { TokenMetrics, TrainingData } from '../types/metrics';
 import { preprocessTokenData } from '../data-processing/parser';
 import path from 'path';
 
 export async function trainModel(trainingData: TrainingData[]): Promise<tf.LayersModel> {
     try {
         // Convert training data to base metrics format
-        const processedData: BaseMetrics[] = trainingData.map(data => ({
+        const processedData: TokenMetrics[] = trainingData.map(data => ({
             volumeAnomaly: data.volumeAnomaly,
             holderConcentration: data.holderConcentration,
             liquidityScore: data.liquidityScore,
             priceVolatility: data.priceVolatility,
             sellPressure: data.sellPressure,
             marketCapRisk: data.marketCapRisk,
-            bundlerActivity: data.bundlerActivity,
+            bundlerActivity: data.bundlerActivity ? 1 : 0,
             accumulationRate: data.accumulationRate,
             stealthAccumulation: data.stealthAccumulation,
-            suspiciousPattern: data.suspiciousPattern,
+            suspiciousPattern: data.suspiciousPattern ? 'true' : 'false',
             isRugPull: data.isRugPull,
             metadata: data.metadata,
-            timestamp: data.timestamp
+            tokenAddress: data.tokenAddress,
+            timestamp: data.timestamp,
+            holders: data.holders,
+            total_supply: data.total_supply,
+            current_price: data.current_price,
+            is_honeypot: data.is_honeypot
         }));
 
         const { features, labels } = preprocessTokenData(processedData);

@@ -9,6 +9,7 @@ Check out the live demo: [RugWatchDog](https://rugwatchdog.vercel.app/)
 
 - **AI Risk Analysis**: Automatically analyze meme coins for risks like insider holding %, sniper wallet activity, and volume anomalies.
 - **Blockchain Data Fetching**: Integrates with APIs (Etherscan, DexScreener) to fetch real-time token and transaction data.
+- **EdgeDB Database**: Stores and retrieves token data and model predictions.
 - **Eliza Chatbot Integration**: Interact with a conversational AI assistant on Discord, Telegram, and Twitter for real-time insights.
 - **FUD Alerts**: Automatically generate social media alerts for high-risk tokens to keep the community informed.
 - **Customizable AI Models**: Train and adapt the AI to detect emerging fraud patterns in the crypto ecosystem.
@@ -122,92 +123,106 @@ For more details on each step, see the documentation below.
 
 
 
-## �� Project Structure
+## 🔧 Database Schema
 
+The database schema is defined in the `dbschema` directory. The schema is specified in the `default.esdl` file. You can generate the schema using the EdgeDB CLI with the following command:
+
+```bash
+edgedb schema generate
 ```
-rug-watch-dog/
-├── .git/
-├── .vscode/
-├── assets/
-│   └── images/
-│   │   └── rug-watch-dog.png
-├── dist/
-├── node_modules/
-├── src/
-│   ├── agents/
-│   │   ├── eliza.character.json
-│   │   ├── rugwatchdog.character.json
-│   │   ├── tate.character.json
-│   │   └── trump.character.json
-│   ├── api/
-│   │   ├── middleware/
-│   │   │   └── auth.ts
-│   │   ├── routes/
-│   │   │   ├── analyze.ts
-│   │   │   ├── metrics.ts
-│   │   │   └── tokens.ts
-│   │   └── server.ts
-│   ├── config/
-│   │   ├── default.ts
-│   │   └── index.ts
-│   ├── data-harvesting/
-│   │   ├── collector.ts
-│   │   ├── fetcher.ts
-│   │   ├── chainMonitor.ts
-│   │   └── tokenScanner.ts
-│   ├── data-processing/
-│   │   ├── metrics.ts
-│   │   ├── parser.ts
-│   │   └── storage.ts
-│   ├── db/
-│   │   ├── migrations/
-│   │   ├── models/
-│   │   │   └── Token.ts
-│   │   ├── seeders/
-│   │   └── connection.ts
-│   ├── integrations/
-│   ├── models/
-│   │   ├── datasets/
-│   │   │   └── training.json
-│   │   └── trained/
-│   │       ├── model.json
-│   │       └── weights.bin
-│   ├── monitor/
-│   │   └── collector.ts
-│   ├── scripts/
-│   │   ├── clean-db.ts
-│   │   ├── collect-data.ts
-│   │   └── train.ts
-│   ├── tests/
-│   │   ├── api/
-│   │   │   └── routes/
-│   │   │         └── tokens.test.ts
-│   │   ├── db/
-│   │   └── services/
-│   │       └── ml/
-│   │             └── predictor.test.ts
-│   ├── training/
-│   │   ├── modelEvaluator.ts
-│   │   ├── modelPredictor.ts
-│   │   └── modelTrainer.ts
-│   ├── types/
-│   │   ├── api.ts
-│   │   └── data.ts
-│   ├── utils/
-│   │   └── utils.ts
-│   └── index.ts
-├── .DS_Store
-├── .env
-├── .env.example
-├── .gitignore
-├── Dockerfile
-├── jest.config.ts
-├── LICENSE
-├── package.json
-├── pnpm-lock.yaml
-├── README.md
-└── tsconfig.json
+
+## 🔧 Database Migrations
+
+Database migrations are managed in the `migrations` directory. You can generate migrations using the EdgeDB CLI with the following command:
+
+```bash
+edgedb migration generate
 ```
+
+## Using EdgeDB Shell
+
+1. **Open EdgeDB Shell**:
+   Run the following command in your terminal to open the EdgeDB interactive shell:
+   ```bash
+   edgedb
+   ```
+
+2. **List All Object Types**:
+   Use the following EdgeQL command to list all object types (tables) and their properties:
+   ```edgeql
+   SELECT schema::ObjectType {
+       name,
+       properties: {
+           name,
+           target: {
+               name
+           }
+       }
+   } FILTER .name LIKE 'default::%';
+   ```
+
+## Step-by-Step Guide for Migrations
+
+1. **Create a New Migration**:
+   - Ensure your `.esdl` files reflect the current desired schema state.
+   - Run the following command to create a new migration:
+     ```bash
+     edgedb migration create
+     ```
+
+2. **Apply the Migration**:
+   - Run the following command to apply the migration:
+     ```bash
+     edgedb migrate
+     ```
+
+## Checking Data in EdgeDB
+
+To check the contents of your EdgeDB database, you can use the EdgeDB shell to run a `SELECT` query. Here’s how you can do it:
+
+- **Select Data**:
+  Execute a `SELECT` query to retrieve data from the `TokenMetrics` table. For example:
+  ```edgeql
+  SELECT TokenMetrics {
+      id,
+      metadata,
+      tokenAddress,
+      volumeAnomaly,
+      holderConcentration,
+      liquidityScore,
+      priceVolatility,
+      sellPressure,
+      marketCapRisk,
+      bundlerActivity,
+      accumulationRate,
+      stealthAccumulation,
+      suspiciousPattern,
+      isRugPull,
+      timestamp
+  };
+  ```
+
+  4. Login to EdgeDB
+  ```edgeql
+ edgedb cloud login
+  ```
+
+5. Connect to Your EdgeDB Instance:
+Use the edgedb command to connect to your EdgeDB instance. You will need the connection details such as host, port, username, and database name. Here’s an example command:
+```bash
+edgedb -H your-edgedb-host -P your-port -u your-username -d your-database
+```
+or
+```bash
+edgedb -I your-instance-name
+```
+Generate the Query builder
+```bash
+pnpm generate edgeql-js
+```
+
+To close the EdgeDB shell, type `CTRL + D` and press Enter.
+
 ---
 
 ## 🛠️ Setup
@@ -327,13 +342,3 @@ curl -X POST http://localhost:3000/analyze \
   -H "Content-Type: application/json" \
   -d '{"tokenAddress":"0x..."}'
 ```
-
-2. Train with new data:
-```bash
-pnpm train
-```
-
-## 📜 License
-
-This project is open-sourced under the MIT License - see the LICENSE file for details.
-

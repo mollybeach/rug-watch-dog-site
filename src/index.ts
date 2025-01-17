@@ -1,7 +1,7 @@
 import express from 'express';
 const cors = require('cors');
 import { normalizeFeatures } from './data-processing/parser';
-import { BaseMetrics } from './types/metrics';
+import { TokenMetrics } from './types/metrics';
 import trainingRoutes from './api/routes/training';
 import tokensRoutes from './api/routes/tokens';
 

@@ -13,13 +13,18 @@ describe('Token Analysis', () => {
             priceVolatility: 0.4,
             sellPressure: 0.2,
             marketCapRisk: 0.3,
-            bundlerActivity: 0.2,
+            bundlerActivity: 0.2 > 0,
             accumulationRate: 0.1,
             stealthAccumulation: 0.2,
-            suspiciousPattern: false,
+            suspiciousPattern: false ? 'true' : 'false',
             isRugPull: false,
             metadata: { reason: 'Test data' },
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
+            tokenAddress: '0x123',
+            holders: 1000,
+            total_supply: 1000000,
+            current_price: 1.5,
+            is_honeypot: false
         }
     };
 
