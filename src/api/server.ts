@@ -1,37 +1,27 @@
 // src/api/server.ts
 
 import express from 'express';
-import { edgedbClient } from '../db/data-source';
+import { createClient } from 'edgedb';
 import tokenRoutes from './routes/tokenRoutes';
 
 const app = express();
 app.use(express.json());
 
+const edgedbClient = createClient();
+
+app.get("/", async (req, res) => {
+    const result = await edgedbClient.querySingle(`
+    SELECT 'Hello from EdgeDB!';
+    `);
+    res.send(result);
+});
+
+
 // Use token routes
 app.use('/api/tokens', tokenRoutes);
 
-// Error handling middleware
-app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Something broke!' });
+app.listen(3000, () => {
+    console.log(`Server is running at http://localhost:3000`);
 });
 
-const PORT = process.env.PORT || 3000;
 
-async function startServer() {
-    try {
-        // Ensure EdgeDB client is ready
-        await edgedbClient.ensureConnected();
-        console.log('EdgeDB client connected');
-
-        // Start the server
-        app.listen(PORT, () => {
-            console.log(`Server running on port ${PORT}`);
-        });
-    } catch (error) {
-        console.error('Failed to start server:', error);
-        process.exit(1);
-    }
-}
-
-startServer(); 

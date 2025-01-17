@@ -1,22 +1,4 @@
 module default {
-    type Token {
-        required property address -> str {
-            constraint exclusive;  # Ensure unique token addresses
-        }
-        required property name -> str;  # Token name
-        required property symbol -> str { 
-            constraint max_len_value(10);  # Limit symbol length to a reasonable max
-        }
-        required link metrics -> TokenMetrics;
-        required link price -> TokenPrices;
-        required property createdAt -> datetime {
-            default := datetime_current();  # Default to the current timestamp
-        }
-        required property updatedAt -> datetime {
-            default := datetime_current();  # Default to the current timestamp
-        }
-    };
-
     type TokenMetrics {
         required property metadata -> str {
             default := '{}';  # Default to an empty JSON object
@@ -83,6 +65,23 @@ module default {
             default := <decimal>0.0;  # Default market capitalization to 0.0
         }
         required property timestamp -> datetime {
+            default := datetime_current();  # Default to the current timestamp
+        }
+    };
+        type Token {
+        required property address -> str {
+            constraint exclusive;  # Ensure unique token addresses
+        }
+        required property name -> str;  # Token name
+        required property symbol -> str { 
+            constraint max_len_value(10);  # Limit symbol length to a reasonable max
+        }
+        required link metrics -> TokenMetrics;
+        required link price -> TokenPrices;
+        required property createdAt -> datetime {
+            default := datetime_current();  # Default to the current timestamp
+        }
+        required property updatedAt -> datetime {
             default := datetime_current();  # Default to the current timestamp
         }
     };
