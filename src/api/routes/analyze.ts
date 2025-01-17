@@ -1,3 +1,4 @@
+import { process } from 'edgedb/dist/adapter.node';
 import { scanToken } from '../../data-harvesting/tokenScanner';
 
 async function main() {

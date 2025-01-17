@@ -2,7 +2,7 @@
 import * as tf from '@tensorflow/tfjs-node';
 import { TokenMetricsType, TrainingData } from '../types/data';
 import { preprocessTokenData } from '../data-processing/parser';
-import path from 'path';
+//import path from 'path';
 
 export async function trainModel(trainingData: TrainingData[]): Promise<tf.LayersModel> {
     try {
@@ -81,9 +81,10 @@ export async function trainModel(trainingData: TrainingData[]): Promise<tf.Layer
         });
 
         // Save model
+        /*&
         const modelPath = path.join(__dirname, '../../models/rugpull_model');
         await model.save(`file://${modelPath}`);
-        console.log(`Model saved to ${modelPath}`);
+        console.log(`Model saved to ${modelPath}`);*/
 
         // Clean up tensors
         xs.dispose();

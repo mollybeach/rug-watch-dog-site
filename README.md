@@ -176,6 +176,16 @@ edgedb migration generate
      edgedb migrate
      ```
 
+3. ** Create a new migration and apply it to the cloud instance and generate the query builder
+```bash
+     edgedb migration create 
+     edgedb migrate
+     edgedb migrate -I mollybeach/rug-watch-dog-db
+     pnpm generate edgeql-js
+```
+
+
+
 ## Checking Data in EdgeDB
 
 To check the contents of your EdgeDB database, you can use the EdgeDB shell to run a `SELECT` query. Here’s how you can do it:

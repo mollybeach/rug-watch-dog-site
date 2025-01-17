@@ -3,7 +3,9 @@ module default {
         required property metadata -> str {
             default := '{}';  # Default to an empty JSON object
         }
-        required property tokenAddress -> str;  # No default because it's unique for each token
+        required property tokenAddress -> str {
+            constraint exclusive;  # Ensure uniqueness for token addresses
+        }
         required property volumeAnomaly -> decimal {
             default := <decimal>0.0;  # Default value
         }
@@ -64,6 +66,9 @@ module default {
         required property marketCap -> decimal {
             default := <decimal>0.0;  # Default market capitalization to 0.0
         }
+        required property liquidity -> decimal {
+            default := <decimal>0.0;
+        }
         required property timestamp -> datetime {
             default := datetime_current();  # Default to the current timestamp
         }
@@ -85,4 +90,14 @@ module default {
             default := datetime_current();  # Default to the current timestamp
         }
     };
+    type ReasonMessage {
+        required property condition -> bool;
+        required property message -> str;
+    }
+
+    type TrainingData {
+        required link token -> Token;
+        required link metrics -> TokenMetrics;
+        required link price -> TokenPrices;
+    }
 };

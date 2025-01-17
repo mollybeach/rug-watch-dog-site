@@ -2,6 +2,7 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
 import { TokenDataType, TokenMetricsType, TokenPriceType } from '../types/data';
+import { process } from 'edgedb/dist/adapter.node';
 
 dotenv.config();
 
