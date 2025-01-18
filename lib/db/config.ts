@@ -1,4 +1,12 @@
 import { createClient } from 'edgedb';
+import { SELECT_TOKEN_METRICS } from '@/lib/db/queries';
+
+const edgeDBCloudClient = createClient({
+    instanceName: 'mollybeach/rug-watch-dog-db',
+    secretKey: process.env.EDGE_SECRET_KEY
+});
+
+const localClient = createClient();
 
 // Define the expected result type
 interface RiskMetrics {
@@ -14,23 +22,9 @@ interface RiskMetrics {
 }
 
 // Create an EdgeDB client
-const client = createClient();
-
 async function getRiskMetrics() {
-    // Execute the query and cast the result to the expected type
-    const result: RiskMetrics[] = await client.query(`
-        SELECT TokenMetrics {
-            tokenAddress,
-            volumeAnomaly,
-            holderConcentration,
-            liquidityScore,
-            priceVolatility,
-            sellPressure,
-            marketCapRisk,
-            isRugPull,
-            timestamp
-        };
-    `);
+    
+    const result: RiskMetrics[] = await edgeDBCloudClient.query(SELECT_TOKEN_METRICS);
 
     // Now you can access the properties safely
     result.forEach((metric) => {
@@ -42,7 +36,7 @@ getRiskMetrics().catch(console.error);
 
 // Function to get the EdgeDB client
 export function getClient() {
-    return client;
+    return edgeDBCloudClient;
 }
 
-export default client;
+export default edgeDBCloudClient;

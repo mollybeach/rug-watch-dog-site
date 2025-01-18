@@ -4,8 +4,9 @@
  */
 
 import { NextResponse } from 'next/server';
-import pool from '@/lib/db/config';
-
+import edgeDBCloudClient from '@/lib/db/config';
+import { SELECT_TOKEN_PRICES } from '@/lib/db/queries';
+import type { TokenPriceType } from '@/src/types/data';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
@@ -18,15 +19,9 @@ export async function GET(request: Request) {
             return NextResponse.json({ error: 'Token address is required' }, { status: 400 });
         }
 
-        const result = await pool.query(
-            'SELECT price, timestamp FROM token_prices WHERE tokenAddress = $1 ORDER BY timestamp DESC LIMIT 100',
-            [address]
-        );
+        const result: TokenPriceType[] = await edgeDBCloudClient.query(SELECT_TOKEN_PRICES, { address });
 
-        return NextResponse.json({
-            success: true,
-            data: result.rows
-        });
+        return NextResponse.json(result);   
     } catch (error) {
         console.error('Error fetching price history:', error);
         return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

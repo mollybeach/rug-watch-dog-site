@@ -1,9 +1,11 @@
-import { TokenData, BaseMetrics } from '../../types/data';
+import { TokenDataType, TokenMetricsType } from '../../types/data';
 
-export function processTrainingData(data: TokenData[]) {
-    const rugPulls = data.filter((t: TokenData) => t.metrics.isRugPull).length;
+export function processTrainingData(data: TokenDataType[]) {
+    const rugPulls = data.filter((t: TokenDataType) => t.metrics.isRugPull).length;
 
-    const initialMetrics: BaseMetrics = {
+    const initialMetrics: TokenMetricsType = {
+        metadata: '',
+        tokenAddress: '',
         volumeAnomaly: 0,
         holderConcentration: 0,
         liquidityScore: 0,
@@ -15,8 +17,11 @@ export function processTrainingData(data: TokenData[]) {
         stealthAccumulation: 0,
         suspiciousPattern: null,
         isRugPull: false,
-        metadata: { reason: '' },
-        timestamp: new Date().toISOString()
+        timestamp: new Date(),
+        holders: 0,
+        totalSupply: 0,
+        currentPrice: 0,
+        isHoneyPot: false
     };
 
     const totals = data.reduce((acc, token) => {
@@ -28,7 +33,7 @@ export function processTrainingData(data: TokenData[]) {
         acc.marketCapRisk += token.metrics.marketCapRisk;
         acc.bundlerActivity = acc.bundlerActivity || token.metrics.bundlerActivity;
         acc.accumulationRate += token.metrics.accumulationRate;
-        acc.stealthAccumulation += token.metrics.stealthAccumulation;
+        acc.stealthAccumulation = (acc.stealthAccumulation ?? 0) + (token.metrics.stealthAccumulation ?? 0);
         acc.suspiciousPattern = acc.suspiciousPattern || token.metrics.suspiciousPattern;
         acc.isRugPull = acc.isRugPull || token.metrics.isRugPull;
         return acc;
@@ -45,7 +50,7 @@ export function processTrainingData(data: TokenData[]) {
         marketCapRisk: totals.marketCapRisk / count,
         bundlerActivity: totals.bundlerActivity,
         accumulationRate: totals.accumulationRate / count,
-        stealthAccumulation: totals.stealthAccumulation / count,
+        stealthAccumulation: (totals.stealthAccumulation ?? 0) / count,
         suspiciousPattern: totals.suspiciousPattern,
         isRugPull: totals.isRugPull
     };

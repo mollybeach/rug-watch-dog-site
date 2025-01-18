@@ -1,4 +1,6 @@
-interface BaseMetrics {
+export interface TokenMetricsType {
+    metadata: string;
+    tokenAddress: string;
     volumeAnomaly: number;
     holderConcentration: number;
     liquidityScore: number;
@@ -7,22 +9,46 @@ interface BaseMetrics {
     marketCapRisk: number;
     bundlerActivity: boolean;
     accumulationRate: number;
-    stealthAccumulation: number;
-    suspiciousPattern: boolean | null;
+    stealthAccumulation: number | null;
+    suspiciousPattern: string | null;
     isRugPull: boolean;
-    metadata: { reason: string };
-    timestamp: string;
+    timestamp: Date;
+    holders: number;
+    totalSupply: number;
+    currentPrice: number;
+    isHoneyPot: boolean;
+}
+export interface TokenPriceType {
+    tokenAddress: string;
+    price: number;
+    volume24h: number;
+    marketCap: number;
+    liquidity: number;
+    timestamp: Date;
 }
 
-interface TokenData {
+export interface RiskMetricsType {
+    overall: number;
+    liquidity: number;
+    concentration: number;
+    volatility: number;
+    social: number;
+    technical: number;
+}
+export interface TokenDataType {
     address: string;
     name: string;
-    symbol: string;
-    metrics: BaseMetrics;
+    symbol: string
+    metrics: TokenMetricsType;
+    price: TokenPriceType;
+    createdAt: Date;
+    updatedAt: Date;
+    riskMetrics?: RiskMetricsType;
 }
 
-interface TrainingData extends BaseMetrics {
-    address: string;
+export type TokensType = TokenDataType[];
+
+export interface TrainingData extends TokenMetricsType {
 }
 
-export type { BaseMetrics, TokenData, TrainingData }; 
+ 

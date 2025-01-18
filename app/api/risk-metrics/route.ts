@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
-import client from '@/lib/db/config';
-import type { TokenMetrics } from '@/src/types/metrics';
+import edgeDBCloudClient from '@/lib/db/config';
+import type { TokenDataType } from '@/src/types/data';
 import { predictRisk } from '@/src/training/modelPredictor';
+import { SELECT_TOKEN } from '@/lib/db/queries';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -9,49 +10,23 @@ export const revalidate = 0;
 
 export async function GET(request: Request) {
     try {
-        const { searchParams } = new URL(request.url);
-        const id = searchParams.get('id');
+        const query = SELECT_TOKEN;
+        const result: TokenDataType[] = await edgeDBCloudClient.query(query);
 
-        if (!id) {
-            return NextResponse.json({ error: 'Token ID is required' }, { status: 400 });
-        }
-
-        // Validate UUID format
-        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-        if (!uuidRegex.test(id)) {
-            return NextResponse.json({ error: 'Invalid UUID format' }, { status: 400 });
-        }
-
-        const result: TokenMetrics[] = await client.query(`
-            SELECT TokenMetrics {
-                tokenAddress,
-                volumeAnomaly,
-                holderConcentration,
-                liquidityScore,
-                priceVolatility,
-                sellPressure,
-                marketCapRisk,
-                isRugPull,
-                timestamp
-            } FILTER .id = <uuid>$0
-        `, [id]);
-
-        console.log('Database query result:', result);
         if (result.length === 0) {
-            return NextResponse.json({ error: 'Token not found' }, { status: 404 });
+            return NextResponse.json({ error: 'No tokens found' }, { status: 404 });
         }
 
-        const tokenData: TokenMetrics = result[0];
-        const riskMetrics = predictRisk(tokenData);
+        const riskMetrics = result.map(tokenData => predictRisk(tokenData));
 
         return NextResponse.json({
             success: true,
             data: riskMetrics,
             metadata: {
-                totalTokens: 1, // Example metadata
-                highRiskCount: 0,
-                mediumRiskCount: 1,
-                lowRiskCount: 0,
+                totalTokens: result.length,
+                highRiskCount: riskMetrics.filter(rm => rm.riskCategory === 'High').length,
+                mediumRiskCount: riskMetrics.filter(rm => rm.riskCategory === 'Medium').length,
+                lowRiskCount: riskMetrics.filter(rm => rm.riskCategory === 'Low').length,
                 timestamp: new Date().toISOString(),
             }
         });

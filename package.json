@@ -22,8 +22,7 @@
         "test-db": "pnpm tsc scripts/test-db.ts && pnpm node scripts/test-db.js",
         "check-db": "pnpm tsc scripts/check-db-access.ts && pnpm node scripts/check-db-access.js",
         "test": "jest -c src/tests/jest.config.ts src/tests",
-        "test:watch": "jest --watch",
-        "insert-token-metrics": "pnpm node scripts/insertTokenMetrics.js"
+        "test:watch": "jest --watch"
     },
     "dependencies": {
         "@ethersproject/providers": "^5.7.2",

@@ -132,7 +132,6 @@ The schema is generated using the `edgedb-cli` command `edgedb schema generate`.
 The database migrations are defined in the `migrations` directory. The migrations are generated using the `edgedb-cli` command `edgedb migration generate`.
 
 
-
 Using EdgeDB Shell
 1. Open EdgeDB Shell:
 Run the following command in your terminal to open the EdgeDB interactive shell:
@@ -177,24 +176,39 @@ edgedb migrate -I mollybeach/rug-watch-dog-db
 To check the contents of your EdgeDB database, you can use the EdgeDB shell to run a SELECT query. Here’s how you can do it:
 Select Data:
 Execute a SELECT query to retrieve data from the TokenMetrics table. For example:
-```
+
 ```bash
-     SELECT TokenMetrics {
-         id,
-         tokenAddress,
-         volumeAnomaly,
-         holderConcentration,
-         liquidityScore,
-         priceVolatility,
-         sellPressure,
-         marketCapRisk,
-         bundlerActivity,
-         accumulationRate,
-         stealthAccumulation,
-         suspiciousPattern,
-         timestamp,
-         isRugPull
-     };
+SELECT TokenMetrics {
+    id: number,
+    metadata: string,
+    tokenAddress: string,
+    volumeAnomaly: number,
+    holderConcentration: number,
+    liquidityScore: number,
+    priceVolatility: number,
+    sellPressure: number,
+    marketCapRisk: number,
+    bundlerActivity: boolean,
+    accumulationRate: number,
+    stealthAccumulation: number,
+    suspiciousPattern: string,
+    isRugPull: boolean,
+    timestamp: Date,
+};
+```
+
+To close the EdgeDB shell, type `CTRL + D` and press Enter.
+
+
+  4. Login to EdgeDB
+  ```bash
+ edgedb cloud login
+  ```
+
+5. Connect to Your EdgeDB Instance:
+Use the edgedb command to connect to your EdgeDB instance. You will need the connection details such as host, port, username, and database name. Here’s an example command:
+```bash
+edgedb -H your-edgedb-host -P your-port -u your-username -d your-database
 ```
 
 To close the EdgeDB shell, type `CTRL + D` and press Enter.
