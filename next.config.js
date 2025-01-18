@@ -26,7 +26,7 @@ const nextConfig = {
     // Handle font loading
     transpilePackages: ['@next/font', 'next/font'],
     experimental: {
-        serverComponentsExternalPackages: ['pg', '@aws-sdk/client-rds', 'pg-native']
+        serverComponentsExternalPackages: []
     }
 };
 

@@ -3,7 +3,7 @@ import { SELECT_TOKEN_METRICS } from '@/lib/db/queries';
 
 const edgeDBCloudClient = createClient({
     instanceName: 'mollybeach/rug-watch-dog-db',
-    secretKey: process.env.EDGE_SECRET_KEY
+    secretKey: process.env.EDGEDB_SECRET_KEY
 });
 
 const localClient = createClient();
