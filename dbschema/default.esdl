@@ -3,9 +3,7 @@ module default {
         required property metadata -> str {
             default := '{}';  # Default to an empty JSON object
         }
-        required property tokenAddress -> str {
-            constraint exclusive;  # Ensure uniqueness for token addresses
-        }
+        required property tokenAddress -> str;
         required property volumeAnomaly -> decimal {
             default := <decimal>0.0;  # Default value
         }
@@ -54,9 +52,7 @@ module default {
         }
     };
     type TokenPrices {
-        required property tokenAddress -> str {
-            constraint exclusive;  # Ensure uniqueness for token addresses if needed
-        }
+        required property tokenAddress -> str;
         required property price -> decimal {
             default := <decimal>0.0;  # Default value of 0.0
         }

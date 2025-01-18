@@ -3,8 +3,8 @@ import { viewExistingCloudData } from './view-cloud-db';
 import { viewExistingLocalData } from './view-local-db';
 
 async function viewExistingData() {
-    await viewExistingCloudData();
     await viewExistingLocalData();
+    await viewExistingCloudData();
     console.log('✅ Cloud and Local Database Data fetched successfully');
 }
 

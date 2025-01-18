@@ -1,5 +1,5 @@
 // path: src/scripts/check-data.ts
-import { edgedbClient } from '../db/connection/connection';
+import { edgeDBCloudClient } from '../db/connection/connection';
 import edgeql from '../../dbschema/edgeql-js';
 
 /*
@@ -8,11 +8,11 @@ async function checkData() {
         console.log('Database connection initialized');
 
         // Count total tokens
-        const tokenCount = await edgeql.count(edgeql.Token).run(edgedbClient);
+        const tokenCount = await edgeql.count(edgeql.Token).run(edgeDBCloudClient);
         console.log(`Total tokens in database: ${tokenCount}`);
 
         // Count total metrics
-        const metricsCount = await edgeql.count(edgeql.TokenMetrics).run(edgedbClient);
+        const metricsCount = await edgeql.count(edgeql.TokenMetrics).run(edgeDBCloudClient);
         console.log(`Total token metrics records: ${metricsCount}`);
 
         // Get a sample of tokens with their metrics
@@ -32,7 +32,7 @@ async function checkData() {
                 }))
             )
         })
-        ).run(edgedbClient) as Array<{ name: string; symbol: string; address: string; metrics: any }>;
+        ).run(edgeDBCloudClient) as Array<{ name: string; symbol: string; address: string; metrics: any }>;
 
         console.log('Metrics:', sampleTokens[0].metrics); // Example usage
 

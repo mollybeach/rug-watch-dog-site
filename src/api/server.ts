@@ -7,10 +7,10 @@ import tokenRoutes from './routes/tokenRoutes';
 const app = express();
 app.use(express.json());
 
-const edgedbClient = createClient();
+const edgeDBCloudClient = createClient();
 
 app.get("/", async (req, res) => {
-    const result = await edgedbClient.querySingle(`
+    const result = await edgeDBCloudClient.querySingle(`
     SELECT 'Hello from EdgeDB!';
     `);
     res.send(result);
@@ -315,7 +315,7 @@ const SAMPLE_TOKENS = [
 ];
 app.post("/", async (req, res) => {
     for (const token of SAMPLE_TOKENS) {
-        const result = await edgedbClient.querySingle(`
+        const result = await edgeDBCloudClient.querySingle(`
             INSERT Token {
                 address := ${token.address},
                 name := ${token.name},

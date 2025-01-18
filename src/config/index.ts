@@ -1,5 +1,5 @@
 // path: src/config/index.ts
-import { edgedbClient } from '../db/connection/connection';
+import { edgeDBCloudClient } from '../db/connection/connection';
 
 interface DatabaseConfig {
     client: any; // Use the appropriate type for EdgeDB client if available
@@ -11,8 +11,8 @@ interface Config {
 
 export const config: Config = {
     database: {
-        client: edgedbClient
+        client: edgeDBCloudClient
     }
 };
 
-export { edgedbClient };
+export { edgeDBCloudClient };

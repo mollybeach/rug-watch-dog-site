@@ -1,5 +1,5 @@
 // path: src/data-harvesting/collector.ts
-import { edgedbClient } from '../db/connection/connection';
+import { edgeDBCloudClient } from '../db/connection/connection';
 import edgeql from '../../dbschema/edgeql-js';
 import { TokenDataType} from '../types/data';
 class DataCollector {
@@ -61,7 +61,7 @@ class DataCollector {
                 updatedAt: tokenData.updatedAt
             }));
 
-            await Promise.all(queries.map(query => query.run(edgedbClient)));
+            await Promise.all(queries.map(query => query.run(edgeDBCloudClient)));
         } catch (error) {
             console.error('Error processing token batch:', error);
             throw error;

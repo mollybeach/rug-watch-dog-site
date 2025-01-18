@@ -1,6 +1,6 @@
 // path: src/scripts/view-cloud-db.ts
 import edgeql from '../../dbschema/edgeql-js';
-import { edgedbClient } from '../db/connection/connection';
+import { edgeDBCloudClient } from '../db/connection/connection';
 
 async function viewExistingCloudData() {
     try {
@@ -60,9 +60,9 @@ async function viewExistingCloudData() {
         }));
 
         // Execute the query
-        const tokens = await tokensQuery.run(edgedbClient);
-        const metrics = await metricsQuery.run(edgedbClient);
-        const prices = await pricesQuery.run(edgedbClient);
+        const tokens = await tokensQuery.run(edgeDBCloudClient);
+        const metrics = await metricsQuery.run(edgeDBCloudClient);
+        const prices = await pricesQuery.run(edgeDBCloudClient);
 
         // Log the results
         console.log('Existing Tokens in Cloud Database:', tokens);

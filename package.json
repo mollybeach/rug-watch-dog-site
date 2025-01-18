@@ -29,7 +29,7 @@
         "lint": "eslint . --ext .ts",
         "lint:fix": "eslint . --ext .ts --fix",
         "generate-edgeql": "pnpm generate edgeql-js",
-        "mig-cloud-gen": "edgedb migration create && edgedb migrate && edgedb migrate -I mollybeach/rug-watch-dog-db && pnpm generate edgeql-js && edgedb migrate -I mollybeach/rug-watch-dog-db && pnpm generate edgeql-js",
+        "mg-cloud-gen": "edgedb migration create && edgedb migrate && edgedb migrate -I mollybeach/rug-watch-dog-db && pnpm generate edgeql-js && edgedb migrate -I mollybeach/rug-watch-dog-db && pnpm generate edgeql-js",
         "migrate:undo": "sequelize-cli db:migrate:undo",
         "seed": "ts-node src/scripts/seed-db.ts",
         "typecheck": "tsc --noEmit"

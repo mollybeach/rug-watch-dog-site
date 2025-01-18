@@ -3,8 +3,8 @@ import { deleteAllDataFromCloudTables } from './delete-cloud-data';
 import { deleteAllDataFromLocalTables } from './delete-local-data';
 
 async function deleteAllData() {
-    await deleteAllDataFromCloudTables();
     await deleteAllDataFromLocalTables();
+    await deleteAllDataFromCloudTables();
     console.log('✅ Both Cloud and Local Database Tables Contents deleted successfully');
 }
 

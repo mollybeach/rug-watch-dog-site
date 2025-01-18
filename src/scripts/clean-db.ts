@@ -1,11 +1,11 @@
 // path: src/scripts/clean-db.ts
-import { edgedbClient } from '../db/connection/connection';
+import { edgeDBCloudClient } from '../db/connection/connection';
 async function cleanDatabase() {
     try {
-        await edgedbClient.ensureConnected();
+        await edgeDBCloudClient.ensureConnected();
         console.log('Database connection initialized');
 
-        const queryRunner = edgedbClient.transaction(async tx => {
+        const queryRunner = edgeDBCloudClient.transaction(async tx => {
             await tx.query('DELETE Token');
             await tx.query('DELETE TokenMetrics');
             await tx.query('DELETE TokenPrice');

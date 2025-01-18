@@ -1,5 +1,5 @@
 // path: src/scripts/delete-cloud-data.ts
-import { edgedbClient } from '../db/connection/connection';
+import { edgeDBCloudClient } from '../db/connection/connection';
 import edgeql from '../../dbschema/edgeql-js';
 
 async function deleteAllDataFromCloudTables() {
@@ -9,11 +9,11 @@ async function deleteAllDataFromCloudTables() {
         const deleteMetricsQuery = edgeql.delete(edgeql.TokenMetrics);
         const deletePricesQuery = edgeql.delete(edgeql.TokenPrices);
         // Execute the query
-        await deleteTokenQuery.run(edgedbClient);
+        await deleteTokenQuery.run(edgeDBCloudClient);
         console.log('✅ Cloud Database: Token table contents deleted successfully');
-        await deleteMetricsQuery.run(edgedbClient);
+        await deleteMetricsQuery.run(edgeDBCloudClient);
         console.log('✅ Cloud Database: TokenMetrics table contents deleted successfully');
-        await deletePricesQuery.run(edgedbClient);
+        await deletePricesQuery.run(edgeDBCloudClient);
         console.log('✅ Cloud Database: TokenPrices table contents deleted successfully');
             console.log('✅ Cloud Database: All Table Contents deleted successfully');
         } catch (error) {

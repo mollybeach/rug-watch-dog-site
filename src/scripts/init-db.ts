@@ -1,10 +1,10 @@
 // path: src/scripts/init-db.ts
-import { edgedbClient } from '../db/connection/connection';
+import { edgeDBCloudClient } from '../db/connection/connection';
 
 async function main() {
     try {
         // Ensure EdgeDB client is ready
-        await edgedbClient.ensureConnected();
+        await edgeDBCloudClient.ensureConnected();
         console.log('✅ EdgeDB client connected successfully');
 
         // Add any necessary EdgeDB initialization logic here

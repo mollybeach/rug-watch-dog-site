@@ -1,5 +1,5 @@
 // path: src/db/services/TokenService.ts
-import { edgedbClient } from '../connection/connection';
+import { edgeDBCloudClient } from '../connection/connection';
 import edgeql from '../../../dbschema/edgeql-js';
 import type { TokenMetricsType, TokenDataType, TokenPriceType } from '../../types/data';
 /*
@@ -31,7 +31,7 @@ export class TokenService {
             }))
         }));
 
-        await query.run(edgedbClient);
+        await query.run(edgeDBCloudClient);
     }
 
     async saveMetrics(metrics: Partial<TokenMetricsType>): Promise<void> {
@@ -40,7 +40,7 @@ export class TokenService {
             volumeAnomaly: metrics.volumeAnomaly?.toString() ?? '0'
         });
 
-        await query.run(edgedbClient);
+        await query.run(edgeDBCloudClient);
     }
 
     async getTokenWithLatestData(address: string): Promise<TokenDataType | null> {
@@ -49,7 +49,7 @@ export class TokenService {
             limit: 1,
             ...edgeql.Token['*']
         }));
-        const result = await query.run(edgedbClient);
+        const result = await query.run(edgeDBCloudClient);
         const token = result[0];
         if (!token) return null;
         return {
@@ -89,7 +89,7 @@ export class TokenService {
         const query = edgeql.select(edgeql.Token, () => ({
             ...edgeql.Token['*']
         }));
-        const result = await query.run(edgedbClient);
+        const result = await query.run(edgeDBCloudClient);
         const tokens = result.map(token => ({
             ...token,
             metrics: {
@@ -135,7 +135,7 @@ export class TokenService {
             ...edgeql.TokenMetrics['*']
         }));
 
-        const result = await query.run(edgedbClient);
+        const result = await query.run(edgeDBCloudClient);
         return result.map((item: any) => ({
             ...item,
             volumeAnomaly: parseFloat(item.volumeAnomaly),
@@ -160,7 +160,7 @@ export class TokenService {
             ...edgeql.TokenPrices['*']
         }));
 
-        const result = await query.run(edgedbClient);
+        const result = await query.run(edgeDBCloudClient);
         return result.map((item: any) => ({
             ...item,
             tokenAddress: item.tokenAddress,        

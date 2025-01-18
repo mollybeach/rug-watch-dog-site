@@ -1,8 +1,6 @@
 // path: src/scripts/view-local-db.ts
 import edgeql from '../../dbschema/edgeql-js';
-import { createClient } from 'edgedb';
-
-const localClient = createClient();
+import { localClient } from '../db/connection/connection';
 
 async function viewExistingLocalData() {
     try {

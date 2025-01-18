@@ -1,6 +1,7 @@
 // path: src/scripts/seed-db.ts
 import edgeql from '../../dbschema/edgeql-js';
-import { edgedbClient } from '../db/connection/connection';
+import { edgeDBCloudClient } from '../db/connection/connection';
+import { localClient } from '../db/connection/connection';
 
 const SAMPLE_TOKENS = [
     {
@@ -305,16 +306,27 @@ async function seedDatabase() {
     try {
         for (const token of SAMPLE_TOKENS) {
             // Check if the token metrics already exist
-            const existingMetrics = await edgeql.select(edgeql.TokenMetrics, (metrics) => ({
+            const existingMetricsCloud = await edgeql.select(edgeql.TokenMetrics, (metrics) => ({
                 filter: edgeql.op(metrics.tokenAddress, '=', token.metrics.tokenAddress),
                 limit: 1
-            })).run(edgedbClient);
+            })).run(edgeDBCloudClient);
 
-            if (existingMetrics) {
-                console.log(`Token metrics for ${token.name} already exist. Skipping insertion.`);
+            const existingMetricsLocal = await edgeql.select(edgeql.TokenMetrics, (metrics) => ({
+                filter: edgeql.op(metrics.tokenAddress, '=', token.metrics.tokenAddress),
+                limit: 1
+            })).run(localClient);
+
+            console.log(`Checking for existing metrics for ${token.name}:`, existingMetricsCloud);
+            console.log(`Checking for existing metrics for ${token.name}:`, existingMetricsLocal);
+
+            if (existingMetricsLocal.length > 0) {
+                console.log(`Token metrics for ${token.name} already exist in Local database. Skipping insertion.`);
+                continue;
+            } else if (existingMetricsCloud.length > 0) {
+                console.log(`Token metrics for ${token.name} already exist in Cloud database. Skipping insertion.`);
                 continue;
             }
-
+            
             const metricsQuery = edgeql.insert(edgeql.TokenMetrics, {
                 metadata: JSON.stringify(token.metrics.metadata),
                 tokenAddress: token.metrics.tokenAddress,
@@ -355,10 +367,19 @@ async function seedDatabase() {
                 updatedAt: new Date(token.updatedAt)
             });
 
-            await metricsQuery.run(edgedbClient);
-            await priceQuery.run(edgedbClient);
-            await tokenQuery.run(edgedbClient);
-            console.log(`Seeded token: ${token.name}`);
+            await metricsQuery.run(edgeDBCloudClient);
+            console.log(`Seeded metrics for ${token.name} in Cloud Database`);
+            await priceQuery.run(edgeDBCloudClient);
+            console.log(`Seeded price for ${token.name} in Cloud Database`);
+            await tokenQuery.run(edgeDBCloudClient);
+            console.log(`Seeded token: ${token.name} in Cloud Database`);
+
+            await metricsQuery.run(localClient);
+            console.log(`Seeded metrics for ${token.name} in Local Database`);
+            await priceQuery.run(localClient);
+            console.log(`Seeded price for ${token.name} in Local Database`);
+            await tokenQuery.run(localClient);
+            console.log(`Seeded token: ${token.name} in Local Database`);
         }
         console.log('✅ Database seeding completed');
     } catch (error) {
