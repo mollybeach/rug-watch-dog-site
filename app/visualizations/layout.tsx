@@ -7,8 +7,7 @@
 
 import React, { useState, useEffect } from "react";
 import { visualizations } from "@/lib/data/metadata";
-import SideBar from "@/components/SideBar";
-import { Header } from "@/components/Header";
+import SideBar from "@/components/SideBar";;
 import { VisualizationType } from "@/types/types";
 
 interface LayoutProps {
@@ -29,7 +28,6 @@ export default function VisualizationsLayout({ children }: LayoutProps) {
 
   return (
     <div className="container mx-auto px-4 py-6">
-      <Header className="your-header-classes" />
       <div className="flex gap-6">
         <SideBar 
           visualizations={visualizations} 
