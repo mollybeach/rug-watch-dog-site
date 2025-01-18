@@ -19,18 +19,34 @@ interface RiskMetrics {
     address: string;
     name: string;
     symbol: string;
-    holders: number;
-    total_supply: number;
-    marketCap: string;
-    volume_24h: string;
-    current_price: string;
-    volumeAnomaly: number;
-    holderConcentration: number;
-    liquidityScore: number;
-    priceVolatility: number;
-    sellPressure: number;
-    is_honeypot: boolean;
-    isRugPull: boolean;
+    metrics: {
+        metadata: string;
+        tokenAddress: string;
+        volumeAnomaly: number;
+        holderConcentration: number;
+        liquidityScore: number;
+        priceVolatility: number;
+        sellPressure: number;
+        marketCapRisk: number;
+        bundlerActivity: boolean;
+        accumulationRate: number;
+        stealthAccumulation: number | null;
+        suspiciousPattern: string | null;
+        isRugPull: boolean;
+        timestamp: Date;
+        holders: number;
+        totalSupply: number;
+        currentPrice: number;
+        isHoneyPot: boolean;
+    };
+    price: {
+        tokenAddress: string;
+        price: number;
+        volume24h: number;
+        marketCap: number;
+        liquidity: number;
+        timestamp: Date;
+    };
     riskScore: string;
     riskCategory: 'High' | 'Medium' | 'Low';
 }
@@ -112,6 +128,9 @@ export default function RiskMetricsPage() {
 
                 const result: MetricsResponse = await response.json();
                 
+                // Log the response data
+                console.log('API Response:', result);
+
                 if (!result.success) {
                     throw new Error(result.error || 'Failed to fetch risk metrics');
                 }
@@ -282,13 +301,13 @@ export default function RiskMetricsPage() {
                                             </div>
                                         </td>
                                         <td className="px-4 py-2">
-                                            ${formatPrice(token.current_price)}
+                                            ${formatPrice(token.price.price)}
                                         </td>
                                         <td className="px-4 py-2">
-                                            {formatLargeNumber(token.volume_24h)}
+                                            {formatLargeNumber(token.price.volume24h)}
                                         </td>
                                         <td className="px-4 py-2">
-                                            {formatLargeNumber(token.marketCap)}
+                                            {formatLargeNumber(token.price.marketCap)}
                                         </td>
                                         <td className="px-4 py-2">
                                             {token.riskScore}
@@ -315,19 +334,19 @@ export default function RiskMetricsPage() {
 
 function calculateAverageMetrics(tokens: RiskMetrics[]) {
     if (!tokens.length) return {
-        volumeAnomaly: 0,
-        holderConcentration: 0,
-        liquidityScore: 0,
-        priceVolatility: 0,
-        sellPressure: 0
+        volumeAnomaly: tokens.reduce((sum, t) => sum + t.metrics.volumeAnomaly, 0) / tokens.length,
+        holderConcentration: tokens.reduce((sum, t) => sum + t.metrics.holderConcentration, 0) / tokens.length,
+        liquidityScore: tokens.reduce((sum, t) => sum + t.metrics.liquidityScore, 0) / tokens.length,
+        priceVolatility: tokens.reduce((sum, t) => sum + t.metrics.priceVolatility, 0) / tokens.length,
+        sellPressure: tokens.reduce((sum, t) => sum + t.metrics.sellPressure, 0) / tokens.length
     };
 
     return {
-        volumeAnomaly: tokens.reduce((sum, t) => sum + t.volumeAnomaly, 0) / tokens.length,
-        holderConcentration: tokens.reduce((sum, t) => sum + t.holderConcentration, 0) / tokens.length,
-        liquidityScore: tokens.reduce((sum, t) => sum + t.liquidityScore, 0) / tokens.length,
-        priceVolatility: tokens.reduce((sum, t) => sum + t.priceVolatility, 0) / tokens.length,
-        sellPressure: tokens.reduce((sum, t) => sum + t.sellPressure, 0) / tokens.length
+        volumeAnomaly: tokens.reduce((sum, t) => sum + t.metrics.volumeAnomaly, 0) / tokens.length,
+        holderConcentration: tokens.reduce((sum, t) => sum + t.metrics.holderConcentration, 0) / tokens.length,
+        liquidityScore: tokens.reduce((sum, t) => sum + t.metrics.liquidityScore, 0) / tokens.length,
+        priceVolatility: tokens.reduce((sum, t) => sum + t.metrics.priceVolatility, 0) / tokens.length,
+        sellPressure: tokens.reduce((sum, t) => sum + t.metrics.sellPressure, 0) / tokens.length
     };
 }
 

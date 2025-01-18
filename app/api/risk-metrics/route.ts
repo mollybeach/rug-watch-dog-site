@@ -17,16 +17,28 @@ export async function GET(request: Request) {
             return NextResponse.json({ error: 'No tokens found' }, { status: 404 });
         }
 
-        const riskMetrics = result.map(tokenData => predictRisk(tokenData));
+        // Combine token data with risk metrics
+        const riskMetrics = result.map(tokenData => {
+            const risk = predictRisk(tokenData.metrics);
+            return {
+                ...tokenData, // Include original token data
+                riskMetrics: risk // Add risk metrics
+            };
+        });
+
+        // Calculate risk counts
+        const highRiskCount = riskMetrics.filter(rm => rm.riskMetrics.overall > 0.7).length;
+        const mediumRiskCount = riskMetrics.filter(rm => rm.riskMetrics.overall > 0.4 && rm.riskMetrics.overall <= 0.7).length;
+        const lowRiskCount = riskMetrics.filter(rm => rm.riskMetrics.overall <= 0.4).length;
 
         return NextResponse.json({
             success: true,
             data: riskMetrics,
             metadata: {
                 totalTokens: result.length,
-                highRiskCount: riskMetrics.filter(rm => rm.riskCategory === 'High').length,
-                mediumRiskCount: riskMetrics.filter(rm => rm.riskCategory === 'Medium').length,
-                lowRiskCount: riskMetrics.filter(rm => rm.riskCategory === 'Low').length,
+                highRiskCount,
+                mediumRiskCount,
+                lowRiskCount,
                 timestamp: new Date().toISOString(),
             }
         });
