@@ -1,19 +1,13 @@
-import { edgedbClient } from '../db/connection/connection';
-import edgeql from '../../dbschema/edgeql-js';
+// path: src/scripts/delete-data.ts
+import { deleteAllDataFromCloudTables } from './delete-cloud-data';
+import { deleteAllDataFromLocalTables } from './delete-local-data';
 
-async function deleteAllTokens() {
-  try {
-    // Define the deletion query to remove all tokens
-    const deleteQuery = edgeql.delete(edgeql.Token);
-
-    // Execute the query
-    await deleteQuery.run(edgedbClient);
-
-    console.log('✅ All tokens deleted successfully');
-  } catch (error) {
-    console.error('❌ Error deleting tokens:', error);
-  }
+async function deleteAllData() {
+    await deleteAllDataFromCloudTables();
+    await deleteAllDataFromLocalTables();
+    console.log('✅ Both Cloud and Local Database Tables Contents deleted successfully');
 }
 
-// Call the function to delete all tokens
-deleteAllTokens();
+deleteAllData();
+
+

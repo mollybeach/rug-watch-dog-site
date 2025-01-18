@@ -1,3 +1,4 @@
+// path: src/scripts/init-db.ts
 import { edgedbClient } from '../db/connection/connection';
 
 async function main() {

@@ -1,3 +1,4 @@
+// path: src/scripts/seed-db.ts
 import edgeql from '../../dbschema/edgeql-js';
 import { edgedbClient } from '../db/connection/connection';
 
@@ -303,6 +304,17 @@ const SAMPLE_TOKENS = [
 async function seedDatabase() {
     try {
         for (const token of SAMPLE_TOKENS) {
+            // Check if the token metrics already exist
+            const existingMetrics = await edgeql.select(edgeql.TokenMetrics, (metrics) => ({
+                filter: edgeql.op(metrics.tokenAddress, '=', token.metrics.tokenAddress),
+                limit: 1
+            })).run(edgedbClient);
+
+            if (existingMetrics) {
+                console.log(`Token metrics for ${token.name} already exist. Skipping insertion.`);
+                continue;
+            }
+
             const metricsQuery = edgeql.insert(edgeql.TokenMetrics, {
                 metadata: JSON.stringify(token.metrics.metadata),
                 tokenAddress: token.metrics.tokenAddress,

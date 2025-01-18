@@ -1,3 +1,4 @@
+// path: src/scripts/check-data.ts
 import { edgedbClient } from '../db/connection/connection';
 import edgeql from '../../dbschema/edgeql-js';
 

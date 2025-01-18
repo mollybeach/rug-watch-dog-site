@@ -1,3 +1,4 @@
+// path: src/scripts/scan.ts
 import { dataCollector } from '../data-harvesting/collector';
 import { fetchTokenData } from '../data-harvesting/fetcher';
 import { ethers } from 'ethers';

@@ -1,10 +1,8 @@
-// path: src/scripts/view-local-db.ts
+// path: src/scripts/view-cloud-db.ts
 import edgeql from '../../dbschema/edgeql-js';
-import { createClient } from 'edgedb';
+import { edgedbClient } from '../db/connection/connection';
 
-const localClient = createClient();
-
-async function viewExistingLocalData() {
+async function viewExistingCloudData() {
     try {
         // Query to select all tokens and their related metrics and prices
 
@@ -16,16 +14,6 @@ async function viewExistingLocalData() {
             priceVolatility: true,
             sellPressure: true,
             marketCapRisk: true,
-            bundlerActivity: true,
-            accumulationRate: true,
-            stealthAccumulation: true,
-            suspiciousPattern: true,
-            isRugPull: true,
-            timestamp: true,
-            holders: true,
-            totalSupply: true,
-            currentPrice: true,
-            isHoneyPot: true
         }));
 
         const pricesQuery = edgeql.select(edgeql.TokenPrices, (price) => ({
@@ -34,7 +22,6 @@ async function viewExistingLocalData() {
             liquidity: true,
             volume24h: true,
             marketCap: true,
-            timestamp: true
         }));
 
         const tokensQuery = edgeql.select(edgeql.Token, (token) => ({
@@ -73,21 +60,20 @@ async function viewExistingLocalData() {
         }));
 
         // Execute the query
-        const tokens = await tokensQuery.run(localClient);
-        const metrics = await metricsQuery.run(localClient);
-        const prices = await pricesQuery.run(localClient);
+        const tokens = await tokensQuery.run(edgedbClient);
+        const metrics = await metricsQuery.run(edgedbClient);
+        const prices = await pricesQuery.run(edgedbClient);
 
         // Log the results
-        console.log('Existing Tokens in Local Database:', tokens);
-        console.log('Existing Metrics in Local Database:', metrics);
-        console.log('Existing Prices in Local Database:', prices);
-
+        console.log('Existing Tokens in Cloud Database:', tokens);
+        console.log('Existing Metrics in Cloud Database:', metrics);
+        console.log('Existing Prices in Cloud Database:', prices);
     } catch (error) {
-        console.error('❌ Error fetching data from Local Database:', error);
+        console.error('❌ Error fetching data from Cloud Database:', error);
     }
 }
 
 // Call the function to view existing data
-viewExistingLocalData();
+viewExistingCloudData();
 
-export { viewExistingLocalData };
+export { viewExistingCloudData };

@@ -1,3 +1,4 @@
+// path: src/scripts/clean-db.ts
 import { edgedbClient } from '../db/connection/connection';
 async function cleanDatabase() {
     try {
