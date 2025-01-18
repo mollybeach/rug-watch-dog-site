@@ -20,6 +20,7 @@
         "delete-data": "ts-node-dev --transpile-only src/scripts/delete-data.ts",
         "delete-cloud-data": "ts-node-dev --transpile-only src/scripts/delete-cloud-data.ts",
         "delete-local-data": "ts-node-dev --transpile-only src/scripts/delete-local-data.ts",
+        "query-db": "ts-node-dev --transpile-only src/scripts/query-db.ts",
         "init-db": "ts-node src/scripts/init-db.ts",
         "seed-db": "ts-node src/scripts/seed-db.ts",
         "test": "jest",

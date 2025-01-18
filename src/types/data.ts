@@ -1,5 +1,20 @@
 // path: src/types/data.ts
 
+export interface RiskMetricsType {
+    totalTokens: number;
+    highRiskCount: number;
+    mediumRiskCount: number;
+    lowRiskCount: number;
+}
+
+export interface MetricsRiskType {
+    overall: number;
+    liquidity: number;
+    concentration: number;
+    volatility: number;
+    social: number;
+    technical: number;
+}
 export interface TokenMetricsType {
     metadata: string;
     tokenAddress: string;
