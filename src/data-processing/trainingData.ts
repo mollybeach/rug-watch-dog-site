@@ -1,14 +1,11 @@
 // src/data-processing/trainingData.ts
 
-import { TokenService } from '../db/services/TokenService';
+import { getAllTokens, upsertToken, saveMetrics, getTokenWithLatestData, getTokenMetricsHistory, getTokenPriceHistory } from '../db/services/TokenService';
 import { TokenDataType } from '../types/data';
-
-const tokenService = new TokenService();
-
 
 export async function loadExistingData(): Promise<TokenDataType[]> {
     try {
-        const tokens = await tokenService.getAllTokens();
+        const tokens = await getAllTokens();
         return tokens.map(token => {
             const latestMetrics = token.metrics ?? {};
             const latestPrice = token.price ?? {};
@@ -55,6 +52,6 @@ export async function loadExistingData(): Promise<TokenDataType[]> {
 }
 
 export async function collectTrainingData(numTokens: number = 100): Promise<TokenDataType[]> {
-     console.log('hiiii collecting training data');
+    console.log('hiiii collecting training data');
     return loadExistingData();
 } 
