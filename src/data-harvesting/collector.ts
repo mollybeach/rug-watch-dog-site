@@ -68,6 +68,12 @@ class DataCollector {
             this.processingBatch = false;
         }
     }
+
+    async flushRemaining(): Promise<void> {
+        if (this.tokenBatch.length > 0) {
+            await this.processBatch();
+        }
+    }
 }
 
 export const dataCollector = new DataCollector(); 

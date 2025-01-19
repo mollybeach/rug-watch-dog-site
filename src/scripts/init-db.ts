@@ -1,5 +1,5 @@
 // path: src/scripts/init-db.ts
-import { edgeDBCloudClient } from '../db/connection/connection';
+import { edgeDBCloudClient } from '../index';
 
 async function main() {
     try {

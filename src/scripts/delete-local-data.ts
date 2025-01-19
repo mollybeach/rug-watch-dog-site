@@ -1,6 +1,5 @@
 // path: src/scripts/delete-local-data.ts
-import { localClient } from '../db/connection/connection';
-import edgeql from '../../dbschema/edgeql-js';
+import { localClient, edgeql } from '../index';
 
 async function deleteAllDataFromLocalTables() {
     try {

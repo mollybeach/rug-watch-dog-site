@@ -17,6 +17,8 @@ export async function loadExistingData(): Promise<TokenDataType[]> {
                 name: token.name,
                 symbol: token.symbol,
                 metrics: {
+                    tokenAddress: latestMetrics.tokenAddress || '',
+                    metadata: latestMetrics.metadata || '',
                     volumeAnomaly: latestMetrics.volumeAnomaly,
                     holderConcentration: latestMetrics.holderConcentration,
                     liquidityScore: latestMetrics.liquidityScore,
@@ -28,8 +30,6 @@ export async function loadExistingData(): Promise<TokenDataType[]> {
                     stealthAccumulation: latestMetrics.stealthAccumulation,
                     suspiciousPattern: latestMetrics.suspiciousPattern,
                     isRugPull: latestMetrics.isRugPull,
-                    metadata: latestMetrics.metadata || '',
-                    tokenAddress: latestMetrics.tokenAddress || '',
                     timestamp: latestMetrics.timestamp || new Date(),
                     holders: latestMetrics.holders || 0,
                     totalSupply: latestMetrics.totalSupply || 0,

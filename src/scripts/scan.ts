@@ -222,13 +222,11 @@ async function scanChain(chain: string, targetTokens: number = 50): Promise<void
             // Add delay between blocks to avoid rate limits
             await new Promise(resolve => setTimeout(resolve, 100));
         }
-        
         // Ensure proper error handling for database operations
-        await dataCollector.flushRemaining().catch(error => {
+        await dataCollector.flushRemaining().catch((error: any) => {
             console.error('Error flushing data:', error);
             throw error;
         });
-        
         console.log(`\n✨ Completed scanning ${chain}. Found ${scannedTokens} tokens.`);
         if (blocksWithoutTokens >= MAX_BLOCKS_WITHOUT_TOKENS) {
             console.log(`⚠️ Stopped scanning after ${MAX_BLOCKS_WITHOUT_TOKENS} blocks without finding new tokens.`);

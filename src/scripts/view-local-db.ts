@@ -1,6 +1,5 @@
 // path: src/scripts/view-local-db.ts
-import edgeql from '../../dbschema/edgeql-js';
-import { localClient } from '../db/connection/connection';
+import { localClient, edgeql } from '../index';
 
 async function viewExistingLocalData() {
     try {
@@ -8,6 +7,7 @@ async function viewExistingLocalData() {
 
         const metricsQuery = edgeql.select(edgeql.TokenMetrics, (metrics) => ({
             tokenAddress: true,
+            metadata: true,
             volumeAnomaly: true,
             holderConcentration: true,
             liquidityScore: true,
@@ -29,9 +29,9 @@ async function viewExistingLocalData() {
         const pricesQuery = edgeql.select(edgeql.TokenPrices, (price) => ({
             tokenAddress: true,
             price: true,
-            liquidity: true,
             volume24h: true,
             marketCap: true,
+            liquidity: true,
             timestamp: true
         }));
 
