@@ -38,6 +38,7 @@ async function main() {
             createdAt: token.createdAt,
             updatedAt: token.updatedAt
         }));
+        //console.log('trainingData', trainingData);
 
         // Split data into training and test sets
         const splitIndex = Math.floor(trainingData.length * 0.8);
@@ -47,7 +48,9 @@ async function main() {
         console.log(`Training with ${trainSet.length} samples, testing with ${testSet.length} samples`);
 
         // Train model
+
         console.log('\nTraining model...');
+       // console.log('trainSet', trainSet);
         const model = await trainModel(trainSet);
 
         // Evaluate model

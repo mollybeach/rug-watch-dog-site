@@ -37,7 +37,7 @@
     },
     "dependencies": {
         "@jest/types": "^29.6.3",
-        "@tensorflow/tfjs-node": "^4.11.0",
+        "@tensorflow/tfjs-node": "^4.22.0",
         "@types/sequelize": "^4.28.20",
         "axios": "^1.5.0",
         "cors": "^2.8.5",

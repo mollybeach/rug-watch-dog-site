@@ -13,16 +13,7 @@ export function normalizeFeatures(data: TokenMetricsType): number[] {
         data.liquidityScore,
         data.priceVolatility,
         data.sellPressure,
-        data.marketCapRisk,
-        data.bundlerActivity ? 1 : 0,
-        data.accumulationRate,
-        data.stealthAccumulation || 0,
-        data.suspiciousPattern ? 1 : 0,
-        data.isRugPull ? 1 : 0,
-        data.holders,
-        data.totalSupply,
-        data.currentPrice,
-        data.isHoneyPot ? 1 : 0,
+        data.marketCapRisk
     ];
 }
 

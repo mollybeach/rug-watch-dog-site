@@ -31,7 +31,7 @@ const CONCURRENT_REQUESTS = 10; // Increased concurrent API requests
 const BATCH_SIZE = 50; // Increased batch size for processing
 const BLOCKS_TO_CACHE = 100; // Number of blocks to cache
 
-// Cache for block data
+// Cache for block data to avoid rate limiting
 const blockCache = new Map<string, ethers.Block>();
 
 // Rate limiting settings

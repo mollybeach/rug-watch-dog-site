@@ -28,12 +28,12 @@ class DataCollector {
                 symbol: tokenData.symbol,
                 //@ts-ignore
                 metrics: edgeql.insert(edgeql.TokenMetrics, {
+                    tokenAddress: tokenData.address,
                     holderConcentration: tokenData.metrics.holderConcentration.toString(),
                     liquidityScore: tokenData.metrics.liquidityScore.toString(),
                     marketCapRisk: tokenData.metrics.marketCapRisk.toString(),
                     timestamp: new Date(tokenData.metrics.timestamp),
                     metadata: JSON.stringify(tokenData.metrics.metadata),
-                    tokenAddress: tokenData.address,
                     volumeAnomaly: tokenData.metrics.volumeAnomaly.toString(),
                     priceVolatility: tokenData.metrics.priceVolatility.toString(),
                     sellPressure: tokenData.metrics.sellPressure.toString(),

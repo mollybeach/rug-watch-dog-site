@@ -12,7 +12,7 @@ importers:
         specifier: ^29.6.3
         version: 29.6.3
       '@tensorflow/tfjs-node':
-        specifier: ^4.11.0
+        specifier: ^4.22.0
         version: 4.22.0(seedrandom@3.0.5)
       '@types/sequelize':
         specifier: ^4.28.20
