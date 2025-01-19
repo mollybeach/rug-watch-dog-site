@@ -1,5 +1,5 @@
-// path: src/scripts/delete-cloud-data.ts
-import { edgeDBCloudClient, edgeql } from '../index';
+// path: src/scripts/delete/delete-cloud-data.ts
+import { edgeDBCloudClient, edgeql } from '../../index';
 
 async function deleteAllDataFromCloudTables() {
     try {

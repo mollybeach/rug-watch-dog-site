@@ -1,5 +1,5 @@
-// path: src/scripts/view-local-db.ts
-import { localClient, edgeql } from '../index';
+// path: src/scripts/view/view-local-db.ts
+import { localClient, edgeql } from '../../index';
 
 async function viewExistingLocalData() {
     try {
@@ -25,7 +25,7 @@ async function viewExistingLocalData() {
             currentPrice: true,
             isHoneyPot: true
         }));
-
+        
         const pricesQuery = edgeql.select(edgeql.TokenPrices, (price) => ({
             tokenAddress: true,
             price: true,

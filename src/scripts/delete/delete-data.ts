@@ -1,4 +1,4 @@
-// path: src/scripts/delete-data.ts
+// path: src/scripts/delete/delete-data.ts
 import { deleteAllDataFromCloudTables } from './delete-cloud-data';
 import { deleteAllDataFromLocalTables } from './delete-local-data';
 

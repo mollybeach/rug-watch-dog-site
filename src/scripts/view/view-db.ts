@@ -1,4 +1,4 @@
-// path: src/scripts/view-db.ts
+// path: src/scripts/view/view-db.ts
 import { viewExistingCloudData } from './view-cloud-db';
 import { viewExistingLocalData } from './view-local-db';
 

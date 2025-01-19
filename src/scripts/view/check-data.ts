@@ -1,8 +1,7 @@
-// path: src/scripts/check-data.ts
-import { edgeDBCloudClient } from '../index';
-import edgeql from '../../dbschema/edgeql-js';
-
+// path: src/scripts/view/check-data.ts
 /*
+import { edgeDBCloudClient } from '../../index';
+import edgeql from '../../../dbschema/edgeql-js';
 async function checkData() {
     try {
         console.log('Database connection initialized');

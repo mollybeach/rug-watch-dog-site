@@ -1,5 +1,5 @@
-// path: src/scripts/clean-db.ts
-import { edgeDBCloudClient } from '../index';
+// path: src/scripts/delete/clean-db.ts
+import { edgeDBCloudClient } from '../../index';
 async function cleanDatabase() {
     try {
         await edgeDBCloudClient.ensureConnected();
