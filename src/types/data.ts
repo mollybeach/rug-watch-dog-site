@@ -52,7 +52,7 @@ export interface TokenDataType {
     createdAt: Date;
     updatedAt: Date;
 }
-export interface TrainingData {
+export interface TrainingDataType {
     address: string;
     name: string;
     symbol: string;

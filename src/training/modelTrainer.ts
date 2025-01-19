@@ -1,10 +1,10 @@
 //path: src/training/modelTrainer.ts
 import * as tf from '@tensorflow/tfjs-node';
-import { TokenMetricsType, TrainingData } from '../types/data';
+import { TokenMetricsType, TrainingDataType } from '../types/data';
 import { preprocessTokenData } from '../data-processing/parser';
 //import path from 'path';
 
-export async function trainModel(trainingData: TrainingData[]): Promise<tf.LayersModel> {
+export async function trainModel(trainingData: TrainingDataType[]): Promise<tf.LayersModel> {
     try {
         const processedData: TokenMetricsType[] = trainingData.map(data => ({
             address: data.address,
@@ -99,7 +99,7 @@ export async function trainModel(trainingData: TrainingData[]): Promise<tf.Layer
 
 // Run training if called directly
 if (require.main === module) {
-    const dummyData: TrainingData[] = [{
+    const dummyData: TrainingDataType[] = [{
         address: '0x0',
         name: 'Test Token',
         symbol: 'TEST',

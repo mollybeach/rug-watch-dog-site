@@ -1,8 +1,7 @@
 // path: src/db/services/TokenService.ts
-import { edgeDBCloudClient } from '../connection/connection';
-import edgeql from '../../../dbschema/edgeql-js';
+import { edgeDBCloudClient, edgeql } from '../../index';
 import type { TokenMetricsType, TokenDataType, TokenPriceType } from '../../types/data';
-/*
+
 export class TokenService {
     async upsertToken(tokenData: Partial<TokenDataType>): Promise<void> {
         const query = edgeql.insert(edgeql.Token, {
@@ -11,13 +10,13 @@ export class TokenService {
             name: tokenData.name ?? '',
             metrics: edgeql.assert_single(
                 edgeql.select(edgeql.TokenMetrics, metrics => ({
-                    filter: edgeql.op(tokenData.address, '=', tokenData.address),
+                    filter: edgeql.op(metrics.tokenAddress, '=', edgeql.str(tokenData.address ?? '')),
                     limit: 1
                 }))
             ),
             price: edgeql.assert_single(
                 edgeql.select(edgeql.TokenPrices, price => ({
-                    filter: edgeql.op(tokenData.address, '=', tokenData.address),
+                    filter: edgeql.op(price.tokenAddress, '=', edgeql.str(tokenData.address ?? '')),
                     limit: 1
                 }))
             )
@@ -37,7 +36,8 @@ export class TokenService {
     async saveMetrics(metrics: Partial<TokenMetricsType>): Promise<void> {
         const query = edgeql.insert(edgeql.TokenMetrics, {
             tokenAddress: metrics.tokenAddress!,
-            volumeAnomaly: metrics.volumeAnomaly?.toString() ?? '0'
+            volumeAnomaly: metrics.volumeAnomaly?.toString() ?? '0',
+            suspiciousPattern: metrics.suspiciousPattern ?? ''
         });
 
         await query.run(edgeDBCloudClient);
@@ -171,4 +171,4 @@ export class TokenService {
             timestamp: item.timestamp
         }));
     }
-}*/
+}

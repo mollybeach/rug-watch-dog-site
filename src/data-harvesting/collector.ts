@@ -1,6 +1,5 @@
 // path: src/data-harvesting/collector.ts
-import { edgeDBCloudClient } from '../db/connection/connection';
-import edgeql from '../../dbschema/edgeql-js';
+import { edgeDBCloudClient, edgeql } from '../index';
 import { TokenDataType} from '../types/data';
 class DataCollector {
     private tokenBatch: TokenDataType[] = [];

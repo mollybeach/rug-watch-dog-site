@@ -1,29 +1,8 @@
-import { edgeDBCloudClient } from '../db/connection/connection';
-
+import { edgeDBCloudClient } from '../index';
+import { SELECT_TOKEN_METRICS } from '../db/queries/queries';
 async function queryCloudDB() {
     try {
-        const query = `
-            SELECT TokenMetrics {
-                tokenAddress,
-                volumeAnomaly,
-                holderConcentration,
-                liquidityScore,
-                priceVolatility,
-                sellPressure,
-                marketCapRisk,
-                bundlerActivity,
-                accumulationRate,
-                stealthAccumulation,
-                suspiciousPattern,
-                isRugPull,
-                timestamp,
-                holders,
-                totalSupply,
-                currentPrice,
-                isHoneyPot
-            }
-        `;
-
+        const query = SELECT_TOKEN_METRICS;
         const result = await edgeDBCloudClient.query(query);
         console.log('Token Metrics:', result);
     } catch (error) {

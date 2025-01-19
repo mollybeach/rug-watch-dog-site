@@ -1,6 +1,5 @@
 // path: src/scripts/view-cloud-db.ts
-import edgeql from '../../dbschema/edgeql-js';
-import { edgeDBCloudClient } from '../db/connection/connection';
+import { edgeDBCloudClient, edgeql } from '../index';
 
 async function viewExistingCloudData() {
     try {

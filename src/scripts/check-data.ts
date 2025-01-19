@@ -1,5 +1,5 @@
 // path: src/scripts/check-data.ts
-import { edgeDBCloudClient } from '../db/connection/connection';
+import { edgeDBCloudClient } from '../index';
 import edgeql from '../../dbschema/edgeql-js';
 
 /*

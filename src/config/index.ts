@@ -1,5 +1,5 @@
 // path: src/config/index.ts
-import { edgeDBCloudClient } from '../db/connection/connection';
+import { edgeDBCloudClient } from '../index';
 
 interface DatabaseConfig {
     client: any; // Use the appropriate type for EdgeDB client if available

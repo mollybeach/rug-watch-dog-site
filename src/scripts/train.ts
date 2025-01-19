@@ -2,14 +2,14 @@
 import { loadExistingData } from '../data-processing/trainingData';
 import { trainModel } from '../training/modelTrainer';
 import { evaluateModel, printEvaluationReport } from '../training/modelEvaluator';
-import { TrainingData } from '../types/data';
+import { TrainingDataType } from '../types/data';
 
 async function main() {
     try {
         console.log('Loading training data...');
         const baseMetrics = await loadExistingData();
         console.log('baseMetrics', baseMetrics);
-        const trainingData: TrainingData[] = baseMetrics.map((token: any, index: number) => ({
+        const trainingData: TrainingDataType[] = baseMetrics.map((token: any, index: number) => ({
             address: token.address,
             name: token.name,
             symbol: token.symbol,

@@ -1,5 +1,5 @@
 // path: src/scripts/test-connect.ts
-import { edgeDBCloudClient } from '../db/connection/connection';
+import { edgeDBCloudClient } from '../index';
 
 async function testConnection() {
     try {

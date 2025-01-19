@@ -40,6 +40,7 @@
         "@tensorflow/tfjs-node": "^4.11.0",
         "@types/sequelize": "^4.28.20",
         "axios": "^1.5.0",
+        "cors": "^2.8.5",
         "dotenv": "^16.3.1",
         "edgedb": "^1.5.12",
         "ethers": "^6.7.1",
