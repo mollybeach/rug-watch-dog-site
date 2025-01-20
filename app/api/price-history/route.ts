@@ -6,7 +6,7 @@
 import { NextResponse } from 'next/server';
 import edgeDBCloudClient from '@/lib/db/config';
 import { SELECT_TOKEN_PRICES } from '@/lib/db/queries';
-import type { TokenPriceType } from '@/src/types/data';
+import type { TokenPriceType } from '@/types/data';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 

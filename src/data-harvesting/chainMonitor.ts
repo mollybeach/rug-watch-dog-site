@@ -1,8 +1,9 @@
-import { TokenData, BaseMetrics } from '../types/metrics';
+// path: src/data-harvesting/chainMonitor.ts
+import { TokenDataType } from '../../types/data';
 import { analyzeToken } from '../training/modelPredictor';
 
 export class ChainMonitor {
-    private async processToken(tokenData: TokenData): Promise<TokenData> {
+    private async processToken(tokenData: TokenDataType): Promise<TokenDataType> {
         try {
             const metrics = await analyzeToken(tokenData);
             return {
@@ -15,8 +16,8 @@ export class ChainMonitor {
         }
     }
 
-    async monitorTokens(tokens: TokenData[]): Promise<TokenData[]> {
-        const results: TokenData[] = [];
+    async monitorTokens(tokens: TokenDataType[]): Promise<TokenDataType[]> {
+        const results: TokenDataType[] = [];
         
         for (const token of tokens) {
             try {

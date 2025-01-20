@@ -31,7 +31,7 @@ interface RiskMetrics {
         bundlerActivity: boolean;
         accumulationRate: number;
         stealthAccumulation: number | null;
-        suspiciousPattern: string | null;
+        suspiciousPattern: boolean;
         isRugPull: boolean;
         timestamp: Date;
         holders: number;

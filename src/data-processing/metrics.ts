@@ -1,54 +1,68 @@
-import { TokenData, BaseMetrics } from '../types/data';
+// path: src/data-processing/metrics.ts
+import { TokenMetricsType } from '../../types/data';
+import { loadExistingData } from './storage';
 
-const initialMetrics: BaseMetrics = {
-    volumeAnomaly: 0,
-    holderConcentration: 0,
-    liquidityScore: 0,
-    priceVolatility: 0,
-    sellPressure: 0,
-    marketCapRisk: 0,
-    bundlerActivity: false,
-    accumulationRate: 0,
-    stealthAccumulation: 0,
-    suspiciousPattern: null,
-    isRugPull: false,
-    metadata: { reason: '' },
-    timestamp: new Date().toISOString()
-};
+export async function getTokenStats() {
+    const data = await loadExistingData();
+    const totalTokens = data.length;
+    const rugPulls = data.filter(t => t.metrics.isRugPull).length;
+    const legitimateTokens = totalTokens - rugPulls;
 
-export function calculateAverageMetrics(data: TokenData[]): BaseMetrics {
-    const totals = data.reduce((acc, token) => {
-        acc.volumeAnomaly += token.metrics.volumeAnomaly;
-        acc.holderConcentration += token.metrics.holderConcentration;
-        acc.liquidityScore += token.metrics.liquidityScore;
-        acc.priceVolatility += token.metrics.priceVolatility;
-        acc.sellPressure += token.metrics.sellPressure;
-        acc.marketCapRisk += token.metrics.marketCapRisk;
+    const averageMetrics = data.reduce<TokenMetricsType>((acc, token) => {
+        acc.volumeAnomaly += token.metrics.volumeAnomaly || 0;
+        acc.holderConcentration += token.metrics.holderConcentration || 0;
+        acc.liquidityScore += token.metrics.liquidityScore || 0;
+        acc.priceVolatility += token.metrics.priceVolatility || 0;
+        acc.sellPressure += token.metrics.sellPressure || 0;
+        acc.marketCapRisk += token.metrics.marketCapRisk || 0;
         acc.bundlerActivity = acc.bundlerActivity || token.metrics.bundlerActivity;
-        acc.accumulationRate += token.metrics.accumulationRate;
-        acc.stealthAccumulation += token.metrics.stealthAccumulation;
-        acc.suspiciousPattern = acc.suspiciousPattern || token.metrics.suspiciousPattern;
+        acc.accumulationRate += token.metrics.accumulationRate || 0;
+        acc.stealthAccumulation = (acc.stealthAccumulation || 0) + (token.metrics.stealthAccumulation ?? 0);
+        acc.suspiciousPattern = acc.suspiciousPattern || false;
         acc.isRugPull = acc.isRugPull || token.metrics.isRugPull;
+        acc.metadata = acc.metadata || token.metrics.metadata;
+        acc.tokenAddress = acc.tokenAddress || token.metrics.tokenAddress;
+        acc.timestamp = acc.timestamp || token.metrics.timestamp;
+        acc.holders += token.metrics.holders || 0;
+        acc.totalSupply += token.metrics.totalSupply || 0;
+        acc.currentPrice += token.metrics.currentPrice || 0;
+        acc.isHoneyPot = acc.isHoneyPot || token.metrics.isHoneyPot;
         return acc;
-    }, { ...initialMetrics });
+    }, {
+        volumeAnomaly: 0,
+        holderConcentration: 0,
+        liquidityScore: 0,
+        priceVolatility: 0,
+        sellPressure: 0,
+        marketCapRisk: 0,
+        bundlerActivity: false,
+        accumulationRate: 0,
+        stealthAccumulation: 0,
+        suspiciousPattern: false,
+        isRugPull: false,
+        metadata: '{reason: "default"}',
+        tokenAddress: '',
+        timestamp: new Date(),
+        holders: 0,
+        totalSupply: 0,
+        currentPrice: 0,
+        isHoneyPot: false
+    });
 
-    const count = data.length;
+    // Calculate averages
+    if (totalTokens > 0) {
+        Object.keys(averageMetrics).forEach((key) => {
+            if (typeof averageMetrics[key as keyof TokenMetricsType] === 'number') {
+                (averageMetrics as any)[key] = (Number(averageMetrics[key as keyof TokenMetricsType]) / totalTokens);
+            }
+        });
+    }
+
     return {
-        ...initialMetrics,
-        volumeAnomaly: totals.volumeAnomaly / count,
-        holderConcentration: totals.holderConcentration / count,
-        liquidityScore: totals.liquidityScore / count,
-        priceVolatility: totals.priceVolatility / count,
-        sellPressure: totals.sellPressure / count,
-        marketCapRisk: totals.marketCapRisk / count,
-        bundlerActivity: totals.bundlerActivity,
-        accumulationRate: totals.accumulationRate / count,
-        stealthAccumulation: totals.stealthAccumulation / count,
-        suspiciousPattern: totals.suspiciousPattern,
-        isRugPull: totals.isRugPull
+        totalTokens,
+        rugPulls,
+        legitimateTokens,
+        averageMetrics,
+        lastUpdated: new Date().toISOString()
     };
-}
-
-export function getRugPullCount(data: TokenData[]): number {
-    return data.filter(token => token.metrics.isRugPull).length;
 } 

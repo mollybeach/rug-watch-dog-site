@@ -1,63 +1,97 @@
-import { TokenDataType, TokenMetricsType } from '../../types/data';
+import { Router } from 'express';
+import { loadExistingData } from '@/data-processing/trainingData';
+import { TokenDataType } from '@/types/data';
 
-export function processTrainingData(data: TokenDataType[]) {
-    const rugPulls = data.filter((t: TokenDataType) => t.metrics.isRugPull).length;
+const router = Router();
 
-    const initialMetrics: TokenMetricsType = {
-        metadata: '',
-        tokenAddress: '',
-        volumeAnomaly: 0,
-        holderConcentration: 0,
-        liquidityScore: 0,
-        priceVolatility: 0,
-        sellPressure: 0,
-        marketCapRisk: 0,
-        bundlerActivity: false,
-        accumulationRate: 0,
-        stealthAccumulation: 0,
-        suspiciousPattern: null,
-        isRugPull: false,
-        timestamp: new Date(),
-        holders: 0,
-        totalSupply: 0,
-        currentPrice: 0,
-        isHoneyPot: false
-    };
+// Get all training data
+router.get('/', async (req, res) => {
+    try {
+        const data = await loadExistingData();
+        res.json({
+            success: true,
+            count: data.length,
+            data: data
+        });
+    } catch (error) {
+        console.error('Error fetching training data:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to fetch training data'
+        });
+    }
+});
 
-    const totals = data.reduce((acc, token) => {
-        acc.volumeAnomaly += token.metrics.volumeAnomaly;
-        acc.holderConcentration += token.metrics.holderConcentration;
-        acc.liquidityScore += token.metrics.liquidityScore;
-        acc.priceVolatility += token.metrics.priceVolatility;
-        acc.sellPressure += token.metrics.sellPressure;
-        acc.marketCapRisk += token.metrics.marketCapRisk;
-        acc.bundlerActivity = acc.bundlerActivity || token.metrics.bundlerActivity;
-        acc.accumulationRate += token.metrics.accumulationRate;
-        acc.stealthAccumulation = (acc.stealthAccumulation ?? 0) + (token.metrics.stealthAccumulation ?? 0);
-        acc.suspiciousPattern = acc.suspiciousPattern || token.metrics.suspiciousPattern;
-        acc.isRugPull = acc.isRugPull || token.metrics.isRugPull;
-        return acc;
-    }, { ...initialMetrics });
+// Get training data statistics
+router.get('/stats', async (_req, res) => {
+    try {
+        const data: TokenDataType[] = await loadExistingData();
+        const totalTokens = data.length;
+        const rugPulls = data.filter(t => t.metrics.isRugPull).length;
+        const legitimateTokens = totalTokens - rugPulls;
 
-    const count = data.length;
-    const averageMetrics = {
-        ...initialMetrics,
-        volumeAnomaly: totals.volumeAnomaly / count,
-        holderConcentration: totals.holderConcentration / count,
-        liquidityScore: totals.liquidityScore / count,
-        priceVolatility: totals.priceVolatility / count,
-        sellPressure: totals.sellPressure / count,
-        marketCapRisk: totals.marketCapRisk / count,
-        bundlerActivity: totals.bundlerActivity,
-        accumulationRate: totals.accumulationRate / count,
-        stealthAccumulation: (totals.stealthAccumulation ?? 0) / count,
-        suspiciousPattern: totals.suspiciousPattern,
-        isRugPull: totals.isRugPull
-    };
+        // Define a type for numeric metrics
+        type NumericMetrics = {
+            volumeAnomaly: number;
+            holderConcentration: number;
+            liquidityScore: number;
+            priceVolatility: number;
+            sellPressure: number;
+            marketCapRisk: number;
+            accumulationRate: number;
+            stealthAccumulation: number;
+        };
 
-    return {
-        rugPulls,
-        averageMetrics,
-        totalTokens: count
-    };
-} 
+        // Initialize the aggregation object
+        const initialNumericMetrics: NumericMetrics = {
+            volumeAnomaly: 0,
+            holderConcentration: 0,
+            liquidityScore: 0,
+            priceVolatility: 0,
+            sellPressure: 0,
+            marketCapRisk: 0,
+            accumulationRate: 0,
+            stealthAccumulation: 0
+        };
+
+        // Aggregate numeric metrics
+        const averageMetrics: NumericMetrics = data.reduce((acc, token) => {
+            const metrics = token.metrics;
+            acc.volumeAnomaly += metrics.volumeAnomaly;
+            acc.holderConcentration += metrics.holderConcentration;
+            acc.liquidityScore += metrics.liquidityScore;
+            acc.priceVolatility += metrics.priceVolatility;
+            acc.sellPressure += metrics.sellPressure;
+            acc.marketCapRisk += metrics.marketCapRisk;
+            acc.accumulationRate += metrics.accumulationRate;
+            acc.stealthAccumulation += metrics.stealthAccumulation ?? 0;
+            return acc;
+        }, initialNumericMetrics);
+
+        // Calculate averages
+        if (totalTokens > 0) {
+            const numericKeys: (keyof NumericMetrics)[] = [
+                'volumeAnomaly', 'holderConcentration', 'liquidityScore',
+                'priceVolatility', 'sellPressure', 'marketCapRisk',
+                'accumulationRate', 'stealthAccumulation'
+            ];
+            
+            numericKeys.forEach(key => {
+                averageMetrics[key] /= totalTokens;
+            });
+        }
+
+        res.json({
+            totalTokens,
+            rugPulls,
+            legitimateTokens,
+            averageMetrics,
+            lastUpdated: new Date().toISOString()
+        });
+    } catch (error) {
+        console.error('Error fetching stats:', error);
+        res.status(500).json({ error: 'Error fetching statistics' });
+    }
+});
+
+export default router; 
