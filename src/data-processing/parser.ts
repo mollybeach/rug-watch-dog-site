@@ -1,5 +1,5 @@
 //path: src/data-processing/parser.ts
-import { TokenDataType } from '../types/data';
+import { TokenDataType } from '../../types/data';
 
 interface ProcessedData {
     features: number[][];

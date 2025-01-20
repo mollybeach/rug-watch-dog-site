@@ -1,5 +1,5 @@
 import { analyzeToken } from '../../../training/modelPredictor';
-import { TokenDataType } from '../../../types/data';
+import { TokenDataType } from '../../../../types/data';
 
 describe('Token Analysis', () => {
     const mockTokenData: TokenDataType = {

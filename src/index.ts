@@ -1,12 +1,13 @@
+// path: src/index.ts
 import express from 'express';
 const cors = require('cors');
 import { createClient } from 'edgedb';
-import edgeql from '../dbschema/edgeql-js';
-import trainingRoutes from './api/routes/training';
-import tokens from './api/routes/tokens';
-import tokenRoutes from './api/routes/tokenRoutes';
+import edgeql from '@/dbschema/edgeql-js';
+import trainingRoutes from '@/api/routes/training';
+import tokens from '@/api/routes/tokens';
+import tokenRoutes from '@/api/routes/tokenRoutes';
 
-import { SAMPLE_TOKENS } from './db/seeders/seeds';
+import { SAMPLE_TOKENS } from '@/db/seeders/seeds';
 
 const edgeDBCloudClient = createClient({
     instanceName: 'mollybeach/rug-watch-dog-db',

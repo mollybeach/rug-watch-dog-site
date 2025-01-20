@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { loadExistingData } from '../../data-processing/trainingData';
-import { TokenMetricsType, TokenDataType } from '../../types/data';
+import { loadExistingData } from '@/data-processing/trainingData';
+import { TokenDataType } from '@/types/data';
 
 const router = Router();
 

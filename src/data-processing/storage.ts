@@ -1,5 +1,5 @@
 //path: /storage.ts
-import { TokenDataType } from '../types/data';
+import { TokenDataType } from '../../types/data';
 import fs from 'fs/promises';
 import path from 'path';
 

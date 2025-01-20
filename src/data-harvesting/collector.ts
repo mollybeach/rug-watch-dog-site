@@ -1,6 +1,6 @@
 // path: src/data-harvesting/collector.ts
 import { edgeDBCloudClient, edgeql } from '../index';
-import { TokenDataType} from '../types/data';
+import { TokenDataType} from '../../types/data';
 import { formatTokenMetrics, formatTokenPrice } from '../utils/formatData';
 
 class DataCollector {

@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { analyzeToken } from '../../training/modelPredictor';
-import { TokenDataType } from '../../types/data';
+import { analyzeToken } from '@/training/modelPredictor';
+import { TokenDataType } from '@/types/data';
 
 const router = Router();
 

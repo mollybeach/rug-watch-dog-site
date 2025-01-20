@@ -1,5 +1,5 @@
 // path: src/data-processing/metrics.ts
-import { TokenMetricsType } from '../types/data';
+import { TokenMetricsType } from '../../types/data';
 import { loadExistingData } from './storage';
 
 export async function getTokenStats() {

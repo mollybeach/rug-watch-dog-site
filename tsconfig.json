@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -20,16 +24,78 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@/app/*": ["app/*"],
-      "@/components/*": ["components/*"],
-      "@/lib/*": ["lib/*"],
-      "@/src/*": ["src/*"],
-      "@/types/*": ["types/*"],
-      "@/styles/*": ["styles/*"],
-      "@/ui/*": ["components/ui/*"],
-      "@/dbschema/*": ["dbschema/*"],
-      "@/node_modules/*": ["node_modules/*"]
+      "@/*": [
+        "./*"
+      ],
+      "@/app/*": [
+        "app/*"
+      ],
+      "@/api/*": [
+        "src/api/*"
+      ],
+      "@/app/api/*": [
+        "app/api/*"
+      ],
+      "@/components/*": [
+        "components/*"
+      ],
+      "@/contracts/*": [
+        "contracts/*"
+      ],
+      "@/data-harversting/*": [
+        "src/data-harversting/*"
+      ],
+      "@/data-processing/*": [
+        "src/data-processing/*"
+      ],
+      "@/db/*": [
+        "src/db/*"
+      ],
+      "@/dbschema/*": [
+        "dbschema/*"
+      ],
+      "@/entities/*": [
+        "src/db/entities/*"
+      ],
+      "@/lib/*": [
+        "lib/*"
+      ],
+      "@/models/*": [
+        "src/models/*"
+      ],
+      "@/src/*": [
+        "src/*"
+      ],
+      "@/scripts/*": [
+        "src/scripts/*"
+      ],
+      "@/services/*": [
+        "src/services/*"
+      ],
+      "@/training/*": [
+        "src/training/*"
+      ],
+      "@/types/*": [
+        "types/*"
+      ],
+      "@/styles/*": [
+        "styles/*"
+      ],
+      "@/ui/*": [
+        "components/ui/*"
+      ],
+      "@/utils/*": [
+        "src/utils/*"
+      ],
+      "@/vizualizations/*": [
+        "app/vizualizations/*"
+      ],
+      "@/documentation/*": [
+        "documentation/*"
+      ],
+      "@/node_modules/*": [
+        "node_modules/*"
+      ]
     }
   },
   "include": [
@@ -43,11 +109,14 @@
     "types/**/*",
     "styles/**/*",
     "src/**/*",
-    "dbschema/**/*"
+    "dbschema/**/*",
+    "src/training/**/*"
   ],
+  "exclude": [
+    "node_modules"
+  ]
   //"exclude": ["node_modules"]
 }
-
 /*{
   "compilerOptions": {
     "target": "ESNext",

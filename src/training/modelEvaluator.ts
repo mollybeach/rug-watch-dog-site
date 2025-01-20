@@ -1,7 +1,7 @@
 //path: src/training/modelEvaluator.ts
 import * as tf from '@tensorflow/tfjs-node';
-import { TokenDataType } from '../types/data';
-import { preprocessTokenData } from '../data-processing/parser';
+import { TokenDataType } from '@/types/data';
+import { preprocessTokenData } from '@/data-processing/parser';
 
 interface EvaluationMetrics {
     accuracy: number;

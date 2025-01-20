@@ -1,7 +1,7 @@
 // path: src/scripts/collect-data.ts
 import { fetchTokenData } from '../data-harvesting/fetcher';
 import { dataCollector } from '../data-harvesting/collector';
-import { TokenDataType } from '../types/data';
+import { TokenDataType } from '../../types/data';
 import { formatToken, defaultToken } from '../utils/formatData';
 import * as fs from 'fs';
 import * as path from 'path';

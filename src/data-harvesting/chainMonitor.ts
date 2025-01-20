@@ -1,5 +1,5 @@
 // path: src/data-harvesting/chainMonitor.ts
-import { TokenDataType } from '../types/data';
+import { TokenDataType } from '../../types/data';
 import { analyzeToken } from '../training/modelPredictor';
 
 export class ChainMonitor {

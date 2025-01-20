@@ -1,5 +1,5 @@
 // path: src/types/api.ts
-import { TokenMetricsType } from './data';
+import { TokenMetricsType } from '@/types/data';
 
 export interface TokenAnalysisRequest {
     token_address: string;

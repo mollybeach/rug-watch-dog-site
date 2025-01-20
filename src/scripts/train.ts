@@ -2,7 +2,7 @@
 import { loadExistingData } from '../data-processing/trainingData';
 import { trainModel } from '../training/modelTrainer';
 import { evaluateModel, printEvaluationReport } from '../training/modelEvaluator';
-import { TokenDataType } from '../types/data';
+import { TokenDataType } from '../../types/data';
 
 async function main() {
     try {

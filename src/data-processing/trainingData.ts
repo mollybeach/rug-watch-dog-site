@@ -1,7 +1,7 @@
 // src/data-processing/trainingData.ts
 
 import { getAllTokens } from '../db/services/TokenService';
-import { TokenDataType } from '../types/data';
+import { TokenDataType } from '../../types/data';
 import { formatToken, defaultToken } from '../utils/formatData';
 
 export async function loadExistingData(): Promise<TokenDataType[]> {

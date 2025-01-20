@@ -1,6 +1,6 @@
 // path: src/utils/formatData.ts
 
-import { edgeql } from '../index';
+import { edgeql } from '@/src/index';
 function formatTokenMetrics(metrics: any) {
     return {
         tokenAddress: metrics.tokenAddress,

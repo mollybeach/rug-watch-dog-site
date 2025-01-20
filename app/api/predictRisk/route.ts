@@ -1,9 +1,32 @@
-//path: src/training/modelPredictor.ts
-import * as tf from '@tensorflow/tfjs-node';
+// path: app/api/predictRisk/route.ts
+//import tf from '@tensorflow/tfjs-node';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { TokenDataType, TokenMetricsType, RiskMetricsType } from '@/types/data';
-import { formatTokenMetrics } from '@/utils/formatData';
-let model: tf.LayersModel;
-
+//import { formatTokenMetrics } from '@/utils/formatData';
+//let model: tf.LayersModel;
+/*
+function formatTokenMetrics(metrics: any) {
+    return {
+        tokenAddress: metrics.tokenAddress,
+        holderConcentration: metrics.holderConcentration.toString(),
+        liquidityScore: metrics.liquidityScore.toString(),
+        marketCapRisk: metrics.marketCapRisk.toString(),
+        timestamp: new Date(metrics.timestamp),
+        metadata: JSON.stringify(metrics.metadata),
+        volumeAnomaly: metrics.volumeAnomaly.toString(),
+        priceVolatility: metrics.priceVolatility.toString(),
+        sellPressure: metrics.sellPressure.toString(),
+        bundlerActivity: metrics.bundlerActivity,
+        accumulationRate: metrics.accumulationRate.toString(),
+        stealthAccumulation: metrics.stealthAccumulation?.toString(),
+        suspiciousPattern: metrics.suspiciousPattern ?? false,
+        isRugPull: metrics.isRugPull,
+        holders: metrics.holders.toString(),
+        totalSupply: metrics.totalSupply.toString(),
+        currentPrice: metrics.currentPrice.toString(),
+        isHoneyPot: metrics.isHoneyPot
+    };
+}
 function preprocessFeatures(tokenData: TokenDataType): tf.Tensor2D {
     const features = [
         tokenData.metrics.volumeAnomaly,
@@ -20,7 +43,7 @@ function preprocessFeatures(tokenData: TokenDataType): tf.Tensor2D {
 
     return tf.tensor2d([features], [1, features.length]);
 }
-
+*/
 function calculateLiquidityRisk(token: TokenMetricsType): number {
     // Example: Normalize liquidity score to a 0-1 scale
     return Math.min(Math.max(token.liquidityScore / 100, 0), 1);
@@ -57,6 +80,7 @@ export function calculateOverallRisk(token: TokenMetricsType): number {
     ];
     return risks.reduce((sum, risk) => sum + risk, 0) / risks.length;
 }
+/*
 export async function analyzeToken(tokenData: TokenDataType): Promise<TokenMetricsType> {
     try {
         const features = preprocessFeatures(tokenData);
@@ -71,7 +95,12 @@ export async function analyzeToken(tokenData: TokenDataType): Promise<TokenMetri
         throw error;
     }
 } 
-
+*/
+export async function analyzeToken(token: TokenMetricsType): Promise<RiskMetricsType> {
+    // If there's any asynchronous operation, include it here. Otherwise, wrap predictRisk.
+    return predictRisk(token);
+}
+/*
 export async function loadModel(modelPath: string): Promise<void> {
     try {
         model = await tf.loadLayersModel(`file://${modelPath}`);
@@ -81,8 +110,8 @@ export async function loadModel(modelPath: string): Promise<void> {
         throw error;
     }
 }
-
-export function predictRisk(token: TokenMetricsType): RiskMetricsType {
+*/
+export async function predictRisk(token: TokenMetricsType): Promise<RiskMetricsType> {
     return {
         overall: calculateOverallRisk(token),
         liquidity: calculateLiquidityRisk(token),
@@ -96,3 +125,22 @@ export function predictRisk(token: TokenMetricsType): RiskMetricsType {
         lowRiskCount: 0
     };
 }
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    if (req.method === 'POST') {
+        try {
+            const tokenMetrics: TokenMetricsType = req.body;
+            const riskMetrics = predictRisk(tokenMetrics);
+            res.status(200).json({ success: true, data: riskMetrics });
+        } catch (error: unknown) {
+            console.error('Error predicting risk:', error);
+            if (error instanceof Error) {
+                res.status(500).json({ success: false, error: error.message });
+            } else {
+                res.status(500).json({ success: false, error: 'An unknown error occurred' });
+            }
+        }
+    } else {
+        res.setHeader('Allow', ['POST']);
+        res.status(405).end(`Method ${req.method} Not Allowed`);
+    }
+} 

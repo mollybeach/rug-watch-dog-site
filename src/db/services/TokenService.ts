@@ -1,6 +1,6 @@
 // path: src/db/services/TokenService.ts
 import { edgeDBCloudClient, edgeql } from '../../index';
-import type { TokenMetricsType, TokenDataType, TokenPriceType } from '../../types/data';
+import type { TokenMetricsType, TokenDataType, TokenPriceType } from '../../../types/data';
 import { formatToken, formatTokenMetrics, formatTokenPrice } from '../../utils/formatData';
 
 export async function upsertToken(tokenData: Partial<TokenDataType>): Promise<void> {
