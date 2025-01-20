@@ -9,8 +9,8 @@ export interface TokenMetricsType {
     marketCapRisk: number;
     bundlerActivity: boolean;
     accumulationRate: number;
-    stealthAccumulation: number | null;
-    suspiciousPattern: string | null;
+    stealthAccumulation: number;
+    suspiciousPattern: boolean;
     isRugPull: boolean;
     timestamp: Date;
     holders: number;

@@ -15,7 +15,7 @@ export function processTrainingData(data: TokenDataType[]) {
         bundlerActivity: false,
         accumulationRate: 0,
         stealthAccumulation: 0,
-        suspiciousPattern: null,
+        suspiciousPattern: false,
         isRugPull: false,
         timestamp: new Date(),
         holders: 0,

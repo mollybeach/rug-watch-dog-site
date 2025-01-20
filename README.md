@@ -179,7 +179,6 @@ Execute a SELECT query to retrieve data from the TokenMetrics table. For example
 
 ```bash
 SELECT TokenMetrics {
-    id: number,
     metadata: string,
     tokenAddress: string,
     volumeAnomaly: number,
@@ -191,7 +190,7 @@ SELECT TokenMetrics {
     bundlerActivity: boolean,
     accumulationRate: number,
     stealthAccumulation: number,
-    suspiciousPattern: string,
+    suspiciousPattern: boolean,
     isRugPull: boolean,
     timestamp: Date,
 };

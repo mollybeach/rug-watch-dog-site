@@ -1,8 +1,8 @@
-import { TokenData } from '@/src/types/metrics';
+import { TokenDataType } from '@/src/types/data';
 import { analyzeToken } from '@/src/training/modelPredictor';
 
-export async function analyzeTokens(tokens: TokenData[]): Promise<TokenData[]> {
-    const results: TokenData[] = [];
+export async function analyzeTokens(tokens: TokenDataType[]): Promise<TokenDataType[]> {
+    const results: TokenDataType[] = [];
 
     for (const token of tokens) {
         try {
