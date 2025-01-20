@@ -1,5 +1,8 @@
 import { createClient } from 'edgedb';
 import { SELECT_TOKEN_METRICS } from '@/lib/db/queries';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const edgeDBCloudClient = createClient({
     instanceName: 'mollybeach/rug-watch-dog-db',

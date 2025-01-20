@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -24,9 +24,12 @@
       "@/app/*": ["app/*"],
       "@/components/*": ["components/*"],
       "@/lib/*": ["lib/*"],
+      "@/src/*": ["src/*"],
       "@/types/*": ["types/*"],
       "@/styles/*": ["styles/*"],
-      "@/ui/*": ["components/ui/*"]
+      "@/ui/*": ["components/ui/*"],
+      "@/dbschema/*": ["dbschema/*"],
+      "@/node_modules/*": ["node_modules/*"]
     }
   },
   "include": [
@@ -38,9 +41,11 @@
     "components/**/*",
     "lib/**/*",
     "types/**/*",
-    "styles/**/*"
+    "styles/**/*",
+    "src/**/*",
+    "dbschema/**/*"
   ],
-  "exclude": ["node_modules"]
+  //"exclude": ["node_modules"]
 }
 
 /*{

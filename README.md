@@ -12,7 +12,7 @@ Check out the live demo: [RugWatchDog](https://rugwatchdog.vercel.app/)
 - **Eliza Chatbot Integration**: Interact with a conversational AI assistant on Discord, Telegram, and Twitter for real-time insights
 - **FUD Alerts**: Automatically generate social media alerts for high-risk tokens to keep the community informed
 - **Customizable AI Models**: Train and adapt the AI to detect emerging fraud patterns in the crypto ecosystem
-- **Database**: PostgreSQL on AWS RDS
+- **Database**: EdgeDB
 - **ORM**: Vercel Postgres SDK
 - **Deployment**: Vercel
 
@@ -28,7 +28,7 @@ Check out the live demo: [RugWatchDog](https://rugwatchdog.vercel.app/)
 ### Backend
 - **Runtime**: Node.js 20
 - **API**: Next.js API Routes
-- **Database**: PostgreSQL on AWS RDS
+- **Database**: EdgeDB
 - **ORM**: Vercel Postgres SDK
 
 ### Blockchain
@@ -47,10 +47,10 @@ Check out the live demo: [RugWatchDog](https://rugwatchdog.vercel.app/)
 - **Coverage**: ts-jest
 
 ### Deployment
-- **Platform**: AWS Amplify
+- **Platform**: Vercel
 - **CI/CD**: GitHub Actions
-- **Database**: AWS RDS (PostgreSQL)
-- **Storage**: AWS S3
+- **Database**: EdgeDB
+- **Storage**: EdgeDB
 - **Environment**: Production, Preview, Development
 Welcome to the **Rug Watch Dog**, an advanced AI-driven platform that helps investors analyze cryptocurrency tokens, especially meme coins 🐕💰, to detect potential "rug pulls" 🛑. This project combines cutting-edge machine learning 📊, blockchain data analysis 🔗, and chatbot integration 🤝 to enhance security 🔒 in the crypto ecosystem.
 Check out the live demo: [RugWatchDog](https://rugwatchdog.vercel.app/)
