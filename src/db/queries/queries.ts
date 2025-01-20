@@ -33,6 +33,22 @@ export const SELECT_TOKEN_PRICES = `
     }
 `;
 
+export const SELECT_TOKEN_RISK = `
+    SELECT TokenRisk {
+        tokenAddress,
+        overall,
+        liquidity,
+        concentration,
+        volatility,
+        social,
+        technical,
+        totalTokens,
+        highRiskCount,
+        mediumRiskCount,
+        lowRiskCount
+    }
+`;
+
 export const SELECT_TOKEN = `
     SELECT Token {
         address,
@@ -64,6 +80,19 @@ export const SELECT_TOKEN = `
             volume24h,
             marketCap,
             timestamp
+        },
+        risk: {
+            tokenAddress,
+            overall,
+            liquidity,
+            concentration,
+            volatility,
+            social,
+            technical,
+            totalTokens,
+            highRiskCount,
+            mediumRiskCount,
+            lowRiskCount
         },
         createdAt,
         updatedAt

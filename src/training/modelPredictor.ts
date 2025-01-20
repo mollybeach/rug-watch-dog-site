@@ -1,7 +1,7 @@
 //path: src/training/modelPredictor.ts
 import * as tf from '@tensorflow/tfjs-node';
-import { TokenDataType, TokenMetricsType, RiskMetricsType } from '@/types/data';
-import { formatTokenMetrics } from '@/utils/formatData';
+import { TokenDataType, TokenMetricsType, TokenRiskType } from '@/types/data';
+
 let model: tf.LayersModel;
 
 function preprocessFeatures(tokenData: TokenDataType): tf.Tensor2D {
@@ -18,7 +18,51 @@ function preprocessFeatures(tokenData: TokenDataType): tf.Tensor2D {
         tokenData.metrics.suspiciousPattern ? 1 : 0
     ].map(f => f === null ? 0 : f);
 
-    return tf.tensor2d([features], [1, features.length]);
+    // Replace with actual min and max values
+    const minValues = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const maxValues = [1000000, 1, 100, 100, 1, 1, 1, 1, 1, 1];
+
+    const scaledFeatures = features.map((f, i) => (f - minValues[i]) / (maxValues[i] - minValues[i]));
+
+    return tf.tensor2d([scaledFeatures], [1, scaledFeatures.length]);
+}
+
+export async function analyzeToken(tokenData: TokenDataType): Promise<{
+    isRugPull: boolean,
+    predictionData: number[]
+}> {
+    try {
+        // Preprocess the features
+        const featuresTensor = preprocessFeatures(tokenData);
+
+        // Use the model to predict
+        const prediction = model.predict(featuresTensor) as tf.Tensor;
+
+        // Get the prediction data
+        const predictionData = await prediction.data();
+
+        // Interpret the prediction
+        const isRugPull = predictionData[0] > 0.5; // Example threshold
+
+        // Return or use the prediction result
+        return {
+            isRugPull,
+            predictionData: Array.from(predictionData)
+        };
+    } catch (error) {
+        console.error('Error analyzing token:', error);
+        throw error;
+    }
+}
+
+export async function loadModel(modelPath: string): Promise<void> {
+    try {
+        model = await tf.loadLayersModel(`file://${modelPath}`);
+        console.log('Model loaded successfully');
+    } catch (error) {
+        console.error('Error loading model:', error);
+        throw error;
+    }
 }
 
 function calculateLiquidityRisk(token: TokenMetricsType): number {
@@ -44,55 +88,4 @@ function calculateSocialRisk(token: TokenMetricsType): number {
 function calculateTechnicalRisk(token: TokenMetricsType): number {
     // Example: Binary risk based on suspicious pattern
     return token.suspiciousPattern ? 1 : 0;
-} 
-
-export function calculateOverallRisk(token: TokenMetricsType): number {
-    // Example: Average of all risk components
-    const risks = [
-        calculateLiquidityRisk(token),
-        calculateConcentrationRisk(token),
-        calculateVolatilityRisk(token),
-        calculateSocialRisk(token),
-        calculateTechnicalRisk(token)
-    ];
-    return risks.reduce((sum, risk) => sum + risk, 0) / risks.length;
-}
-export async function analyzeToken(tokenData: TokenDataType): Promise<TokenMetricsType> {
-    try {
-        const features = preprocessFeatures(tokenData);
-        const prediction = await model.predict(features) as tf.Tensor;
-        const isRugPull = (await prediction.data())[0] > 0.5;
-
-        const tokenMetrics: TokenMetricsType = formatTokenMetrics(tokenData.metrics);
-
-        return tokenMetrics;
-    } catch (error) {
-        console.error('Error analyzing token:', error);
-        throw error;
-    }
-} 
-
-export async function loadModel(modelPath: string): Promise<void> {
-    try {
-        model = await tf.loadLayersModel(`file://${modelPath}`);
-        console.log('Model loaded successfully');
-    } catch (error) {
-        console.error('Error loading model:', error);
-        throw error;
-    }
-}
-
-export function predictRisk(token: TokenMetricsType): RiskMetricsType {
-    return {
-        overall: calculateOverallRisk(token),
-        liquidity: calculateLiquidityRisk(token),
-        concentration: calculateConcentrationRisk(token),
-        volatility: calculateVolatilityRisk(token),
-        social: calculateSocialRisk(token),
-        technical: calculateTechnicalRisk(token),
-        totalTokens: 0,
-        highRiskCount: 0,
-        mediumRiskCount: 0,
-        lowRiskCount: 0
-    };
 }

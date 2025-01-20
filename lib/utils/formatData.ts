@@ -34,6 +34,21 @@ function formatTokenPrice(price: any) {
     };
 }
 
+function formatTokenRisk(risk: any) {
+    return {
+        tokenAddress: risk.tokenAddress,
+        overall: risk.overall.toString(),
+        liquidity: risk.liquidity.toString(),
+        concentration: risk.concentration.toString(),
+        volatility: risk.volatility.toString(),
+        social: risk.social.toString(),
+        technical: risk.technical.toString(),
+        totalTokens: risk.totalTokens.toString(),
+        highRiskCount: risk.highRiskCount.toString(),
+        mediumRiskCount: risk.mediumRiskCount.toString(),
+        lowRiskCount: risk.lowRiskCount.toString(),
+    };
+}
 
 function formatToken(token: any) {
     return {
@@ -46,6 +61,7 @@ function formatToken(token: any) {
         updatedAt: new Date(token.updatedAt),
     };
 }
+
 
 function defaultTokenMetrics() {
     return {
@@ -81,6 +97,22 @@ function defaultTokenPrice() {
     }
 }
 
+function defaultTokenRisk() {
+    return {
+        tokenAddress: '0x0000000000000000000000000000000000000000',
+        overall: 0,
+        liquidity: 0,
+        concentration: 0,
+        volatility: 0,
+        social: 0,
+        technical: 0,
+        totalTokens: 0,
+        highRiskCount: 0,
+        mediumRiskCount: 0,
+        lowRiskCount: 0,
+    }
+}
+
 function defaultToken() {
     return {
         address: '0x0000000000000000000000000000000000000000',
@@ -97,7 +129,9 @@ function defaultToken() {
 export { formatToken, 
         formatTokenMetrics, 
         formatTokenPrice, 
+        formatTokenRisk,
         defaultTokenMetrics, 
         defaultTokenPrice, 
+        defaultTokenRisk,
         defaultToken, 
 };

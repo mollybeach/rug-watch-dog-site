@@ -11,12 +11,14 @@ export type $TokenλShape = $.typeutil.flatten<_std.$Object_8ce8c71ee4fa5f73840c
   "updatedAt": $.PropertyDesc<_std.$datetime, $.Cardinality.One, false, false, false, true>;
   "metrics": $.LinkDesc<$TokenMetrics, $.Cardinality.One, {}, true, false,  false, false>;
   "price": $.LinkDesc<$TokenPrices, $.Cardinality.One, {}, true, false,  false, false>;
+  "risk": $.LinkDesc<$TokenRisk, $.Cardinality.One, {}, true, false,  false, false>;
 }>;
 type $Token = $.ObjectType<"default::Token", $TokenλShape, null, [
   ..._std.$Object_8ce8c71ee4fa5f73840c22d7eaa58588['__exclusives__'],
+  {metrics: {__element__: $TokenMetrics, __cardinality__: $.Cardinality.One | $.Cardinality.AtMostOne },},
   {price: {__element__: $TokenPrices, __cardinality__: $.Cardinality.One | $.Cardinality.AtMostOne },},
   {address: {__element__: _std.$str, __cardinality__: $.Cardinality.One | $.Cardinality.AtMostOne },},
-  {metrics: {__element__: $TokenMetrics, __cardinality__: $.Cardinality.One | $.Cardinality.AtMostOne },},
+  {risk: {__element__: $TokenRisk, __cardinality__: $.Cardinality.One | $.Cardinality.AtMostOne },},
 ]>;
 const $Token = $.makeType<$Token>(_.spec, "f8c36ff0-d774-11ef-b283-f34861a02328", _.syntax.literal);
 
@@ -68,18 +70,42 @@ const $TokenPrices = $.makeType<$TokenPrices>(_.spec, "f8ccb8d0-d774-11ef-86a4-8
 
 const TokenPrices: $.$expr_PathNode<$.TypeSet<$TokenPrices, $.Cardinality.Many>, null> = _.syntax.$PathNode($.$toSet($TokenPrices, $.Cardinality.Many), null);
 
+export type $TokenRiskλShape = $.typeutil.flatten<_std.$Object_8ce8c71ee4fa5f73840c22d7eaa58588λShape & {
+  "concentration": $.PropertyDesc<_std.$decimal, $.Cardinality.One, false, false, false, true>;
+  "highRiskCount": $.PropertyDesc<_std.$decimal, $.Cardinality.One, false, false, false, true>;
+  "liquidity": $.PropertyDesc<_std.$decimal, $.Cardinality.One, false, false, false, true>;
+  "lowRiskCount": $.PropertyDesc<_std.$decimal, $.Cardinality.One, false, false, false, true>;
+  "mediumRiskCount": $.PropertyDesc<_std.$decimal, $.Cardinality.One, false, false, false, true>;
+  "overall": $.PropertyDesc<_std.$decimal, $.Cardinality.One, false, false, false, true>;
+  "social": $.PropertyDesc<_std.$decimal, $.Cardinality.One, false, false, false, true>;
+  "technical": $.PropertyDesc<_std.$decimal, $.Cardinality.One, false, false, false, true>;
+  "totalTokens": $.PropertyDesc<_std.$decimal, $.Cardinality.One, false, false, false, true>;
+  "volatility": $.PropertyDesc<_std.$decimal, $.Cardinality.One, false, false, false, true>;
+  "tokenAddress": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
+  "<risk[is Token]": $.LinkDesc<$Token, $.Cardinality.AtMostOne, {}, true, false,  false, false>;
+  "<risk": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
+}>;
+type $TokenRisk = $.ObjectType<"default::TokenRisk", $TokenRiskλShape, null, [
+  ..._std.$Object_8ce8c71ee4fa5f73840c22d7eaa58588['__exclusives__'],
+]>;
+const $TokenRisk = $.makeType<$TokenRisk>(_.spec, "d4fcde2a-d784-11ef-a7dc-719d67ebdb1d", _.syntax.literal);
+
+const TokenRisk: $.$expr_PathNode<$.TypeSet<$TokenRisk, $.Cardinality.Many>, null> = _.syntax.$PathNode($.$toSet($TokenRisk, $.Cardinality.Many), null);
 
 
-export { $Token, Token, $TokenMetrics, TokenMetrics, $TokenPrices, TokenPrices };
+
+export { $Token, Token, $TokenMetrics, TokenMetrics, $TokenPrices, TokenPrices, $TokenRisk, TokenRisk };
 
 type __defaultExports = {
   "Token": typeof Token;
   "TokenMetrics": typeof TokenMetrics;
-  "TokenPrices": typeof TokenPrices
+  "TokenPrices": typeof TokenPrices;
+  "TokenRisk": typeof TokenRisk
 };
 const __defaultExports: __defaultExports = {
   "Token": Token,
   "TokenMetrics": TokenMetrics,
-  "TokenPrices": TokenPrices
+  "TokenPrices": TokenPrices,
+  "TokenRisk": TokenRisk
 };
 export default __defaultExports;

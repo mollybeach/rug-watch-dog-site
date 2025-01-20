@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import edgeDBCloudClient from '@/lib/db/config';
-import type { TokenDataType, TokenMetricsType, RiskMetricsType } from '@/types/data';
+import type { TokenDataType, TokenMetricsType, TokenRiskType } from '@/types/data';
 import { SELECT_TOKEN } from '@/lib/db/queries';
 
 export const dynamic = 'force-dynamic';
@@ -39,8 +39,9 @@ function calculateOverallRisk(token: TokenMetricsType): number {
     return risks.reduce((sum, risk) => sum + risk, 0) / risks.length;
 }
 
-async function predictRisk(token: TokenMetricsType): Promise<RiskMetricsType> {
+async function predictRisk(token: TokenMetricsType): Promise<TokenRiskType> {
     return {
+        tokenAddress: token.tokenAddress,
         overall: calculateOverallRisk(token),
         liquidity: calculateLiquidityRisk(token),
         concentration: calculateConcentrationRisk(token),

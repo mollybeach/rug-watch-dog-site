@@ -1,7 +1,7 @@
 // path: src/scripts/seed-db.ts
 import { edgeDBCloudClient, localClient, edgeql } from '../index';
 import { SAMPLE_TOKENS } from '../db/seeders/seeds';
-import { formatTokenMetrics, formatTokenPrice } from '../utils/formatData';
+import { formatTokenMetrics, formatTokenPrice, formatTokenRisk } from '../utils/formatData';
 
 async function seedDatabase() {
     try {
@@ -30,13 +30,14 @@ async function seedDatabase() {
 
             const metricsQuery = edgeql.insert(edgeql.TokenMetrics, formatTokenMetrics(token.metrics));
             const priceQuery = edgeql.insert(edgeql.TokenPrices, formatTokenPrice(token.price));
-
+            const riskQuery = edgeql.insert(edgeql.TokenRisk, formatTokenRisk(token.risk));
             const tokenQuery = edgeql.insert(edgeql.Token, {
                 address: token.address,
                 name: token.name,
                 symbol: token.symbol,
                 metrics: metricsQuery,
                 price: priceQuery,
+                risk: riskQuery,
                 createdAt: new Date(token.createdAt),
                 updatedAt: new Date(token.updatedAt)
             });

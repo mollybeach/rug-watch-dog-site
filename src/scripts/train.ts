@@ -16,6 +16,7 @@ async function main() {
             symbol: token.symbol,
             metrics: token.metrics,
             price: token.price,
+            risk: token.risk,
             createdAt: token.createdAt,
             updatedAt: token.updatedAt
         }));

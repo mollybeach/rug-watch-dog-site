@@ -33,6 +33,19 @@ export const SAMPLE_TOKENS = [
             marketCap: 0.2,
             timestamp: '2025-01-13 07:57:13.658565'
         },
+        risk: {
+            tokenAddress: '0x01D7367A1F1AfdC3D2667C37ef5A3723012d7757',
+            overall: 0.2,
+            liquidity: 0.2,
+            concentration: 0.2,
+            volatility: 0.2,
+            social: 0.2,
+            technical: 0.2,
+            totalTokens: 0,
+            highRiskCount: 0,
+            mediumRiskCount: 0,
+            lowRiskCount: 0,
+        },
         createdAt: '2025-01-13 07:57:13.658565',
         updatedAt: '2025-01-13 07:57:13.658565'
     },
@@ -69,6 +82,19 @@ export const SAMPLE_TOKENS = [
             volume24h: 0.2,
             marketCap: 0.2,
             timestamp: '2025-01-13 07:57:13.658565'
+        },
+        risk: {
+            tokenAddress: '0x037A54AaB062628C9Bbae1FDB1583c195585fe41',
+            overall: 0.2,
+            liquidity: 0.2,
+            concentration: 0.2,
+            volatility: 0.2,
+            social: 0.2,
+            technical: 0.2,
+            totalTokens: 0,
+            highRiskCount: 0,
+            mediumRiskCount: 0,
+            lowRiskCount: 0,
         },
         createdAt: '2025-01-13 07:57:13.658565',
         updatedAt: '2025-01-13 07:57:13.658565'
@@ -107,6 +133,19 @@ export const SAMPLE_TOKENS = [
             marketCap: 0.2,
             timestamp: '2025-01-13 07:57:13.658565'
         },
+        risk: {
+            tokenAddress: '0x06113abCeF9D163C026441b112e70c82EE1c4A79',
+            overall: 0.2,
+            liquidity: 0.2,
+            concentration: 0.2,
+            volatility: 0.2,
+            social: 0.2,
+            technical: 0.2,
+            totalTokens: 0,
+            highRiskCount: 0,
+            mediumRiskCount: 0,
+            lowRiskCount: 0,
+        },
         createdAt: '2025-01-13 07:57:13.658565',
         updatedAt: '2025-01-13 07:57:13.658565'
     },
@@ -143,6 +182,19 @@ export const SAMPLE_TOKENS = [
             volume24h: 0.2,
             marketCap: 0.2,
             timestamp: '2025-01-13 07:57:13.658565'
+        },
+        risk: {
+            tokenAddress: '0x06B964d96f5dCF7Eae9d7C559B09EDCe244d4B8E',
+            overall: 0.2,
+            liquidity: 0.2,
+            concentration: 0.2,
+            volatility: 0.2,
+            social: 0.2,
+            technical: 0.2,
+            totalTokens: 0,
+            highRiskCount: 0,
+            mediumRiskCount: 0,
+            lowRiskCount: 0,
         },
         createdAt: '2025-01-13 07:57:13.658565',
         updatedAt: '2025-01-13 07:57:13.658565'
@@ -181,6 +233,19 @@ export const SAMPLE_TOKENS = [
             marketCap: 0.2,
             timestamp: '2025-01-13 07:57:13.658565'
         },
+        risk: {
+            tokenAddress: '0x0f6d4d4643A514132F84F4a270946dB3c7Cb701C',
+            overall: 0.2,
+            liquidity: 0.2,
+            concentration: 0.2,
+            volatility: 0.2,
+            social: 0.2,
+            technical: 0.2,
+            totalTokens: 0,
+            highRiskCount: 0,
+            mediumRiskCount: 0,
+            lowRiskCount: 0,
+        },
         createdAt: '2025-01-13 07:57:13.658565',
         updatedAt: '2025-01-13 07:57:13.658565'
     },
@@ -217,6 +282,19 @@ export const SAMPLE_TOKENS = [
             volume24h: 0.2,
             marketCap: 0.2,
             timestamp: '2025-01-13 07:57:13.658565'
+        },
+        risk: {
+            tokenAddress: '0x13E4b8CfFe704d3De6F19E52b201d92c21EC18bD',
+            overall: 0.2,
+            liquidity: 0.2,
+            concentration: 0.2,
+            volatility: 0.2,
+            social: 0.2,
+            technical: 0.2,
+            totalTokens: 0,
+            highRiskCount: 0,
+            mediumRiskCount: 0,
+            lowRiskCount: 0,
         },
         createdAt: '2025-01-13 07:57:13.658565',
         updatedAt: '2025-01-13 07:57:13.658565'
@@ -255,6 +333,19 @@ export const SAMPLE_TOKENS = [
             marketCap: 0.2,
             timestamp: '2025-01-13 07:57:13.658565'
         },
+        risk: {
+            tokenAddress: '0x1495bc9e44Af1F8BCB62278D2bEC4540cF0C05ea',
+            overall: 0.2,
+            liquidity: 0.2,
+            concentration: 0.2,
+            volatility: 0.2,
+            social: 0.2,
+            technical: 0.2,
+            totalTokens: 0,
+            highRiskCount: 0,
+            mediumRiskCount: 0,
+            lowRiskCount: 0,
+        },
         createdAt: '2025-01-13 07:57:13.658565',
         updatedAt: '2025-01-13 07:57:13.658565'
     },
@@ -291,6 +382,19 @@ export const SAMPLE_TOKENS = [
             volume24h: 0.2,
             marketCap: 0.2,
             timestamp: '2025-01-13 07:57:13.658565'
+        },
+        risk: {
+            tokenAddress: '0x1a2EB478FA07125C9935A77b3C03a82470801E30',
+            overall: 0.2,
+            liquidity: 0.2,
+            concentration: 0.2,
+            volatility: 0.2,
+            social: 0.2,
+            technical: 0.2,
+            totalTokens: 0,
+            highRiskCount: 0,
+            mediumRiskCount: 0,
+            lowRiskCount: 0,
         },
         createdAt: '2025-01-13 07:57:13.658565',
         updatedAt: '2025-01-13 07:57:13.658565'

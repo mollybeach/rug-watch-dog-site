@@ -3,8 +3,8 @@ import { ethers } from 'ethers';
 import config from '../config/default';
 import { fetchTokenData } from './fetcher';
 import { edgeDBCloudClient, edgeql } from '../index';
-import { Token, TokenMetrics, TokenPrices } from '../../dbschema/edgeql-js/modules/default';
-import { formatTokenMetrics, formatTokenPrice } from '../utils/formatData';
+import { Token, TokenMetrics, TokenPrices, TokenRisk } from '../../dbschema/edgeql-js/modules/default';
+import { formatTokenMetrics, formatTokenPrice, formatTokenRisk } from '../utils/formatData';
 
 
 async function monitorChain(chain: keyof typeof config.rpc, batchSize: number = config.scan.batchSize) {
@@ -55,7 +55,8 @@ async function monitorChain(chain: keyof typeof config.rpc, batchSize: number = 
                             name: tokenData.name,
                             symbol: tokenData.symbol,
                             metrics: edgeql.insert(TokenMetrics, formatTokenMetrics(tokenData.metrics)),
-                            price: edgeql.insert(TokenPrices, formatTokenPrice(tokenData.price))
+                            price: edgeql.insert(TokenPrices, formatTokenPrice(tokenData.price)),
+                            risk: edgeql.insert(TokenRisk, formatTokenRisk(tokenData.risk))
                         });
 
                         await insertToken.run(edgeDBCloudClient);

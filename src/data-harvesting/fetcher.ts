@@ -1,8 +1,10 @@
 // path: src/data-harvesting/fetcher.ts
 import axios from 'axios';
 import dotenv from 'dotenv';
-import { TokenDataType, TokenMetricsType, TokenPriceType } from '../../types/data';
+import { TokenDataType, TokenMetricsType, TokenPriceType, TokenRiskType } from '../../types/data';
 import { process } from 'edgedb/dist/adapter.node';
+import * as tf from '@tensorflow/tfjs-node';
+import { analyzeToken } from '../training/modelPredictor';
 
 dotenv.config();
 
@@ -184,10 +186,30 @@ async function calculateAccumulationMetrics(transactions: Transaction[]): Promis
     };
 }
 
-function calculateIsRugPull(etherscanData: EtherscanData | null): boolean {
-    if (!etherscanData?.result) return false;
-    const lastTransaction = etherscanData.result[etherscanData.result.length - 1];
-    return lastTransaction.to === '0x0000000000000000000000000000000000000000';
+// Function to generate metadata reason string
+function generateMetadataReason(metrics: TokenMetricsType, risk: TokenRiskType): string {
+    const reasons: string[] = [];
+
+    if (metrics.holderConcentration > 0.7) {
+        reasons.push('High concentration of holders');
+    }
+    if (metrics.priceVolatility > 0.7) {
+        reasons.push('High price volatility');
+    }
+    if (metrics.liquidityScore < 0.3) {
+        reasons.push('Low liquidity score');
+    }
+    if (metrics.sellPressure > 0.7) {
+        reasons.push('High sell pressure');
+    }
+    if (risk.overall > 0.7) {
+        reasons.push('Overall high risk');
+    }
+    if (risk.social > 0.5) {
+        reasons.push('Potential rug pull detected');
+    }
+
+    return reasons.length > 0 ? reasons.join(', ') : 'No significant risks detected';
 }
 
 export async function fetchTokenData(tokenAddress: string, chain: string = 'ethereum'): Promise<TokenDataType | null> {
@@ -209,47 +231,82 @@ export async function fetchTokenData(tokenAddress: string, chain: string = 'ethe
         const bundlerPattern = await detectBundlerPattern(etherscanData.result);
         const accMetrics = await calculateAccumulationMetrics(etherscanData.result);
 
-        const metrics: TokenMetricsType = {
-            metadata: JSON.stringify({ reason: 'default reason' }),
-            tokenAddress: tokenAddress,  //type: str
-            volumeAnomaly: calculateVolumeAnomaly(dexData), //type: decimal
-            holderConcentration: calculateHolderConcentration(etherscanData), //type: decimal
-            liquidityScore: calculateLiquidityScore(dexData), //type: decimal
-            priceVolatility: calculatePriceVolatility(dexData), //type: decimal
-            sellPressure: calculateSellPressure(dexData), //type: decimal
-            marketCapRisk: calculateMarketCapRisk(dexData), //type: decimal
-            isRugPull: calculateIsRugPull(etherscanData), //type: bool
-            bundlerActivity: bundlerPattern.isFromBundler, //type: bool
-            accumulationRate: accMetrics.accumulationRate, //type: decimal
-            stealthAccumulation: accMetrics.stealthAccumulation, //type: decimal
-            suspiciousPattern: bundlerPattern.timePattern > 0.5, // Change to boolean
-            timestamp: new Date, //type: datetime
-            holders: etherscanData.result.length, //type: decimal
-            totalSupply: etherscanData.result.length, //type: decimal
-            currentPrice: dexData.pairs[0].priceUsd || 0, //type: decimal
-            isHoneyPot: etherscanData.result.length > 1000 //type: bool
-        };
-
-        const price: TokenPriceType = {
-            tokenAddress: tokenAddress,
-            price: dexData.pairs[0].priceUsd || 0,
-            volume24h: dexData.pairs[0].volume?.h24 || 0,
-            marketCap: (dexData.pairs[0].priceUsd || 0) * 1000000, // Approximate
-            liquidity: dexData.pairs[0].liquidity?.usd || 0,
-            timestamp: new Date()
-        };
-
-        return {
+        const tokenData: TokenDataType = {
             address: tokenAddress,
             name: dexData.pairs[0].baseToken?.name || 'Unknown',
             symbol: dexData.pairs[0].baseToken?.symbol || 'UNKNOWN',
-            metrics,
-            price,
+            metrics: {
+                metadata: '', // Placeholder, will be updated
+                tokenAddress: tokenAddress,
+                volumeAnomaly: calculateVolumeAnomaly(dexData),
+                holderConcentration: calculateHolderConcentration(etherscanData),
+                liquidityScore: calculateLiquidityScore(dexData),
+                priceVolatility: calculatePriceVolatility(dexData),
+                sellPressure: calculateSellPressure(dexData),
+                marketCapRisk: calculateMarketCapRisk(dexData),
+                isRugPull: false, // Temporary value, will be updated
+                bundlerActivity: bundlerPattern.isFromBundler,
+                accumulationRate: accMetrics.accumulationRate,
+                stealthAccumulation: accMetrics.stealthAccumulation,
+                suspiciousPattern: bundlerPattern.timePattern > 0.5,
+                timestamp: new Date(),
+                holders: etherscanData.result.length,
+                totalSupply: etherscanData.result.length,
+                currentPrice: dexData.pairs[0].priceUsd || 0,
+                isHoneyPot: etherscanData.result.length > 1000
+            },
+            price: {
+                tokenAddress: tokenAddress,
+                price: dexData.pairs[0].priceUsd || 0,
+                volume24h: dexData.pairs[0].volume?.h24 || 0,
+                marketCap: (dexData.pairs[0].priceUsd || 0) * 1000000,
+                liquidity: dexData.pairs[0].liquidity?.usd || 0,
+                timestamp: new Date()
+            },
+            risk: {
+                tokenAddress: tokenAddress,
+                overall: 0,
+                liquidity: 0,
+                concentration: 0,
+                volatility: 0,
+                social: 0,
+                technical: 0,
+                totalTokens: 0,
+                highRiskCount: 0,
+                mediumRiskCount: 0,
+                lowRiskCount: 0
+            },
             createdAt: new Date(),
             updatedAt: new Date()
         };
+
+        // Analyze the token data
+        const analysisResult = await analyzeToken(tokenData);
+
+        // Use the analysis result for risk calculation
+        const risk: TokenRiskType = {
+            tokenAddress: tokenAddress,
+            overall: analysisResult.predictionData[0],
+            liquidity: analysisResult.predictionData[1],
+            concentration: analysisResult.predictionData[2],
+            volatility: analysisResult.predictionData[3],
+            social: analysisResult.predictionData[4],
+            technical: analysisResult.predictionData[5],
+            totalTokens: tokenData.metrics.totalSupply,
+            highRiskCount: 0,
+            mediumRiskCount: 0,
+            lowRiskCount: 0
+        };
+
+        //Fill in the rest of the token data
+        tokenData.metrics.isRugPull = analysisResult.isRugPull;
+        tokenData.metrics.metadata = JSON.stringify({ reason: generateMetadataReason(tokenData.metrics, risk) });
+        tokenData.risk = risk;
+        return tokenData;
     } catch (error) {
         console.error('Error fetching token data:', error);
         return null;
     }
 }
+
+
