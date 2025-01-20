@@ -3,8 +3,8 @@
 import { fetchTokenData } from '@/src/data-harvesting/fetcher';
 import { edgeDBCloudClient, edgeql } from '@/src/index';
 import { Token, TokenMetrics, TokenPrices } from '@/dbschema/edgeql-js/modules/default';
-import { kleroSeedsTokenData } from '@/db/seeders/kleros-seeds';
-import { formatTokenMetricsEdgeql, formatTokenPriceEdgeql } from '@/utils/formatData';
+import { kleroSeedsTokenData } from '@/src/db/seeders/kleros-seeds';
+import { formatTokenMetricsEdgeql, formatTokenPriceEdgeql } from '@/src/utils/formatData';
 // Function to add tokens to the database
 async function addTokensToDatabase() {
     // Extract contract addresses from seedTokenData

@@ -93,9 +93,6 @@ module default {
         }
     };
 
-    type Reason {
-        required property reason -> str;
-    };  
 };
 
 
