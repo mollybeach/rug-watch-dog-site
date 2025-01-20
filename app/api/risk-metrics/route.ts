@@ -1,18 +1,58 @@
-// path: app/api/risk-metrics/route.ts
 import { NextResponse } from 'next/server';
 import edgeDBCloudClient from '@/lib/db/config';
-import type { TokenDataType } from '@/types/data';
+import type { TokenDataType, TokenMetricsType, RiskMetricsType } from '@/types/data';
 import { SELECT_TOKEN } from '@/lib/db/queries';
-import fetch from 'node-fetch'; // Import fetch for making HTTP requests
-
-interface RiskResponse {
-    success: boolean;
-    data: any; // Replace 'any' with the specific type if known
-}
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 export const revalidate = 0;
+
+// Define the predictRisk function directly in this file
+function calculateLiquidityRisk(token: TokenMetricsType): number {
+    return Math.min(Math.max(token.liquidityScore / 100, 0), 1);
+}
+
+function calculateConcentrationRisk(token: TokenMetricsType): number {
+    return Math.min(Math.max(token.holderConcentration / 100, 0), 1);
+}
+
+function calculateVolatilityRisk(token: TokenMetricsType): number {
+    return Math.min(Math.max(token.priceVolatility / 100, 0), 1);
+}
+
+function calculateSocialRisk(token: TokenMetricsType): number {
+    return token.isRugPull ? 1 : 0;
+}
+
+function calculateTechnicalRisk(token: TokenMetricsType): number {
+    return token.suspiciousPattern ? 1 : 0;
+}
+
+function calculateOverallRisk(token: TokenMetricsType): number {
+    const risks = [
+        calculateLiquidityRisk(token),
+        calculateConcentrationRisk(token),
+        calculateVolatilityRisk(token),
+        calculateSocialRisk(token),
+        calculateTechnicalRisk(token)
+    ];
+    return risks.reduce((sum, risk) => sum + risk, 0) / risks.length;
+}
+
+async function predictRisk(token: TokenMetricsType): Promise<RiskMetricsType> {
+    return {
+        overall: calculateOverallRisk(token),
+        liquidity: calculateLiquidityRisk(token),
+        concentration: calculateConcentrationRisk(token),
+        volatility: calculateVolatilityRisk(token),
+        social: calculateSocialRisk(token),
+        technical: calculateTechnicalRisk(token),
+        totalTokens: 0,
+        highRiskCount: 0,
+        mediumRiskCount: 0,
+        lowRiskCount: 0
+    };
+}
 
 export async function GET(request: Request) {
     try {
@@ -23,20 +63,12 @@ export async function GET(request: Request) {
             return NextResponse.json({ error: 'No tokens found' }, { status: 404 });
         }
 
-        // Use the predictRisk API route
+        // Use the predictRisk function directly
         const riskMetricsPromises = result.map(async (tokenData) => {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/predictRisk`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(tokenData.metrics),
-            });
-
-            const risk = await response.json() as RiskResponse; // Type assertion here
+            const riskMetrics = await predictRisk(tokenData.metrics);
             return {
                 ...tokenData, // Include original token data
-                riskMetrics: risk.data // Add risk metrics
+                riskMetrics // Add risk metrics
             };
         });
 
@@ -68,4 +100,4 @@ export async function GET(request: Request) {
         console.error('Error fetching risk metrics:', error);
         return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
-} 
+}
