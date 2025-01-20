@@ -1,3 +1,26 @@
+// path: src/types/data.ts
+
+export interface RiskMetricsType {
+    overall: number;
+    liquidity: number;
+    concentration: number;
+    volatility: number;
+    social: number;
+    technical: number;
+    totalTokens: number;
+    highRiskCount: number;
+    mediumRiskCount: number;
+    lowRiskCount: number;
+}
+
+export interface MetricsRiskType {
+    overall: number;
+    liquidity: number;
+    concentration: number;
+    volatility: number;
+    social: number;
+    technical: number;
+}
 export interface TokenMetricsType {
     metadata: string;
     tokenAddress: string;
@@ -26,15 +49,6 @@ export interface TokenPriceType {
     liquidity: number;
     timestamp: Date;
 }
-
-export interface RiskMetricsType {
-    overall: number;
-    liquidity: number;
-    concentration: number;
-    volatility: number;
-    social: number;
-    technical: number;
-}
 export interface TokenDataType {
     address: string;
     name: string;
@@ -43,12 +57,17 @@ export interface TokenDataType {
     price: TokenPriceType;
     createdAt: Date;
     updatedAt: Date;
-    riskMetrics?: RiskMetricsType;
+}
+export interface TokenAnalysis extends TokenDataType {
+    // TokenAnalysis extends TokenData with additional fields
 }
 
-export type TokensType = TokenDataType[];
-
-export interface TrainingData extends TokenMetricsType {
+export interface ReasonMessage {
+    condition: boolean;
+    message: string;
 }
 
- 
+export interface TokenAnalysisReason {
+    reasons: string[];
+    formatted: string;
+} 

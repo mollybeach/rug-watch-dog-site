@@ -1,0 +1,1445 @@
+[{
+        "tokenAddress": "0x4592C7A4397Fc06d94465C56616AD9D6c1A7D947",
+        "name": "AIGorilla",
+        "symbol": "AIAPE",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.8,
+        "liquidityScore": 0.5,
+        "priceVolatility": 0.8,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.5,
+        "bundlerActivity": false,
+        "accumulationRate": 0.8095238095238095,
+        "stealthAccumulation": 0.2,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "High concentration of holders, High price volatility"
+        }
+    },
+    {
+        "tokenAddress": "0x6c3ea9036406852006290770BEdFcAbA0e23A0e8",
+        "name": "PayPal USD",
+        "symbol": "PYUSD",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2868,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x80ac24aA929eaF5013f6436cdA2a7ba190f5Cc0b",
+        "name": "Syrup USDC",
+        "symbol": "syrupUSDC",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.5,
+        "sellPressure": 0.5,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.14668462804969315,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x1495bc9e44Af1F8BCB62278D2bEC4540cF0C05ea",
+        "name": "Zero1 Token",
+        "symbol": "DEAI",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2481,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xa84f95eb3DaBdc1bbD613709ef5F2fD42CE5bE8d",
+        "name": "EAI",
+        "symbol": "EAI",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1857,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        "name": "Tether USD",
+        "symbol": "USDT",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.5256,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+        "name": "USD Coin",
+        "symbol": "USDC",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.3765,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xE41d2489571d322189246DaFA5ebDe1F4699F498",
+        "name": "0x Protocol Token",
+        "symbol": "ZRX",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2089,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x1a2EB478FA07125C9935A77b3C03a82470801E30",
+        "name": "Amino",
+        "symbol": "AMO",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.178,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x672F0cA34d8253b3A9bd26ac83fFB22671d1776d",
+        "name": "Fermah AI",
+        "symbol": "FERMAH",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.8,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.6785714285714286,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Low liquidity, High price volatility, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x39b46B212bDF15b42B166779b9d1787A68b9D0c3",
+        "name": "Dypius",
+        "symbol": "DYP",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.11,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Low liquidity, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xE9732d4b1E7d3789004fF029f032bA3034db059c",
+        "name": "Patriot",
+        "symbol": "PATRIOT",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1776,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xD55210Bb6898C021a19de1F58d27b71f095921Ee",
+        "name": "Chickencoin",
+        "symbol": "CHKN",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1818,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x7420B4b9a0110cdC71fB720908340C03F9Bc03EC",
+        "name": "JasmyCoin",
+        "symbol": "JASMY",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.3816,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x6982508145454Ce325dDbE47a25d4ec3d2311933",
+        "name": "Pepe",
+        "symbol": "PEPE",
+        "volumeAnomaly": 0.8,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.4395,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Unusual trading volume detected, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+        "name": "Wrapped Ether",
+        "symbol": "WETH",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1324,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x3593D125a4f7849a1B059E64F4517A86Dd60c95d",
+        "name": "MANTRA DAO",
+        "symbol": "OM",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2949,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x5a3e6A77ba2f983eC0d371ea3B475F8Bc0811AD5",
+        "name": "0x0.ai: AI Smart Contract Auditor",
+        "symbol": "0x0",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2089,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x38B034c814f908BDf5c5546B93C6641347184b59",
+        "name": "RibbitX",
+        "symbol": "RIBBITX",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.8,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.8,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.37894736842105264,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "High concentration of holders, Low liquidity, High price volatility, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x9e18d5BAB2FA94a6A95F509Ecb38F8F68322AbD3",
+        "name": "AMATERASU OMIKAMI",
+        "symbol": "OMIKAMI",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1775,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E",
+        "name": "Curve.Fi USD Stablecoin",
+        "symbol": "crvUSD",
+        "volumeAnomaly": 0.8,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.0873,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Unusual trading volume detected, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xaea46A60368A7bD060eec7DF8CBa43b7EF41Ad85",
+        "name": "Fetch",
+        "symbol": "FET",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.3898,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xC52C326331E9Ce41F04484d3B5E5648158028804",
+        "name": "ZEN Exchange Token",
+        "symbol": "ZCX",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.3176,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
+        "name": "Maker",
+        "symbol": "MKR",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2338,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x455e53CBB86018Ac2B8092FdCd39d8444aFFC3F6",
+        "name": "Polygon Ecosystem Token",
+        "symbol": "POL",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.293,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xA35923162C49cF95e6BF26623385eb431ad920D3",
+        "name": "Turbo",
+        "symbol": "TURBO",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.3215,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x26E550AC11B26f78A04489d5F20f24E3559f7Dd9",
+        "name": "Kekius Maximus",
+        "symbol": "KEKIUS",
+        "volumeAnomaly": 0.8,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.8,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.185,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Unusual trading volume detected, High sell pressure, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xb6c0189080a6441CAF056B856Dd4d795B909C460",
+        "name": "Black Unicorn Corp.",
+        "symbol": "MOON",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.4313,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x3b991130eaE3CcA364406D718DA22FA1C3E7C256",
+        "name": "Shrub",
+        "symbol": "SHRUB",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.188,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xCb76314C2540199f4B844D4ebbC7998C604880cA",
+        "name": "Strawberry AI",
+        "symbol": "BERRY",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.8,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1768,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "High sell pressure, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x718160052CFa530F9fc9ff5623eCfd05DC396C37",
+        "name": "BLASTAR",
+        "symbol": "BLASTAR",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.8,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.8,
+        "bundlerActivity": false,
+        "accumulationRate": 0.30759599332220366,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Low liquidity, High price volatility, Market cap concerns, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x06B964d96f5dCF7Eae9d7C559B09EDCe244d4B8E",
+        "name": "USUALX",
+        "symbol": "USUALX",
+        "volumeAnomaly": 0.8,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2733,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Unusual trading volume detected, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x01D7367A1F1AfdC3D2667C37ef5A3723012d7757",
+        "name": "Frog Sorcerer",
+        "symbol": "FROGZ",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.8,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.8,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.8,
+        "bundlerActivity": false,
+        "accumulationRate": 0.7241379310344828,
+        "stealthAccumulation": 0.2,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "High concentration of holders, Low liquidity, High price volatility, Market cap concerns"
+        }
+    },
+    {
+        "tokenAddress": "0xE86DF1970055e9CaEe93Dae9B7D5fD71595d0e18",
+        "name": "Bitcoin20",
+        "symbol": "BTC20",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1731,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Low liquidity, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x408e41876cCCDC0F92210600ef50372656052a38",
+        "name": "Republic Token",
+        "symbol": "REN",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.8,
+        "bundlerActivity": false,
+        "accumulationRate": 0.3307,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Low liquidity, Market cap concerns, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xC5d27F27F08D1FD1E3EbBAa50b3442e6c0D50439",
+        "name": "Moon App",
+        "symbol": "APP",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.8,
+        "bundlerActivity": false,
+        "accumulationRate": 0.0878,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Low liquidity, Market cap concerns, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x97aeE01ed2aabAd9F54692f94461AE761D225f17",
+        "name": "DEGA",
+        "symbol": "DEGA",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.8,
+        "bundlerActivity": false,
+        "accumulationRate": 0.16008064516129034,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Low liquidity, Market cap concerns, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x06113abCeF9D163C026441b112e70c82EE1c4A79",
+        "name": "Omira",
+        "symbol": "OMIRA",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1247,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x8143182a775C54578c8B7b3Ef77982498866945D",
+        "name": "Wrapped QUIL",
+        "symbol": "wQUIL",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1928,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xDB9Bd37c6D5Fe195923d7487Ad50A1E3C5b9BD42",
+        "name": "Hygea AI",
+        "symbol": "HGAI",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.19718722531497215,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Low liquidity, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x421b05cf5ce28Cb7347E73e2278E84472F0E4a88",
+        "name": "Sentio Protocol",
+        "symbol": "SEN",
+        "volumeAnomaly": 0.8,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.8,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1775,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Unusual trading volume detected, High sell pressure, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x52498F8d9791736f1D6398fE95ba3BD868114d10",
+        "name": "NetVRk",
+        "symbol": "NETVR",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1378,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x037A54AaB062628C9Bbae1FDB1583c195585fe41",
+        "name": "LCX",
+        "symbol": "LCX",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.3522,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32",
+        "name": "Lido DAO Token",
+        "symbol": "LDO",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2573,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xF107edABF59ba696E38DE62Ad5327415Bd4D4236",
+        "name": "Catslap",
+        "symbol": "SLAP",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2637,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+        "name": "Wrapped BTC",
+        "symbol": "WBTC",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.8,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1224,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Low liquidity, Market cap concerns, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xBBbbCA6A901c926F240b89EacB641d8Aec7AEafD",
+        "name": "LoopringCoin V2",
+        "symbol": "LRC",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.3222,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Low liquidity, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+        "name": "ChainLink Token",
+        "symbol": "LINK",
+        "volumeAnomaly": 0.8,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.4367,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Unusual trading volume detected, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x1Bbe973BeF3a977Fc51CbED703E8ffDEfE001Fed",
+        "name": "PORTAL",
+        "symbol": "PORTAL",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.3517,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x0f6d4d4643A514132F84F4a270946dB3c7Cb701C",
+        "name": "Lovely Finance",
+        "symbol": "LOVELY",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.8,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1509,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Low liquidity, Market cap concerns, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x9EF5AccC76930D46406291546e45956c8FE04F79",
+        "name": "zkExchange",
+        "symbol": "ZKEX",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.8,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.8,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.8,
+        "bundlerActivity": false,
+        "accumulationRate": 0.34782608695652173,
+        "stealthAccumulation": 0.2,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "High concentration of holders, Low liquidity, High price volatility, Market cap concerns"
+        }
+    },
+    {
+        "tokenAddress": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+        "name": "Dai Stablecoin",
+        "symbol": "DAI",
+        "volumeAnomaly": 0.8,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.5,
+        "sellPressure": 0.5,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2392,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Unusual trading volume detected, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xDc300854B0EF52650057158E8a33AFE703525539",
+        "name": "Bet More",
+        "symbol": "BMR",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.8,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.23682140047206923,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "High price volatility, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x558e7139800f8bc119F68D23a6126FFFD43a66a6",
+        "name": "U2U Network",
+        "symbol": "U2U",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2848067760719958,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x808507121B80c02388fAd14726482e061B8da827",
+        "name": "Pendle",
+        "symbol": "PENDLE",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2207,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7",
+        "name": "rsETH",
+        "symbol": "rsETH",
+        "volumeAnomaly": 0.8,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2249,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Unusual trading volume detected, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xAEc613188B1E178d42a05d352044D54854C3196a",
+        "name": "SUI Desci Agents",
+        "symbol": "DESCI",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2112,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xA0Ef786Bf476fE0810408CaBA05E536aC800ff86",
+        "name": "Myria",
+        "symbol": "MYRIA",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.293,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x68BbEd6A47194EFf1CF514B50Ea91895597fc91E",
+        "name": "Andy",
+        "symbol": "ANDY",
+        "volumeAnomaly": 0.8,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.8,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2059,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Unusual trading volume detected, High price volatility, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xcf0C122c6b73ff809C693DB761e7BaeBe62b6a2E",
+        "name": "FLOKI",
+        "symbol": "FLOKI",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2848,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x3F31f59F7307A0468501f39B6c1175fF9b6cD927",
+        "name": "Zora AI",
+        "symbol": "ZORA",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.8,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.16343134456180416,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "High price volatility, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x55296f69f40Ea6d20E478533C15A6B08B654E758",
+        "name": "XY Oracle",
+        "symbol": "XYO",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2926,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x66a0f676479Cee1d7373f3DC2e2952778BfF5bd6",
+        "name": "Wise Token",
+        "symbol": "WISE",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.0942,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x7d5121505149065b562C789A0145eD750e6E8cdD",
+        "name": "Victoria VR",
+        "symbol": "VR",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.23,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Low liquidity, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x27702a26126e0B3702af63Ee09aC4d1A084EF628",
+        "name": "aleph.im v2",
+        "symbol": "ALEPH",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1797,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xd1d2Eb1B1e90B638588728b4130137D262C87cae",
+        "name": "Gala",
+        "symbol": "GALA",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.3472,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x4a220E6096B25EADb88358cb44068A3248254675",
+        "name": "Quant",
+        "symbol": "QNT",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.3883,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE",
+        "name": "SHIBA INU",
+        "symbol": "SHIB",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.8,
+        "bundlerActivity": false,
+        "accumulationRate": 0.3477,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Low liquidity, Market cap concerns, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xadd39272E83895E7d3f244f696B7a25635F34234",
+        "name": "Pepe Unchained",
+        "symbol": "PEPU",
+        "volumeAnomaly": 0.8,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.8,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.244,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Unusual trading volume detected, High price volatility, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x47000A7B27a75D44FfaDfe9D0B97fA04D569B323",
+        "name": "Trumpius Maximus",
+        "symbol": "TRUMPIUS",
+        "volumeAnomaly": 0.8,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1418,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Unusual trading volume detected, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xcA4F53E6117623992126A9A45Ce61682FE8678Df",
+        "name": "Poppy",
+        "symbol": "POPPY",
+        "volumeAnomaly": 0.8,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.8,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1451,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Unusual trading volume detected, High price volatility, Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xE2432110C32D0717E33c245fe0CFA2B26c07f47a",
+        "name": "AGIX",
+        "symbol": "AGX",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1434,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xB868Cca38a8E6348d8D299c9b3C80e63d45Abe4c",
+        "name": "Fusion AI",
+        "symbol": "FUSION",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1712,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xb9f599ce614Feb2e1BBe58F180F370D05b39344E",
+        "name": "PepeFork",
+        "symbol": "PORK",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.1635,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0xC76D53F988820fe70E01eCCb0248B312c2f1c7cA",
+        "name": "Inu",
+        "symbol": "INU",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.2693,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    },
+    {
+        "tokenAddress": "0x13E4b8CfFe704d3De6F19E52b201d92c21EC18bD",
+        "name": "ParallelAI",
+        "symbol": "PAI",
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.2,
+        "priceVolatility": 0.2,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.2,
+        "bundlerActivity": false,
+        "accumulationRate": 0.165,
+        "stealthAccumulation": 0.8,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "Suspicious accumulation pattern"
+        }
+    }
+]

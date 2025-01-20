@@ -1,0 +1,13 @@
+// path: src/scripts/test-connect.ts
+import { edgeDBCloudClient } from '../index';
+
+async function testConnection() {
+    try {
+        const result = await edgeDBCloudClient.querySingle('SELECT count(Token)');
+        console.log('Number of tokens in remote database:', result);
+    } catch (error) {
+        console.error('Error connecting to remote database:', error);
+    }
+}
+
+testConnection();

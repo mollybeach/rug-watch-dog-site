@@ -42,3 +42,23 @@
   ],
   "exclude": ["node_modules"]
 }
+
+/*{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "paths": {
+      "*": ["node_modules/*", "src/types/*", "dbschema/*"]
+    },
+    "noEmit": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "include": ["src", "dbschema"]
+}*/
