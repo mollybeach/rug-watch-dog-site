@@ -90,8 +90,5 @@ module default {
             default := datetime_current();  # Default to the current timestamp
         }
     };
-    type ReasonMessage {
-        required property condition -> bool;
-        required property message -> str;
-    }
 };
+

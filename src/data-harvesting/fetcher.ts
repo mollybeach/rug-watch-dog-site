@@ -184,6 +184,12 @@ async function calculateAccumulationMetrics(transactions: Transaction[]): Promis
     };
 }
 
+function calculateIsRugPull(etherscanData: EtherscanData | null): boolean {
+    if (!etherscanData?.result) return false;
+    const lastTransaction = etherscanData.result[etherscanData.result.length - 1];
+    return lastTransaction.to === '0x0000000000000000000000000000000000000000';
+}
+
 export async function fetchTokenData(tokenAddress: string, chain: string = 'ethereum'): Promise<TokenDataType | null> {
     try {
         console.log(`\n📊 Fetching data for token: ${tokenAddress} on ${chain}`);
@@ -205,23 +211,23 @@ export async function fetchTokenData(tokenAddress: string, chain: string = 'ethe
 
         const metrics: TokenMetricsType = {
             metadata: JSON.stringify({ reason: 'default reason' }),
-            tokenAddress: tokenAddress,
-            volumeAnomaly: calculateVolumeAnomaly(dexData),
-            holderConcentration: calculateHolderConcentration(etherscanData),
-            liquidityScore: calculateLiquidityScore(dexData),
-            priceVolatility: calculatePriceVolatility(dexData),
-            sellPressure: calculateSellPressure(dexData),
-            marketCapRisk: calculateMarketCapRisk(dexData),
-            isRugPull: false,
-            bundlerActivity: bundlerPattern.isFromBundler,
-            accumulationRate: accMetrics.accumulationRate,
-            stealthAccumulation: accMetrics.stealthAccumulation,
-            suspiciousPattern: bundlerPattern.timePattern > 0.5 ? 'true' : bundlerPattern.timePattern === 0 ? null : 'false',
-            timestamp: new Date,
-            holders: 0,
-            totalSupply: 0,
-            currentPrice: 0,
-            isHoneyPot: false
+            tokenAddress: tokenAddress,  //type: str
+            volumeAnomaly: calculateVolumeAnomaly(dexData), //type: decimal
+            holderConcentration: calculateHolderConcentration(etherscanData), //type: decimal
+            liquidityScore: calculateLiquidityScore(dexData), //type: decimal
+            priceVolatility: calculatePriceVolatility(dexData), //type: decimal
+            sellPressure: calculateSellPressure(dexData), //type: decimal
+            marketCapRisk: calculateMarketCapRisk(dexData), //type: decimal
+            isRugPull: calculateIsRugPull(etherscanData), //type: bool
+            bundlerActivity: bundlerPattern.isFromBundler, //type: bool
+            accumulationRate: accMetrics.accumulationRate, //type: decimal
+            stealthAccumulation: accMetrics.stealthAccumulation, //type: decimal
+            suspiciousPattern: bundlerPattern.timePattern > 0.5 ? 'true' : bundlerPattern.timePattern === 0 ? null : 'false', //type: str
+            timestamp: new Date, //type: datetime
+            holders: etherscanData.result.length, //type: decimal
+            totalSupply: etherscanData.result.length, //type: decimal
+            currentPrice: dexData.pairs[0].priceUsd || 0, //type: decimal
+            isHoneyPot: etherscanData.result.length > 1000 //type: bool
         };
 
         const price: TokenPriceType = {

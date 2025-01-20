@@ -27,20 +27,20 @@ const RPC_ENDPOINTS = {
 // Cache of processed addresses to avoid duplicates
 const processedAddresses = new Set<string>();
 const MIN_CONTRACT_SIZE = 500; // Minimum contract size in bytes to consider
-const CONCURRENT_REQUESTS = 10; // Increased concurrent API requests
-const BATCH_SIZE = 50; // Increased batch size for processing
+const CONCURRENT_REQUESTS = 20; // Increased concurrent API requests
+const BATCH_SIZE = 20; // Increased batch size for processing
 const BLOCKS_TO_CACHE = 100; // Number of blocks to cache
 
-// Cache for block data to avoid rate limiting
+// Cache for block data
 const blockCache = new Map<string, ethers.Block>();
 
 // Rate limiting settings
 const RATE_LIMIT = {
-    requests: 5,
+    requests: 15, // Increased requests per window
     window: 1000, // 1 second
-    minDelay: 200,
-    maxDelay: 10000,
-    backoffFactor: 1.5
+    minDelay: 50, // Reduced minimum delay
+    maxDelay: 3000, // Reduced maximum delay
+    backoffFactor: 1.5 // Increased backoff factor
 };
 
 let lastRequestTime = 0;
@@ -71,6 +71,7 @@ async function waitForRateLimit(): Promise<void> {
 }
 
 async function isTokenContract(provider: ethers.JsonRpcProvider, address: string): Promise<boolean> {
+    console.log('Checking if address is a token contract:', address);
     try {
         const code = await provider.getCode(address);
         if (code.length < MIN_CONTRACT_SIZE * 2 + 2) return false;
@@ -78,7 +79,8 @@ async function isTokenContract(provider: ethers.JsonRpcProvider, address: string
         const hasTransfer = code.includes('a9059cbb');
         const hasBalanceOf = code.includes('70a08231');
         return hasTransfer && hasBalanceOf;
-    } catch {
+    } catch (error) {
+        console.error('Error checking token contract:', error);
         return false;
     }
 }
@@ -113,6 +115,7 @@ async function processTransaction(
         processedAddresses.add(receipt.contractAddress);
         return receipt.contractAddress;
     } catch (error) {
+        console.error('Error processing transaction:', error);
         if (error && typeof error === 'object' && 'message' in error && typeof error.message === 'string' && error.message.includes('rate limit')) {
             console.log('Rate limit hit, backing off...');
             await sleep(currentDelay);
@@ -160,6 +163,7 @@ async function getBlock(provider: ethers.JsonRpcProvider, blockNumber: number): 
         }
         return block;
     } catch (error) {
+        console.error('Error getting block:', error);
         if (error && typeof error === 'object' && 'message' in error && typeof error.message === 'string' && error.message.includes('rate limit')) {
             console.log('Rate limit hit, backing off...');
             await sleep(currentDelay);
@@ -170,9 +174,11 @@ async function getBlock(provider: ethers.JsonRpcProvider, blockNumber: number): 
     }
 }
 
-async function scanChain(chain: string, targetTokens: number = 50): Promise<void> {
+async function scanChain(chain: string, targetTokens: number = 50): Promise<string[]> {
     const provider = await getProvider(chain);
     console.log(`\n🔍 Scanning ${chain} chain...`);
+    
+    const extractedTokens: string[] = [];
     
     try {
         const latestBlock = await provider.getBlockNumber();
@@ -181,24 +187,37 @@ async function scanChain(chain: string, targetTokens: number = 50): Promise<void
         let scannedTokens = 0;
         let currentBlock = latestBlock;
         let blocksWithoutTokens = 0;
-        const MAX_BLOCKS_WITHOUT_TOKENS = 200; // Increased block search range
+        const MAX_BLOCKS_WITHOUT_TOKENS = 500; // Increased block search range
         
         while (scannedTokens < targetTokens && blocksWithoutTokens < MAX_BLOCKS_WITHOUT_TOKENS) {
+            console.log('Current block:', currentBlock);
             const block = await getBlock(provider, currentBlock);
             if (!block?.transactions?.length) {
                 currentBlock--;
                 blocksWithoutTokens++;
                 continue;
             }
+            // Check if the block contains any token-related transactions
+            const tokenTransactions = block.transactions.filter((tx: any) => tx.to === null);
+            if (tokenTransactions.length === 0) {
+                console.log('No token transactions in block:', currentBlock);
+                currentBlock--;
+                blocksWithoutTokens++;
+                continue;
+            }
             
-            for (let i = 0; i < block.transactions.length; i += BATCH_SIZE) {
+            for (let i = 0; i < tokenTransactions.length; i += BATCH_SIZE) {
                 if (scannedTokens >= targetTokens) break;
-                
-                const batch = block.transactions.slice(i, i + BATCH_SIZE);
+                console.log('Batch size:', BATCH_SIZE);
+                const batch = tokenTransactions.slice(i, i + BATCH_SIZE);
+                console.log('Batch:', batch);
                 const tokenAddresses = await processBatch(provider, batch, latestBlock, currentBlock);
-                
+                console.log('Token addresses:', tokenAddresses);
                 if (tokenAddresses.length > 0) {
+                    console.log('Token addresses:', tokenAddresses);
+                    console.log("Token addresses length:", tokenAddresses.length);
                     blocksWithoutTokens = 0;
+                    extractedTokens.push(...tokenAddresses);
                     
                     const tokenPromises = tokenAddresses.map(async address => {
                         console.log(`\n📝 Analyzing token: ${address}`);
@@ -216,11 +235,14 @@ async function scanChain(chain: string, targetTokens: number = 50): Promise<void
                 }
             }
             
-            if (blocksWithoutTokens > 0) blocksWithoutTokens++;
+            if (blocksWithoutTokens > 0) {
+                blocksWithoutTokens++;
+            }
             currentBlock--;
             
             // Add delay between blocks to avoid rate limits
-            await new Promise(resolve => setTimeout(resolve, 100));
+            console.log('Delay:', 50);
+            await new Promise(resolve => setTimeout(resolve, 50)); // Reduced delay
         }
         // Ensure proper error handling for database operations
         await dataCollector.flushRemaining().catch((error: any) => {
@@ -235,6 +257,8 @@ async function scanChain(chain: string, targetTokens: number = 50): Promise<void
         console.error(`Error scanning ${chain}:`, error);
         throw error; // Propagate error for proper handling
     }
+    
+    return extractedTokens;
 }
 
 async function main(): Promise<void> {
@@ -247,13 +271,17 @@ async function main(): Promise<void> {
         const limit = parseInt(args[2] || '50');
 
         if (command === 'scan') {
-            await scanChain(chain, limit);
+            console.log('Scanning chain:', chain);
+            console.log('Limit:', limit);
+            const tokens = await scanChain(chain, limit);
+            console.log('Extracted tokens:', tokens);
         } else if (command === 'scan-all') {
-            await Promise.all(
+            const allTokens = await Promise.all(
                 ['ethereum', 'bsc', 'polygon'].map(chain => 
                     scanChain(chain, limit)
                 )
             );
+            console.log('Extracted tokens from all chains:', allTokens.flat());
         } else {
             console.error('Invalid command. Use "scan" or "scan-all"');
         }

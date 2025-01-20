@@ -1,16 +1,20 @@
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 export default {
     server: {
         port: process.env.PORT || 3000,
         host: process.env.HOST || 'localhost'
     },
     rpc: {
-        ethereum: process.env.ETHEREUM_RPC || 'https://eth-mainnet.g.alchemy.com/v2/your-api-key',
-        bsc: process.env.BSC_RPC || 'https://bsc-dataseed.binance.org',
-        polygon: process.env.POLYGON_RPC || 'https://polygon-rpc.com'
+        ethereum: process.env.ETHEREUM_RPC,
+        bsc: process.env.BSC_RPC,
+        polygon: process.env.POLYGON_RPC,
     },
     api: {
-        etherscan: process.env.ETHERSCAN_API_KEY || '',
-        dexscreener: process.env.DEXSCREENER_API_KEY || ''
+        etherscan: process.env.ETHERSCAN_API_KEY,
+        dexscreener: process.env.DEXSCREENER_API_KEY
     },
     model: {
         path: 'models/model.json',

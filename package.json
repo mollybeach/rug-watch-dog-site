@@ -9,6 +9,8 @@
         "dev": "ts-node-dev --respawn --transpile-only src/api/server.ts",
         "watch": "tsc --watch",
         "scan": "ts-node-dev --transpile-only src/scripts/scan.ts",
+        "add-tokens": "ts-node-dev --transpile-only src/data-harvesting/addTokens.ts",
+        "scan-chain": "ts-node-dev --transpile-only src/data-harvesting/scan-chain.ts",
         "train": "ts-node-dev --transpile-only src/scripts/train.ts",
         "connect": "edgedb -I mollybeach/rug-watch-dog-db",
         "view-db": "ts-node-dev --transpile-only src/scripts/view/view-db.ts",
