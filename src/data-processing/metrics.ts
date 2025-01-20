@@ -40,7 +40,7 @@ export async function getTokenStats() {
         stealthAccumulation: 0,
         suspiciousPattern: null,
         isRugPull: false,
-        metadata: '',
+        metadata: '{reason: "default"}',
         tokenAddress: '',
         timestamp: new Date(),
         holders: 0,

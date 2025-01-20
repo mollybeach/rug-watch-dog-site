@@ -52,36 +52,6 @@ export interface TokenDataType {
     createdAt: Date;
     updatedAt: Date;
 }
-export interface TrainingDataType {
-    address: string;
-    name: string;
-    symbol: string;
-    metadata: string;
-    tokenAddress: string;
-    volumeAnomaly: number;
-    holderConcentration: number;
-    liquidityScore: number;
-    priceVolatility: number;
-    sellPressure: number;
-    marketCapRisk: number;
-    bundlerActivity: boolean;
-    accumulationRate: number;
-    stealthAccumulation: number | null;
-    suspiciousPattern: string | null;
-    isRugPull: boolean;
-    timestamp: Date;
-    holders: number;
-    totalSupply: number;
-    currentPrice: number;
-    isHoneyPot: boolean;
-    price: number;
-    volume24h: number;
-    marketCap: number;
-    liquidity: number;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
 export interface TokenAnalysis extends TokenDataType {
     // TokenAnalysis extends TokenData with additional fields
 }

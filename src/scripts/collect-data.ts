@@ -2,6 +2,7 @@
 import { fetchTokenData } from '../data-harvesting/fetcher';
 import { dataCollector } from '../data-harvesting/collector';
 import { TokenDataType } from '../types/data';
+import { formatToken, defaultToken } from '../utils/formatData';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -12,42 +13,15 @@ async function processTrainingData(filePath: string): Promise<void> {
         
         console.log(`Read ${rawTrainingData.length} records from training data file`);
         
-        // Map the data to match our TokenData interface
-        const trainingData: TokenDataType[] = rawTrainingData.map((data: any) => ({
-            address: data.token, // Map token field to address
-            name: data.name,
-            symbol: data.symbol,
-            metrics: {
-                metadata: data.metadata?? { reason: '' },
-                tokenAddress: data.tokenAddress,
-                volumeAnomaly: data.volumeAnomaly ?? 0,
-                holderConcentration: data.holderConcentration ?? 0,
-                liquidityScore: data.liquidityScore ?? 0,
-                priceVolatility: data.priceVolatility ?? 0,
-                sellPressure: data.sellPressure ?? 0,
-                marketCapRisk: data.marketCapRisk ?? 0,
-                bundlerActivity: data.bundlerActivity ?? false,
-                accumulationRate: data.accumulationRate ?? 0,
-                stealthAccumulation: data.stealthAccumulation ?? 0,
-                suspiciousPattern: data.suspiciousPattern, // This can be null
-                isRugPull: data.isRugPull ?? false,
-                timestamp: data.timestamp,
-                holders: data.holders ?? 0,
-                totalSupply: data.totalSupply ?? 0,
-                currentPrice: data.currentPrice ?? 0,
-                isHoneyPot: data.isHoneyPot ?? false
-            },
-            price: {
-                tokenAddress: data.tokenAddress,
-                price: data.price,
-                volume24h: data.volume24h,
-                marketCap: data.marketCap,
-                liquidity: data.liquidity,
-                timestamp: new Date()
-            },
-            createdAt: new Date(),
-            updatedAt: new Date()
-        }));
+        // Map the data to match our TokenDataType interface
+        const trainingData: TokenDataType[] = rawTrainingData.map((data: any) => {
+            try {
+                return formatToken(data);
+            } catch (error) {
+                console.error(`Error formatting token data:`, error);
+                return defaultToken();
+            }
+        });
         
         console.log(`Mapped ${trainingData.length} tokens for processing`);
         
@@ -90,7 +64,8 @@ async function processTokens(tokenAddresses: string[]): Promise<void> {
                 console.log(`Processing token: ${address}`);
                 const tokenData = await fetchTokenData(address);
                 if (tokenData) {
-                    await dataCollector.collectAndStoreTokenData(tokenData);
+                    const formattedTokenData = formatToken(tokenData);
+                    await dataCollector.collectAndStoreTokenData(formattedTokenData);
                     console.log(`✅ Data collected for token: ${address}`);
                 } else {
                     console.log(`❌ Failed to fetch data for token: ${address}`);

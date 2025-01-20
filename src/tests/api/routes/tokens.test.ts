@@ -4,7 +4,7 @@ import tokensRouter from '../../../api/routes/tokens';
 import { analyzeToken } from '../../../training/modelPredictor';
 
 // Mock the dependencies
-jest.mock('../../../services/ml/predictor');
+jest.mock('../../../training/modelPredictor');
 
 describe('Tokens Routes', () => {
     let app: express.Application;

@@ -1,6 +1,8 @@
 // path: src/data-harvesting/collector.ts
 import { edgeDBCloudClient, edgeql } from '../index';
 import { TokenDataType} from '../types/data';
+import { formatTokenMetrics, formatTokenPrice } from '../utils/formatData';
+
 class DataCollector {
     private tokenBatch: TokenDataType[] = [];
     private readonly BATCH_SIZE = 50;
@@ -26,36 +28,8 @@ class DataCollector {
                 address: tokenData.address,
                 name: tokenData.name,
                 symbol: tokenData.symbol,
-                //@ts-ignore
-                metrics: edgeql.insert(edgeql.TokenMetrics, {
-                    tokenAddress: tokenData.address,
-                    holderConcentration: tokenData.metrics.holderConcentration.toString(),
-                    liquidityScore: tokenData.metrics.liquidityScore.toString(),
-                    marketCapRisk: tokenData.metrics.marketCapRisk.toString(),
-                    timestamp: new Date(tokenData.metrics.timestamp),
-                    metadata: JSON.stringify(tokenData.metrics.metadata),
-                    volumeAnomaly: tokenData.metrics.volumeAnomaly.toString(),
-                    priceVolatility: tokenData.metrics.priceVolatility.toString(),
-                    sellPressure: tokenData.metrics.sellPressure.toString(),
-                    bundlerActivity: tokenData.metrics.bundlerActivity,
-                    accumulationRate: tokenData.metrics.accumulationRate.toString(),
-                    stealthAccumulation: tokenData.metrics.stealthAccumulation?.toString(),
-                    suspiciousPattern: tokenData.metrics.suspiciousPattern ?? '',
-                    isRugPull: tokenData.metrics.isRugPull,
-                    holders: tokenData.metrics.holders.toString(), 
-                    totalSupply: tokenData.metrics.totalSupply.toString(),
-                    currentPrice: tokenData.metrics.currentPrice.toString(),
-                    isHoneyPot: tokenData.metrics.isHoneyPot
-                }),
-                price: edgeql.insert(edgeql.TokenPrices, {
-                    tokenAddress: tokenData.address,
-                    price: tokenData.price.price.toString(),
-                    volume24h: tokenData.price.volume24h.toString(),
-                    marketCap: tokenData.price.marketCap.toString(),
-                    liquidity: tokenData.price.liquidity.toString(),
-                    timestamp: new Date(tokenData.price.timestamp),
-                }),
-                
+                metrics: edgeql.insert(edgeql.TokenMetrics, formatTokenMetrics(tokenData.metrics)),
+                price: edgeql.insert(edgeql.TokenPrices, formatTokenPrice(tokenData.price)),
                 createdAt: tokenData.createdAt,
                 updatedAt: tokenData.updatedAt
             }));

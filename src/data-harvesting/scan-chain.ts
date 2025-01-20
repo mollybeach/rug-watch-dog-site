@@ -1,8 +1,10 @@
+// path: src/data-harvesting/scan-chain.ts  
 import { ethers } from 'ethers';
 import config from '../config/default';
 import { fetchTokenData } from './fetcher';
 import { edgeDBCloudClient, edgeql } from '../index';
 import { Token, TokenMetrics, TokenPrices } from '../../dbschema/edgeql-js/modules/default';
+import { formatTokenMetrics, formatTokenPrice } from '../utils/formatData';
 
 
 async function monitorChain(chain: keyof typeof config.rpc, batchSize: number = config.scan.batchSize) {
@@ -52,34 +54,8 @@ async function monitorChain(chain: keyof typeof config.rpc, batchSize: number = 
                             address: receipt.contractAddress,
                             name: tokenData.name,
                             symbol: tokenData.symbol,
-                            metrics: edgeql.insert(TokenMetrics, {
-                                tokenAddress: tokenData.metrics.tokenAddress,
-                                volumeAnomaly: edgeql.cast(edgeql.decimal, tokenData.metrics.volumeAnomaly),
-                                holderConcentration: edgeql.cast(edgeql.decimal, tokenData.metrics.holderConcentration),
-                                liquidityScore: edgeql.cast(edgeql.decimal, tokenData.metrics.liquidityScore),
-                                priceVolatility: edgeql.cast(edgeql.decimal, tokenData.metrics.priceVolatility),
-                                sellPressure: edgeql.cast(edgeql.decimal, tokenData.metrics.sellPressure),
-                                marketCapRisk: edgeql.cast(edgeql.decimal, tokenData.metrics.marketCapRisk),
-                                bundlerActivity: tokenData.metrics.bundlerActivity,
-                                isRugPull: tokenData.metrics.isRugPull,
-                                metadata: tokenData.metrics.metadata,
-                                timestamp: tokenData.metrics.timestamp,
-                                holders: edgeql.cast(edgeql.decimal, tokenData.metrics.holders),
-                                totalSupply: edgeql.cast(edgeql.decimal, tokenData.metrics.totalSupply),
-                                currentPrice: edgeql.cast(edgeql.decimal, tokenData.metrics.currentPrice),
-                                isHoneyPot: tokenData.metrics.isHoneyPot,
-                                suspiciousPattern: tokenData.metrics.suspiciousPattern || '',
-                                accumulationRate: edgeql.cast(edgeql.decimal, tokenData.metrics.accumulationRate),
-                                stealthAccumulation: edgeql.cast(edgeql.decimal, tokenData.metrics.stealthAccumulation || 0)
-                            }),
-                            price: edgeql.insert(TokenPrices, {
-                                tokenAddress: tokenData.price.tokenAddress,
-                                price: edgeql.cast(edgeql.decimal, tokenData.price.price),
-                                volume24h: edgeql.cast(edgeql.decimal, tokenData.price.volume24h),
-                                marketCap: edgeql.cast(edgeql.decimal, tokenData.price.marketCap),
-                                liquidity: edgeql.cast(edgeql.decimal, tokenData.price.liquidity),
-                                timestamp: tokenData.price.timestamp
-                            })
+                            metrics: edgeql.insert(TokenMetrics, formatTokenMetrics(tokenData.metrics)),
+                            price: edgeql.insert(TokenPrices, formatTokenPrice(tokenData.price))
                         });
 
                         await insertToken.run(edgeDBCloudClient);

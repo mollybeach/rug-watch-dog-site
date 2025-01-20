@@ -1,6 +1,7 @@
 // path: src/scripts/seed-db.ts
 import { edgeDBCloudClient, localClient, edgeql } from '../index';
 import { SAMPLE_TOKENS } from '../db/seeders/seeds';
+import { formatTokenMetrics, formatTokenPrice } from '../utils/formatData';
 
 async function seedDatabase() {
     try {
@@ -27,35 +28,8 @@ async function seedDatabase() {
                 continue;
             }
 
-            const metricsQuery = edgeql.insert(edgeql.TokenMetrics, {
-                metadata: JSON.stringify(token.metrics.metadata),
-                tokenAddress: token.metrics.tokenAddress,
-                volumeAnomaly: token.metrics.volumeAnomaly.toString(),
-                holderConcentration: token.metrics.holderConcentration.toString(),
-                liquidityScore: token.metrics.liquidityScore.toString(),
-                priceVolatility: token.metrics.priceVolatility.toString(),
-                sellPressure: token.metrics.sellPressure.toString(),
-                marketCapRisk: token.metrics.marketCapRisk.toString(),
-                bundlerActivity: token.metrics.bundlerActivity,
-                accumulationRate: token.metrics.accumulationRate.toString(),
-                stealthAccumulation: token.metrics.stealthAccumulation.toString(),
-                suspiciousPattern: token.metrics.suspiciousPattern ?? '',
-                isRugPull: token.metrics.isRugPull,
-                timestamp: new Date(token.metrics.timestamp),
-                holders: token.metrics.holders.toString(),
-                totalSupply: token.metrics.totalSupply.toString(),
-                currentPrice: token.metrics.currentPrice.toString(),
-                isHoneyPot: token.metrics.isHoneyPot
-            });
-
-            const priceQuery = edgeql.insert(edgeql.TokenPrices, {
-                tokenAddress: token.price.tokenAddress,
-                price: token.price.price.toString(),
-                volume24h: token.price.volume24h.toString(),
-                marketCap: token.price.marketCap.toString(),
-                liquidity: token.price.liquidity.toString(),
-                timestamp: new Date(token.price.timestamp)
-            });
+            const metricsQuery = edgeql.insert(edgeql.TokenMetrics, formatTokenMetrics(token.metrics));
+            const priceQuery = edgeql.insert(edgeql.TokenPrices, formatTokenPrice(token.price));
 
             const tokenQuery = edgeql.insert(edgeql.Token, {
                 address: token.address,
