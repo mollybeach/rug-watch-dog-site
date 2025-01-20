@@ -1,4 +1,5 @@
 // path: src/utils/formatData.ts
+
 import { edgeql } from '../index';
 function formatTokenMetrics(metrics: any) {
     return {
@@ -14,7 +15,7 @@ function formatTokenMetrics(metrics: any) {
         bundlerActivity: metrics.bundlerActivity,
         accumulationRate: metrics.accumulationRate.toString(),
         stealthAccumulation: metrics.stealthAccumulation?.toString(),
-        suspiciousPattern: metrics.suspiciousPattern ?? '',
+        suspiciousPattern: metrics.suspiciousPattern ?? false,
         isRugPull: metrics.isRugPull,
         holders: metrics.holders.toString(),
         totalSupply: metrics.totalSupply.toString(),
@@ -60,7 +61,7 @@ function defaultTokenMetrics() {
         bundlerActivity: false,
         accumulationRate: 0,
         stealthAccumulation: 0,
-        suspiciousPattern: null,
+        suspiciousPattern: false,
         isRugPull: false,
         timestamp: new Date(),
         holders: 0,
@@ -105,7 +106,7 @@ function formatTokenMetricsEdgeql(metrics: any) {
         bundlerActivity: metrics.bundlerActivity,
         accumulationRate: edgeql.cast(edgeql.decimal, metrics.accumulationRate),
         stealthAccumulation: edgeql.cast(edgeql.decimal, metrics.stealthAccumulation || 0),
-        suspiciousPattern: metrics.suspiciousPattern || '',
+        suspiciousPattern: metrics.suspiciousPattern,
         isRugPull: metrics.isRugPull,
         holders: edgeql.cast(edgeql.decimal, metrics.holders),
         totalSupply: edgeql.cast(edgeql.decimal, metrics.totalSupply),

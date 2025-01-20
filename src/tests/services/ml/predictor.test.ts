@@ -18,7 +18,7 @@ describe('Token Analysis', () => {
             bundlerActivity: true,
             accumulationRate: 0.1,
             stealthAccumulation: 0.2,
-            suspiciousPattern: 'false',
+            suspiciousPattern: false,
             isRugPull: false,
             timestamp: new Date(),
             holders: 1000,

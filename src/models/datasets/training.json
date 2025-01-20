@@ -11,7 +11,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.8095238095238095,
         "stealthAccumulation": 0.2,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "High concentration of holders, High price volatility"
@@ -30,7 +30,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2868,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -49,7 +49,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.14668462804969315,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -68,7 +68,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2481,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -87,7 +87,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1857,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -106,7 +106,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.5256,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -125,7 +125,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.3765,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -144,7 +144,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2089,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -163,7 +163,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.178,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -182,7 +182,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.6785714285714286,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Low liquidity, High price volatility, Suspicious accumulation pattern"
@@ -201,7 +201,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.11,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Low liquidity, Suspicious accumulation pattern"
@@ -220,7 +220,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1776,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -239,7 +239,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1818,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -258,7 +258,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.3816,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -277,7 +277,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.4395,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Unusual trading volume detected, Suspicious accumulation pattern"
@@ -296,7 +296,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1324,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -315,7 +315,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2949,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -334,7 +334,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2089,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -353,7 +353,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.37894736842105264,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "High concentration of holders, Low liquidity, High price volatility, Suspicious accumulation pattern"
@@ -372,7 +372,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1775,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -391,7 +391,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.0873,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Unusual trading volume detected, Suspicious accumulation pattern"
@@ -410,7 +410,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.3898,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -429,7 +429,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.3176,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -448,7 +448,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2338,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -467,7 +467,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.293,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -486,7 +486,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.3215,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -505,7 +505,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.185,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Unusual trading volume detected, High sell pressure, Suspicious accumulation pattern"
@@ -524,7 +524,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.4313,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -543,7 +543,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.188,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -562,7 +562,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1768,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "High sell pressure, Suspicious accumulation pattern"
@@ -581,7 +581,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.30759599332220366,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Low liquidity, High price volatility, Market cap concerns, Suspicious accumulation pattern"
@@ -600,7 +600,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2733,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Unusual trading volume detected, Suspicious accumulation pattern"
@@ -619,7 +619,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.7241379310344828,
         "stealthAccumulation": 0.2,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "High concentration of holders, Low liquidity, High price volatility, Market cap concerns"
@@ -638,7 +638,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1731,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Low liquidity, Suspicious accumulation pattern"
@@ -657,7 +657,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.3307,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Low liquidity, Market cap concerns, Suspicious accumulation pattern"
@@ -676,7 +676,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.0878,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Low liquidity, Market cap concerns, Suspicious accumulation pattern"
@@ -695,7 +695,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.16008064516129034,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Low liquidity, Market cap concerns, Suspicious accumulation pattern"
@@ -714,7 +714,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1247,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -733,7 +733,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1928,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -752,7 +752,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.19718722531497215,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Low liquidity, Suspicious accumulation pattern"
@@ -771,7 +771,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1775,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Unusual trading volume detected, High sell pressure, Suspicious accumulation pattern"
@@ -790,7 +790,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1378,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -809,7 +809,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.3522,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -828,7 +828,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2573,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -847,7 +847,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2637,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -866,7 +866,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1224,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Low liquidity, Market cap concerns, Suspicious accumulation pattern"
@@ -885,7 +885,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.3222,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Low liquidity, Suspicious accumulation pattern"
@@ -904,7 +904,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.4367,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Unusual trading volume detected, Suspicious accumulation pattern"
@@ -923,7 +923,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.3517,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -942,7 +942,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1509,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Low liquidity, Market cap concerns, Suspicious accumulation pattern"
@@ -961,7 +961,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.34782608695652173,
         "stealthAccumulation": 0.2,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "High concentration of holders, Low liquidity, High price volatility, Market cap concerns"
@@ -980,7 +980,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2392,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Unusual trading volume detected, Suspicious accumulation pattern"
@@ -999,7 +999,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.23682140047206923,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "High price volatility, Suspicious accumulation pattern"
@@ -1018,7 +1018,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2848067760719958,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -1037,7 +1037,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2207,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -1056,7 +1056,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2249,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Unusual trading volume detected, Suspicious accumulation pattern"
@@ -1075,7 +1075,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2112,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -1094,7 +1094,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.293,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -1113,7 +1113,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2059,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Unusual trading volume detected, High price volatility, Suspicious accumulation pattern"
@@ -1132,7 +1132,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2848,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -1151,7 +1151,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.16343134456180416,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "High price volatility, Suspicious accumulation pattern"
@@ -1170,7 +1170,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2926,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -1189,7 +1189,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.0942,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -1208,7 +1208,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.23,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Low liquidity, Suspicious accumulation pattern"
@@ -1227,7 +1227,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1797,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -1246,7 +1246,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.3472,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -1265,7 +1265,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.3883,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -1284,7 +1284,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.3477,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Low liquidity, Market cap concerns, Suspicious accumulation pattern"
@@ -1303,7 +1303,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.244,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Unusual trading volume detected, High price volatility, Suspicious accumulation pattern"
@@ -1322,7 +1322,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1418,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Unusual trading volume detected, Suspicious accumulation pattern"
@@ -1341,7 +1341,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1451,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Unusual trading volume detected, High price volatility, Suspicious accumulation pattern"
@@ -1360,7 +1360,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1434,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -1379,7 +1379,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1712,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -1398,7 +1398,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.1635,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -1417,7 +1417,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.2693,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"
@@ -1436,7 +1436,7 @@
         "bundlerActivity": false,
         "accumulationRate": 0.165,
         "stealthAccumulation": 0.8,
-        "suspiciousPattern": null,
+        "suspiciousPattern": false,
         "isRugPull": false,
         "metadata": {
             "reason": "Suspicious accumulation pattern"

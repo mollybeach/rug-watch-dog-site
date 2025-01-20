@@ -222,7 +222,7 @@ export async function fetchTokenData(tokenAddress: string, chain: string = 'ethe
             bundlerActivity: bundlerPattern.isFromBundler, //type: bool
             accumulationRate: accMetrics.accumulationRate, //type: decimal
             stealthAccumulation: accMetrics.stealthAccumulation, //type: decimal
-            suspiciousPattern: bundlerPattern.timePattern > 0.5 ? 'true' : bundlerPattern.timePattern === 0 ? null : 'false', //type: str
+            suspiciousPattern: bundlerPattern.timePattern > 0.5, // Change to boolean
             timestamp: new Date, //type: datetime
             holders: etherscanData.result.length, //type: decimal
             totalSupply: etherscanData.result.length, //type: decimal

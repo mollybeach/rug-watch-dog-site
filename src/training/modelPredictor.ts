@@ -25,7 +25,7 @@ function preprocessFeatures(tokenData: TokenDataType): tf.Tensor2D {
         tokenData.metrics.bundlerActivity ? 1 : 0,
         tokenData.metrics.accumulationRate,
         tokenData.metrics.stealthAccumulation || 0,
-        tokenData.metrics.suspiciousPattern ? 1 : 0
+        tokenData.metrics.suspiciousPattern ? 1 : 0,
     ].map(f => f === null ? 0 : f);
 
     return tf.tensor2d([features], [1, features.length]);
@@ -47,7 +47,7 @@ export async function analyzeToken(tokenData: TokenDataType): Promise<TokenMetri
             bundlerActivity: tokenData.metrics.bundlerActivity,
             accumulationRate: tokenData.metrics.accumulationRate,
             stealthAccumulation: tokenData.metrics.stealthAccumulation || 0,
-            suspiciousPattern: tokenData.metrics.suspiciousPattern || null,
+            suspiciousPattern: tokenData.metrics.suspiciousPattern,
             isRugPull: isRugPull,
             metadata: isRugPull ? { reason: 'High risk indicators detected' }.toString() : { reason: 'No significant risk detected' }.toString(),
             tokenAddress: tokenData.address,

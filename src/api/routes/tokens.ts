@@ -23,7 +23,7 @@ router.get('/analyze/:tokenAddress', async (req, res) => {
                 bundlerActivity: false,
                 accumulationRate: 0,
                 stealthAccumulation: 0,
-                suspiciousPattern: "false,",
+                suspiciousPattern: false,
                 isRugPull: false,
                 metadata: { reason: '' }.toString(),
                 timestamp: new Date(),

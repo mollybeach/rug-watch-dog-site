@@ -18,7 +18,7 @@ export async function getTokenStats() {
         acc.bundlerActivity = acc.bundlerActivity || token.metrics.bundlerActivity;
         acc.accumulationRate += token.metrics.accumulationRate || 0;
         acc.stealthAccumulation = (acc.stealthAccumulation || 0) + (token.metrics.stealthAccumulation ?? 0);
-        acc.suspiciousPattern = acc.suspiciousPattern || token.metrics.suspiciousPattern;
+        acc.suspiciousPattern = acc.suspiciousPattern || false;
         acc.isRugPull = acc.isRugPull || token.metrics.isRugPull;
         acc.metadata = acc.metadata || token.metrics.metadata;
         acc.tokenAddress = acc.tokenAddress || token.metrics.tokenAddress;
@@ -38,7 +38,7 @@ export async function getTokenStats() {
         bundlerActivity: false,
         accumulationRate: 0,
         stealthAccumulation: 0,
-        suspiciousPattern: null,
+        suspiciousPattern: false,
         isRugPull: false,
         metadata: '{reason: "default"}',
         tokenAddress: '',

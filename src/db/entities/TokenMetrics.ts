@@ -13,7 +13,7 @@ export class TokenMetrics {
     bundlerActivity: boolean;
     accumulationRate: number;
     stealthAccumulation: number;
-    suspiciousPattern: string;
+    suspiciousPattern: boolean;
     isRugPull: boolean;
     timestamp: Date;
     holders: number;
@@ -33,7 +33,7 @@ export class TokenMetrics {
         this.bundlerActivity = false;
         this.accumulationRate = 0;
         this.stealthAccumulation = 0;
-        this.suspiciousPattern = '';
+        this.suspiciousPattern = false;
         this.isRugPull = false;
         this.timestamp = new Date();
         this.holders = 0;

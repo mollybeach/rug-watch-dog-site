@@ -31,7 +31,9 @@ module default {
         required property stealthAccumulation -> decimal {
             default := <decimal>0.0;  # Default value
         }
-        required property suspiciousPattern -> str;  # Nullable, no default
+        required property suspiciousPattern -> bool {
+            default := false;  # Default to `false`
+        }
         required property isRugPull -> bool {
             default := false;  # Default to `false`
         }
@@ -90,5 +92,10 @@ module default {
             default := datetime_current();  # Default to the current timestamp
         }
     };
+
+    type Reason {
+        required property reason -> str;
+    };  
 };
+
 

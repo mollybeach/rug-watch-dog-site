@@ -30,7 +30,7 @@ describe('Tokens Routes', () => {
             bundlerActivity: true,
             accumulationRate: 0.6,
             stealthAccumulation: 0.4,
-            suspiciousPattern: 0.7,
+            suspiciousPattern: false,
             reason: 'Test reason'
         };
 

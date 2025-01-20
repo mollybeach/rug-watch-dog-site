@@ -20,7 +20,7 @@ export interface TokenAnalysis {
     bundlerActivity: boolean;
     accumulationRate: number;
     stealthAccumulation: number;
-    suspiciousPattern: number;
+    suspiciousPattern: boolean;
     reason: string;
 }
 
