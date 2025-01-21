@@ -45,7 +45,8 @@ export interface TokenRiskType {
 export interface TokenDataType {
     address: string;
     name: string;
-    symbol: string
+    symbol: string,
+    chain: string;
     metrics: TokenMetricsType;
     price: TokenPriceType;
     risk: TokenRiskType;

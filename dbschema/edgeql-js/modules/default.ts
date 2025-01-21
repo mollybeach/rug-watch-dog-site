@@ -12,6 +12,7 @@ export type $TokenλShape = $.typeutil.flatten<_std.$Object_8ce8c71ee4fa5f73840c
   "metrics": $.LinkDesc<$TokenMetrics, $.Cardinality.One, {}, true, false,  false, false>;
   "price": $.LinkDesc<$TokenPrices, $.Cardinality.One, {}, true, false,  false, false>;
   "risk": $.LinkDesc<$TokenRisk, $.Cardinality.One, {}, true, false,  false, false>;
+  "chain": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, true>;
 }>;
 type $Token = $.ObjectType<"default::Token", $TokenλShape, null, [
   ..._std.$Object_8ce8c71ee4fa5f73840c22d7eaa58588['__exclusives__'],

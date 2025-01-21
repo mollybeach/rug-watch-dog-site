@@ -3,6 +3,7 @@ export const SAMPLE_TOKENS = [
         address: '0x01D7367A1F1AfdC3D2667C37ef5A3723012d7757', // Frog Sorcerer
         name: 'Frog Sorcerer',
         symbol: 'FROGZ',
+        chain: 'ethereum',
         metrics: {
             metadata: {
                 reason: 'High concentration of holders, High price volatility',
@@ -53,6 +54,7 @@ export const SAMPLE_TOKENS = [
         address: '0x037A54AaB062628C9Bbae1FDB1583c195585fe41', // LCX
         name: 'LCX',
         symbol: 'LCX',
+        chain: 'ethereum',
         metrics: {
             metadata: {
                 reason: 'High concentration of holders, High price volatility',
@@ -103,6 +105,7 @@ export const SAMPLE_TOKENS = [
         address: '0x06113abCeF9D163C026441b112e70c82EE1c4A79', // Omira
         name: 'Omira',
         symbol: 'OMIRA',
+        chain: 'ethereum',
         metrics: {
             metadata: {
                 reason: 'High concentration of holders, High price volatility',
@@ -153,6 +156,7 @@ export const SAMPLE_TOKENS = [
         address: '0x06B964d96f5dCF7Eae9d7C559B09EDCe244d4B8E', // USUALX
         name: 'USUALX',
         symbol: 'USUALX',
+        chain: 'ethereum',
         metrics: {
             metadata: {
                 reason: 'High concentration of holders, High price volatility',
@@ -202,6 +206,7 @@ export const SAMPLE_TOKENS = [
     {
         address: '0x0f6d4d4643A514132F84F4a270946dB3c7Cb701C', // Lovely Finance
         name: 'Lovely Finance',
+        chain: 'ethereum',
         symbol: 'LOVELY',
         metrics: {
             metadata: {
@@ -252,6 +257,7 @@ export const SAMPLE_TOKENS = [
     {
         address: '0x13E4b8CfFe704d3De6F19E52b201d92c21EC18bD', // ParallelAI
         name: 'ParallelAI',
+        chain: 'ethereum',
         symbol: 'PAI',
         metrics: {
             metadata: {
@@ -303,6 +309,7 @@ export const SAMPLE_TOKENS = [
         address: '0x1495bc9e44Af1F8BCB62278D2bEC4540cF0C05ea', // Zero1 Token
         name: 'Zero1 Token',
         symbol: 'DEAI',
+        chain: 'ethereum',
         metrics: {
             metadata: {
                 reason: 'High concentration of holders, High price volatility',

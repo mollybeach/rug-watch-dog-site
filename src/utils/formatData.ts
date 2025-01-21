@@ -56,6 +56,7 @@ function formatToken(token: any) {
         address: token.address,
         name: token.name,
         symbol: token.symbol,
+        chain: token.chain,
         metrics: formatTokenMetrics(token.metrics),
         price: formatTokenPrice(token.price),
         risk: formatTokenRisk(token.risk),
@@ -119,6 +120,7 @@ function defaultToken() {
         address: '0x0000000000000000000000000000000000000000',
         name: 'default',
         symbol: 'default',
+        chain: 'default',
         metrics: defaultTokenMetrics(),
         price: defaultTokenPrice(),
         risk: defaultTokenRisk(),
@@ -175,6 +177,20 @@ function formatTokenRiskEdgeql(risk: any) {
     };
 }
 
+function formatTokenEdgeql(token: any) {
+    return {
+        address: token.address,
+        name: token.name,
+        symbol: token.symbol,
+        chain: token.chain,
+        metrics: formatTokenMetricsEdgeql(token.metrics),
+        price: formatTokenPriceEdgeql(token.price),
+        risk: formatTokenRiskEdgeql(token.risk),
+        createdAt: new Date(token.createdAt),
+        updatedAt: new Date(token.updatedAt),
+    }
+}
+
 export { formatToken, 
         formatTokenMetrics, 
         formatTokenPrice, 
@@ -185,5 +201,6 @@ export { formatToken,
         defaultToken, 
         formatTokenMetricsEdgeql, 
         formatTokenPriceEdgeql,
-        formatTokenRiskEdgeql
+        formatTokenRiskEdgeql,
+        formatTokenEdgeql
     };

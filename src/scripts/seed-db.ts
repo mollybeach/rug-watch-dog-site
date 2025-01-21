@@ -35,6 +35,7 @@ async function seedDatabase() {
                 address: token.address,
                 name: token.name,
                 symbol: token.symbol,
+                chain: token.chain,
                 metrics: metricsQuery,
                 price: priceQuery,
                 risk: riskQuery,

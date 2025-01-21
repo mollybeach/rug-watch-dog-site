@@ -6,6 +6,7 @@ describe('Token Analysis', () => {
         address: '0x123',
         name: 'Test Token',
         symbol: 'TEST',
+        chain: 'ethereum',
         metrics: {
             metadata: JSON.stringify({ reason: 'Test data' }),
             tokenAddress: '0x123',

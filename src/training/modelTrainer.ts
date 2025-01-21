@@ -3,6 +3,7 @@ import * as tf from '@tensorflow/tfjs-node';
 import { TrainingDataType } from '../../types/data';
 import { preprocessTokenData } from '../data-processing/parser';
 import path from 'path';
+import { TokenDataType } from '../../types/data';
 
 
 export async function trainModel(trainingData: TrainingDataType[]): Promise<tf.LayersModel> {
@@ -53,8 +54,6 @@ export async function trainModel(trainingData: TrainingDataType[]): Promise<tf.L
         const xs = tf.tensor2d(features);
         const ys = tf.tensor2d(labels, [labels.length, 1]);
         // Train model
-       // console.log('model')
-       // console.log(model)
         const callbacks = [
             tf.callbacks.earlyStopping({ monitor: 'val_loss', patience: 2 }),
         ];
@@ -100,4 +99,14 @@ if (require.main === module) {
         metadata: JSON.stringify({ reason: 'Training data' })
     }];
     trainModel(dummyData).catch(console.error);
+}
+
+class ModelTrainer {
+    train(tokens: TokenDataType[]) {
+        tokens.forEach(token => {
+            console.log(token.chain); // Example usage
+            // Ensure the chain property is used if relevant
+        });
+        // ...
+    }
 }

@@ -1,7 +1,7 @@
 // path: src/data-harvesting/fetcher.ts
 import axios from 'axios';
 import dotenv from 'dotenv';
-import { TokenDataType, TokenMetricsType, TokenRiskType } from '../../types/data';
+import { TokenDataType, TokenMetricsType, TokenPriceType, TokenRiskType } from '../../types/data';
 import { analyzeToken } from '../training/modelPredictorNew';
 
 dotenv.config();
@@ -17,6 +17,9 @@ const API_KEYS = {
     bsc: process.env.BSCSCAN_API_KEY,
     polygon: process.env.POLYGONSCAN_API_KEY
 };
+
+const COINGECKO_API_URL = 'https://pro-api.coingecko.com/api/v3';
+const COINGECKO_API_KEY = process.env.COIN_GECKO_API_KEY;
 
 interface Transaction {
     from: string;
@@ -61,6 +64,11 @@ interface AccumulationMetrics {
     stealthAccumulation: number;
 }
 
+// Delay function to pause execution
+function delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function fetchEtherscanData(tokenAddress: string, chain: string = 'ethereum'): Promise<EtherscanData | null> {
     try {
         const endpoint = ENDPOINTS[chain as keyof typeof ENDPOINTS];
@@ -99,16 +107,26 @@ async function fetchEtherscanData(tokenAddress: string, chain: string = 'ethereu
     }
 }
 
-async function fetchDexScreenerData(tokenAddress: string): Promise<DexScreenerData | null> {
+
+async function fetchCoinGeckoData(tokenAddress: string, network: string): Promise<any> {
     try {
-        console.log(`📊 Fetching DexScreener data for: ${tokenAddress}`);
-        const dexScreenerUrl = `https://api.dexscreener.com/latest/dex/tokens/${tokenAddress}`;
-        console.log('DexScreener URL:', dexScreenerUrl);
-        const response = await axios.get(dexScreenerUrl);
-        console.log('DexScreener API Response:', JSON.stringify(response.data, null, 2));
-        return response.data as DexScreenerData;
+       // 
+
+        const myUrl = `${COINGECKO_API_URL}/onchain/networks/${network}/tokens/${tokenAddress}?x_cg_pro_api_key=${COINGECKO_API_KEY}`;
+        console.log('CoinGecko URL:', myUrl);
+
+        console.log(`Fetching CoinGecko data for: ${tokenAddress} on ${network}`);
+        const url = `${COINGECKO_API_URL}/onchain/networks/${network}/tokens/${tokenAddress}`;
+        const response = await axios.get(url, {
+            headers: {
+                'x-cg-pro-api-key': COINGECKO_API_KEY
+            }
+        });
+
+        console.log('CoinGecko API Response:', JSON.stringify(response.data, null, 2));
+        return response.data;
     } catch (error: unknown) {
-        console.error('Error fetching DexScreener data:', error instanceof Error ? error.message : 'Unknown error');
+        console.error('Error fetching CoinGecko data:', error instanceof Error ? error.message : 'Unknown error');
         return null;
     }
 }
@@ -243,101 +261,68 @@ function calculateTechnicalRisk(metrics: TokenMetricsType, overallRisk: number):
     return Math.min(Math.max(technicalRisk, 0), 1);
 }
 
-export async function fetchTokenData(tokenAddress: string, chain: string = 'ethereum'): Promise<TokenDataType | null> {
+export async function fetchTokenData(tokenAddress: string, network: string = 'eth'): Promise<TokenDataType | null> {
     try {
-        console.log(`\n📊 Fetching data for token: ${tokenAddress} on ${chain}`);
-        
-        const etherscanData = await fetchEtherscanData(tokenAddress, chain);
-        if (!etherscanData?.result) {
-            console.log('❌ Failed to fetch Etherscan data');
-            return null;
-        }
-        
-        const dexData = await fetchDexScreenerData(tokenAddress);
-        if (!dexData?.pairs?.[0]) {
-            console.log('❌ Failed to fetch DexScreener data');
+        // Add delay to respect rate limits
+        await delay(1000); // Delay for 1000ms (1 second) before making the request
+
+        const coinGeckoData = await fetchCoinGeckoData(tokenAddress, network);
+        if (!coinGeckoData) {
+            console.log('❌ Failed to fetch CoinGecko data');
             return null;
         }
 
-        const bundlerPattern = await detectBundlerPattern(etherscanData.result);
-        const accMetrics = await calculateAccumulationMetrics(etherscanData.result);
-
+        // Assuming the CoinGecko data structure matches the expected TokenDataType
         const tokenData: TokenDataType = {
             address: tokenAddress,
-            name: dexData.pairs[0].baseToken?.name || 'Unknown',
-            symbol: dexData.pairs[0].baseToken?.symbol || 'UNKNOWN',
-            chain: chain,
+            name: coinGeckoData.name || 'Unknown',
+            symbol: coinGeckoData.symbol || 'UNKNOWN',
+            chain: network,
             metrics: {
                 metadata: '', // Placeholder, will be updated
                 tokenAddress: tokenAddress,
-                volumeAnomaly: calculateVolumeAnomaly(dexData),
-                holderConcentration: calculateHolderConcentration(etherscanData),
-                liquidityScore: calculateLiquidityScore(dexData),
-                priceVolatility: calculatePriceVolatility(dexData),
-                sellPressure: calculateSellPressure(dexData),
-                marketCapRisk: calculateMarketCapRisk(dexData),
-                isRugPull: false, // Temporary value, will be updated
-                bundlerActivity: bundlerPattern.isFromBundler,
-                accumulationRate: accMetrics.accumulationRate,
-                stealthAccumulation: accMetrics.stealthAccumulation,
-                suspiciousPattern: bundlerPattern.timePattern > 0.5,
+                volumeAnomaly: 0, // Placeholder
+                holderConcentration: 0, // Placeholder
+                liquidityScore: 0, // Placeholder
+                priceVolatility: 0, // Placeholder
+                sellPressure: 0, // Placeholder
+                marketCapRisk: 0, // Placeholder
+                bundlerActivity: false, // Placeholder
+                accumulationRate: 0, // Placeholder
+                stealthAccumulation: 0, // Placeholder
+                suspiciousPattern: false, // Placeholder
+                isRugPull: false, // Placeholder
                 timestamp: new Date(),
-                holders: etherscanData.result.length,
-                totalSupply: etherscanData.result.length,
-                currentPrice: dexData.pairs[0].priceUsd || 0,
-                isHoneyPot: etherscanData.result.length > 1000
+                holders: 0, // Placeholder
+                totalSupply: 0, // Placeholder
+                currentPrice: coinGeckoData.market_data?.current_price?.usd || 0,
+                isHoneyPot: false // Placeholder
             },
             price: {
                 tokenAddress: tokenAddress,
-                price: dexData.pairs[0].priceUsd || 0,
-                volume24h: dexData.pairs[0].volume?.h24 || 0,
-                marketCap: (dexData.pairs[0].priceUsd || 0) * 1000000,
-                liquidity: dexData.pairs[0].liquidity?.usd || 0,
+                price: coinGeckoData.market_data?.current_price?.usd || 0,
+                volume24h: coinGeckoData.market_data?.total_volume?.usd || 0,
+                marketCap: coinGeckoData.market_data?.market_cap?.usd || 0,
+                liquidity: 0, // Placeholder
                 timestamp: new Date()
             },
             risk: {
                 tokenAddress: tokenAddress,
-                overall: 0,
-                liquidity: 0,
-                concentration: 0,
-                volatility: 0,
-                social: 0,
-                technical: 0,
-                totalTokens: 0,
-                highRiskCount: 0,
-                mediumRiskCount: 0,
-                lowRiskCount: 0
+                overall: 0, // Placeholder
+                liquidity: 0, // Placeholder
+                concentration: 0, // Placeholder
+                volatility: 0, // Placeholder
+                social: 0, // Placeholder
+                technical: 0, // Placeholder
+                totalTokens: 0, // Placeholder
+                highRiskCount: 0, // Placeholder
+                mediumRiskCount: 0, // Placeholder
+                lowRiskCount: 0 // Placeholder
             },
             createdAt: new Date(),
             updatedAt: new Date()
         };
 
-        // Analyze the token data
-        const analysisResult = await analyzeToken(tokenData);
-        console.log('analysisResult');
-        console.log(analysisResult);
-
-        // Use the analysis result for risk calculation
-        const risk: TokenRiskType = {
-            tokenAddress: tokenAddress,
-            overall: analysisResult.predictionData[0],
-            liquidity: calculateLiquidityRisk(tokenData.metrics, analysisResult.predictionData[0]),
-            concentration: calculateConcentrationRisk(tokenData.metrics, analysisResult.predictionData[0]),
-            volatility: calculateVolatilityRisk(tokenData.metrics, analysisResult.predictionData[0]),
-            social: calculateSocialRisk(tokenData.metrics, analysisResult.predictionData[0]),
-            technical: calculateTechnicalRisk(tokenData.metrics, analysisResult.predictionData[0]),
-            totalTokens: tokenData.metrics.totalSupply,
-            highRiskCount: 0,
-            mediumRiskCount: 0,
-            lowRiskCount: 0
-        };
-
-        //Fill in the rest of the token data
-        tokenData.price.price = parseFloat(tokenData.price.price.toString());
-        tokenData.metrics.currentPrice = parseFloat(tokenData.metrics.currentPrice.toString());
-        tokenData.metrics.isRugPull = analysisResult.isRugPull;
-        tokenData.metrics.metadata = JSON.stringify({ reason: generateMetadataReason(tokenData.metrics, risk) });
-        tokenData.risk = risk;
         return tokenData;
     } catch (error) {
         console.error('Error fetching token data:', error);

@@ -46,7 +46,7 @@ async function monitorChain(chain: keyof typeof config.rpc, batchSize: number = 
                     }
                     
                     console.log(`📝 Analyzing token at contract address: ${receipt.contractAddress}`);
-                    const tokenData = await fetchTokenData(receipt.contractAddress, chain);
+                    const tokenData = await fetchTokenData(receipt.contractAddress);
                     
                     if (tokenData) {
                         console.log(`💾 Inserting token data for ${tokenData.name} (${tokenData.symbol}) into database.`);
