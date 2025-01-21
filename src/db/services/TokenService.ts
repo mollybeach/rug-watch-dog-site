@@ -5,10 +5,11 @@ import { formatToken, formatTokenMetrics, formatTokenPrice } from '../../utils/f
 
 export async function upsertToken(tokenData: Partial<TokenDataType>): Promise<void> {
     const formattedToken = formatToken(tokenData);
-        const query = edgeql.insert(edgeql.Token, {
+    const query = edgeql.insert(edgeql.Token, {
         symbol: formattedToken.symbol,
         address: formattedToken.address,
         name: formattedToken.name,
+        chain: formattedToken.chain,
         metrics: edgeql.assert_single(
             edgeql.select(edgeql.TokenMetrics, metrics => ({
                 filter: edgeql.op(metrics.tokenAddress, '=', edgeql.str(formattedToken.address)),
@@ -32,7 +33,8 @@ export async function upsertToken(tokenData: Partial<TokenDataType>): Promise<vo
         else: edgeql.update(token, () => ({
             set: {
                 name: formattedToken.name,
-                symbol: formattedToken.symbol
+                symbol: formattedToken.symbol,
+                chain: formattedToken.chain
             }
         }))
     }));
@@ -95,4 +97,11 @@ export async function getTokenPriceHistory(address: string, limit: number): Prom
 
     const result = await query.run(edgeDBCloudClient);
     return result.map((item: any) => formatTokenPrice(item));
+}
+
+class TokenService {
+    createToken(tokenData: TokenDataType) {
+        const { address, name, symbol, chain, metrics, price, risk, createdAt, updatedAt } = tokenData;
+        // ...
+    }
 }

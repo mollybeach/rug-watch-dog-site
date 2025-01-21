@@ -24,6 +24,7 @@
         "view-db": "ts-node-dev --transpile-only -r tsconfig-paths/register src/scripts/view/view-db.ts",
         "collect-data": "ts-node-dev --transpile-only -r tsconfig-paths/register src/scripts/collect-data.ts",
         "check-data": "ts-node-dev --transpile-only -r tsconfig-paths/register src/scripts/view/check-data.ts",
+        "get-data-from-addresses": "ts-node-dev --transpile-only -r tsconfig-paths/register src/scripts/get-data-from-addresses.ts",
         "clean-db": "ts-node-dev --transpile-only -r tsconfig-paths/register src/scripts/delete/clean-db.ts",
         "delete-data": "ts-node-dev --transpile-only -r tsconfig-paths/register src/scripts/delete/delete-data.ts",
         "delete-cloud-data": "ts-node-dev --transpile-only -r tsconfig-paths/register src/scripts/delete/delete-cloud-data.ts",

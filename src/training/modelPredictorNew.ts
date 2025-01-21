@@ -70,9 +70,9 @@ function preprocessFeatures(tokenData: TokenDataType): tf.Tensor2D {
     const minValues = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     const maxValues = [1000000, 1, 100, 100, 1, 1, 1, 1, 1, 1];
 
-   const scaledFeatures = features.map((f, i) => (f - minValues[i]) / (maxValues[i] - minValues[i]));
+    const scaledFeatures = features.map((f, i) => (f - minValues[i]) / (maxValues[i] - minValues[i]));
 
-   return tf.tensor2d([scaledFeatures], [1, scaledFeatures.length]);
+    return tf.tensor2d([scaledFeatures], [1, scaledFeatures.length]);
    ///return tf.tensor2d([features], [1, features.length]);
 
 }
@@ -100,9 +100,6 @@ export async function analyzeToken(tokenData: TokenDataType): Promise<{
 
         // Use the model to predict
         const prediction = model.predict(featuresTensor) as tf.Tensor;
-        console.log('prediction');
-        console.log(prediction);
-
 
         // Get the prediction data
         const predictionData = await prediction.data();

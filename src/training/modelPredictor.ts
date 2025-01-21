@@ -59,4 +59,11 @@ export async function analyzeToken(tokenData: TokenDataType): Promise<TrainingDa
         console.error('Error analyzing token:', error);
         throw error;
     }
+}
+
+class ModelPredictor {
+    predict(token: TokenDataType) {
+        console.log(token.chain); // Example usage
+        // Ensure the chain property is used if relevant
+    }
 } 

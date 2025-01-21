@@ -112,6 +112,9 @@ module default {
         required property symbol -> str { 
             constraint max_len_value(10);  # Limit symbol length to a reasonable max
         }
+        required property chain -> str {
+            default := 'ethereum';
+        }
         required link metrics -> TokenMetrics {
             constraint exclusive;  # Ensure each Token has a unique TokenMetrics
         }

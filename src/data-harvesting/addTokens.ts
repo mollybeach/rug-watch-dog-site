@@ -14,7 +14,7 @@ async function addTokensToDatabase() {
     for (const address of contractAddresses) {
         try {
             // Fetch token data for the current address
-            const tokenData = await fetchTokenData(address, 'ethereum');
+            const tokenData = await fetchTokenData(address);
 
             if (tokenData) {
                 console.log(`💾 Inserting token data for ${tokenData.name} (${tokenData.symbol}) into database.`);
@@ -24,6 +24,7 @@ async function addTokensToDatabase() {
                     address: address,
                     name: tokenData.name,
                     symbol: tokenData.symbol,
+                    chain: tokenData.chain,
                     metrics: edgeql.insert(TokenMetrics, formatTokenMetricsEdgeql(tokenData.metrics)),
                     price: edgeql.insert(TokenPrices, formatTokenPriceEdgeql(tokenData.price)),
                     risk: edgeql.insert(TokenRisk, formatTokenRiskEdgeql(tokenData.risk))

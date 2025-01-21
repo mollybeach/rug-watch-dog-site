@@ -13,6 +13,7 @@ router.get('/analyze/:tokenAddress', async (req, res) => {
             address: tokenAddress,
             name: '', // These will be filled in by analyzeToken
             symbol: '',
+            chain: 'ethereum',
             metrics: {
                 volumeAnomaly: 0,
                 holderConcentration: 0,
