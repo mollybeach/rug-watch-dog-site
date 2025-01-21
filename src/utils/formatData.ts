@@ -45,6 +45,8 @@ function formatTokenRisk(risk: any) {
         social: risk.social.toString(),
         technical: risk.technical.toString(),
         totalTokens: risk.totalTokens.toString(),
+        transactionsCount: risk.transactionsCount.toString(),
+        age: risk.age.toString(),
         highRiskCount: risk.highRiskCount.toString(),
         mediumRiskCount: risk.mediumRiskCount.toString(),
         lowRiskCount: risk.lowRiskCount.toString()
@@ -109,6 +111,8 @@ function defaultTokenRisk() {
         social: 0.0,
         technical: 0.0,
         totalTokens: 0.0,
+        transactionsCount: 0.0,
+        age: 0.0,
         highRiskCount: 0.0,
         mediumRiskCount: 0.0,
         lowRiskCount: 0.0
@@ -171,6 +175,8 @@ function formatTokenRiskEdgeql(risk: any) {
         social: edgeql.cast(edgeql.decimal, risk.social),
         technical: edgeql.cast(edgeql.decimal, risk.technical),
         totalTokens: edgeql.cast(edgeql.decimal, risk.totalTokens),
+        transactionsCount: edgeql.cast(edgeql.decimal, risk.transactionsCount),
+        age: edgeql.cast(edgeql.decimal, risk.age),
         highRiskCount: edgeql.cast(edgeql.decimal, risk.highRiskCount),
         mediumRiskCount: edgeql.cast(edgeql.decimal, risk.mediumRiskCount),
         lowRiskCount: edgeql.cast(edgeql.decimal, risk.lowRiskCount)

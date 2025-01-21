@@ -51,6 +51,8 @@ router.get('/analyze/:tokenAddress', async (req, res) => {
                 social: 0,
                 technical: 0,
                 totalTokens: 0,
+                transactionsCount: 0,
+                age: 0,
                 highRiskCount: 0,
                 mediumRiskCount: 0,
                 lowRiskCount: 0

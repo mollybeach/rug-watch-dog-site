@@ -44,6 +44,8 @@ describe('Token Analysis', () => {
             social: 0.2,
             technical: 0.2,
             totalTokens: 0,
+            transactionsCount: 0,
+            age: 0,
             highRiskCount: 0,
             mediumRiskCount: 0,
             lowRiskCount: 0,

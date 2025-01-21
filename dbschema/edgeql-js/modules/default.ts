@@ -83,6 +83,8 @@ export type $TokenRiskλShape = $.typeutil.flatten<_std.$Object_8ce8c71ee4fa5f73
   "totalTokens": $.PropertyDesc<_std.$decimal, $.Cardinality.One, false, false, false, true>;
   "volatility": $.PropertyDesc<_std.$decimal, $.Cardinality.One, false, false, false, true>;
   "tokenAddress": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
+  "age": $.PropertyDesc<_std.$decimal, $.Cardinality.One, false, false, false, true>;
+  "transactionsCount": $.PropertyDesc<_std.$decimal, $.Cardinality.One, false, false, false, true>;
   "<risk[is Token]": $.LinkDesc<$Token, $.Cardinality.AtMostOne, {}, true, false,  false, false>;
   "<risk": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
 }>;
