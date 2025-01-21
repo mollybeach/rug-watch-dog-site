@@ -34,7 +34,7 @@ function preprocessFeatures(tokenData: TokenDataType): tf.Tensor2D {
 export async function analyzeToken(tokenData: TokenDataType): Promise<TrainingDataType  > {
     try {
         const features = preprocessFeatures(tokenData);
-        const prediction = await model.predict(features) as tf.Tensor;
+        const prediction = model.predict(features) as tf.Tensor;
         const isRugPull = (await prediction.data())[0] > 0.5;
 
         const baseMetrics: TrainingDataType = {

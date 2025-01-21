@@ -67,13 +67,13 @@ function preprocessFeatures(tokenData: TokenDataType): tf.Tensor2D {
     ].map(f => f === null ? 0 : f);
 
     // Replace with actual min and max values
-    //const minValues = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    //const maxValues = [1000000, 1, 100, 100, 1, 1, 1, 1, 1, 1];
+    const minValues = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const maxValues = [1000000, 1, 100, 100, 1, 1, 1, 1, 1, 1];
 
-   // const scaledFeatures = features.map((f, i) => (f - minValues[i]) / (maxValues[i] - minValues[i]));
+   const scaledFeatures = features.map((f, i) => (f - minValues[i]) / (maxValues[i] - minValues[i]));
 
-   // return tf.tensor2d([scaledFeatures], [1, scaledFeatures.length]);
-   return tf.tensor2d([features], [1, features.length]);
+   return tf.tensor2d([scaledFeatures], [1, scaledFeatures.length]);
+   ///return tf.tensor2d([features], [1, features.length]);
 
 }
 
