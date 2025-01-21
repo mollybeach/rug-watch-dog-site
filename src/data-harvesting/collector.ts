@@ -1,7 +1,7 @@
 // path: src/data-harvesting/collector.ts
 import { edgeDBCloudClient, edgeql } from '../index';
 import { TokenDataType} from '../../types/data';
-import { formatTokenMetrics, formatTokenPrice } from '../utils/formatData';
+import { formatTokenMetrics, formatTokenPrice, formatTokenRisk } from '../utils/formatData';
 
 class DataCollector {
     private tokenBatch: TokenDataType[] = [];
@@ -30,6 +30,7 @@ class DataCollector {
                 symbol: tokenData.symbol,
                 metrics: edgeql.insert(edgeql.TokenMetrics, formatTokenMetrics(tokenData.metrics)),
                 price: edgeql.insert(edgeql.TokenPrices, formatTokenPrice(tokenData.price)),
+                risk: edgeql.insert(edgeql.TokenRisk, formatTokenRisk(tokenData.risk)),
                 createdAt: tokenData.createdAt,
                 updatedAt: tokenData.updatedAt
             }));

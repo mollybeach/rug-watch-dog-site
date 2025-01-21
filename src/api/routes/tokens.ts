@@ -41,6 +41,19 @@ router.get('/analyze/:tokenAddress', async (req, res) => {
                 liquidity: 0,
                 timestamp: new Date()
             },
+            risk: {
+                tokenAddress: tokenAddress,
+                overall: 0,
+                liquidity: 0,
+                concentration: 0,
+                volatility: 0,
+                social: 0,
+                technical: 0,
+                totalTokens: 0,
+                highRiskCount: 0,
+                mediumRiskCount: 0,
+                lowRiskCount: 0
+            },
             createdAt: new Date(),
             updatedAt: new Date()
         };

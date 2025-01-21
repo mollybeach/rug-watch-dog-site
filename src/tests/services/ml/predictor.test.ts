@@ -1,8 +1,8 @@
-import { analyzeToken } from '../../../training/modelPredictor';
+import { analyzeToken } from '../../../training/modelPredictorNew';
 import { TokenDataType } from '../../../../types/data';
 
 describe('Token Analysis', () => {
-    const mockTokenData: TokenDataType = {
+        const mockTokenData: TokenDataType = {
         address: '0x123',
         name: 'Test Token',
         symbol: 'TEST',
@@ -34,6 +34,19 @@ describe('Token Analysis', () => {
             liquidity: 1000,
             timestamp: new Date()
         },
+        risk: {
+            tokenAddress: '0x123',
+            overall: 0.2,
+            liquidity: 0.2,
+            concentration: 0.2,
+            volatility: 0.2,
+            social: 0.2,
+            technical: 0.2,
+            totalTokens: 0,
+            highRiskCount: 0,
+            mediumRiskCount: 0,
+            lowRiskCount: 0,
+        },
         createdAt: new Date(),
         updatedAt: new Date()
     };
@@ -41,18 +54,12 @@ describe('Token Analysis', () => {
     it('should analyze token metrics correctly', async () => {
         const result = await analyzeToken(mockTokenData);
         expect(result).toBeDefined();
-        expect(result.volumeAnomaly).toBeDefined();
-        expect(result.holderConcentration).toBeDefined();
-        expect(result.liquidityScore).toBeDefined();
-        expect(result.priceVolatility).toBeDefined();
-        expect(result.sellPressure).toBeDefined();
-        expect(result.marketCapRisk).toBeDefined();
-        expect(result.bundlerActivity).toBeDefined();
-        expect(result.accumulationRate).toBeDefined();
-        expect(result.stealthAccumulation).toBeDefined();
-        expect(result.suspiciousPattern).toBeDefined();
-        expect(result.isRugPull).toBeDefined();
-        expect(result.metadata).toBeDefined();
+        expect(result.predictionData[0]).toBeDefined();
+        expect(result.predictionData[1]).toBeDefined();
+        expect(result.predictionData[2]).toBeDefined();
+        expect(result.predictionData[3]).toBeDefined();
+        expect(result.predictionData[4]).toBeDefined();
+        expect(result.predictionData[5]).toBeDefined();
     });
 
     it('should handle errors gracefully', async () => {

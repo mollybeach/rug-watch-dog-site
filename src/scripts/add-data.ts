@@ -2,9 +2,9 @@
 
 import { fetchTokenData } from '@/src/data-harvesting/fetcher';
 import { edgeDBCloudClient, edgeql } from '@/src/index';
-import { Token, TokenMetrics, TokenPrices } from '@/dbschema/edgeql-js/modules/default';
+import { Token, TokenMetrics, TokenPrices, TokenRisk } from '@/dbschema/edgeql-js/modules/default';
 import { kleroSeedsTokenData } from '@/src/db/seeders/kleros-seeds';
-import { formatTokenMetricsEdgeql, formatTokenPriceEdgeql } from '@/src/utils/formatData';
+import { formatTokenMetricsEdgeql, formatTokenPriceEdgeql, formatTokenRiskEdgeql } from '@/src/utils/formatData';
 // Function to add tokens to the database
 async function addTokensToDatabase() {
     // Extract contract addresses from seedTokenData
@@ -25,7 +25,8 @@ async function addTokensToDatabase() {
                     name: tokenData.name,
                     symbol: tokenData.symbol,
                     metrics: edgeql.insert(TokenMetrics, formatTokenMetricsEdgeql(tokenData.metrics)),
-                    price: edgeql.insert(TokenPrices, formatTokenPriceEdgeql(tokenData.price))
+                    price: edgeql.insert(TokenPrices, formatTokenPriceEdgeql(tokenData.price)),
+                    risk: edgeql.insert(TokenRisk, formatTokenRiskEdgeql(tokenData.risk))
                 });
 
                 // Execute the insert statement

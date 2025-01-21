@@ -35,6 +35,21 @@ function formatTokenPrice(price: any) {
     };
 }
 
+function formatTokenRisk(risk: any) {
+    return {
+        tokenAddress: risk.tokenAddress,
+        overall: risk.overall.toString(),
+        liquidity: risk.liquidity.toString(),
+        concentration: risk.concentration.toString(),
+        volatility: risk.volatility.toString(),
+        social: risk.social.toString(),
+        technical: risk.technical.toString(),
+        totalTokens: risk.totalTokens.toString(),
+        highRiskCount: risk.highRiskCount.toString(),
+        mediumRiskCount: risk.mediumRiskCount.toString(),
+        lowRiskCount: risk.lowRiskCount.toString()
+    };
+}
 
 function formatToken(token: any) {
     return {
@@ -43,6 +58,7 @@ function formatToken(token: any) {
         symbol: token.symbol,
         metrics: formatTokenMetrics(token.metrics),
         price: formatTokenPrice(token.price),
+        risk: formatTokenRisk(token.risk),
         createdAt: new Date(token.createdAt),
         updatedAt: new Date(token.updatedAt),
     };
@@ -82,6 +98,22 @@ function defaultTokenPrice() {
     }
 }
 
+function defaultTokenRisk() {
+    return {
+        tokenAddress: '0x0000000000000000000000000000000000000000',
+        overall: 0.0,
+        liquidity: 0.0,
+        concentration: 0.0,
+        volatility: 0.0,
+        social: 0.0,
+        technical: 0.0,
+        totalTokens: 0.0,
+        highRiskCount: 0.0,
+        mediumRiskCount: 0.0,
+        lowRiskCount: 0.0
+    };
+}
+
 function defaultToken() {
     return {
         address: '0x0000000000000000000000000000000000000000',
@@ -89,6 +121,7 @@ function defaultToken() {
         symbol: 'default',
         metrics: defaultTokenMetrics(),
         price: defaultTokenPrice(),
+        risk: defaultTokenRisk(),
         createdAt: new Date(),
         updatedAt: new Date(),
     }
@@ -126,12 +159,31 @@ function formatTokenPriceEdgeql(price: any) {
     }
 }
 
+function formatTokenRiskEdgeql(risk: any) {
+    return {
+        tokenAddress: risk.tokenAddress,
+        overall: edgeql.cast(edgeql.decimal, risk.overall),
+        liquidity: edgeql.cast(edgeql.decimal, risk.liquidity),
+        concentration: edgeql.cast(edgeql.decimal, risk.concentration),
+        volatility: edgeql.cast(edgeql.decimal, risk.volatility),
+        social: edgeql.cast(edgeql.decimal, risk.social),
+        technical: edgeql.cast(edgeql.decimal, risk.technical),
+        totalTokens: edgeql.cast(edgeql.decimal, risk.totalTokens),
+        highRiskCount: edgeql.cast(edgeql.decimal, risk.highRiskCount),
+        mediumRiskCount: edgeql.cast(edgeql.decimal, risk.mediumRiskCount),
+        lowRiskCount: edgeql.cast(edgeql.decimal, risk.lowRiskCount)
+    };
+}
+
 export { formatToken, 
         formatTokenMetrics, 
         formatTokenPrice, 
+        formatTokenRisk,
         defaultTokenMetrics, 
         defaultTokenPrice, 
+        defaultTokenRisk,
         defaultToken, 
         formatTokenMetricsEdgeql, 
         formatTokenPriceEdgeql,
+        formatTokenRiskEdgeql
     };

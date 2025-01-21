@@ -71,7 +71,40 @@ module default {
             default := datetime_current();  # Default to the current timestamp
         }
     };
-        type Token {
+    type TokenRisk {
+        required property tokenAddress -> str;
+        required property overall -> decimal {
+            default := <decimal>0.0;  # Default value
+        }
+        required property liquidity -> decimal {
+            default := <decimal>0.0;  # Default value
+        }
+        required property concentration -> decimal {
+            default := <decimal>0.0;  # Default value
+        }
+        required property volatility -> decimal {
+            default := <decimal>0.0;  # Default value
+        }
+        required property social -> decimal {
+            default := <decimal>0.0;  # Default value
+        }
+        required property technical -> decimal {
+            default := <decimal>0.0;  # Default value
+        }
+        required property totalTokens -> decimal {
+            default := <decimal>0.0;  # Default value
+        }
+        required property highRiskCount -> decimal {
+            default := <decimal>0.0;  # Default value
+        }
+        required property mediumRiskCount -> decimal {
+            default := <decimal>0.0;  # Default value
+        }   
+        required property lowRiskCount -> decimal {
+            default := <decimal>0.0;  # Default value
+        }
+    };
+    type Token {
         required property address -> str {
             constraint exclusive;  # Ensure unique token addresses
         }
@@ -84,6 +117,9 @@ module default {
         }
         required link price -> TokenPrices {
             constraint exclusive;  # Ensure each Token has a unique TokenPrices
+        }
+        required link risk -> TokenRisk {
+            constraint exclusive;  # Ensure each Token has a unique RiskMetrics
         }
         required property createdAt -> datetime {
             default := datetime_current();  # Default to the current timestamp

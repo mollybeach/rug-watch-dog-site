@@ -1,26 +1,6 @@
 // path: src/types/data.ts
 
-export interface RiskMetricsType {
-    overall: number;
-    liquidity: number;
-    concentration: number;
-    volatility: number;
-    social: number;
-    technical: number;
-    totalTokens: number;
-    highRiskCount: number;
-    mediumRiskCount: number;
-    lowRiskCount: number;
-}
 
-export interface MetricsRiskType {
-    overall: number;
-    liquidity: number;
-    concentration: number;
-    volatility: number;
-    social: number;
-    technical: number;
-}
 export interface TokenMetricsType {
     metadata: string;
     tokenAddress: string;
@@ -49,15 +29,40 @@ export interface TokenPriceType {
     liquidity: number;
     timestamp: Date;
 }
+export interface TokenRiskType {
+    tokenAddress: string;
+    overall: number;
+    liquidity: number;
+    concentration: number;
+    volatility: number;
+    social: number;
+    technical: number;
+    totalTokens: number;
+    highRiskCount: number;
+    mediumRiskCount: number;
+    lowRiskCount: number;
+}
 export interface TokenDataType {
     address: string;
     name: string;
     symbol: string
     metrics: TokenMetricsType;
     price: TokenPriceType;
+    risk: TokenRiskType;
     createdAt: Date;
     updatedAt: Date;
 }
+
+export interface TokenNumericMetrics extends TokenMetricsType {
+    volumeAnomaly: number;
+    holderConcentration: number;
+    liquidityScore: number;
+    priceVolatility: number;
+    sellPressure: number;
+    marketCapRisk: number;
+    accumulationRate: number;
+    stealthAccumulation: number;
+}   
 export interface TokenAnalysis extends TokenDataType {
     // TokenAnalysis extends TokenData with additional fields
 }
@@ -71,3 +76,19 @@ export interface TokenAnalysisReason {
     reasons: string[];
     formatted: string;
 } 
+
+
+export type TrainingDataType = {
+    volumeAnomaly: number;
+    holderConcentration: number;
+    liquidityScore: number;
+    priceVolatility: number;
+    sellPressure: number;
+    marketCapRisk: number;
+    bundlerActivity: boolean;
+    accumulationRate: number;
+    stealthAccumulation: number;
+    suspiciousPattern: boolean;
+    isRugPull: boolean;
+    metadata: string;
+}

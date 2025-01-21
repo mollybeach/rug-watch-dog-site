@@ -1,29 +1,40 @@
-// path: src/scripts/train.ts
-import { loadExistingData } from '../data-processing/trainingData';
+import { loadExistingData } from '../data-processing/storage';
 import { trainModel } from '../training/modelTrainer';
 import { evaluateModel, printEvaluationReport } from '../training/modelEvaluator';
-import { TokenDataType } from '../../types/data';
+import { TrainingDataType, TokenDataType } from '../../types/data';
 
 async function main() {
     try {
         console.log('Loading training data...');
-        const baseMetrics = await loadExistingData();
-        
-        // Use TokenDataType directly
-        const trainingData: TokenDataType[] = baseMetrics.map((token: TokenDataType) => ({
-            address: token.address,
-            name: token.name,
-            symbol: token.symbol,
-            metrics: token.metrics,
-            price: token.price,
-            createdAt: token.createdAt,
-            updatedAt: token.updatedAt
+        const existingData = await loadExistingData();
+        console.log('existingData')
+        console.log(existingData)
+        // Convert BaseMetrics to TrainingData format
+        const trainingData: TrainingDataType[] = existingData.map((tokenData, index) => ({
+            volumeAnomaly: tokenData.metrics.volumeAnomaly,
+            holderConcentration: tokenData.metrics.holderConcentration,
+            liquidityScore: tokenData.metrics.liquidityScore,
+            priceVolatility: tokenData.metrics.priceVolatility,
+            sellPressure: tokenData.metrics.sellPressure,
+            marketCapRisk: tokenData.metrics.marketCapRisk,
+            bundlerActivity: !!tokenData.metrics.bundlerActivity,
+            accumulationRate: tokenData.metrics.accumulationRate,
+            stealthAccumulation: tokenData.metrics.stealthAccumulation,
+            suspiciousPattern: !!tokenData.metrics.suspiciousPattern,
+            isRugPull: !!tokenData.metrics.isRugPull,
+            metadata: tokenData.metrics.metadata,
         }));
+        console.log('trainingData')
+        console.log(trainingData)
 
         // Split data into training and test sets
         const splitIndex = Math.floor(trainingData.length * 0.8);
         const trainSet = trainingData.slice(0, splitIndex);
         const testSet = trainingData.slice(splitIndex);
+        console.log('trainSet')
+        console.log(trainSet)
+        console.log('testSet')
+        console.log(testSet)
 
         console.log(`Training with ${trainSet.length} samples, testing with ${testSet.length} samples`);
 
@@ -42,4 +53,4 @@ async function main() {
     }
 }
 
-main(); 
+main();     
