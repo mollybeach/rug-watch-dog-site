@@ -52,8 +52,6 @@ export async function trainModel(trainingData: TrainingDataType[]): Promise<tf.L
         console.log(labels)
         const xs = tf.tensor2d(features);
         const ys = tf.tensor2d(labels, [labels.length, 1]);
-      
-    
         // Train model
        // console.log('model')
        // console.log(model)
@@ -102,16 +100,4 @@ if (require.main === module) {
         metadata: JSON.stringify({ reason: 'Training data' })
     }];
     trainModel(dummyData).catch(console.error);
-}/*
-
-// Check if you have a custom utility function
-function isNullOrUndefined(value: any): boolean {
-    return value === null || value === undefined;
 }
-
-// Use the function correctly
-if (isNullOrUndefined(someValue)) {
-    // Handle null or undefined value
-}
-
-*/

@@ -2,8 +2,6 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
 import { TokenDataType, TokenMetricsType, TokenPriceType, TokenRiskType } from '../../types/data';
-import { process } from 'edgedb/dist/adapter.node';
-import * as tf from '@tensorflow/tfjs-node';
 import { analyzeToken } from '../training/modelPredictorNew';
 
 dotenv.config();
@@ -212,6 +210,36 @@ function generateMetadataReason(metrics: TokenMetricsType, risk: TokenRiskType):
     return reasons.length > 0 ? reasons.join(', ') : 'No significant risks detected';
 }
 
+// Function to calculate liquidity risk
+function calculateLiquidityRisk(metrics: TokenMetricsType, overallRisk: number): number {
+    const liquidityRisk = (1 - metrics.liquidityScore) * overallRisk;
+    return Math.min(Math.max(liquidityRisk, 0), 1); // Ensure the risk is between 0 and 1
+}
+
+// Function to calculate concentration risk
+function calculateConcentrationRisk(metrics: TokenMetricsType, overallRisk: number): number {
+    const concentrationRisk = metrics.holderConcentration * overallRisk;
+    return Math.min(Math.max(concentrationRisk, 0), 1);
+}
+
+// Function to calculate volatility risk
+function calculateVolatilityRisk(metrics: TokenMetricsType, overallRisk: number): number {
+    const volatilityRisk = metrics.priceVolatility * overallRisk;
+    return Math.min(Math.max(volatilityRisk, 0), 1);
+}
+
+// Function to calculate social risk
+function calculateSocialRisk(metrics: TokenMetricsType, overallRisk: number): number {
+    const socialRisk = metrics.bundlerActivity ? overallRisk * 0.5 : overallRisk * 0.2;
+    return Math.min(Math.max(socialRisk, 0), 1);
+}
+
+// Function to calculate technical risk
+function calculateTechnicalRisk(metrics: TokenMetricsType, overallRisk: number): number {
+    const technicalRisk = metrics.marketCapRisk * overallRisk;
+    return Math.min(Math.max(technicalRisk, 0), 1);
+}
+
 export async function fetchTokenData(tokenAddress: string, chain: string = 'ethereum'): Promise<TokenDataType | null> {
     try {
         console.log(`\n📊 Fetching data for token: ${tokenAddress} on ${chain}`);
@@ -282,16 +310,18 @@ export async function fetchTokenData(tokenAddress: string, chain: string = 'ethe
 
         // Analyze the token data
         const analysisResult = await analyzeToken(tokenData);
+        console.log('analysisResult');
+        console.log(analysisResult);
 
         // Use the analysis result for risk calculation
         const risk: TokenRiskType = {
             tokenAddress: tokenAddress,
             overall: analysisResult.predictionData[0],
-            liquidity: analysisResult.predictionData[1],
-            concentration: analysisResult.predictionData[2],
-            volatility: analysisResult.predictionData[3],
-            social: analysisResult.predictionData[4],
-            technical: analysisResult.predictionData[5],
+            liquidity: calculateLiquidityRisk(tokenData.metrics, analysisResult.predictionData[0]),
+            concentration: calculateConcentrationRisk(tokenData.metrics, analysisResult.predictionData[0]),
+            volatility: calculateVolatilityRisk(tokenData.metrics, analysisResult.predictionData[0]),
+            social: calculateSocialRisk(tokenData.metrics, analysisResult.predictionData[0]),
+            technical: calculateTechnicalRisk(tokenData.metrics, analysisResult.predictionData[0]),
             totalTokens: tokenData.metrics.totalSupply,
             highRiskCount: 0,
             mediumRiskCount: 0,
