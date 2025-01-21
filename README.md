@@ -26,7 +26,7 @@ Check out the live demo: [RugWatchDog](https://rugwatchdog.vercel.app/)
 - **Chatbot**: Discord, Telegram, Twitter
 
 ### Backend
-- **Runtime**: Node.js 20
+- **Runtime**: Node.js 20 <- MAKES SURE TO RUN IN NODE 20 OR TRAINING WILL NOT WORK
 - **API**: Next.js API Routes
 - **Database**: EdgeDB
 - **ORM**: Vercel Postgres SDK
