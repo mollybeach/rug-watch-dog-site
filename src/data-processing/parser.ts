@@ -16,10 +16,7 @@ export function normalizeFeatures(data: TrainingDataType): number[] {
         data.bundlerActivity ? 1 : 0,
         data.accumulationRate,
         data.stealthAccumulation,
-        data.suspiciousPattern ? 1 : 0,
-        
-
-        
+        data.suspiciousPattern ? 1 : 0,  
     ];
 }
 
