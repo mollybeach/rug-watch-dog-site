@@ -94,6 +94,12 @@ module default {
         required property totalTokens -> decimal {
             default := <decimal>0.0;  # Default value
         }
+        required property transactionsCount -> decimal {
+            default := <decimal>0.0;  # Default value
+        }
+        required property age -> decimal {
+            default := <decimal>0.0;  # Default value
+        }
         required property highRiskCount -> decimal {
             default := <decimal>0.0;  # Default value
         }

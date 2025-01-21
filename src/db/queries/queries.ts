@@ -43,6 +43,8 @@ export const SELECT_TOKEN_RISK = `
         social,
         technical,
         totalTokens,
+        transactionsCount,
+        age,
         highRiskCount,
         mediumRiskCount,
         lowRiskCount
@@ -90,6 +92,8 @@ export const SELECT_TOKEN = `
             social,
             technical,
             totalTokens,
+            transactionsCount,
+            age,
             highRiskCount,
             mediumRiskCount,
             lowRiskCount

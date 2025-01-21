@@ -315,6 +315,8 @@ export async function fetchTokenData(tokenAddress: string, network: string = 'et
                 social: 0, // Placeholder
                 technical: 0, // Placeholder
                 totalTokens: 0, // Placeholder
+                transactionsCount: 0, // Placeholder
+                age: 0, // Placeholder
                 highRiskCount: 0, // Placeholder
                 mediumRiskCount: 0, // Placeholder
                 lowRiskCount: 0 // Placeholder

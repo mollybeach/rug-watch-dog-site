@@ -1,3 +1,4 @@
+// path: app/visualizations/network-analysis/page.tsx
 "use client";
 
 import { Network } from "lucide-react";

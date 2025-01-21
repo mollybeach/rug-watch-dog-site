@@ -49,6 +49,8 @@ async function predictRisk(token: TokenMetricsType): Promise<TokenRiskType> {
         social: calculateSocialRisk(token),
         technical: calculateTechnicalRisk(token),
         totalTokens: 0,
+        transactionsCount: 0,
+        age: 0,
         highRiskCount: 0,
         mediumRiskCount: 0,
         lowRiskCount: 0

@@ -38,6 +38,8 @@ export interface TokenRiskType {
     social: number;
     technical: number;
     totalTokens: number;
+    transactionsCount: number;
+    age: number;
     highRiskCount: number;
     mediumRiskCount: number;
     lowRiskCount: number;

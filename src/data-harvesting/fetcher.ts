@@ -304,6 +304,8 @@ export async function fetchTokenData(tokenAddress: string, chain: string = 'ethe
                 social: 0,
                 technical: 0,
                 totalTokens: 0,
+                transactionsCount: etherscanData.result.length,
+                age: 0,
                 highRiskCount: 0,
                 mediumRiskCount: 0,
                 lowRiskCount: 0
@@ -327,6 +329,8 @@ export async function fetchTokenData(tokenAddress: string, chain: string = 'ethe
             social: calculateSocialRisk(tokenData.metrics, analysisResult.predictionData[0]),
             technical: calculateTechnicalRisk(tokenData.metrics, analysisResult.predictionData[0]),
             totalTokens: tokenData.metrics.totalSupply,
+            transactionsCount: etherscanData.result.length,
+            age: calculateAge(tokenData.createdAt),
             highRiskCount: 0,
             mediumRiskCount: 0,
             lowRiskCount: 0
@@ -343,5 +347,11 @@ export async function fetchTokenData(tokenAddress: string, chain: string = 'ethe
         console.error('Error fetching token data:', error);
         return null;
     }
+}
+
+function calculateAge(createdAt: Date): number {
+    const currentDate = new Date();
+    const ageInDays = Math.floor((currentDate.getTime() - createdAt.getTime()) / (1000 * 60 * 60 * 24));
+    return ageInDays;
 }
 
