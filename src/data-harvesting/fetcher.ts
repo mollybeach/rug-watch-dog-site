@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { TokenDataType, TokenMetricsType, TokenPriceType, TokenRiskType } from '../../types/data';
 import { process } from 'edgedb/dist/adapter.node';
 import * as tf from '@tensorflow/tfjs-node';
-import { analyzeToken } from '../training/modelPredictor';
+import { analyzeToken } from '../training/modelPredictorNew';
 
 dotenv.config();
 
@@ -299,6 +299,8 @@ export async function fetchTokenData(tokenAddress: string, chain: string = 'ethe
         };
 
         //Fill in the rest of the token data
+        tokenData.price.price = parseFloat(tokenData.price.price.toString());
+        tokenData.metrics.currentPrice = parseFloat(tokenData.metrics.currentPrice.toString());
         tokenData.metrics.isRugPull = analysisResult.isRugPull;
         tokenData.metrics.metadata = JSON.stringify({ reason: generateMetadataReason(tokenData.metrics, risk) });
         tokenData.risk = risk;

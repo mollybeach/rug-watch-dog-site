@@ -76,3 +76,19 @@ export interface TokenAnalysisReason {
     reasons: string[];
     formatted: string;
 } 
+
+
+export type TrainingDataType = {
+    volumeAnomaly: number;
+    holderConcentration: number;
+    liquidityScore: number;
+    priceVolatility: number;
+    sellPressure: number;
+    marketCapRisk: number;
+    bundlerActivity: boolean;
+    accumulationRate: number;
+    stealthAccumulation: number;
+    suspiciousPattern: boolean;
+    isRugPull: boolean;
+    metadata: string;
+}

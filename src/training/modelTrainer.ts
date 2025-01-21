@@ -1,89 +1,117 @@
-// path: src/training/modelTrainer.ts
+//path: src/training/modelTrainer.ts
 import * as tf from '@tensorflow/tfjs-node';
-import { TokenDataType } from '@/types/data';
-import { preprocessTokenData } from '@/data-processing/parser';
+import { TrainingDataType } from '../../types/data';
+import { preprocessTokenData } from '../data-processing/parser';
 import path from 'path';
-import fs from 'fs/promises';
 
-const MODEL_DIR = path.join(process.cwd(), 'models', 'trained');
-const MODEL_PATH = 'file://' + path.join(MODEL_DIR, 'model.json');
 
-export async function trainModel(trainingData: TokenDataType[]): Promise<tf.LayersModel> {
-    // Log the raw training data
-    console.log('Raw training data:', trainingData);
-
-    // Preprocess data
-    const { features, labels } = preprocessTokenData(trainingData);
-
-    // Log the processed features and labels
-    console.log('Processed features:', features);
-    console.log('Processed labels:', labels);
-
-    // Create sequential model
-    const model = tf.sequential();
-    console.log('sequential model', model);
-    
-    // Add layers
-    model.add(tf.layers.dense({
-        units: 12,
-        activation: 'relu',
-        inputShape: [6]  // 6 features
-    }));
-    console.log('dense layer', model.add);
-    
-    model.add(tf.layers.dense({
-        units: 8,
-        activation: 'relu'
-    }));
-    console.log('dense layer', model.add);
-    
-    model.add(tf.layers.dense({
-        units: 1,
-        activation: 'sigmoid'
-    }));
-    console.log('dense layer', model.add);
-    
-    // Compile model
-    model.compile({
-        optimizer: tf.train.adam(0.001),
-        loss: 'binaryCrossentropy',
-        metrics: ['accuracy']
-    });
-    console.log('compile model', model.compile);
-    
-    // Convert to tensors
-    const xs = tf.tensor2d(features);
-    const ys = tf.tensor2d(labels, [labels.length, 1]);
-    console.log('xs', xs);
-    console.log('ys', ys);
-    
+export async function trainModel(trainingData: TrainingDataType[]): Promise<tf.LayersModel> {
     try {
-        // Train model
-        await model.fit(xs, ys, {
-            epochs: 100,
-            batchSize: 4,
-            validationSplit: 0.2,
-            callbacks: {
-                onEpochEnd: (epoch, logs) => {
-                    console.log(`Epoch ${epoch + 1}: loss = ${logs?.loss.toFixed(4)}, accuracy = ${logs?.acc.toFixed(4)}`);
-                }
-            }
+        // Convert training data to base metrics format
+        const processedData: TrainingDataType[] = trainingData.map(data => ({
+            volumeAnomaly: data.volumeAnomaly,
+            holderConcentration: data.holderConcentration,
+            liquidityScore: data.liquidityScore,
+            priceVolatility: data.priceVolatility,
+            sellPressure: data.sellPressure,
+            marketCapRisk: data.marketCapRisk,
+            bundlerActivity: data.bundlerActivity,
+            accumulationRate: data.accumulationRate,
+            stealthAccumulation: data.stealthAccumulation,
+            suspiciousPattern: data.suspiciousPattern,
+            isRugPull: data.isRugPull,
+            metadata: data.metadata
+        }));
+
+        const { features, labels } = preprocessTokenData(processedData);
+
+        // Create and compile model
+        const model = tf.sequential();
+        
+        model.add(tf.layers.dense({
+            units: 64,
+            activation: 'relu',
+            inputShape: [features[0].length]
+        }));
+        
+        model.add(tf.layers.dropout({ rate: 0.2 }));
+        model.add(tf.layers.dense({ units: 32, activation: 'relu' }));
+        model.add(tf.layers.dropout({ rate: 0.2 }));
+        model.add(tf.layers.dense({ units: 1, activation: 'sigmoid' }));
+
+        model.compile({
+            optimizer: tf.train.adam(0.001),
+            loss: 'binaryCrossentropy',
+            metrics: ['accuracy']
         });
-        console.log('fit model', model.fit);
+
+        // Convert data to tensors
+        console.log('features')
+        console.log(features)
+        console.log('labels')
+        console.log(labels)
+        const xs = tf.tensor2d(features);
+        const ys = tf.tensor2d(labels, [labels.length, 1]);
+      
+    
+        // Train model
+       // console.log('model')
+       // console.log(model)
+        const callbacks = [
+            tf.callbacks.earlyStopping({ monitor: 'val_loss', patience: 2 }),
+        ];
+    
         
-        // Create model directory if it doesn't exist
-        await fs.mkdir(MODEL_DIR, { recursive: true });
-        console.log('save model', model.save);
-        
+        // Train the model
+        await model.fit(xs, ys, {
+            epochs: 10,
+            validationSplit: 0.2,
+            callbacks: callbacks
+        }); 
+
         // Save model
-        await model.save(MODEL_PATH);
-        console.log('save model', model.save);
-        console.log('final model', model);
-        
-        return model;
-    } finally {
+        const modelPath = path.join(__dirname, '../../models/rugpull_model');
+        await model.save(`file://${modelPath}`);
+        console.log(`Model saved to ${modelPath}`);
+
         // Clean up tensors
         xs.dispose();
         ys.dispose();
+
+        return model;
+    } catch (error) {
+        console.error('Error training model:', error);
+        throw error;
     }
 }
+
+// Run training if called directly
+if (require.main === module) {
+    const dummyData: TrainingDataType[] = [{
+        volumeAnomaly: 0.5,
+        holderConcentration: 0.3,
+        liquidityScore: 0.7,
+        priceVolatility: 0.4,
+        sellPressure: 0.2,
+        marketCapRisk: 0.3,
+        bundlerActivity: true,
+        accumulationRate: 0.1,
+        stealthAccumulation: 0.2,
+        suspiciousPattern: false,
+        isRugPull: false,
+        metadata: JSON.stringify({ reason: 'Training data' })
+    }];
+    trainModel(dummyData).catch(console.error);
+}/*
+
+// Check if you have a custom utility function
+function isNullOrUndefined(value: any): boolean {
+    return value === null || value === undefined;
+}
+
+// Use the function correctly
+if (isNullOrUndefined(someValue)) {
+    // Handle null or undefined value
+}
+
+*/

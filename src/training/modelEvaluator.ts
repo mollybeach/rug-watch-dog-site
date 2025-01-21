@@ -1,7 +1,7 @@
 //path: src/training/modelEvaluator.ts
 import * as tf from '@tensorflow/tfjs-node';
-import { TokenDataType } from '@/types/data';
-import { preprocessTokenData } from '@/data-processing/parser';
+import { TrainingDataType, TokenDataType } from '../../types/data';
+import { preprocessTokenData } from '../data-processing/parser';
 
 interface EvaluationMetrics {
     accuracy: number;
@@ -13,10 +13,25 @@ interface EvaluationMetrics {
 
 export async function evaluateModel(
     model: tf.LayersModel,
-    testData: TokenDataType[]
+    testData: TrainingDataType[]
 ): Promise<EvaluationMetrics> {
-    // Preprocess data
-    const { features, labels } = preprocessTokenData(testData);
+    // Convert TrainingData to BaseMetrics format
+    const processedData: TrainingDataType[] = testData.map(data => ({
+        volumeAnomaly: data.volumeAnomaly,
+        holderConcentration: data.holderConcentration,
+        liquidityScore: data.liquidityScore,
+        priceVolatility: data.priceVolatility,
+        sellPressure: data.sellPressure,
+        marketCapRisk: data.marketCapRisk,
+        bundlerActivity: data.bundlerActivity,
+        accumulationRate: data.accumulationRate,
+        stealthAccumulation: data.stealthAccumulation,
+        suspiciousPattern: data.suspiciousPattern,
+        isRugPull: data.isRugPull,
+        metadata: data.metadata 
+    }));
+    console.log(processedData);
+    const { features, labels } = preprocessTokenData(processedData);
     
     // Convert to tensors
     const xs = tf.tensor2d(features);

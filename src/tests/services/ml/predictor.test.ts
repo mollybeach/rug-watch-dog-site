@@ -1,4 +1,4 @@
-import { analyzeToken } from '../../../training/modelPredictor';
+import { analyzeToken } from '../../../training/modelPredictorNew';
 import { TokenDataType } from '../../../../types/data';
 
 describe('Token Analysis', () => {

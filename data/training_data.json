@@ -1,7 +1,8 @@
 [{
-        "token": "0x3E1d9EEeA0F66374242C922F6656ba72cf2b8c77",
-        "name": "N",
-        "symbol": "N",
+    "address": "0x3E1d9EEeA0F66374242C922F6656ba72cf2b8c77",
+    "name": "N",
+    "symbol": "N",
+    "metrics": {
         "volumeAnomaly": 0.2,
         "holderConcentration": 0.8,
         "liquidityScore": 0.5,
@@ -17,10 +18,17 @@
             "reason": "High concentration of holders, High price volatility"
         }
     },
-    {
-        "token": "0xc1B1E8f21DfF0BE85741F43F8Bd9e67eb6e88057",
-        "name": "BON Coin",
-        "symbol": "BON",
+    "price": {
+        "price": 1.0,
+        "volume24h": 100000,
+        "market_cap": 500000,
+        "liquidity": 10000
+    }
+}, {
+    "address": "0xc1B1E8f21DfF0BE85741F43F8Bd9e67eb6e88057",
+    "name": "BON Coin",
+    "symbol": "BON",
+    "metrics": {
         "volumeAnomaly": 0.2,
         "holderConcentration": 0.8,
         "liquidityScore": 0.8,
@@ -35,5 +43,90 @@
         "metadata": {
             "reason": "High concentration of holders, Low liquidity, High price volatility, High sell pressure, Market cap concerns"
         }
+    },
+    "price": {
+        "price": 0.5,
+        "volume24h": 50000,
+        "marketCap": 250000,
+        "liquidity": 5000
     }
-]
+}, {
+    "address": "0x01D7367A1F1AfdC3D2667C37ef5A3723012d7757",
+    "name": "Frog Sorcerer",
+    "symbol": "FROGZ",
+    "metrics": {
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.5,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.5,
+        "bundlerActivity": false,
+        "accumulationRate": 0.8,
+        "stealthAccumulation": 0.2,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "High concentration of holders, High price volatility"
+        }
+    },
+    "price": {
+        "price": 0.2,
+        "volume24h": 0.2,
+        "marketCap": 0.2,
+        "liquidity": 0.8
+    }
+}, {
+    "address": "0x037A54AaB062628C9Bbae1FDB1583c195585fe41",
+    "name": "LCX",
+    "symbol": "LCX",
+    "metrics": {
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.5,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.5,
+        "bundlerActivity": false,
+        "accumulationRate": 0.8,
+        "stealthAccumulation": 0.2,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "High concentration of holders, High price volatility"
+        }
+    },
+    "price": {
+        "price": 0.2,
+        "volume24h": 0.2,
+        "marketCap": 0.2,
+        "liquidity": 0.8
+    }
+
+}, {
+    "address": "0x06113abCeF9D163C026441b112e70c82EE1c4A79",
+    "name": "Omira",
+    "symbol": "OMIRA",
+    "metrics": {
+        "volumeAnomaly": 0.2,
+        "holderConcentration": 0.2,
+        "liquidityScore": 0.8,
+        "priceVolatility": 0.5,
+        "sellPressure": 0.2,
+        "marketCapRisk": 0.5,
+        "bundlerActivity": false,
+        "accumulationRate": 0.8,
+        "stealthAccumulation": 0.2,
+        "suspiciousPattern": false,
+        "isRugPull": false,
+        "metadata": {
+            "reason": "High concentration of holders, High price volatility"
+        }
+    },
+    "price": {
+        "price": 0.2,
+        "volume24h": 0.2,
+        "marketCap": 0.2,
+        "liquidity": 0.8
+    }
+}]
